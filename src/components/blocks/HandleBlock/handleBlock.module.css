@@ -1,0 +1,56 @@
+.icon{
+    width: 25px;
+    height: auto;
+  
+    
+}
+.icon1{
+  
+    padding: 5px;
+    border-left :1px solid #40AFC0; 
+   
+
+}
+.icon2{
+    border-left :1px solid #40AFC0; 
+    
+    padding: 5px;
+    
+}
+.icon3{
+    
+
+    padding: 5px;
+    
+
+}
+.icon:hover{
+    transform: scale(1.1);
+}
+.icon1:hover{
+    background-color: #ccc;
+}
+.icon2:hover{
+    background-color:#ccc ;
+
+}
+.icon3:hover{
+    background-color:#ccc;
+
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+   
+    right:15px;
+    top:10px;
+     border :1px solid #40AFC0; 
+    border-radius: 10px;
+    z-index:140;
+    background-color: white;
+   
+    
+}

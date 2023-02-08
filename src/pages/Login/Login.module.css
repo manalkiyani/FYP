@@ -1,0 +1,410 @@
+@font-face {
+  font-family: "PoppinsBold";
+  src: url("../../assets/PoppinsBold.ttf");
+}
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsSemiBold";
+  src: url("../../assets/PoppinsSemiBold.ttf");
+}
+@font-face {
+  font-family: "PoppinsLight";
+  src: url("../../assets/PoppinsLight.ttf");
+}
+
+
+
+
+@media (max-width: 576px) and (min-width: 480px) {
+  .App {
+    display: flex;
+  }
+
+  .SigninButton{
+
+    width: 100px !important;
+    font-size: 15px !important;
+  }
+
+  .leftbox {
+    color: black;
+    background-color: #fff;
+    min-height: 60vh;
+    margin-top: 15%;
+    width: 60%;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    font-family: "PoppinsSemiBold";
+    font-size: 16px;
+  }
+
+  .tagline {
+    display: flex;
+    justify-content: center;
+    margin-top: -5%;
+    font-family: "PoppinsLight";
+    font-size: 15px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-left: -10%;
+  }
+  .borderBottom {
+    border-bottom: 1px solid black;
+    width: 30%;
+  }
+
+  .form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -7%;
+  }
+
+  .App-rightbox {
+    color: black;
+    background-color: #ebf1fc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    width: 40%;
+    align-items: center;
+    margin-top: 0%;
+  }
+  .text {
+    margin-top: -5%;
+    display: flex;
+    justify-content: center;
+    font-family: "PoppinsLight";
+    font-size: 80%;
+  }
+  .iconsWidth {
+    width: 20%;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 577px) {
+  .App {
+    display: flex;
+  }
+  .SigninButton{
+
+    width: 100px !important;
+    font-size: 15px !important;
+  }
+
+
+  .leftbox {
+    color: black;
+    background-color: #fff;
+    min-height: 80vh;
+    margin-top: 10%;
+    width: 60%;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    font-family: "PoppinsSemiBold";
+    font-size: 16px;
+  }
+
+  .tagline {
+    display: flex;
+    justify-content: center;
+    margin-top: -5%;
+    font-family: "PoppinsLight";
+    font-size: 15px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-left: -10%;
+  }
+  .borderBottom {
+    border-bottom: 1px solid black;
+    width: 30%;
+  }
+
+  .form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -7%;
+  }
+
+  .App-rightbox {
+    color: black;
+    background-color: #ebf1fc;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    width: 40%;
+    align-items: center;
+    margin-top: 0%;
+  }
+  .text {
+    margin-top: -5%;
+    display: flex;
+    justify-content: center;
+    font-family: "PoppinsLight";
+    font-size: 80%;
+  }
+  .iconsWidth {
+    width: 20%;
+    height: auto;
+  }
+}
+@media (max-width: 992px) and (min-width: 769px) {
+  .App {
+    display: flex;
+  }
+
+  .SigninButton{
+
+    width: 100px !important;
+    font-size: 15px !important;
+  }
+
+  .leftbox {
+    color: black;
+    background-color: #fff;
+    min-height: 80vh;
+    margin-top: 5%;
+    width: 60%;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    font-family: "PoppinsSemiBold";
+    font-size: 16px;
+  }
+
+  .tagline {
+    display: flex;
+    justify-content: center;
+    margin-top: -2%;
+    font-family: "PoppinsLight";
+    font-size: 15px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-left: -10%;
+  }
+  .borderBottom {
+    border-bottom: 1px solid black;
+    width: 30%;
+  }
+
+  .form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -7%;
+  }
+  .App-rightbox {
+    color: black;
+    background-color: #ebf1fc;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    width: 40%;
+    align-items: center;
+  }
+  .text {
+    margin-top: -3%;
+    display: flex;
+    justify-content: center;
+    font-family: "PoppinsLight";
+    font-size: 80%;
+  }
+  .iconsWidth {
+    width: 10%;
+    height: auto;
+  }
+}
+
+  @media (max-width: 1200px) and (min-width: 993px) {
+    .App {
+      display: flex;
+    }
+  
+    .SigninButton{
+  
+      width: 100px !important;
+      font-size: 15px !important;
+    }
+  
+    .leftbox {
+      color: black;
+      background-color: #fff;
+      min-height: 80vh;
+      margin-top: 5%;
+      width: 60%;
+    }
+  
+    .header {
+      display: flex;
+      justify-content: center;
+      margin-top: -10px;
+      font-family: "PoppinsSemiBold";
+      font-size: 16px;
+    }
+  
+    .tagline {
+      display: flex;
+      justify-content: center;
+      margin-top: -2%;
+      font-family: "PoppinsLight";
+      font-size: 15px;
+    }
+  
+    .center {
+      display: flex;
+      justify-content: center;
+      margin-left: -10%;
+    }
+    .borderBottom {
+      border-bottom: 1px solid black;
+      width: 30%;
+    }
+  
+    .form {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: -7%;
+    }
+    .App-rightbox {
+      color: black;
+      background-color: #ebf1fc;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: calc(10px + 2vmin);
+      width: 40%;
+      align-items: center;
+    }
+    .text {
+      margin-top: -3%;
+      display: flex;
+      justify-content: center;
+      font-family: "PoppinsLight";
+      font-size: 80%;
+    }
+    .iconsWidth {
+      width: 10%;
+      height: auto;
+    }
+   
+  }
+  
+@media (max-width: 1600px) and (min-width: 1201px) {
+  .App {
+    display: flex;
+  }
+
+  .leftbox {
+    color: black;
+    background-color: #fff;
+    min-height: 80vh;
+    margin-top: 5%;
+    width: 60%;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-top: -40px;
+    font-family: "PoppinsSemiBold";
+    font-size: 32px;
+    margin-bottom: 50px;
+  }
+
+  .tagline {
+    display: flex;
+    justify-content: center;
+    margin-top: -5%;
+    font-family: "PoppinsLight";
+    font-size: 16px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-left: -10%;
+  }
+  .borderBottom {
+    border-bottom: 1px solid black;
+    width: 30%;
+  }
+
+  .form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: -7%;
+  }
+
+  .App-rightbox {
+    color: black;
+    background-color: #ebf1fc;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    width: 40%;
+    align-items: center;
+  }
+  .text {
+    margin-top: -3%;
+    display: flex;
+    justify-content: center;
+    font-family: "PoppinsLight";
+    font-size: 80%;
+  }
+  .iconsWidth {
+    width: 10%;
+    height: auto;
+  }
+}
+
+.SigninButton{
+
+  width: 130px !important;
+  font-size: 18px !important;
+}

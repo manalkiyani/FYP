@@ -1,0 +1,28 @@
+.icon{
+    width: 25px;
+    height: auto;
+  
+    margin-bottom: 0px;
+}
+
+.icon2{
+ 
+    
+    padding: 5px;
+    border-radius: 0 10px 10px 0;
+}
+.container{
+    display: flex;
+    position: absolute;
+    background-color: #40AFC0;
+  
+    border-radius: 10px;
+    z-index:140;
+    
+}
+.icon:hover{
+    transform: scale(1.1);
+}
+.icon1:hover{
+    background-color: #40AFC0;
+}

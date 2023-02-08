@@ -1,0 +1,21 @@
+.posts{
+    flex: 9;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+.inputContainer{
+    display: flex;
+    flex-direction: row;
+    
+    
+} 
+.input{
+    width: 200px;
+   
+   
+}
+.bigContainer{
+    display: flex;
+    flex-direction: column;
+}
