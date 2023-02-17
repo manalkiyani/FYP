@@ -76,6 +76,27 @@ function getBlog(req, res) {
       });
    });
 }
+//get Blogs from a specified array of ids
+async function getListOfBlogs(req, res) {
+  console.log("Req.body", req.body.blogIds);
+
+  //find blogs which have ids in the array
+  Blog.find({ id: { $in: req.body.blogIds } })
+    .then((allBlogs) => {
+      return res.status(200).json({
+        success: true,
+        message: "A list of all blogs",
+        Blogs: allBlogs,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
+    });
+}
 function updateBlog(req,res){
    const id = req.params.blogId;
    const blogObject = req.body;
@@ -95,6 +116,7 @@ function updateBlog(req,res){
       });
     });
 }
+
  function deleteBlog(req, res) {
   const id = req.params.blogId;
   Blog.findByIdAndRemove(id)
@@ -112,6 +134,7 @@ module.exports={
    postBlog,
    getBlog,
    updateBlog,
-   deleteBlog
+   deleteBlog,
+   getListOfBlogs
 
 };

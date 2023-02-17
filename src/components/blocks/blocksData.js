@@ -8,15 +8,15 @@ import sample3 from '../../assets/imgs/sample3.jpg';
 
 const blocks = [
     {
-        id: 'header1',
+        type: 'header1',
         img: 'header1.png',
         Component: Header1,
-      
-        socialIcons:[{icon:'Facebook',url:'https://res.cloudinary.com/djlewzcd5/image/upload/v1670229851/facebook_nunoeq.png',link:''},
+        Data:{
+             socialIcons:[{icon:'Facebook',url:'https://res.cloudinary.com/djlewzcd5/image/upload/v1670229851/facebook_nunoeq.png',link:''},
         {icon:'Twitter',url:'https://res.cloudinary.com/djlewzcd5/image/upload/v1670230136/twitter_xtgade.png',link:''},
-        {icon:'Instagram',url:'https://res.cloudinary.com/djlewzcd5/image/upload/v1670230168/instagram_ft5yeo.png',link:''}],
-
-        data: {
+        {icon:'Instagram',url:'https://res.cloudinary.com/djlewzcd5/image/upload/v1670230168/instagram_ft5yeo.png',link:''}
+        ],
+         data: {
             "h": {
                 text: 'Intro with an Image',
                 size: '32px',
@@ -51,18 +51,25 @@ const blocks = [
             },
             ref: ""
         }
+
+
+        }
+      
+       
+       
     }, {
-        id: 'header2',
+        type: 'header2',
         img: 'header2.png',
         Component: Header2,
-        data: {}
+        Data: {}
 
     }, {
-        id: 'features2',
+        type: 'features2',
         img: 'features2.png',
         Component: Features2,
-        layout:3,
-        data: {
+        Data:{
+             layout:3,
+              data: {
             "1": {
                 "h": {
                     text: 'Design',
@@ -208,6 +215,10 @@ const blocks = [
 
 
         }
+
+        }
+       
+       
     }
 
 ]

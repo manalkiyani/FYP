@@ -7,6 +7,8 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.120",
+    "@mui/material": "^5.11.9",
     "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",

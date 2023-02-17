@@ -1,37 +1,29 @@
-
 import classes from "./Login.module.css";
-
+import axios from "axios";
 import Button from "../UI/Button";
 
 import { useState } from "react";
 import Header from "../UI/Header";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { TextField } from "@mui/material";
-
 
 function LoginScreen() {
   const [username, setUsername] = useState("");
 
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    fetch("http://localhost:3000/login", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
+  const handleSubmit = async () => {
+    //send axios post request to server
+    try {
+      const response = await axios.post("http://localhost:8800/api/", {
         username,
         password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
       });
+      console.log(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleUsername = (event) => {
@@ -48,16 +40,9 @@ function LoginScreen() {
 
   return (
     <>
-      <Header></Header>
-
       <div className={classes.App}>
         <div className={classes.leftbox}>
           <h1 className={classes.header}> Login To Your Account</h1>
-
-         
-
-         
-
           <div className={classes.center}>
             <div className={classes.borderBottom}></div>
             <p className={classes.borderTop}>OR</p>
@@ -65,9 +50,19 @@ function LoginScreen() {
           </div>
 
           <div className={classes.form}>
-           <TextField id="standard-basic" onChange={handleUsername}  label="Username" variant="standard" />
-           <TextField id="standard-basic" onChange={handlePassword}  label="Password" variant="standard" />
-           
+            <TextField
+              id="standard-basic"
+              onChange={handleUsername}
+              label="Username"
+              variant="standard"
+            />
+            <TextField
+              id="standard-basic"
+              onChange={handlePassword}
+              label="Password"
+              variant="standard"
+            />
+
             <Button onClick={handleSubmit} className={classes.SigninButton}>
               {" "}
               Sign In
@@ -81,11 +76,9 @@ function LoginScreen() {
           </p>
           <p className={classes.text}>Sign up and start</p>
           <p className={classes.text}>creating your websites!</p>
-          <Link to='/signup'>
-          <Button  className={classes.SigninButton}> Sign Up</Button>
+          <Link to="/signup">
+            <Button className={classes.SigninButton}> Sign Up</Button>
           </Link>
-   
-       
         </div>
       </div>
     </>

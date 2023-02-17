@@ -28,7 +28,7 @@ class SocialIcons  extends Component  {
           onClick={()=>this.setState({showIconsPanel:true})}
           className={classes.icons}>
             {this.props.socialIcons.map(({icon,url,link})=>{
-              return  <img alt="" src={url}/>
+              return  <img key={icon} alt="" src={url}/>
             })}
          
           
