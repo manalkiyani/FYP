@@ -1,0 +1,44 @@
+.panel{
+    width: 100%;
+    display: flex;
+
+    background-color: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+   
+}
+.Container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+}
+.card{
+    max-width: 40%;
+    background-color: #EBF1FC;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+    margin-left: 25px;
+    min-width: 150px;
+    max-height: 200px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+   
+
+
+}
+.container {
+   
+    padding:  20px;
+    
+  }
+.img{
+    display: block;
+    width:50%;
+object-fit: cover;
+}
+
+
+

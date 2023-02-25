@@ -1,8 +1,10 @@
-const { postBlock, getBlocks } = require("../controllers/blocks.controller");
+const { postBlock, getBlocks,postBlocks } = require("../controllers/blocks.controller");
 const express = require("express");
 const router = express.Router();
 
-router.post("/add", postBlock);
+router.post("/saveBlock", postBlock);
 router.post("/get", getBlocks);
+router.post("/saveBlocks", postBlocks);
+
 
 module.exports = router;

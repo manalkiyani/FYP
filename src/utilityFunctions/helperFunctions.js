@@ -1,5 +1,8 @@
 import blocks from "../components/blocks/blocksData";
 import { v4 as uuid } from "uuid";
+import Header1 from "../components/blocks/Header1/Header1";
+import Features2 from "../components/blocks/Features2/Features2";
+import axios from "axios";
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {
   let position = 0;
@@ -143,11 +146,12 @@ export const handleSocialIcons = (socialIcons, idFromComponent, components) => {
 };
 
 export const changeComponentText = (
+  components,
   textFromComponent,
   index,
-  components,
   tag,
-  clickedComponentId
+  id,
+  type
 ) => {
   let position = 0;
 
@@ -157,7 +161,7 @@ export const changeComponentText = (
   const component = componentsList.find((ele, index) => {
     position = index;
 
-    return ele.key === clickedComponentId;
+    return ele.key === id;
   });
 
   //delete component from components list
@@ -166,10 +170,22 @@ export const changeComponentText = (
   // update components data
 
   const newData = JSON.parse(JSON.stringify(component.Data.data));
-  index == null
-    ? (newData[tag].text = textFromComponent)
-    : (newData[index][tag].text = textFromComponent);
 
+  if (type === "header1" || type === "header2" || type === "header3") {
+    newData[tag].text = textFromComponent;
+  } else if (
+    type === "features1" ||
+    type === "features2" ||
+    type === "features3"
+  ) {
+    newData[index][tag].text = textFromComponent;
+  } else if (type === "faq1") {
+    if (tag === "heading") {
+      newData[tag].text = textFromComponent;
+    } else {
+      newData.faqList[index][tag] = textFromComponent;
+    }
+  }
   const updatedComponent = { ...component };
   updatedComponent["Data"]["data"] = newData;
 
@@ -205,8 +221,9 @@ export const updateComponentData = (
   stateFromTextEditor,
   components,
   clickedComponentId,
-  clickedCardIndex,
-  tag
+  index,
+  tag,
+  type
 ) => {
   let position = 0;
   const componentsList = [...components];
@@ -224,18 +241,35 @@ export const updateComponentData = (
   // update components data
 
   const newData = JSON.parse(JSON.stringify(component.Data.data));
-
-  if (clickedCardIndex === null) {
+  if (type === "header1" || type === "header2" || type === "header3") {
     newData[tag] = {
       ...newData[tag],
       ...stateFromTextEditor,
     };
-  } else {
-    newData[clickedCardIndex][tag] = {
-      ...newData[clickedCardIndex][tag],
+  } else if (
+    type === "features1" ||
+    type === "features2" ||
+    type === "features3"
+  ) {
+    newData[index][tag] = {
+      ...newData[index][tag],
       ...stateFromTextEditor,
     };
+  } else if (type === "faq1") {
+    if (tag === "heading") {
+      newData[tag] = {
+        ...newData[tag],
+        ...stateFromTextEditor,
+      };
+    } else {
+      newData.style[tag] = {
+        ...newData.style[tag],
+        ...stateFromTextEditor,
+      };
+      console.log(newData);
+    }
   }
+
   const updatedComponent = { ...component };
   updatedComponent["Data"]["data"] = newData;
 
@@ -255,4 +289,40 @@ export const dragEndHandler = (result, components) => {
   items.splice(result.destination.index, 0, reorderedItem);
 
   return items;
+};
+export const dragOverHandler = (event) => {
+  event.preventDefault();
+  return false;
+};
+
+export const mapBlocks = (Blocks) => {
+  return Blocks.map((block) => {
+    switch (block.Component) {
+      case "Header1":
+        block.Component = Header1;
+        break;
+      case "Features2":
+        block.Component = Features2;
+    }
+    return block;
+  });
+};
+export const SavedTemplate = (template) => {
+  //first send blocks of homepage
+  //send blocks to backend to save
+
+  if (template.pages.HomePage?.blocks.length > 0) {
+    const Blocks = mapBlocks(template.pages.HomePage.blocks);
+
+    axios
+      .post("http://localhost:8800/api/blocks/saveBlocks", {
+        blocks: Blocks,
+      })
+      .then((res) => {
+        const blockIds = res.data.savedBlockIds;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 };

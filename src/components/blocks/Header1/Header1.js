@@ -13,17 +13,21 @@ export default class Header1 extends Component {
   ref:null,
   displayHandleBlock:false
  }
+//  textFromComponent,
+//   index,
+//   tag,
+//   clickedComponentId,
+//   type
+
 
  
-  handleTextChange = (e)=>{
+  handleTextChange = (e,tag)=>{
     console.log(e.target.value)
-    this.props.changeText(e.target.value)
+    this.props.changeText(e.target.value,null,tag,this.props.id,"header1")
   }
-  delBlock= () =>{
-    this.props.deleteBlock(this.props.id)
-  }
+
   handleClick = ()=>{
-    this.props.onClick(this.props.id,"btn",null)
+    this.props.onClick(this.props.id,"btn",null,'header1')
     this.setState({
       showMenu:true
     })
@@ -61,7 +65,7 @@ export default class Header1 extends Component {
        
      { this.state.displayHandleBlock &&
      <HandleBlock 
-     del={this.delBlock}
+     del={()=> this.props.deleteBlock(this.props.id)}
      enableDrag={this.props.enableDrag}/>
 
      }  
@@ -72,9 +76,9 @@ export default class Header1 extends Component {
             html={this.props.Data.data.h.text} // innerHTML of the editable div
             disabled={false}   // use true to disable editing
                               
-            onChange={(e)=>this.handleTextChange(e)} // handle innerHTML change
+            onChange={(e)=>this.handleTextChange(e,'h')} // handle innerHTML change
 
-            onClick={()=>this.props.onClick(this.props.id,"h",null)}
+            onClick={()=>this.props.onClick(this.props.id,"h",null,'header1')}
             style={{
             
               fontSize: this.props.Data.data.h.size, 
@@ -93,8 +97,8 @@ export default class Header1 extends Component {
             html={this.props.Data.data.p.text} // innerHTML of the editable div
             disabled={false}   // use true to disable editing
             className={classes.p}
-            onClick={()=>this.props.onClick(this.props.id,"p",null)}
-            onChange={(e)=>this.handleTextChange(e)} // handle innerHTML change
+            onClick={()=>this.props.onClick(this.props.id,"p",null,'header1')}
+            onChange={(e)=>this.handleTextChange(e,'p')} // handle innerHTML change
             style={{
             fontSize: this.props.Data.data.p.size,
             fontFamily:this.props.Data.data.p.family,
@@ -113,7 +117,7 @@ export default class Header1 extends Component {
             html={this.props.Data.data.btn.text}
             disabled={false} 
             onClick={this.handleClick }
-            onChange={(e)=>this.handleTextChange(e)} 
+            onChange={(e)=>this.handleTextChange(e,'btn')} 
             // onClick ={(e)=>{
             //   e.preventDefault();
             //   window.open('');

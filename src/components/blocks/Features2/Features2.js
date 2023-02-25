@@ -13,48 +13,49 @@ export default class Features2 extends Component {
     displayHandleBlock: false,
   };
 
-  handleAddCard = () => {
-    console.log("here");
-    this.props.addCard(this.props.id);
-  };
-  delBlock = () => {
-    this.props.deleteBlock(this.props.id);
-  };
-
   delCard = (index) => {
     this.props.deleteCard(index, this.props.id);
   };
-
-  handleTextChange = (e, index) => {
-    this.props.changeText(e.target.value, index);
+  // textFromComponent,
+  //   index,
+  //   tag,
+  //   clickedComponentId,
+  //   type
+  handleTextChange = (e, index, tag) => {
+    this.props.changeText(
+      e.target.value,
+      index,
+      tag,
+      this.props.id,
+      "features2"
+    );
   };
 
   handleBtnClick = () => {};
-  disableHandleBlock = () => {
-    this.setState({
-      displayHandleBlock: false,
-    });
-  };
-  enableHandleBlock = () => {
-    this.setState({
-      displayHandleBlock: true,
-    });
-  };
 
+  
   render() {
     return (
       <div
-        onMouseOver={this.enableHandleBlock}
-        onMouseOut={this.disableHandleBlock}
+        onMouseOver={() => {
+          this.setState({
+            displayHandleBlock: true,
+          });
+        }}
+        onMouseOut={() => {
+          this.setState({
+            displayHandleBlock: false,
+          });
+        }}
         className={classes.panel}
       >
         {this.state.displayHandleBlock && (
           <HandleBlock
             id={this.props.id}
-            del={this.delBlock}
+            del={() => this.props.deleteBlock(this.props.id)}
             enableDrag={this.props.enableDrag}
             displayAddCard={true}
-            addCard={this.handleAddCard}
+            addCard={() => this.props.addCard(this.props.id)}
             layout={this.props.Data.layout}
             displaySetLayout={true}
             setLayout={this.props.setLayout}
@@ -85,8 +86,10 @@ export default class Features2 extends Component {
                 <ContentEditable
                   html={this.props.Data.data[index].h.text} // innerHTML of the editable div
                   disabled={false} // use true to disable editing
-                  onClick={() => this.props.onClick(this.props.id, "h", index)}
-                  onChange={(e) => this.handleTextChange(e, index)} // handle innerHTML change
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "h", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "h")} // handle innerHTML change
                   style={{
                     fontSize: this.props.Data.data[index].h.size,
                     fontFamily: this.props.Data.data[index].h.family,
@@ -111,8 +114,10 @@ export default class Features2 extends Component {
                   html={this.props.Data.data[index].s.text} // innerHTML of the editable div
                   disabled={false} // use true to disable editing
                   className={classes.subHeading}
-                  onClick={() => this.props.onClick(this.props.id, "s", index)}
-                  onChange={(e) => this.handleTextChange(e, index)} // handle innerHTML change
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "s", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "s")} // handle innerHTML change
                   style={{
                     fontSize: this.props.Data.data[index].s.size,
                     fontFamily: this.props.Data.data[index].s.family,
@@ -136,8 +141,10 @@ export default class Features2 extends Component {
                 <ContentEditable
                   html={this.props.Data.data[index].p.text} // innerHTML of the editable div
                   disabled={false} // use true to disable editing
-                  onClick={() => this.props.onClick(this.props.id, "p", index)}
-                  onChange={(e) => this.handleTextChange(e, index)} // handle innerHTML change
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "p", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "p")} // handle innerHTML change
                   style={{
                     fontSize: this.props.Data.data[index].p.size,
                     fontFamily: this.props.Data.data[index].p.family,
@@ -163,9 +170,9 @@ export default class Features2 extends Component {
                   disabled={false} // use true to disable editing
                   className={classes.btn}
                   onClick={() =>
-                    this.props.onClick(this.props.id, "btn", index)
+                    this.props.onClick(this.props.id, "btn", index, "features2")
                   }
-                  onChange={(e, index) => this.handleTextChange(e, index)} // handle innerHTML change
+                  onChange={(e) => this.handleTextChange(e, index, "btn")} // handle innerHTML change
                   style={{
                     fontSize: this.props.Data.data[index].btn.size,
                     fontFamily: this.props.Data.data[index].btn.family,
