@@ -5,6 +5,8 @@ import Sidebar from "../components/Sidebar/Sidebar";
 
 import "./BlogsPage.css";
 
+
+
 export default function BlogsPage() {
   const location = useLocation();
   console.log(location);

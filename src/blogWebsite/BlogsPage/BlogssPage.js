@@ -5,70 +5,97 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../../App";
 import BlogMain from "../../BlogMain";
 import { blogTemplate } from "../../TemplatesData/blogTemplate";
-import Header1 from "../../components/blocks/Header1/Header1";
-import Features2 from "../../components/blocks/Features2/Features2";
+import { mapBlocks } from "../../utilityFunctions/helperFunctions";
+import BeatLoader from "react-spinners/BeatLoader";
 
 import axios from "axios";
 const BlogssPage = () => {
   const { id } = useParams();
   const { template, setTemplate } = useContext(UserContext);
+  const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
+  const [loaded, setLoaded] = React.useState(false);
   const [main, setMain] = React.useState(false);
   const [blocks, setblocks] = React.useState(null);
 
   useEffect(() => {
-    if (!id) {
-      //load default template
+    if (dataToSend) {
+      setMain(true);
+    }
+  }, [dataToSend]);
+  useEffect(() => {
+    if (!loaded) {
+      if (!id) {
+        //load default template
 
-      if (Object.keys(template.pages).length !== 0) {
-        console.log("blogs page : template is loaded in context");
-        // pages are loaded alreadr
-        //if template is already loaded in context
-        fetchBlocks(blogTemplate.pages.BlogsPage.blocks); //first fetch blocks from block Ids
-        if (blocks) {
-          console.log(blocks);
-          setTemplate(
-            //store template in context
-            {
-              ...template, //type
-              pages: { ...template.pages, BlogsPage: { blocks: blocks } },
-            }
-          );
-
+        if (template.pages?.BlogsPage) {
+          console.log("in if");
           setDataToSend({
             type: template.type,
             page: "BlogsPage",
-            blocks: blocks,
-            blogs: template.data.blogs,
+            blocks: template.pages.BlogsPage.blocks,
+            blogIds: template.data.blogs,
           });
-          setMain(true);
+          //  setMain(true);
+          //   setLoading(false);
+        } else {
+          console.log("blogs page :", template.pages);
+          console.log("blogs page : blogs page is not loaded in context");
+
+          //if template is already loaded in context but not context page
+          fetchBlocks(
+            blogTemplate.pages.BlogsPage.blocks,
+            blogTemplate.data.blogs
+          ); //first fetch blocks from block Ids
         }
       }
     }
   }, []);
 
-  const fetchBlocks = (blockIds) => {
+  const fetchBlocks = (blockIds, blogIds) => {
     axios
       .post("http://localhost:8800/api/blocks/get", { blockIds })
       .then((res) => {
         let fetchedBlocks = res.data.Blocks;
-        fetchedBlocks.map((block) => {
-          switch (block.Component) {
-            case "Header1":
-              block.Component = Header1;
-              break;
-            case "Features2":
-              block.Component = Features2;
+        const blocks = mapBlocks(fetchedBlocks);
+        setTemplate(
+          //store template in context
+          {
+            type: "blog", //type
+            pages: { ...template.pages, BlogsPage: { blocks: blocks } },
+            data: { ...template.data, blogs: blogIds },
           }
-        });
+        );
 
-        setblocks(fetchedBlocks);
+        setDataToSend({
+          type: template.type,
+          page: "BlogsPage",
+          blocks: blocks,
+          blogIds: blogIds,
+        });
       })
       .catch((err) => {
         console.error(err);
       });
   };
-  return <>{main ? <BlogMain data={dataToSend} /> : <div>Loading ...</div>}</>;
+
+  return (
+    <>
+      {main ? (
+        <BlogMain data={dataToSend} />
+      ) : (
+        <center>
+          <BeatLoader
+            color={"#7890A3"}
+            loading={loading}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </center>
+      )}
+    </>
+  );
 };
 
 export default BlogssPage;

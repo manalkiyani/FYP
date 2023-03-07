@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import Header1 from "../components/blocks/Header1/Header1";
 import Features2 from "../components/blocks/Features2/Features2";
 import axios from "axios";
+import { getUserData } from "../authentication/authFunctions";
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {
   let position = 0;
@@ -307,22 +308,88 @@ export const mapBlocks = (Blocks) => {
     return block;
   });
 };
-export const SavedTemplate = (template) => {
+export const SavedTemplate = async (template) => {
   //first send blocks of homepage
   //send blocks to backend to save
+  let homepageBlockIds = null;
+  let mainpageBlockIds = null;
+  let mainPageDataIds = null;
 
   if (template.pages.HomePage?.blocks.length > 0) {
+    console.log(template.type);
     const Blocks = mapBlocks(template.pages.HomePage.blocks);
-
-    axios
+    await axios
       .post("http://localhost:8800/api/blocks/saveBlocks", {
         blocks: Blocks,
       })
       .then((res) => {
-        const blockIds = res.data.savedBlockIds;
+        homepageBlockIds = res.data.savedBlockIds;
+        //save
       })
       .catch((err) => {
         console.error(err);
       });
   }
+  switch (template.type) {
+    case "blog":
+      {
+        console.log("here");
+        if (template.pages.BlogsPage?.blocks.length > 0) {
+          const Blocks = mapBlocks(template.pages.BlogsPage.blocks);
+
+          await axios
+            .post("http://localhost:8800/api/blocks/saveBlocks", {
+              blocks: Blocks,
+            })
+            .then((res) => {
+              mainpageBlockIds = res.data.savedBlockIds;
+              //save
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+        if (template.data?.blogs) {
+          mainPageDataIds = template.data?.blogs;
+        }
+        const userData = await getUserData()
+        console.log(userData);
+        
+        //save template in template schema
+        console.log(homepageBlockIds, mainpageBlockIds, mainPageDataIds);
+        axios
+          .post("http://localhost:8800/api/templates/saveTemplate", {
+            username: userData.username,
+            template: {
+              type: template.type,
+              pages: {
+                HomePage: {
+                  blocks: homepageBlockIds,
+                },
+                mainPage: {
+                  blocks: mainpageBlockIds,
+                },
+              },
+              data: {
+                blogs: mainPageDataIds,
+              },
+            },
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+      break;
+  }
 };
+// //blog template
+// blocks - homepage;
+// blocks - mainpage;
+// blogs - mainpage;
+// //eccomerce template
+// blocks - homepage;
+// blocks - mainpage;
+// products - mainpage;

@@ -3,53 +3,147 @@ const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const otpGenerator = require("otp-generator");
+
+
 
 async function register(req, res) {
-  var salt =  bcrypt.genSaltSync(10);
-  var hash =   bcrypt.hashSync(req.body.password, salt).toString();
-
-  const newUser = new Admin({
-    _id: mongoose.Types.ObjectId(),
-    username: req.body.username,
-
-    password: hash,
-  });
-
   try {
-    const user = await newUser.save();
+    console.log(req.body, "req.body");
+    const { username, password, email } = req.body;
 
-    res.status(201).json(user);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    // check the existing user
+    const existUsername = new Promise((resolve, reject) => {
+      Admin.findOne({ username }, function (err, user) {
+        if (err) reject(new Error(err));
+        if (user) reject({ error: "Please use unique username" });
+
+        resolve();
+      });
+    });
+
+    // check for existing email
+    const existEmail = new Promise((resolve, reject) => {
+      Admin.findOne({ email }, function (err, email) {
+        if (err) reject(new Error(err));
+        if (email) reject({ error: "Please use unique Email" });
+
+        resolve();
+      });
+    });
+
+    Promise.all([existUsername, existEmail])
+      .then(() => {
+        if (password) {
+          bcrypt
+            .hash(password, 10)
+            .then((hashedPassword) => {
+              const user = new Admin({
+                _id: new mongoose.Types.ObjectId(),
+                username,
+                password: hashedPassword,
+                profilePic: "",
+                email,
+              });
+
+              // return save result as a response
+              user
+                .save()
+                .then((result) => {
+                  console.log("result", result);
+                  res.status(201).json({
+                    msg: "User Register Successfully",
+                    result,
+                  });
+                })
+                .catch((error) => {
+                  console.log("error", error);
+                  res.status(500).send({ error });
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+              return res.status(500).send({
+                error: "Enable to hash password",
+              });
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(500).send({ error });
+      });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
   }
 }
 async function login(req, res) {
+  const { username, password } = req.body;
+  console.log("req.body", req.body);
+
   try {
-    const user = await Admin.findOne({ username: req.body.username });
-    console.log(user);
-    !user && res.status(401).json("Wrong password okk or username");
+    Admin.findOne({ username })
+      .then((user) => {
+        console.log("user", user);
+        bcrypt
+          .compare(password, user.password)
+          .then((passwordCheck) => {
+            if (!passwordCheck)
+              return res.status(400).send({ error: "Don't have Password" });
 
-    const result = await bcrypt.compare(req.body.password, user.password);
-    !result && res.status(401).json("Wrong password or username");
+            // create jwt token
+            const token = jwt.sign(
+              {
+                userId: user._id,
+                username: user.username,
+                
+              },
+              process.env.SECRET_KEY,
+              { expiresIn: "10d" }
+            );
 
-    const accessToken = jwt.sign(
-      {
-        id: user._id,
-        isAdmin: user.isAdmin,
-      },
-      process.env.SECRET_KEY,
-      { expiresIn: "10d" }
-    );
-    const { password, ...info } = user._doc;
+            return res.status(200).send({
+              msg: "Login Successful...!",
+              username: user.username,
+              userId: user._id,
+              token,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            return res.status(400).send({ error: "Password does not Match" });
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(404).send({ error: "Username not Found" });
+      });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ error });
+  }
+}
+/** GET: http://localhost:8800/api/user/example123 */
+async function getUser(req, res) {
+  const { username } = req.params;
 
-    res.status(200).json({
-      ...info,
-      accessToken,
+  try {
+    if (!username) return res.status(501).send({ error: "Invalid Username" });
+
+    Admin.findOne({ username }, function (err, user) {
+      if (err) return res.status(500).send({ err });
+      if (!user)
+        return res.status(501).send({ error: "Couldn't Find the User" });
+
+      /** remove password from user */
+      // mongoose return unnecessary data with object so convert it into json
+      const { password, ...rest } = Object.assign({}, user.toJSON());
+
+      return res.status(201).send(rest);
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+  } catch (error) {
+    return res.status(404).send({ error: "Cannot Find User Data" });
   }
 }
 //get all users
@@ -62,8 +156,117 @@ async function getAllUsers(req, res) {
     res.status(500).json(err);
   }
 }
+
+/** GET: http://localhost:8080/api/generateOTP */
+ async function generateOTP(req, res) {
+  req.app.locals.OTP = await otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+  res.status(201).send({ code: req.app.locals.OTP });
+}
+
+/** GET: http://localhost:8080/api/verifyOTP */
+ async function verifyOTP(req, res) {
+  const { code } = req.query;
+  if (parseInt(req.app.locals.OTP) === parseInt(code)) {
+    req.app.locals.OTP = null; // reset the OTP value
+    req.app.locals.resetSession = true; // start session for reset password
+    return res.status(201).send({ msg: "Verify Successsfully!" });
+  }
+  return res.status(400).send({ error: "Invalid OTP" });
+}
+ async function createResetSession(req, res) {
+  if (req.app.locals.resetSession) {
+    return res.status(201).send({ flag: req.app.locals.resetSession });
+  }
+  return res.status(440).send({ error: "Session expired!" });
+}
+ async function resetPassword(req, res) {
+  try {
+    if (!req.app.locals.resetSession)
+      return res.status(440).send({ error: "Session expired!" });
+
+    const { username, password } = req.body;
+
+    try {
+      Admin.findOne({ username })
+        .then((user) => {
+          bcrypt
+            .hash(password, 10)
+            .then((hashedPassword) => {
+              Admin.updateOne(
+                { username: user.username },
+                { password: hashedPassword },
+                function (err, data) {
+                  if (err) throw err;
+                  req.app.locals.resetSession = false; // reset session
+                  return res.status(201).send({ msg: "Record Updated...!" });
+                }
+              );
+            })
+            .catch((e) => {
+              return res.status(500).send({
+                error: "Enable to hashed password",
+              });
+            });
+        })
+        .catch((error) => {
+          return res.status(404).send({ error: "Username not Found" });
+        });
+    } catch (error) {
+      return res.status(500).send({ error });
+    }
+  } catch (error) {
+    return res.status(401).send({ error });
+  }
+}
+ async function verifyUser(req, res, next) {
+  try {
+   console.log("req.query VERIFY USER", req.query);
+       const { username } = req.method == "GET" ? req.query : req.body;
+
+
+    // check the user existance
+    let exist = await Admin.findOne({ username });
+    if (!exist) return res.status(404).send({ error: "Can't find User!" });
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send({ error: "Authentication Error" });
+  }
+}
+async function updateUser(req, res) {
+  try { 
+    console.log("req,user", req.user);
+    const { userId } = req.user;
+ 
+    if (userId) {
+      const body = req.body;
+
+      // update the data
+      Admin.updateOne({ _id: userId }, body, function (err, data) {
+        if (err) throw err;
+
+        return res.status(201).send({ msg: "Record Updated...!" });
+      });
+    } else {
+      return res.status(401).send({ error: "User Not Found...!" });
+    }
+  } catch (error) {
+    return res.status(401).send({ error });
+  }
+}
 module.exports = {
   register,
   login,
+  getUser,
   getAllUsers,
+  generateOTP,
+  verifyOTP,
+  createResetSession,
+  resetPassword,
+  verifyUser,
+  updateUser,
 };

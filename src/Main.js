@@ -17,7 +17,7 @@ const Main = (props) => {
   const [textEditorDisplayed, setTextEditorDisplayed] = useState(false);
   const [textEditor, setTextEditor] = useState(null);
   const [type, setType] = useState(null);
- 
+
   //inside context , i will have blocks complete info
 
   useEffect(() => {
@@ -25,6 +25,7 @@ const Main = (props) => {
   }, [components]);
 
   const setContext = () => {
+    console.log("template", template);
     setTemplate({
       ...template,
       pages: {
@@ -69,7 +70,6 @@ const Main = (props) => {
         setTextEditor={setTextEditor}
         type={type}
         setType={setType}
-       
       />
     </>
   );

@@ -33,16 +33,15 @@ export default class Features2 extends Component {
 
   handleBtnClick = () => {};
 
-  
   render() {
     return (
       <div
-        onMouseOver={() => {
+        onMouseEnter={() => {
           this.setState({
             displayHandleBlock: true,
           });
         }}
-        onMouseOut={() => {
+        onMouseLeave={() => {
           this.setState({
             displayHandleBlock: false,
           });
@@ -59,7 +58,12 @@ export default class Features2 extends Component {
             layout={this.props.Data.layout}
             displaySetLayout={true}
             setLayout={this.props.setLayout}
-          />
+            options={[
+              { text: "5 cards - width 20%", value: 5 },
+              { text: "4 cards - width 30%", value: 4 },
+              { text: "3 cards - width 40%", value: 3 },
+            ]}
+          ></HandleBlock>
         )}
 
         {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {

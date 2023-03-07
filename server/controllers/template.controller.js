@@ -7,7 +7,8 @@ exports.createWebsite = (req, res, next) => {
   const username = req.body.username;
   const templateType = req.body.templateType;
   let templateData;
-  Admin.findOne({ username: username }).then((user) => {
+  Admin.find({ username: username }).then((user) => {
+    console.log("USER LINE 11", user);
     let userPlan = user.activePlan;
     let totalTemps = user.savedTemplates.length;
     let allowedTemps = 0;
@@ -38,26 +39,36 @@ exports.createWebsite = (req, res, next) => {
 //add a template to user's saved Templates
 exports.saveTemplate = (req, res, next) => {
   const username = req.body.username;
+ 
 
   Admin.findOne({ username: username }).then((user) => {
+    
     let userPlan = user.activePlan;
+  
     let totalTemps = user.savedTemplates.length;
     let allowedTemps = 0;
-    if (userPlan === "Basic") {
-      allowedTemps = 3;
-    } else if (userPlan === "Pro") {
-      allowedTemps = 8;
-    } else if (userPlan === "Enterprise") {
-      allowedTemps = 20;
+    switch (userPlan) {
+      case "Basic":
+        allowedTemps = 3;
+        break;
+      case "Pro":
+        allowedTemps = 8;
+        break;
+      case "Enterprise":
+        allowedTemps = 20;
+        break;
+      default:
+        allowedTemps = 0;
     }
+
     if (totalTemps >= allowedTemps) {
       return res.status(500).json({ message: "Limit Reached" });
     } else {
       const template = new Template({
         _id: mongoose.Types.ObjectId(),
-        type: req.body.type,
-        pages: req.body.pages,
-        data: req.body.data,
+        type: req.body.template.type,
+        pages: req.body.template.pages,
+        data: req.body.template.data,
       });
 
       return template
@@ -75,23 +86,19 @@ exports.saveTemplate = (req, res, next) => {
               });
             })
             .catch((error) => {
-              res
-                .status(500)
-                .json({
-                  success: false,
-                  message: "Server error. Please try again.",
-                  error: error.message,
-                });
+              res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+                error: error.message,
+              });
             });
         })
         .catch((error) => {
-          res
-            .status(500)
-            .json({
-              success: false,
-              message: "Server error. Please try again.",
-              error: error.message,
-            });
+          res.status(500).json({
+            success: false,
+            message: "Server error. Please try again.",
+            error: error.message,
+          });
         });
     }
   });
@@ -99,7 +106,7 @@ exports.saveTemplate = (req, res, next) => {
 
 exports.getUserData = (req, res, next) => {
   const username = req.username;
-  Admin.findOne({ username: username })
+  Admin.findOne({ username: username }).populate('template')
     .then((data) => {
       return res.status(200).json({ user: data });
     })
@@ -137,12 +144,20 @@ exports.addTemplate = (req, res, next) => {
       });
     })
     .catch((error) => {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Server error. Please try again.",
-          error: error.message,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: error.message,
+      });
     });
 };
+
+exports.getTemplates = (req, res, next) => {
+  Template.find({})
+    .then((templates) => {
+      return res.status(200).json({ templates: templates });
+    })
+    .catch((err) => {
+      return res.status(500).json({ message: "error" });
+    });
+}

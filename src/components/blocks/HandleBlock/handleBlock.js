@@ -18,9 +18,9 @@ const handleBlock = (props) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu >
-          <Dropdown.Item  onClick={()=>props.setLayout(5,props.id)}>5 :     20%</Dropdown.Item>
-          <Dropdown.Item  onClick={()=>props.setLayout(4,props.id)}>4 :     30%</Dropdown.Item>
-          <Dropdown.Item  onClick={()=>props.setLayout(3,props.id)}>3 :     40%</Dropdown.Item>
+          <Dropdown.Item  onClick={()=>props.setLayout(props.options[0].value,props.id)}>{props.options[0].text}</Dropdown.Item>
+          <Dropdown.Item  onClick={()=>props.setLayout(props.options[1].value,props.id)}>{props.options[1].text}</Dropdown.Item>
+          <Dropdown.Item  onClick={()=>props.setLayout(props.options[2].value,props.id)}>{props.options[2].text}</Dropdown.Item>
           
        </Dropdown.Menu>
       </Dropdown>

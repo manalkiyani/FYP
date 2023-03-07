@@ -1,7 +1,7 @@
 .panel{
     width: 100%;
     display: flex;
-
+position: relative;
     background-color: #fff;
     padding: 30px;
     box-sizing: border-box;
@@ -15,7 +15,7 @@
 
 }
 .card{
-    max-width: 40%;
+  max-width: 100%;
     background-color: #EBF1FC;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 25px;
@@ -25,6 +25,7 @@
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
+       position: relative;
    
 
 

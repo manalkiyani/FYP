@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const template = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  name: { type: String },
   type: { type: String, enum: ["medical", "eccomerce", "blog", "business"] },
   pages: {
     type: Object,

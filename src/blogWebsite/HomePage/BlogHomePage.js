@@ -5,15 +5,16 @@ import { blogTemplate } from "../../TemplatesData/blogTemplate";
 import { useContext } from "react";
 import { UserContext } from "../../App";
 import { useLocation } from "react-router-dom";
-import Header1 from "../../components/blocks/Header1/Header1";
-import Features2 from "../../components/blocks/Features2/Features2";
 
+import BeatLoader from "react-spinners/BeatLoader";
 import Main from "../../Main";
 import axios from "axios";
 import { mapBlocks } from "../../utilityFunctions/helperFunctions";
+
 const BlogHomePage = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
+  const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
   const { template, setTemplate } = useContext(UserContext);
   const [loaded, setLoaded] = React.useState(false);
@@ -22,21 +23,23 @@ const BlogHomePage = () => {
 
   useEffect(() => {
     if (!loaded) {
+      console.log("template.type", template.type);
       if (!id) {
         //load default template
 
-        if (Object.keys(template.pages).length !== 0) {
-          // pages are loaded alreadr
+        if (template.pages?.HomePage) {
+          // home page are loaded already in context
           //if template is already loaded in context
+          console.log("not loaded in context");
 
           setDataToSend({
-            type: template.type,
+            type: 'blog',
             page: "HomePage",
             blocks: template.pages.HomePage.blocks,
           });
           setMain(true);
         } else {
-          //template is not loaded in context
+          //home page is not loaded in context
 
           fetchBlocks(blogTemplate.pages.HomePage.blocks); //first fetch blocks from block Ids
 
@@ -49,10 +52,10 @@ const BlogHomePage = () => {
               {
                 type: "blog", //type
                 pages: {
+                  ...template.pages,
                   HomePage: { blocks: blocks },
-                  BlogsPage: { blocks: blogTemplate.pages.BlogsPage.blocks },
                 },
-                data: { blogs: blogTemplate.data.blogs },
+                ...template,
               }
             );
 
@@ -62,6 +65,7 @@ const BlogHomePage = () => {
               blocks: blocks,
             });
             setMain(true);
+            setLoading(false);
           }
         }
       }
@@ -82,7 +86,23 @@ const BlogHomePage = () => {
       });
   };
 
-  return <>{main ? <Main data={dataToSend} /> : <div>Loading...</div>}</>;
+  return (
+    <>
+      {main ? (
+        <Main data={dataToSend} />
+      ) : (
+        <center>
+          <BeatLoader
+            color={"#7890A3"}
+            loading={loading}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </center>
+      )}
+    </>
+  );
 };
 
 export default BlogHomePage;

@@ -30,8 +30,7 @@ async function postBlock(req, res) {
 
 //get Blocks from a specified array of ids
 async function getBlocks(req, res) {
-  console.log("fucking here");
-  console.log("Req.body", req.body.blockIds);
+ 
 
   //find blogs which have ids in the array
   Block.find({ key: { $in: req.body.blockIds } })
@@ -54,24 +53,23 @@ async function getBlocks(req, res) {
 //save a list of blocks
 async function postBlocks(req, res) {
   const blocks = req.body.blocks;
-  console.log(blocks);
+ 
   try {
     const Blocks = blocks.map((block) => {
       return new Block({
         _id: mongoose.Types.ObjectId(),
-        key: "alala",
+        key: block.key,
         type: block.type,
         img: block.img,
         Component: block.Component,
         Data: block.Data,
-        fuck: "fuck",
       });
     });
-    console.log("Before insertMany:", Blocks);
+  
     const savedBlocks = await Block.insertMany(Blocks).catch((error) => {
       console.log(error);
     });
-    console.log("After insertMany:", savedBlocks);
+   
     const savedBlockIds = savedBlocks.map((block) => block._id);
     res.status(201).json({ savedBlockIds });
   } catch (error) {

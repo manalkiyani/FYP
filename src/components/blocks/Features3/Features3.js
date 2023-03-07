@@ -7,6 +7,7 @@ import sample3 from "../../../assets/imgs/sample3.jpg";
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default class Features3 extends Component {
   state = {
@@ -37,12 +38,12 @@ export default class Features3 extends Component {
     return (
       <div className={classes.panel}>
         <div
-          onMouseOver={() => {
+          onMouseEnter={() => {
             this.setState({
               displayHandleBlock: true,
             });
           }}
-          onMouseOut={() => {
+          onMouseLeave={() => {
             this.setState({
               displayHandleBlock: false,
             });
@@ -59,12 +60,28 @@ export default class Features3 extends Component {
               layout={this.props.Data.layout}
               displaySetLayout={true}
               setLayout={this.props.setLayout}
-            />
+              options={[
+                { text: "3 cards - width 30%", value: 3 },
+                { text: "2 cards - width 40%", value: 2 },
+                { text: "1 card - width 50%", value: 1 },
+              ]}
+            ></HandleBlock>
           )}
 
           {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
             return (
-              <div key={index} className={classes.card}>
+              <div
+                key={index}
+                className={classes.card}
+                style={{
+                  width:
+                    this.props.Data.layout === 3
+                      ? "30%"
+                      : this.props.Data.layout === 2
+                      ? "40%"
+                      : "50%",
+                }}
+              >
                 <DelCard del={this.delCard} index={index} />
 
                 <div className={classes.container}>

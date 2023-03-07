@@ -1,6 +1,7 @@
 import React from "react";
 import Profile from "../../components/Profile/Profile";
 import Template from "../../components/Templates/Template";
+import SavedTemplates from "../../components/savedTemplates/savedTemplates";
 
 const Dashboard = () => {
   const templates = [
@@ -41,6 +42,8 @@ const Dashboard = () => {
     <div>
       <Profile />
       <Template data={templates}></Template>
+      <SavedTemplates />
+
     </div>
   );
 };
