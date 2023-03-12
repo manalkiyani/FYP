@@ -9,10 +9,14 @@ import Dashboard from "./pages/Dashboard/dashborad";
 import HomePage from "./pages/HomePage/HomePage";
 import BlogHomePage from "./blogWebsite/HomePage/BlogHomePage";
 import BlogssPage from "./blogWebsite/BlogsPage/BlogssPage";
+import SuperAdminDasboard from "./SuperAdmin/SuperAdminDashboard";
+import Plan from "./Plan/Plan";
 import { blueGrey } from "@mui/material/colors";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
+import Home from "./Admin/Home/Home";
 
 const theme = createTheme({
   palette: {
@@ -42,17 +46,23 @@ const App = () => {
           {/* <Login/> */}
 
           <Routes>
-            {user && (
+            {(
               <>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+              
                 
                 <Route exact path="/blog/template" element={<Navbar />} >
                   <Route path="blogs" element={<BlogssPage />}/>
                   <Route path="write" element={<Write />} />
                   <Route path="" element={<BlogHomePage />} />
                 </Route>
+                <Route path="/contactsuperadmin" element={<ContactSuperAdmin></ContactSuperAdmin>}></Route>
 
+
+                <Route path="/superadmindashboard" element={<SuperAdminDasboard/>}></Route>
+                <Route path="/Plans" element={<Plan/>}></Route>
+                <Route path="/admindashboard" element={<Home/>}></Route>
                 
               </>
             )}

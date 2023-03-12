@@ -14,7 +14,7 @@ const Header = () => {
         <Button className={classes.buttons}>Home</Button>
         <Button className={classes.buttons}>Dashboard</Button>
         <Button className={classes.buttons}>Packages</Button>
-        <Link to='contact'>
+        <Link to='/contactsuperadmin'>
           <Button className={classes.buttons}>Contact</Button>
         </Link>
       </div>
