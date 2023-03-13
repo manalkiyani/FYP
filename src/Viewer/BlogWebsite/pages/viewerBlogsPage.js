@@ -61,6 +61,9 @@ const BlogssPage = () => {
 
   return (
     <>
+     {/*display blogs here*/ }
+     
+    {/*display blocks here*/}
       {main ? (
         <DisplayBlocks data={dataToSend} />
       ) : (
@@ -74,6 +77,8 @@ const BlogssPage = () => {
           />
         </center>
       )}
+
+   
     </>
   );
 };

@@ -16,16 +16,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Otp from "./pages/OTP/otp";
 import ResetPassword from "./pages/resetPassword/resetPassword";
 import Username from "./pages/Username/username";
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#40AFC0",
-    },
-    secondary: {
-      main: blueGrey[500],
-    },
-  },
-});
+import UcraftNavbar from "./components/Navbar/Navbar";
+import Blog from "./Viewer/BlogWebsite/components/Blogs/Blog";
+
 export const UserContext = createContext();
 const App = () => {
   const [templateId, setTemplateId] = React.useState(null);
@@ -47,19 +40,28 @@ const App = () => {
         setTemplate,
       }}
     >
-      <ThemeProvider theme={theme}>
+     
         <BrowserRouter>
+          <UcraftNavbar />
           <Routes>
             <>
-          {/* ucraft */}
-              <Route path="/login" element={<BgColor />} />
+              {/* ucraft */}
+              <Route path="/login" element={<Blog />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/recovery" element={<Otp />} />
               <Route path="/reset" element={<ResetPassword />} />
               <Route path="/username" element={<Username />} />
               <Route path="/" element={<HomePage />} />
-              <Route path="/dashboard" element={<AuthorizeUser> <Dashboard /> </AuthorizeUser>}/>
-          {/* blog Website Admin */}
+              <Route
+                path="/dashboard"
+                element={
+                  <AuthorizeUser>
+                    {" "}
+                    <Dashboard />{" "}
+                  </AuthorizeUser>
+                }
+              />
+              {/* blog Website Admin */}
               <Route exact path="/blog/template/:id" element={<Navbar />}>
                 <Route path="" element={<BlogHomePage />} />
                 <Route path="blogs" element={<BlogssPage />} />
@@ -67,16 +69,15 @@ const App = () => {
               </Route>
             </>
 
-          {/* blog Website Viewer */}
-          <Route exact path="view/blog/template/:id" element={<Navbar />}>
-            <Route path="" element={<BlogHomePage />} />
-            <Route path="blogs" element={<BlogssPage />} />
-            <Route path="write" element={<Write />} />
-          </Route>
-            
+            {/* blog Website Viewer */}
+            <Route exact path="view/blog/template/:id" element={<Navbar />}>
+              <Route path="" element={<BlogHomePage />} />
+              <Route path="blogs" element={<BlogssPage />} />
+              <Route path="write" element={<Write />} />
+            </Route>
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
+    
     </UserContext.Provider>
   );
 };

@@ -81,7 +81,6 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
-
   return (
     <div className="bigContainer">
       <Box sx={{}}>
@@ -93,15 +92,13 @@ export default function Blogs({ blogIds }) {
           }}
           position="static"
         >
-           <Toolbar>
+          <Toolbar>
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            >
-              
-            </Typography>
+            ></Typography>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -116,10 +113,7 @@ export default function Blogs({ blogIds }) {
         </AppBar>
       </Box>
       <div className="posts">
-        <div>
-        
-       
-        </div>
+        <div></div>
         {blogs &&
           blogs
             .filter((blog) => {

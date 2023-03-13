@@ -1,143 +1,140 @@
-.MoNavContainer {
-  zoom: 75%;
-  position: -webkit-sticky;
-  top: 0;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:rgba(255, 255, 255, 0.5);;
+  height: 64px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+ 
+  transition: all 0.3s ease;
+  overflow: hidden;
+ z-index: 1100;
+ position: sticky;
+ top:0
+
+
+
 }
 
-.mobileNav {
-  overflow: hidden;
-  height: 100px;
-  width: 100%;
+.navbar.close {
+  height: 0;
+}
+    
+
+
+.ucraft {
+ text-decoration: none;
+
+letter-spacing: 1.8px;
+  margin-left: 30px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #40AFC0;
+  animation: moveLeftToRight 5s forwards;
+}
+
+@keyframes moveLeftToRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+
+
+
+.navbarList {
   display: flex;
-}
-.navBars {
-  width: 30%;
-  color: white;
-  font-size: 40px;
-}
-.navBars svg {
-  margin: 30px;
-  margin-left: 45px;
-  display: block;
-  cursor: pointer;
-}
-.navBars svg:hover {
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  color: #686767;
-}
-.MoNavLogo {
-  width: 40%;
-}
-.MoNavLogo img {
-  height: 100px;
-  display: block;
-  margin: 0 auto;
-}
-.MoNavSocial {
-  width: 30%;
-}
-.MoNavSocial ul {
-  margin: 0;
-  display: flex;
-  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
   list-style: none;
-  float: right;
-  margin: 30px;
-}
-.MoNavSocial li {
-  height: 38px;
-  width: 38px;
-  border: 2px solid white;
-  border-radius: 50%;
-  margin-left: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.MoNavSocial li:hover {
-  background-color: white;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-}
-.MoNavSocial li:hover a {
-  color: #191919;
-}
-.MoNavSocial a {
-  color: white;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
-.MoNavLinks {
-  height: 0px;
-  overflow: hidden;
+.navbarItem {
+  margin: 0 10px;
 }
-.MoNavLinks ul {
-  padding: 8px 60px;
-  list-style-type: none;
-  margin-bottom: 3px;
-}
-.MoNavLinks li {
-  padding: 15px;
-  border-bottom: 1px solid #686767;
-}
-.MoNavLinks a {
-  color: white;
+
+.navbarLink {
+  color: #95a7a9;
   text-decoration: none;
-}
-.MoNavLinks a:hover {
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  color: #686767;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.mobileNavII .MoNavSocialII ul {
-  margin: 0;
-  display: flex;
-  flex-flow: row nowrap;
-  list-style: none;
+.navbarLink:hover {
+  color: #40AFC0;
+  border-bottom: 3px solid #40AFC0;
 }
-.mobileNavII .MoNavSocialII li {
-  height: 10px;
-  width: 10px;
-  border: 1px solid white;
-  border-radius: 50%;
+
+.navbarButtons {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.loginButton {
+    border: none;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #5cc3d3;
   margin-left: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
 }
-.mobileNavII .MoNavSocialII li:hover {
-  cursor: pointer;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  background-color: white;
+
+.loginButton:hover {
+  background-color: #5cc3d3;
 }
-.mobileNavII .MoNavSocialII li:hover a {
-  color: #191919;
+
+
+
+
+.signupButton {
+    border: none;
+display: inline-block;
+padding: 10px 20px;
+border-radius: 4px;
+font-size: 14px;
+font-weight: 500;
+color: #5cc3d3;
+background-color: #fff;
+margin-left: 10px;margin-right: 50px;
+/* border: 2px solid #5cc3d3; */
+text-decoration: none;
+text-transform: uppercase;
+transition: all 0.3s ease;
 }
-.mobileNavII .MoNavSocialII a {
-  color: white;
-  font-size: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.signupButton:hover {
+background-color: #5cc3d3;
+color: #fff;
 }
-@media only screen and (max-width: 600px) {
-  .mobileNav {
-    height: 70px;
-  }
-  .MoNavLogo img {
-    height: 65px;
-  }
-  .navBars {
-    font-size: 30px;
-  }
-  .navBars svg {
-    margin: 20px;
-    margin-left: 25px;
-  }
+
+/* Navbar toggle button */
+
+.navbarToggle {
+display: block;
+width: 40px;
+height: 40px;
+position: absolute;
+top: 12px;
+right: 20px;
+background-color: transparent;
+border: none;
+cursor: pointer;
 }
+
+
+
+
