@@ -3,7 +3,12 @@ import { v4 as uuid } from "uuid";
 import Header1 from "../components/blocks/Header1/Header1";
 import Features2 from "../components/blocks/Features2/Features2";
 import axios from "axios";
-import { getUserData } from "../authentication/authFunctions";
+import { getUserData } from "./authFunctions";
+import Header2 from "../components/blocks/Header2/Header2";
+import Header3 from "../components/blocks/Header3/Header3";
+import Features1 from "../components/blocks/Features1/Features1";
+import Features3 from "../components/blocks/Features3/Features3";
+import Faq1 from "../components/blocks/FAQ/Faq1";
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {
   let position = 0;
@@ -138,6 +143,60 @@ export const handleSocialIcons = (socialIcons, idFromComponent, components) => {
     ...component,
   };
   updatedComponent["Data"]["socialIcons"] = socialIcons;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+};
+export const changeBackgroundImage = (
+  imageURL,
+  idFromComponent,
+  components
+) => {
+  let position = 0;
+  let componentsList = [...components];
+
+  //get the cliked components position and component
+  const component = componentsList.find((ele, index) => {
+    position = index;
+
+    return ele.key === idFromComponent;
+  });
+
+  //delete component from components list
+  componentsList.splice(position, 1);
+  //update component data
+  const updatedComponent = {
+    ...component,
+  };
+  updatedComponent.Data.data.img = imageURL;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+};
+export const changeBackgroundColor = (color, idFromComponent, components) => {
+  let position = 0;
+  let componentsList = [...components];
+
+  //get the cliked components position and component
+  const component = componentsList.find((ele, index) => {
+    position = index;
+
+    return ele.key === idFromComponent;
+  });
+
+  //delete component from components list
+  componentsList.splice(position, 1);
+  //update component data
+  const updatedComponent = {
+    ...component,
+  };
+  updatedComponent.Data.data.bgColor = color;
 
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
@@ -302,28 +361,62 @@ export const mapBlocks = (Blocks) => {
       case "Header1":
         block.Component = Header1;
         break;
+      case "Header2":
+        block.Component = Header2;
+        break;
+      case "Header3":
+        block.Component = Header3;
+        break;
+      case "Features1":
+        block.Component = Features1;
+        break;
       case "Features2":
         block.Component = Features2;
+        break;
+      case "Features3":
+        block.Component = Features3;
+        break;
+      case "Faq1":
+        block.Component = Faq1;
+        break;
     }
     return block;
   });
 };
+
+export const unmapBlocks = (Blocks) => {
+  return Blocks.map((block) => {
+    const componentMap = {
+      [Header1]: "Header1",
+      [Header2]: "Header2",
+      [Header3]: "Header3",
+      [Features1]: "Features1",
+      [Features2]: "Features2",
+      [Features3]: "Features3",
+      [Faq1]: "Faq1",
+    };
+    block.Component = componentMap[block.Component];
+    return block;
+  });
+};
+
 export const SavedTemplate = async (template) => {
   //first send blocks of homepage
   //send blocks to backend to save
-  let homepageBlockIds = null;
-  let mainpageBlockIds = null;
-  let mainPageDataIds = null;
+  let homepageBlockIds = [];
+  let mainpageBlockIds = [];
+  let mainPageDataIds = [];
 
-  if (template.pages.HomePage?.blocks.length > 0) {
+  if (template.pages?.HomePage?.blocks.length > 0) {
     console.log(template.type);
-    const Blocks = mapBlocks(template.pages.HomePage.blocks);
+    const Blocks = unmapBlocks(template.pages.HomePage.blocks);
+    console.log(Blocks);
     await axios
       .post("http://localhost:8800/api/blocks/saveBlocks", {
         blocks: Blocks,
       })
       .then((res) => {
-        homepageBlockIds = res.data.savedBlockIds;
+        homepageBlockIds = res.data.savedBlockKeys;
         //save
       })
       .catch((err) => {
@@ -333,16 +426,16 @@ export const SavedTemplate = async (template) => {
   switch (template.type) {
     case "blog":
       {
-        console.log("here");
         if (template.pages.BlogsPage?.blocks.length > 0) {
-          const Blocks = mapBlocks(template.pages.BlogsPage.blocks);
+          const Blocks = unmapBlocks(template.pages.BlogsPage.blocks);
 
           await axios
             .post("http://localhost:8800/api/blocks/saveBlocks", {
               blocks: Blocks,
             })
             .then((res) => {
-              mainpageBlockIds = res.data.savedBlockIds;
+              mainpageBlockIds = res.data.savedBlockKeys;
+              console.log("mainpageBlockIds", mainpageBlockIds);
               //save
             })
             .catch((err) => {
@@ -352,9 +445,9 @@ export const SavedTemplate = async (template) => {
         if (template.data?.blogs) {
           mainPageDataIds = template.data?.blogs;
         }
-        const userData = await getUserData()
+        const userData = await getUserData();
         console.log(userData);
-        
+
         //save template in template schema
         console.log(homepageBlockIds, mainpageBlockIds, mainPageDataIds);
         axios
@@ -366,7 +459,7 @@ export const SavedTemplate = async (template) => {
                 HomePage: {
                   blocks: homepageBlockIds,
                 },
-                mainPage: {
+                BlogsPage: {
                   blocks: mainpageBlockIds,
                 },
               },
@@ -376,15 +469,107 @@ export const SavedTemplate = async (template) => {
             },
           })
           .then((res) => {
-            console.log(res);
+            if (res.status === 201) {
+              console.log(res.data.message);
+              return Promise.resolve({ msg: res.data.message });
+            } else if (res.status === 500) {
+              console.error(res.data.message);
+              return Promise.reject({ error: "err" });
+            }
           })
           .catch((err) => {
             console.error(err);
+            return Promise.reject({ error: "err" });
           });
       }
       break;
   }
 };
+
+export const UpdateTemplate = async (template, id) => {
+  console.log("in update template");
+  //first send blocks of homepage
+  //send blocks to backend to save
+  let homepageBlockIds = [];
+  let mainpageBlockIds = [];
+  let mainPageDataIds = [];
+
+  if (template.pages?.HomePage?.blocks.length > 0) {
+    console.log(template.type);
+    const Blocks = unmapBlocks(template.pages.HomePage.blocks);
+    console.log(Blocks);
+    await axios
+      .post("http://localhost:8800/api/blocks/updateBlocks", {
+        blocks: Blocks,
+      })
+      .then((res) => {
+        homepageBlockIds = res.data.updatedBlockKeys;
+        //save
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  switch (template.type) {
+    case "blog":
+      {
+        if (template.pages.BlogsPage?.blocks.length > 0) {
+          const Blocks = unmapBlocks(template.pages.BlogsPage.blocks);
+
+          await axios
+            .post("http://localhost:8800/api/blocks/updateBlocks", {
+              blocks: Blocks,
+            })
+            .then((res) => {
+              mainpageBlockIds = res.data.updatedBlockKeys;
+              //save
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+        if (template.data?.blogs) {
+          mainPageDataIds = template.data?.blogs;
+        }
+        const userData = await getUserData();
+        console.log(userData);
+
+        //save template in template schema
+        console.log(homepageBlockIds, mainpageBlockIds, mainPageDataIds);
+        axios
+          .post("http://localhost:8800/api/templates/updateTemplate", {
+            template: {
+              id,
+              type: template.type,
+              pages: {
+                HomePage: {
+                  blocks: homepageBlockIds,
+                },
+                BlogsPage: {
+                  blocks: mainpageBlockIds,
+                },
+              },
+              data: {
+                blogs: mainPageDataIds,
+              },
+            },
+          })
+          .then((res) => {
+            if (res.status === 201) {
+              console.log(res.data.message);
+            } else if (res.status === 500) {
+              console.log(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log("this is the eror");
+            console.log(err);
+          });
+      }
+      break;
+  }
+};
+
 // //blog template
 // blocks - homepage;
 // blocks - mainpage;

@@ -4,87 +4,95 @@ import { useParams } from "react-router-dom";
 import { blogTemplate } from "../../TemplatesData/blogTemplate";
 import { useContext } from "react";
 import { UserContext } from "../../App";
-import { useLocation } from "react-router-dom";
-
+import {
+  getTemplateData,
+  fetchBlocks,
+} from "../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
-import Main from "../../Main";
-import axios from "axios";
-import { mapBlocks } from "../../utilityFunctions/helperFunctions";
+import Main from "../Main";
 
 const BlogHomePage = () => {
   const { id } = useParams();
-  const { pathname } = useLocation();
+
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
   const { template, setTemplate } = useContext(UserContext);
-  const [loaded, setLoaded] = React.useState(false);
+
   const [main, setMain] = React.useState(false);
-  const [blocks, setblocks] = React.useState(null);
 
   useEffect(() => {
-    if (!loaded) {
-      console.log("template.type", template.type);
-      if (!id) {
-        //load default template
+    if (dataToSend) {
+      setMain(true);
+      setLoading(false);
+    }
+  }, [dataToSend]);
 
-        if (template.pages?.HomePage) {
-          // home page are loaded already in context
-          //if template is already loaded in context
-          console.log("not loaded in context");
+  const checkHomePageinContext = () => {
+    const homePage = template.pages?.HomePage;
 
-          setDataToSend({
-            type: 'blog',
-            page: "HomePage",
-            blocks: template.pages.HomePage.blocks,
-          });
-          setMain(true);
-        } else {
-          //home page is not loaded in context
+    if (homePage) {
+      setDataForMain(homePage.blocks);
 
-          fetchBlocks(blogTemplate.pages.HomePage.blocks); //first fetch blocks from block Ids
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const fetchHomePageBlocks = async (blockIds) => {
+    try {
+      const blocks = await fetchBlocks(blockIds);
 
-          if (blocks) {
-            console.log("gotten blocks");
-            setLoaded(true);
+      setTemplateinContext(blocks);
+      setDataForMain(blocks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const loadSavedTemplate = async () => {
+    let homePageBlocks = [];
+    try {
+      const Template = await getTemplateData(id);
+      console.log(Template);
+      if (Template.pages?.HomePage?.blocks) {
+        const blocks = await fetchBlocks(Template.pages.HomePage.blocks);
+        console.log(blocks);
+        homePageBlocks = blocks;
+      }
 
-            setTemplate(
-              //store template in context
-              {
-                type: "blog", //type
-                pages: {
-                  ...template.pages,
-                  HomePage: { blocks: blocks },
-                },
-                ...template,
-              }
-            );
+      setTemplateinContext(homePageBlocks);
+      setDataForMain(homePageBlocks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const setTemplateinContext = (blocks) => {
+    setTemplate({
+      type: "blog",
+      pages: {
+        HomePage: { blocks },
+      },
+    });
+  };
+  const setDataForMain = (blocks) => {
+    console.log("inside setDataForMain");
+    setDataToSend({
+      type: "blog",
+      blocks,
+    });
+  };
 
-            setDataToSend({
-              type: "blog",
-              page: "HomePage",
-              blocks: blocks,
-            });
-            setMain(true);
-            setLoading(false);
-          }
-        }
+  useEffect(() => {
+    const inContext = checkHomePageinContext();
+
+    if (!inContext) {
+      if (id === "001") {
+        fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
+      } else {
+        console.log("in else");
+        loadSavedTemplate();
       }
     }
-  }, [blocks]);
-
-  const fetchBlocks = (blockIds) => {
-    axios
-      .post("http://localhost:8800/api/blocks/get", { blockIds })
-      .then((res) => {
-        let fetchedBlocks = res.data.Blocks;
-
-        const blocks = mapBlocks(fetchedBlocks);
-        setblocks(blocks);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  }, []);
 
   return (
     <>

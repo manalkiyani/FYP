@@ -9,7 +9,7 @@ const blog = new Schema({
   writer: { type: String, required: true },
   publishedDate: { type: String },
   description: { type: String, required: true },
-  image: { type: Schema.Types.ObjectId, ref: "image" },
+  image: { type: String },
   rating: {
     stars: { type: String },
     count: { type: Number },

@@ -4,10 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   verifyPassword,
   getUsername,
-} from "../../authentication/authFunctions";
+} from "../../utilityFunctions/authFunctions";
 import classes from "../SignUp/SignUp.module.css";
 import FormInput from "../SignUp/formInput";
-import { useState, useEffect ,useContext} from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { UserContext } from "../../App";
 import join from "../../assets/login.png";
@@ -45,7 +45,7 @@ function LoginScreen() {
       required: true,
     },
   ];
- 
+
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -67,8 +67,9 @@ function LoginScreen() {
       let { token } = res.data;
       localStorage.setItem("token", token);
       setUser({
-        username:res.data.username,
-        id: res.data._id});
+        username: res.data.username,
+        id: res.data._id,
+      });
       navigate("/dashboard");
     });
   };

@@ -4,12 +4,18 @@ import classes from "./Header3.module.css";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
+import {
+ 
+  uploadImage,
+} from "../../../utilityFunctions/imageUpload";
+import UploadImage from "../../uploadImage/uploadImage";
 
 export default class Header3 extends Component {
   state = {
     showMenu: false,
     ref: null,
     displayHandleBlock: false,
+    image: null,
   };
   //  textFromComponent,
   //   index,
@@ -18,11 +24,11 @@ export default class Header3 extends Component {
   //   type
   handleTextChange = (e, tag) => {
     console.log(e.target.value);
-    this.props.changeText(e.target.value, null, tag, this.props.id, "header1");
+    this.props.changeText(e.target.value, null, tag, this.props.id, "header3");
   };
 
   handleClick = () => {
-    this.props.onClick(this.props.id, "btn", null, "header1");
+    this.props.onClick(this.props.id, "btn", null, "header3");
     this.setState({
       showMenu: true,
     });
@@ -46,11 +52,23 @@ export default class Header3 extends Component {
   handleSocialIcons = (socialIcons) => {
     this.props.handleSocialIcons(socialIcons, this.props.id);
   };
-
+  handleImageChange = async (event) => {
+    this.setState({
+      image: event.target.files[0],
+    });
+    try {
+      const link = await uploadImage(event.target.files[0]);
+      console.log(link);
+      this.props.changeBackgroundImage(link, this.props.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   render() {
     return (
       <div
         style={{
+          backgroundColor: this.props.Data.data.bgColor,
           boxShadow:
             this.props.dragDisable === false
               ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
@@ -66,6 +84,11 @@ export default class Header3 extends Component {
             enableDrag={this.props.enableDrag}
           />
         )}
+        <UploadImage handleImageChange={this.handleImageChange} image={this.state.image} />
+        <img style={{zIndex:'100',height:'500px'}} src={this.props.Data.data.img} />
+        
+       
+
         <div>
           <ContentEditable
             className={classes.h}
@@ -73,7 +96,7 @@ export default class Header3 extends Component {
             disabled={false} // use true to disable editing
             onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change
             onClick={() =>
-              this.props.onClick(this.props.id, "h", null, "header1")
+              this.props.onClick(this.props.id, "h", null, "header3")
             }
             style={{
               fontSize: this.props.Data.data.h.size,
@@ -96,7 +119,7 @@ export default class Header3 extends Component {
             disabled={false} // use true to disable editing
             className={classes.p}
             onClick={() =>
-              this.props.onClick(this.props.id, "p", null, "header1")
+              this.props.onClick(this.props.id, "p", null, "header3")
             }
             onChange={(e) => this.handleTextChange(e, "p")} // handle innerHTML change
             style={{
@@ -115,26 +138,26 @@ export default class Header3 extends Component {
             }}
           />
           <ContentEditable
-            html={this.props.Data.data.p.text} // innerHTML of the editable div
+            html={this.props.Data.data.s.text} // innerHTML of the editable div
             disabled={false} // use true to disable editing
-            className={classes.p}
+            className={classes.s}
             onClick={() =>
-              this.props.onClick(this.props.id, "p", null, "header1")
+              this.props.onClick(this.props.id, "s", null, "header3")
             }
-            onChange={(e) => this.handleTextChange(e, "p")} // handle innerHTML change
+            onChange={(e) => this.handleTextChange(e, "s")} // handle innerHTML change
             style={{
-              fontSize: this.props.Data.data.p.size,
-              fontFamily: this.props.Data.data.p.family,
-              color: this.props.Data.data.p.color,
+              fontSize: this.props.Data.data.s.size,
+              fontFamily: this.props.Data.data.s.family,
+              color: this.props.Data.data.s.color,
               fontWeight:
-                this.props.Data.data.p.bold === true ? "bold" : "normal",
+                this.props.Data.data.s.bold === true ? "bold" : "normal",
               textDecoration:
-                this.props.Data.data.p.underline === true
+                this.props.Data.data.s.underline === true
                   ? "underline"
                   : "none",
               fontStyle:
-                this.props.Data.data.p.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.p.align,
+                this.props.Data.data.s.italic === true ? "italic" : "normal",
+              textAlign: this.props.Data.data.s.align,
             }}
           />
 
@@ -168,7 +191,6 @@ export default class Header3 extends Component {
             }}
           />
         </div>
-        <img classname={classes.img}src={this.props.Data.data.img} />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { generateOTP, verifyOTP } from "../../authentication/authFunctions";
+import { generateOTP, verifyOTP } from "../../utilityFunctions/authFunctions";
 
 import password from "../../assets/password.png";
 import FormInput from "../SignUp/formInput";
@@ -18,7 +18,7 @@ const Otp = () => {
   });
 
   useEffect(() => {
-    console.log('user',user)
+    console.log("user", user);
     const { username } = user;
     generateOTP(username).then((OTP) => {
       console.log(OTP);
@@ -42,7 +42,10 @@ const Otp = () => {
     e.preventDefault();
     //send axios post request to server
     try {
-      let { status } = await verifyOTP({ username:user.username, code: values.otp });
+      let { status } = await verifyOTP({
+        username: user.username,
+        code: values.otp,
+      });
       if (status === 201) {
         toast.success("Verify Successfully!");
         return navigate("/reset");
@@ -77,7 +80,7 @@ const Otp = () => {
         <form className={classes.form} onSubmit={handleSubmit}>
           <div>
             <h1 style={{ marginBottom: "40px" }} className={classes.h1}>
-             OTP verification
+              OTP verification
             </h1>
 
             {inputs.map((input) => (

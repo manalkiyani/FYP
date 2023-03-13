@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import join from "../../assets/join.png";
 import FormInput from "./formInput";
 import classes from "./SignUp.module.css";
-import { registerUser } from "../../authentication/authFunctions";
+import { registerUser } from "../../utilityFunctions/authFunctions";
 const Signup = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
@@ -75,7 +75,7 @@ const Signup = () => {
       password: values.password,
       email: values.email,
     });
-   
+
     toast.promise(registerPromise, {
       loading: "Creating...",
       success: <b>Register Successfully...!</b>,
@@ -93,7 +93,6 @@ const Signup = () => {
 
   return (
     <>
-   
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className={classes.app}>
         <form className={classes.form} onSubmit={handleSubmit}>

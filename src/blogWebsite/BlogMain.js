@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "./App";
+import { UserContext } from "../App";
 import { v4 as uuid } from "uuid";
-import SaveBtn from "./components/SaveBtn";
-import Blogs from "./blogWebsite/components/Blogs/Blogs";
-import DragDrop from "./DragDrop/DragDrop";
+import { useParams } from "react-router-dom";
+import SaveBtn from "../components/Buttons/SaveBtn";
+import Blogs from "./components/Blogs/Blogs";
+import DragDrop from "../DragDrop/DragDrop";
+import UpdateBtn from "../components/Buttons/UpdateBtn";
 
 //Blog Home Page
 const Main = (props) => {
+  const { id } = useParams();
+
   const { template, setTemplate } = useContext(UserContext);
   const [components, setComponents] = useState([]);
   const [tag, setTag] = useState(null);
@@ -51,7 +55,7 @@ const Main = (props) => {
 
   return (
     <>
-      <SaveBtn />
+      {id === "001" ? <SaveBtn /> : <UpdateBtn />}
       {blogIds && <Blogs blogIds={blogIds} />}
       <DragDrop
         components={components}

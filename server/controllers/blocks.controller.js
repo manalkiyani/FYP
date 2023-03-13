@@ -56,6 +56,7 @@ async function postBlocks(req, res) {
  
   try {
     const Blocks = blocks.map((block) => {
+    
       return new Block({
         _id: mongoose.Types.ObjectId(),
         key: block.key,
@@ -70,14 +71,67 @@ async function postBlocks(req, res) {
       console.log(error);
     });
    
-    const savedBlockIds = savedBlocks.map((block) => block._id);
-    res.status(201).json({ savedBlockIds });
+    const savedBlockKeys = savedBlocks.map((block) => block.key);
+    res.status(201).json({ savedBlockKeys });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
+
+async function updateBlocks(req, res) {
+  const updatedBlocks = req.body.blocks;
+
+  try {
+    const updatedBlockKeys = [];
+    const newBlocks = [];
+
+    for (const block of updatedBlocks) {
+      const foundBlock = await Block.findOneAndUpdate(
+        { key: block.key },
+        { $set: block }
+       
+      );
+      if (foundBlock) {
+        updatedBlockKeys.push(foundBlock.key);
+      } else {
+        const newBlock = new Block({
+          _id: mongoose.Types.ObjectId(),
+          key: block.key,
+          type: block.type,
+          img: block.img,
+          Component: block.Component,
+          Data: block.Data,
+        });
+        const savedBlock = await newBlock.save();
+        updatedBlockKeys.push(savedBlock.key);
+        newBlocks.push(savedBlock);
+      }
+    }
+    console.log("updatedBlockKeys",updatedBlockKeys);
+
+    res.json({ updatedBlockKeys, newBlocks });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function deleteBlocks(req, res) {
+  const { keepKeys } = req.body;
+
+  try {
+    const deletedBlocks = await Block.deleteMany({ key: { $nin: keepKeys } }).exec();
+    res.json({ deletedBlocks });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
+  deleteBlocks,
   postBlock,
   getBlocks,
   postBlocks,
+  updateBlocks
 };

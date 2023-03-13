@@ -12,7 +12,7 @@ import Faq1 from "./FAQ/Faq1";
 import Features3 from "./Features3/Features3";
 import Features1 from "./Features1/Features1";
 import bg2 from "../../assets/imgs/bg2.png";
-import bg3 from "../../assets/imgs/bg3.png";
+import bg3  from "../../assets/imgs/bg3.png";
 const blocks = [
   {
     type: "header1",
@@ -67,7 +67,7 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-        ref: "",
+       img:'https://res.cloudinary.com/djlewzcd5/image/upload/v1678558265/pexels-quang-nguyen-vinh-2649403_byuwhi.jpg',
       },
     },
   },
@@ -107,7 +107,8 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-        img: bg2,
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678545576/m3-removebg-preview_jorxiz.png",
+        bgColor: "#068078",
       },
     },
   },
@@ -135,7 +136,7 @@ const blocks = [
           bold: false,
           underline: false,
           italic: false,
-          align: "center",
+          align: "left",
           family: "Sans-serif",
         },
         s: {
@@ -145,7 +146,7 @@ const blocks = [
           bold: false,
           underline: false,
           italic: false,
-          align: "center",
+          align: "left",
           family: "Sans-serif",
         },
         btn: {
@@ -158,7 +159,8 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-        img: bg3,
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1669815537/samples/ecommerce/shoes.png",
+        bgColor: "#5f3777",
       },
     },
   },

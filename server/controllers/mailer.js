@@ -6,6 +6,8 @@ const registerMail = (req, res) => {
   const { userEmail, username,subject,text } = req.body;
 
   let config = {
+    
+    
     service: "gmail",
     auth: {
       user: process.env.EMAIL,

@@ -3,81 +3,108 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../App";
-import BlogMain from "../../BlogMain";
+import BlogMain from "../BlogMain";
 import { blogTemplate } from "../../TemplatesData/blogTemplate";
-import { mapBlocks } from "../../utilityFunctions/helperFunctions";
-import BeatLoader from "react-spinners/BeatLoader";
 
-import axios from "axios";
+import BeatLoader from "react-spinners/BeatLoader";
+import {
+  fetchBlocks,
+  getTemplateData,
+} from "../../utilityFunctions/axiosFunctions";
+
 const BlogssPage = () => {
   const { id } = useParams();
   const { template, setTemplate } = useContext(UserContext);
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
-  const [loaded, setLoaded] = React.useState(false);
+
   const [main, setMain] = React.useState(false);
-  const [blocks, setblocks] = React.useState(null);
 
   useEffect(() => {
     if (dataToSend) {
       setMain(true);
+      setLoading(false);
     }
   }, [dataToSend]);
+  //
+  const checkBlogsPageinContext = () => {
+    const BlogsPage = template.pages?.BlogsPage;
+
+    if (BlogsPage) {
+      setDataForMain(BlogsPage.blocks, template.data.blogs);
+
+      return true;
+    } else {
+      return false;
+    }
+  };
+  //
+  const fetchBlogsPageData = async (blockIds, blogIds) => {
+    try {
+      const blocks = await fetchBlocks(blockIds);
+
+      setTemplateinContext(blocks, blogIds);
+      setDataForMain(blocks, blogIds);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //
+  const setTemplateinContext = (blocks, blogIds) => {
+    setTemplate(
+      //store template in context
+      {
+        type: "blog", //type
+        pages: { ...template.pages, BlogsPage: { blocks: blocks } },
+        data: { ...template.data, blogs: blogIds },
+      }
+    );
+  };
+  //
+  const setDataForMain = (blocks, blogIds) => {
+    setDataToSend({
+      type: "blog",
+      blocks,
+      blogIds,
+    });
+  };
+
+  const loadSavedTemplate = async () => {
+    let BlogsPageBlocks = [];
+    let BlogIds = [];
+    try {
+      const Template = await getTemplateData(id);
+      console.log(Template);
+      if (Template.pages?.BlogsPage?.blocks) {
+        const blocks = await fetchBlocks(Template.pages.BlogsPage.blocks);
+        console.log(blocks);
+        BlogsPageBlocks = blocks;
+      }
+      if (Template.data?.blogs) {
+        BlogIds = Template.data.blogs;
+      }
+
+      setTemplateinContext(BlogsPageBlocks, BlogIds);
+      setDataForMain(BlogsPageBlocks, BlogIds);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    if (!loaded) {
-      if (!id) {
-        //load default template
-
-        if (template.pages?.BlogsPage) {
-          console.log("in if");
-          setDataToSend({
-            type: template.type,
-            page: "BlogsPage",
-            blocks: template.pages.BlogsPage.blocks,
-            blogIds: template.data.blogs,
-          });
-          //  setMain(true);
-          //   setLoading(false);
-        } else {
-          console.log("blogs page :", template.pages);
-          console.log("blogs page : blogs page is not loaded in context");
-
-          //if template is already loaded in context but not context page
-          fetchBlocks(
-            blogTemplate.pages.BlogsPage.blocks,
-            blogTemplate.data.blogs
-          ); //first fetch blocks from block Ids
-        }
+    const inContext = checkBlogsPageinContext();
+    //load default template
+    if (!inContext) {
+      if (id === "001") {
+        fetchBlogsPageData(
+          blogTemplate.pages.BlogsPage.blocks,
+          blogTemplate.data.blogs
+        );
+      } else {
+        console.log("in else");
+        loadSavedTemplate();
       }
     }
   }, []);
-
-  const fetchBlocks = (blockIds, blogIds) => {
-    axios
-      .post("http://localhost:8800/api/blocks/get", { blockIds })
-      .then((res) => {
-        let fetchedBlocks = res.data.Blocks;
-        const blocks = mapBlocks(fetchedBlocks);
-        setTemplate(
-          //store template in context
-          {
-            type: "blog", //type
-            pages: { ...template.pages, BlogsPage: { blocks: blocks } },
-            data: { ...template.data, blogs: blogIds },
-          }
-        );
-
-        setDataToSend({
-          type: template.type,
-          page: "BlogsPage",
-          blocks: blocks,
-          blogIds: blogIds,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 
   return (
     <>

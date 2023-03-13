@@ -1,27 +1,22 @@
-import { useState ,useContext} from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import join from "../../assets/join.png";
-import { resetPassword } from "../../authentication/authFunctions";
-
+import { resetPassword } from "../../utilityFunctions/authFunctions";
 
 import FormInput from "../SignUp/formInput";
 import classes from "../SignUp/SignUp.module.css";
 import { UserContext } from "../../App";
 
-
-
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
-   
     password: "",
     confirmPassword: "",
   });
   const { user } = useContext(UserContext);
 
   const inputs = [
-   
     {
       id: 1,
       name: "password",
@@ -49,17 +44,18 @@ const ResetPassword = () => {
     e.preventDefault();
     //send axios post request to server
     const username = user.username;
-    let resetPromise = resetPassword({ username, password: values.password })
+    let resetPromise = resetPassword({ username, password: values.password });
 
-      toast.promise(resetPromise, {
-        loading: 'Updating...',
-        success: <b>Reset Successfully...!</b>,
-        error : <b>Could not Reset!</b>
-      });
+    toast.promise(resetPromise, {
+      loading: "Updating...",
+      success: <b>Reset Successfully...!</b>,
+      error: <b>Could not Reset!</b>,
+    });
 
-      resetPromise.then(function(){ navigate('/') })
-
-  }
+    resetPromise.then(function () {
+      navigate("/");
+    });
+  };
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -67,14 +63,14 @@ const ResetPassword = () => {
 
   return (
     <>
-     <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className={classes.app}>
-       
         <form className={classes.form} onSubmit={handleSubmit}>
-           
           <div>
-            <h1 style={{ marginBottom: "40px" }} className={classes.h1}>Reset Password</h1>
-          
+            <h1 style={{ marginBottom: "40px" }} className={classes.h1}>
+              Reset Password
+            </h1>
+
             {inputs.map((input) => (
               <FormInput
                 key={input.id}
@@ -86,7 +82,6 @@ const ResetPassword = () => {
             <button className={classes.button}>Reset</button>
           </div>
           <div>
-            
             <img
               src={join}
               alt="join"
@@ -99,4 +94,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword  ;
+export default ResetPassword;

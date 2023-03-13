@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import { getUser, getUsername } from "../../authentication/authFunctions";
+import { getUser, getUsername } from "../../utilityFunctions/authFunctions";
 
 export default function Profile() {
   const [user, setUser] = React.useState({});

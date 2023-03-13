@@ -4,6 +4,7 @@ axios.defaults.baseURL = "http://localhost:8800";
 /** To get username from Token */
 export async function getUsername() {
   const token = localStorage.getItem("token");
+
   if (!token) return Promise.reject("Cannot find Token");
   let decode = jwt_decode(token);
   return decode;
@@ -18,17 +19,16 @@ export async function getUser({ username }) {
   }
 }
 /** get User data */
- export const getUserData = async () => {
-    const token = await getUsername();
-    const { data } = await getUser({ username: token.username });
-    return data;
-    
-  };
+export const getUserData = async () => {
+  const token = await getUsername();
+  const { data } = await getUser({ username: token.username });
+  return data;
+};
 
 /** register user function */
 export async function registerUser(credentials) {
   try {
-    console.log(credentials)
+    console.log(credentials);
     const {
       data: { msg },
       status,
@@ -54,7 +54,6 @@ export async function registerUser(credentials) {
 /** login function */
 export async function verifyPassword({ username, password }) {
   try {
-   
     if (username) {
       const { data } = await axios.post("api/login", { username, password });
       return Promise.resolve({ data });

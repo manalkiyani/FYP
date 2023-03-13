@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import classes from "./Features3.module.css";
 
-import sample1 from "../../../assets/imgs/sample1.jpg";
-import sample2 from "../../../assets/imgs/sample2.jpg";
-import sample3 from "../../../assets/imgs/sample3.jpg";
+
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
-import Dropdown from "react-bootstrap/Dropdown";
+
 
 export default class Features3 extends Component {
   state = {
