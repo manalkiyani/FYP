@@ -1,12 +1,18 @@
 import Features2 from "./Features2/Features2";
 import Header1 from "./Header1/Header1";
 import Header2 from "./Header2/Header2";
+import Header3 from "./Header3/Header3";
 import sample1 from "../../assets/imgs/sample1.jpg";
 import sample2 from "../../assets/imgs/sample2.jpg";
 import sample3 from "../../assets/imgs/sample3.jpg";
+import hours from "../../assets/imgs/hours.png";
+import printer from "../../assets/imgs/printer.png";
+import link from "../../assets/imgs/link.png";
 import Faq1 from "./FAQ/Faq1";
 import Features3 from "./Features3/Features3";
-
+import Features1 from "./Features1/Features1";
+import bg2 from "../../assets/imgs/bg2.png";
+import bg3  from "../../assets/imgs/bg3.png";
 const blocks = [
   {
     type: "header1",
@@ -61,7 +67,7 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-        ref: "",
+       img:'https://res.cloudinary.com/djlewzcd5/image/upload/v1678558265/pexels-quang-nguyen-vinh-2649403_byuwhi.jpg',
       },
     },
   },
@@ -69,35 +75,121 @@ const blocks = [
     type: "header2",
     img: "header2.png",
     Component: Header2,
-    Data: {},
-  },
-  {
-    type: "faq1",
-    img: "faq1.png",
-    Component: Faq1,
     Data: {
-     
       data: {
-         style: {
-        question: {
-          size: "16px",
-          color: "#000",
-          bold: false,
-          underline: false,
-          italic: false,
-          align: "right",
-          family: "Sans-serif",
-        },
-        answer: {
-          size: "16px",
-          color: "#000",
+        h: {
+          text: "For Private clinics and medical centers",
+          size: "24px",
+          color: "#fff",
           bold: false,
           underline: false,
           italic: false,
           align: "left",
           family: "Sans-serif",
         },
+        p: {
+          text: "Simplify the day to day operations of your employees and increase the flow of patients",
+          size: "16px",
+          color: "#EBF1FC",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+        },
+        btn: {
+          text: "START NOW",
+          size: "14px",
+          color: "#fff",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+        },
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678545576/m3-removebg-preview_jorxiz.png",
+        bgColor: "#068078",
       },
+    },
+  },
+  {
+    type: "header3",
+    img: "header3.png",
+    Component: Header3,
+    Data: {
+      data: {
+        h: {
+          text: "Spring Sales Only",
+          size: "24px",
+          color: "#fff",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "left",
+          family: "Sans-serif",
+        },
+        //Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        p: {
+          text: "Upto 50% off",
+          size: "16px",
+          color: "#EBF1FC",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "left",
+          family: "Sans-serif",
+        },
+        s: {
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          size: "16px",
+          color: "#EBF1FC",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "left",
+          family: "Sans-serif",
+        },
+        btn: {
+          text: "START NOW",
+          size: "14px",
+          color: "#fff",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+        },
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1669815537/samples/ecommerce/shoes.png",
+        bgColor: "#5f3777",
+      },
+    },
+  },
+  {
+    type: "faq1",
+    img: "faq1.png",
+    Component: Faq1,
+    Data: {
+      data: {
+        style: {
+          question: {
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "right",
+            family: "Sans-serif",
+          },
+          answer: {
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+        },
         heading: {
           text: "Frequently Asked Questions",
           size: "28px",
@@ -274,7 +366,7 @@ const blocks = [
       },
     },
   },
-   {
+  {
     type: "features3",
     img: "features3.png",
     Component: Features3,
@@ -331,7 +423,64 @@ const blocks = [
             picture: sample2,
           },
         },
-      
+      },
+    },
+  },
+  {
+    type: "features1",
+    img: "features1.png",
+    Component: Features1,
+    Data: {
+      layout: 3,
+      data: {
+        1: {
+          h: {
+            text: "No Coding",
+            size: "20px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+
+          bg: {
+            picture: hours,
+          },
+        },
+        2: {
+          h: {
+            text: "Unlimited Styles",
+            size: "20px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+
+          bg: {
+            picture: printer,
+          },
+        },
+        3: {
+          h: {
+            text: "Branding",
+            size: "20px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+
+          bg: {
+            picture: link,
+          },
+        },
       },
     },
   },

@@ -1,0 +1,30 @@
+
+.header{
+    
+    width: 100%;
+    height: 50vh;
+   
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:50px ;
+}
+
+
+
+.img{
+height: 100%;
+margin: 0px 5px;
+}
+.btn{
+color:#fff ;
+width:fit-content;
+background-color: #084B47 ;
+border-radius: 10px;
+height: 40px;
+box-sizing: border-box;
+padding: 10px;
+margin: 20px 0px;
+cursor: pointer;
+}

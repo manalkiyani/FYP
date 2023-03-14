@@ -8,10 +8,14 @@ const admin = new mongoose.Schema(
     password: { type: String, required: true },
     profilePic: { type: String, default: "" },
     isAdmin: { type: Boolean, default: false },
+
     messages: [{type:mongoose.Schema.Types.ObjectId,ref:"message"}],
     transactionID:{type:mongoose.Schema.Types.ObjectId,ref:"payment"},
     accountStatus: { type: String, default: "Active" },
+
+
     activePlan: { type: String, default: "Basic" },
+    accountStatus: { type: String, default: "Active" },
     savedTemplates: [{ type: mongoose.Schema.Types.ObjectId, ref: "template" }],
 
     templateCount: { type: Number, default: 0 },
@@ -19,3 +23,11 @@ const admin = new mongoose.Schema(
   { timestamps: true }
 );
 module.exports = mongoose.model("admin", admin);
+
+
+// things to display in invoices table
+// username
+// cost
+// date
+// amount 
+// plan

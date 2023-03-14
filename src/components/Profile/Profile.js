@@ -7,15 +7,27 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { getUser, getUsername } from "../../utilityFunctions/authFunctions";
 
 export default function Profile() {
   const [user, setUser] = React.useState({});
-
   React.useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user")); //so user isnt logged out when page is refreshed so save user data in local storage
-    console.log(userData);
-    setUser(userData);
+    getUserData()
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const getUserData = async () => {
+    const token = await getUsername();
+    console.log(token);
+    const { data } = await getUser({ username: token.username });
+    console.log(data);
+    return data; // Return the data retrieved from the API
+  };
 
   return (
     <Card
@@ -30,6 +42,7 @@ export default function Profile() {
       <Grid container spacing={1}>
         <Grid item md={4}>
           <CardMedia
+            style={{ borderRadius: "50%" }}
             component="img"
             sx={{ width: 200 }}
             image="https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg"
@@ -37,7 +50,7 @@ export default function Profile() {
           />
         </Grid>
         <Grid item md={3}>
-          <Box sx={{ display: "flex", flexDirection: "column" }} >
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
                 {user.username}
@@ -53,7 +66,11 @@ export default function Profile() {
           </Box>
         </Grid>
 
-        <Divider orientation="vertical" flexItem sx={{ borderRightWidth: 5 }} />
+        <Divider
+          orientation="vertical"
+          flexItem
+          style={{ backgroundColor: "#40AFC0", fontWeight: "bold" }}
+        />
 
         <Grid item md={3}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>

@@ -12,10 +12,10 @@ export const blogTemplate = {
     },
     data: {
       blogs: [
-        "6390c07df72942f96f9b06a5",
+       
         "63911d90f1977ff3de08fd9a",
         "639308cdca314ebf25bc8528",
-        "63930ec3ca314ebf25bc8548",
+        
       ],
     },
   

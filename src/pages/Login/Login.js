@@ -1,85 +1,107 @@
-import classes from "./Login.module.css";
 import axios from "axios";
-import Button from "../UI/Button";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  verifyPassword,
+  getUsername,
+} from "../../utilityFunctions/authFunctions";
+import classes from "../SignUp/SignUp.module.css";
+import FormInput from "../SignUp/formInput";
+import { useState, useEffect, useContext } from "react";
 
-import { useState } from "react";
-import Header from "../UI/Header";
-import { Link } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { UserContext } from "../../App";
+import join from "../../assets/login.png";
 
 function LoginScreen() {
-  const [username, setUsername] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+  });
 
-  const [password, setPassword] = useState("");
+  const inputs = [
+    {
+      id: 1,
+      name: "username",
+      type: "text",
+      placeholder: "Username",
+      errorMessage:
+        "Username should be 3-16 characters and shouldn't include any special character!",
+      label: "Username",
+      pattern: "^[A-Za-z0-9]{3,16}$",
+      required: true,
+    },
 
-  const handleSubmit = async () => {
+    {
+      id: 2,
+      name: "password",
+      type: "password",
+      placeholder: "Password",
+      errorMessage:
+        "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      label: "Password",
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+      required: true,
+    },
+  ];
+
+  const onChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     //send axios post request to server
-    try {
-      const response = await axios.post("http://localhost:8800/api/", {
-        username,
-        password,
+
+    let loginPromise = verifyPassword({
+      username: values.username,
+      password: values.password,
+    });
+    toast.promise(loginPromise, {
+      loading: "Checking...",
+      success: <b>Login Successfully...!</b>,
+      error: <b>Password Not Match!</b>,
+    });
+
+    loginPromise.then((res) => {
+      let { token } = res.data;
+      localStorage.setItem("token", token);
+      setUser({
+        username: res.data.username,
+        id: res.data._id,
       });
-      console.log(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleUsername = (event) => {
-    event.preventDefault();
-    setUsername(event.target.value);
-    console.log(username);
-  };
-
-  const handlePassword = (event) => {
-    event.preventDefault();
-    setPassword(event.target.value);
-    console.log(password);
+      navigate("/dashboard");
+    });
   };
 
   return (
     <>
-      <div className={classes.App}>
-        <div className={classes.leftbox}>
-          <h1 className={classes.header}> Login To Your Account</h1>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <div className={classes.app}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <div className={classes.center}>
-            <div className={classes.borderBottom}></div>
-            <p className={classes.borderTop}>OR</p>
-            <div className={classes.borderBottom}> </div>
+            <h1 className={classes.h1}>Signin Now!</h1>
+            {inputs.map((input) => (
+              <FormInput
+                key={input.id}
+                {...input}
+                value={values[input.name]}
+                onChange={onChange}
+              />
+            ))}
+            <button className={classes.button}>Log In</button>
+            <Link to="/username" style={{ textDecoration: "none" }}>
+              <h6>Forgotten Password?</h6>
+            </Link>
           </div>
-
-          <div className={classes.form}>
-            <TextField
-              id="standard-basic"
-              onChange={handleUsername}
-              label="Username"
-              variant="standard"
+          <div>
+            <img
+              src={join}
+              alt="join"
+              style={{ width: "500px", height: "400px", marginLeft: "30px" }}
             />
-            <TextField
-              id="standard-basic"
-              onChange={handlePassword}
-              label="Password"
-              variant="standard"
-            />
-
-            <Button onClick={handleSubmit} className={classes.SigninButton}>
-              {" "}
-              Sign In
-            </Button>
           </div>
-        </div>
-
-        <div className={classes["App-rightbox"]}>
-          <p className={classes.header} style={{ marginBottom: "10px" }}>
-            New Here?
-          </p>
-          <p className={classes.text}>Sign up and start</p>
-          <p className={classes.text}>creating your websites!</p>
-          <Link to="/signup">
-            <Button className={classes.SigninButton}> Sign Up</Button>
-          </Link>
-        </div>
+        </form>
       </div>
     </>
   );

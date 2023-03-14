@@ -1,16 +1,20 @@
 const express = require("express");
 
 const {
-  createWebsite,
+ 
   saveTemplate,
-  getUserData,
+  getTemplates,
+  getTemplate,
   addTemplate,
+  updateTemplate,
 } = require("../controllers/template.controller");
 
 const router = express.Router();
 
 router.get("/add", addTemplate);
+router.get('/getTemplate/:templateId', getTemplate)
 router.post("/saveTemplate", saveTemplate);
-router.post("/getUserData", getUserData);
+router.post("/getTemplates", getTemplates);
+router.post("/updateTemplate", updateTemplate);
 
 module.exports = router;

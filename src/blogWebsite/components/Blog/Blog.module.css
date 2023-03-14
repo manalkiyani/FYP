@@ -1,19 +1,22 @@
 .post {
+  border :1px solid #BEBEBE;
+  padding:20px;
   width: 385px;
   margin: 0px 25px 40px 25px;
   display: flex;
   flex-direction: column;
+  border-radius: 15px;
 }
 
 .postImg {
-  width: 385px;
+ 
   height: 280px;
   object-fit: cover;
   border-radius: 7px;
 }
 
 .postInfo {
-      margin-top: 20px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: right;
@@ -29,10 +32,11 @@
      cursor: pointer;
 }
 .postCat {
-  
+  display:inline-block;
   font-family: "Varela Round", Arial, Helvetica, sans-serif;
   font-weight: 400;
- 
+  
+  min-width: 70px;
   color: white;
   border:1px solid teal;
   background-color: teal;
@@ -40,16 +44,16 @@
   padding: 7px;
   font-size: 14px;
   line-height: 19px;
-  margin-top: 15px;
+  margin-top: 5px;
   margin-right: 10px;
   cursor: pointer;
 }
 
 .postTitle {
   font-family: "Josefin Sans", Arial, Helvetica, sans-serif;
-  font-size: 24px;
-  font-weight: 900;
-    margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  
   cursor: pointer;
 }
 
@@ -59,6 +63,7 @@
   font-size: 13px;
   font-weight: 400;
   color: #999999;
+  margin-bottom: 10px;
  
 }
 

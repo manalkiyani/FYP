@@ -44,8 +44,8 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-   
-    right:15px;
+   padding:5px;
+    left:15px;
     top:10px;
      border :1px solid #40AFC0; 
     border-radius: 10px;

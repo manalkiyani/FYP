@@ -8,10 +8,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding:50px ;
+    
     box-sizing: border-box;
     
    
+}
+.img{
+    width: 100%;
+    height:50vh
 }
 .p{
 width:40vw;
@@ -33,19 +37,8 @@ box-sizing: border-box;
 padding: 10px;
 margin: 20px 0px;
 border: none;
+width: fit-content;
 
 
 }
 
-@media (max-width:768px) {
-    .p{
-        width:70vw;
-        }
-        
-        
-
-}
-.h{
-    
-margin: 0.67em 0;  
-}

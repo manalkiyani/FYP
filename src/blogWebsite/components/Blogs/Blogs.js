@@ -1,6 +1,7 @@
 import Blog from "../Blog/Blog";
 import React from "react";
-import "./Blogs.css";
+import toast, { Toaster } from "react-hot-toast";
+import classes from "./Blogs.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -11,16 +12,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { Textarea } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";import { styled, alpha } from "@mui/material/styles";
+
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -77,12 +72,7 @@ export default function Blogs({ blogIds }) {
   const [blogId, setBlogId] = useState("");
   const [searchField, setSearchField] = useState("");
 
-  function arrayBufferToBase64(buffer) {
-    var binary = "";
-    var bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => (binary += String.fromCharCode(b)));
-    return window.btoa(binary);
-  }
+
   useEffect(() => {
     axios
       .post("http://localhost:8800/api/blogs/get", { blogIds })
@@ -100,16 +90,14 @@ export default function Blogs({ blogIds }) {
     axios
       .delete(`http://localhost:8800/api/blogs/${id}`)
       .then(function (response) {
-        setOpen(true);
+        toast.success("Blog Deleted Successfully");
+       
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  const handleClose = () => {
-    setOpen(false);
-    window.location.reload(true);
-  };
+
   const handleOpenEdit = (id, title, tagline, tags, desc, writer, time) => {
     console.log(id, title, tagline, tags, desc, writer, time);
     setTitle(title);
@@ -153,59 +141,13 @@ export default function Blogs({ blogIds }) {
   };
 
   return (
-    <div className="bigContainer">
-      <Box sx={{}}>
-        <AppBar
-          style={{
-            backgroundColor: "teal",
-            marginTop: "30px",
-            width: "1244px",
-          }}
-          position="static"
-        >
-          <Toolbar>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            >
-              BLOGS FOR YOU
-            </Typography>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => setSearchField(e.target.value)}
-              />
-            </Search>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <div className="posts">
+    <>
+     <Toaster position="top-center" reverseOrder={false}></Toaster>
+    <div className={classes.bigContainer}>
+   
+      <div className={classes.posts}>
         <div>
-          {open && (
-            <Dialog
-              open={open}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleClose}
-              aria-describedby="alert-dialog-slide-description"
-            >
-              <DialogTitle>{"Blog deletion"}</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
-                  Blog deleted successfully
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>CLOSE</Button>
-              </DialogActions>
-            </Dialog>
-          )}
+        
 
           {
             <Dialog
@@ -311,15 +253,12 @@ export default function Blogs({ blogIds }) {
               );
             })
             .map((blog) => {
-              let array = blog.image?.img?.data?.data;
-              let binaryString = `data:image/jpeg;base64,${arrayBufferToBase64(
-                array
-              )}`;
+             
               return (
                 <Blog
                   key={blog._id}
                   bid={blog._id}
-                  img={binaryString}
+                  img={blog.image}
                   title={blog.title}
                   tagline={blog.tagline}
                   writer={blog.writer}
@@ -333,5 +272,7 @@ export default function Blogs({ blogIds }) {
             })}
       </div>
     </div>
+    </>
+    
   );
 }
