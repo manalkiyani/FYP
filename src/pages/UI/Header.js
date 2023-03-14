@@ -9,7 +9,6 @@ const Header = () => {
       <div className={classes.imgDiv}>
         <img src={logo} alt="logo" className={classes.logo}></img>
       </div>
-
       <div className={classes.headerButtons}>
         <Button className={classes.buttons}>Home</Button>
         <Button className={classes.buttons}>Dashboard</Button>

@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const Payment = require("../models/Payment")
 const Message = require ("../models/Message")
 const SuperAdmin = require ("../models/SuperAdmin")
+const Order=require("../models/Ecommerce/orderSchema")
 const mongoose = require("mongoose");
 const superadmin = require("../models/SuperAdmin");
 require('dotenv').config();
@@ -254,6 +255,97 @@ const updateActivePlan = async(req,res)=>{
   }
   
 }
+
+
+const getMessagesOnAdminDashboard = async(req, res)=>{
+      
+  try {
+    console.log(req.body.ADMIN_ID)
+    // find the SuperAdmin document with the specified ID and populate the "messages" array with Message data
+    const admin = await Admin.findById(req.body.ADMIN_ID).populate("messages", "subject email message");
+   
+
+    // extract the relevant data from the populated "payments" array
+    const messagesData = admin.messages.map((message) => {
+      return {
+        message: message.message,
+        email: message.email,
+        subject: message.subject,
+      };
+    });
+
+    // send the extracted data as a response to the frontend
+    console.log(messagesData)
+    res.json(messagesData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal sdsdserver error" });
+  }
+}
+
+  const getPaymentsOnAdminDashboard = async(req, res)=>{
+      
+    try {
+      console.log(req.body.ADMIN_ID)
+      // find the SuperAdmin document with the specified ID and populate the "messages" array with Message data
+      const admin = await Admin.findById(req.body.ADMIN_ID).populate("payments", "subject email message");
+     
+  
+      // extract the relevant data from the populated "payments" array
+      const messagesData = admin.messages.map((message) => {
+        return {
+          message: message.message,
+          email: message.email,
+          subject: message.subject,
+        };
+      }
+      );
+  
+      // send the extracted data as a response to the frontend
+      console.log(messagesData)
+      res.json(messagesData);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal sdsdserver error" });
+    }
+  
+    }
+
+    const getOrdersOnAdminDashboard = async (req, res) => {
+      try {
+        const admin = await Admin.findById(req.body.ADMIN_ID).populate('savedTemplates');
+        const ordersArray = [];
+    
+        for (const template of admin.savedTemplates) {
+          if (template && template.data && template.data.orders) {
+            const orders = template.data.orders;
+    
+            for (const orderId of orders) {
+              const order = await Order.findById(orderId);
+              if (order) {
+                const orderDetails = {
+                  totalprice: order.totalprice,
+                  paymentmethod: order.paymentmethod,
+                  address: order.address
+                };
+                ordersArray.push(orderDetails);
+              }
+            }
+          }
+        }
+        console.log(ordersArray);
+    
+        res.status(200).json(ordersArray);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+      }
+    };
     
 
-module.exports = {registeredAdmins, getEmailAndUsernameOfAdmins, buyPlan, stripePayment, addPaymentIdinAdmin,addInMessageSentToSuperAdmin, addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, getAdminData, updateActivePlan};
+module.exports = {registeredAdmins, getEmailAndUsernameOfAdmins,
+   buyPlan, stripePayment, addPaymentIdinAdmin,addInMessageSentToSuperAdmin, 
+  addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, 
+  getAdminData, updateActivePlan, getMessagesOnAdminDashboard, getPaymentsOnAdminDashboard,
+  getOrdersOnAdminDashboard
+};

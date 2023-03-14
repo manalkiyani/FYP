@@ -17,6 +17,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
 import Home from "./Admin/Home/Home";
+import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
+import Messages from "./Admin/Messages/Messages";
+import AdminDasboard from "./SuperAdmin/SuperAdminDashboard";
+import Payments from "./Admin/Payments/Payments";
 
 const theme = createTheme({
   palette: {
@@ -58,14 +62,15 @@ const App = () => {
                   <Route path="" element={<BlogHomePage />} />
                 </Route>
                 <Route path="/contactsuperadmin" element={<ContactSuperAdmin></ContactSuperAdmin>}></Route>
-
-
                 <Route path="/superadmindashboard" element={<SuperAdminDasboard/>}></Route>
                 <Route path="/Plans" element={<Plan/>}></Route>
                 <Route path="/admindashboard" element={<Home/>}></Route>
+                <Route path="/publishedwebsites" element={<PublishedWebsites/>}></Route>
+                <Route path="/adminmessages" element={<Messages/>}></Route>
+                <Route path="/adminpayments" element={<Payments/>}></Route>
                 
               </>
-            )}
+            )}n
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
