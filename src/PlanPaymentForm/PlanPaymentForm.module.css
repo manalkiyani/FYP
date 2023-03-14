@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+  }
+  
+  .method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+  }
+  
+  input[type='radio'] {
+    margin-bottom: 8px;
+  }
+  
+  input[type='radio']:checked + label {
+    font-weight: bold;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #333;
+  }
+  .cardfield {
+
+    margin-top: 7px;
+  }

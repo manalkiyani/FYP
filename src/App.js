@@ -9,18 +9,30 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import HomePage from "./pages/HomePage/HomePage";
 import BlogHomePage from "./blogWebsite/HomePage/BlogHomePage";
 import BlogssPage from "./blogWebsite/BlogsPage/BlogssPage";
+import SuperAdminDasboard from "./SuperAdmin/SuperAdminDashboard";
+import Plan from "./Plan/Plan";
 import { blueGrey } from "@mui/material/colors";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
+import Home from "./Admin/Home/Home";
+import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
+import Messages from "./Admin/Messages/Messages";
+import AdminDasboard from "./SuperAdmin/SuperAdminDashboard";
+import Payments from "./Admin/Payments/Payments";
+
+
 import Otp from "./pages/OTP/otp";
 import ResetPassword from "./pages/resetPassword/resetPassword";
 import Username from "./pages/Username/username";
-import UcraftNavbar from "./components/Navbar/Navbar";
+import UcraftNavbar from "../../FYP/src/components/NavBar/NavBar"
 import Blog from "./Viewer/BlogWebsite/components/Blogs/Blog";
 import ViewerNavbar from "./Viewer/Components/Navbar/viewerNavbar";
 import ViewerHomepage from "./Viewer/BlogWebsite/pages/viewerHomepage";
 import ViewerBlogsPage from "./Viewer/BlogWebsite/pages/viewerBlogsPage";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -56,9 +68,11 @@ const App = () => {
         <BrowserRouter>
           <UcraftNavbar />
           <Routes>
+
+           
             <>
               {/* ucraft */}
-              <Route path="/login" element={<Blog />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/recovery" element={<Otp />} />
               <Route path="/reset" element={<ResetPassword />} />
@@ -88,6 +102,14 @@ const App = () => {
               <Route path="contactUs" element={<h1>Contact Us</h1> } />
             
             </Route>
+            <Route path="/contactsuperadmin" element={<ContactSuperAdmin></ContactSuperAdmin>}></Route>
+                <Route path="/superadmindashboard" element={<SuperAdminDasboard/>}></Route>
+                <Route path="/Plans" element={<Plan/>}></Route>
+                <Route path="/admindashboard" element={<Home/>}></Route>
+                <Route path="/publishedwebsites" element={<PublishedWebsites/>}></Route>
+                <Route path="/adminmessages" element={<Messages/>}></Route>
+                <Route path="/adminpayments" element={<Payments/>}></Route>
+
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

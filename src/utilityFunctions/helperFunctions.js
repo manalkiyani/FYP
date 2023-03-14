@@ -11,13 +11,13 @@ import Features1 from "../components/blocks/Features1/Features1";
 import Features3 from "../components/blocks/Features3/Features3";
 import Faq1 from "../components/blocks/FAQ/Faq1";
 
-import ViewerFaq1 from "../Viewer/Components/blocks/ViewerFaq1";
-import ViewerFeatures1 from "../Viewer/Components/blocks/ViewerFeatures1";
-import ViewerFeatures2 from "../Viewer/Components/blocks/ViewerFeatures2";
-import ViewerFeatures3 from "../Viewer/Components/blocks/ViewerFeatures3";
-import ViewerHeader1 from "../Viewer/Components/blocks/ViewerHeader1";
-import ViewerHeader2 from "../Viewer/Components/blocks/ViewerHeader2";
-import ViewerHeader3 from "../Viewer/Components/blocks/ViewerHeader3";
+import ViewerFaq1 from "../Viewer/Components/blocks/viewerFaq1";
+import ViewerFeatures1 from "../Viewer/Components/blocks/viewerFeatures1";
+import ViewerFeatures2 from "../Viewer/Components/blocks/viewerFeatures2";
+import ViewerFeatures3 from "../Viewer/Components/blocks/viewerFeatures3";
+import ViewerHeader1 from "../Viewer/Components/blocks/viewerHeader1";
+import ViewerHeader2 from "../Viewer/Components/blocks/viewerHeader2";
+import ViewerHeader3 from "../Viewer/Components/blocks/viewerHeader3";
 
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {

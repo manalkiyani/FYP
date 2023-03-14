@@ -1,0 +1,114 @@
+@font-face {
+    font-family: "PoppinsExtraLight";
+    src: url("../../assets/PoppinsExtraLight.ttf");
+  }
+  @font-face {
+    font-family: "PoppinsExtraLight";
+    src: url("../../assets/PoppinsExtraLight.ttf");
+  }
+  @font-face {
+    font-family: "PoppinsSemiBold";
+    src: url("../../assets/PoppinsSemiBold.ttf");
+  }
+  @font-face {
+    font-family: "PoppinsRegular";
+    src: url("../../assets/PoppinsRegular.ttf");
+  }
+
+
+  @media (max-width:576px) and (min-width:480px) {
+    .button {
+      /* border: 1px solid #ebf1fc; */
+       border-color: #fff;
+       background: #40AFC0;
+       color: white;
+       padding: 0.25rem 1rem;
+       cursor: pointer;
+       border-radius: 10px;
+       font-family: "PoppinsRegular";
+       width:50%;
+       height: 45px;
+       font-size: 70%;
+     }
+
+  }
+  @media (max-width:768px) and (min-width:577px) {
+    .button {
+      /* border: 1px solid #ebf1fc; */
+       border-color: #fff;
+       background: #40AFC0;
+       color: white;
+       padding: 0.25rem 1rem;
+       cursor: pointer;
+       border-radius: 10px;
+       font-family: "PoppinsRegular";
+       width:50%;
+       height: 45px;
+       font-size: 70%;
+     }
+
+  }
+
+  @media (max-width:992px) and (min-width:769px) {
+    .button {
+      /* border: 1px solid #ebf1fc; */
+       border-color: #fff;
+       background: #40AFC0;
+       color: white;
+       padding: 0.25rem 1rem;
+       cursor: pointer;
+       border-radius: 10px;
+       font-family: "PoppinsRegular";
+       width:50%;
+       height: 45px;
+       font-size: 100%;
+     }
+  
+  }
+
+  @media (max-width:1200px) and (min-width:993px) {
+    .button {
+      /* border: 1px solid #ebf1fc; */
+       border-color: #fff;
+       background: #40AFC0;
+       color: white;
+       padding: 0.25rem 1rem;
+       cursor: pointer;
+       border-radius: 10px;
+       font-family: "PoppinsRegular";
+       width:30%;
+       height: 45px;
+       font-size: 110%;
+     }
+
+  }
+
+  @media (max-width:1600px) and (min-width:1201px) {
+    .button {
+      /* border: 1px solid #ebf1fc; */
+       border-color: #fff;
+       background: #40AFC0;
+       color: white;
+       padding: 0.25rem 1rem;
+       cursor: pointer;
+       border-radius: 10px;
+       font-family: "PoppinsRegular";
+       width:150px;
+       height: 55px;
+       font-size: 20px;
+     }
+
+  }
+  .button:hover,
+  .button:active {
+    background: burlywood;
+    border-color: burlywood 
+  }
+  .button:focus {
+    outline: none;
+
+  }
+
+
+
+  

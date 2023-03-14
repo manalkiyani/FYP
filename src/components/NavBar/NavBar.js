@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Navbar.module.css';
+import styles from "./NavBar.module.css"
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@mui/icons-material';   

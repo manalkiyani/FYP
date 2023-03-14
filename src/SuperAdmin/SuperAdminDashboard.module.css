@@ -1,0 +1,30 @@
+.background1{
+
+    background-color: purple;
+    margin-left: 20px;
+  }
+  .background2{
+
+    background-color: Orange;
+    margin-left: 20px;
+  }
+  .background3{
+
+    background-color: darkblue;
+    margin-left: 20px;
+  }
+  .background4{
+
+    background-color:darkgreen;
+    margin-left: 20px;
+  }
+
+  .tableContainer{
+    display: flex;
+    background-color: #EBF1FC;
+    justify-content: center;
+    margin-top: 40px;
+    border: 2px solid grey;
+    width: 870px;
+    margin-left: 150px
+  }
