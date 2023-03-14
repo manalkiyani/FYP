@@ -1,11 +1,11 @@
 
 import { Link, Outlet } from "react-router-dom";
-import classes from "./Navbar.module.css";
+import classes from "../../../blogWebsite/components/Navbar/Navbar.module.css";
 import { UserContext } from "../../../App";
 import { useContext } from "react";
 
 
-export default function Navbar() {
+export default function ViewerNavbar() {
   const { templateId } = useContext(UserContext);
 
   return (
@@ -16,19 +16,17 @@ export default function Navbar() {
         </div>
 
         <div className={classes.left}>
-          <Link className={classes.link} to={`/blog/template/${templateId}`}>
+          <Link className={classes.link} to={`/view/blog/template/${templateId}`}>
             Home
           </Link>
 
-          <Link className={classes.link} to={`/blog/template/${templateId}/blogs`}>
+          <Link className={classes.link} to={`/view/blog/template/${templateId}/blogs`}>
             Blogs
           </Link>
-          <Link className={classes.link} to={`/blog/template/${templateId}/write`}>
-            Write
-          </Link>
-          <Link className={classes.link} to={`/blog/template/${templateId}/contact`}>
+          <Link className={classes.link} to={`/view/blog/template/${templateId}/contactUs`}>
             Contact Us
           </Link>
+         
         </div>
       </div>
       <Outlet />

@@ -20,7 +20,7 @@ const Main = (props) => {
   const [type, setType] = useState(null);
 
   //inside context , i will have blocks complete info
-
+  
   useEffect(() => {
     if (components.length > 0) {
       setContext();

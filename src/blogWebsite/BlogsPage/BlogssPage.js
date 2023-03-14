@@ -8,7 +8,7 @@ import { blogTemplate } from "../../TemplatesData/blogTemplate";
 
 import BeatLoader from "react-spinners/BeatLoader";
 import {
-  fetchBlocks,
+  fetchAdminBlocks,
   getTemplateData,
 } from "../../utilityFunctions/axiosFunctions";
 
@@ -41,7 +41,7 @@ const BlogssPage = () => {
   //
   const fetchBlogsPageData = async (blockIds, blogIds) => {
     try {
-      const blocks = await fetchBlocks(blockIds);
+      const blocks = await fetchAdminBlocks(blockIds);
 
       setTemplateinContext(blocks, blogIds);
       setDataForMain(blocks, blogIds);
@@ -76,7 +76,7 @@ const BlogssPage = () => {
       const Template = await getTemplateData(id);
       console.log(Template);
       if (Template.pages?.BlogsPage?.blocks) {
-        const blocks = await fetchBlocks(Template.pages.BlogsPage.blocks);
+        const blocks = await fetchAdminBlocks(Template.pages.BlogsPage.blocks);
         console.log(blocks);
         BlogsPageBlocks = blocks;
       }
@@ -100,7 +100,7 @@ const BlogssPage = () => {
           blogTemplate.data.blogs
         );
       } else {
-        console.log("in else");
+        
         loadSavedTemplate();
       }
     }

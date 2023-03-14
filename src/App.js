@@ -18,7 +18,19 @@ import ResetPassword from "./pages/resetPassword/resetPassword";
 import Username from "./pages/Username/username";
 import UcraftNavbar from "./components/Navbar/Navbar";
 import Blog from "./Viewer/BlogWebsite/components/Blogs/Blog";
-
+import ViewerNavbar from "./Viewer/Components/Navbar/viewerNavbar";
+import ViewerHomepage from "./Viewer/BlogWebsite/pages/viewerHomepage";
+import ViewerBlogsPage from "./Viewer/BlogWebsite/pages/viewerBlogsPage";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#40AFC0",
+    },
+    secondary: {
+      main: blueGrey[500],
+    },
+  },
+});
 export const UserContext = createContext();
 const App = () => {
   const [templateId, setTemplateId] = React.useState(null);
@@ -40,7 +52,7 @@ const App = () => {
         setTemplate,
       }}
     >
-     
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
           <UcraftNavbar />
           <Routes>
@@ -56,8 +68,8 @@ const App = () => {
                 path="/dashboard"
                 element={
                   <AuthorizeUser>
-                    {" "}
-                    <Dashboard />{" "}
+                  
+                    <Dashboard />
                   </AuthorizeUser>
                 }
               />
@@ -70,14 +82,15 @@ const App = () => {
             </>
 
             {/* blog Website Viewer */}
-            <Route exact path="view/blog/template/:id" element={<Navbar />}>
-              <Route path="" element={<BlogHomePage />} />
-              <Route path="blogs" element={<BlogssPage />} />
-              <Route path="write" element={<Write />} />
+            <Route exact path="view/blog/template/:id" element={<ViewerNavbar />}>
+              <Route path="" element={< ViewerHomepage/>} />
+              <Route path="blogs" element={<ViewerBlogsPage />} />
+              <Route path="contactUs" element={<h1>Contact Us</h1> } />
+            
             </Route>
           </Routes>
         </BrowserRouter>
-    
+      </ThemeProvider>
     </UserContext.Provider>
   );
 };

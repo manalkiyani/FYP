@@ -1,7 +1,7 @@
 import Blog from "../Blog/Blog";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
-import "./Blogs.css";
+import classes from "./Blogs.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -12,16 +12,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { Textarea } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";import { styled, alpha } from "@mui/material/styles";
+
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -149,9 +143,9 @@ export default function Blogs({ blogIds }) {
   return (
     <>
      <Toaster position="top-center" reverseOrder={false}></Toaster>
-    <div className="bigContainer">
+    <div className={classes.bigContainer}>
    
-      <div className="posts">
+      <div className={classes.posts}>
         <div>
         
 

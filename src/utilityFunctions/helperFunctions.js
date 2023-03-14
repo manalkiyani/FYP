@@ -1,14 +1,24 @@
 import blocks from "../components/blocks/blocksData";
 import { v4 as uuid } from "uuid";
-import Header1 from "../components/blocks/Header1/Header1";
-import Features2 from "../components/blocks/Features2/Features2";
 import axios from "axios";
 import { getUserData } from "./authFunctions";
+
+import Header1 from "../components/blocks/Header1/Header1";
+import Features2 from "../components/blocks/Features2/Features2";
 import Header2 from "../components/blocks/Header2/Header2";
 import Header3 from "../components/blocks/Header3/Header3";
 import Features1 from "../components/blocks/Features1/Features1";
 import Features3 from "../components/blocks/Features3/Features3";
 import Faq1 from "../components/blocks/FAQ/Faq1";
+
+import ViewerFaq1 from "../Viewer/Components/blocks/ViewerFaq1";
+import ViewerFeatures1 from "../Viewer/Components/blocks/ViewerFeatures1";
+import ViewerFeatures2 from "../Viewer/Components/blocks/ViewerFeatures2";
+import ViewerFeatures3 from "../Viewer/Components/blocks/ViewerFeatures3";
+import ViewerHeader1 from "../Viewer/Components/blocks/ViewerHeader1";
+import ViewerHeader2 from "../Viewer/Components/blocks/ViewerHeader2";
+import ViewerHeader3 from "../Viewer/Components/blocks/ViewerHeader3";
+
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {
   let position = 0;
@@ -355,7 +365,7 @@ export const dragOverHandler = (event) => {
   return false;
 };
 
-export const mapBlocks = (Blocks) => {
+export const mapAdminBlocks = (Blocks) => {
   return Blocks.map((block) => {
     switch (block.Component) {
       case "Header1":
@@ -384,6 +394,34 @@ export const mapBlocks = (Blocks) => {
   });
 };
 
+export const mapViewerBlocks = (Blocks) => {
+  return Blocks.map((block) => {
+    switch (block.Component) {
+      case "Header1":
+        block.Component = ViewerHeader1;
+        break;
+      case "Header2":
+        block.Component = ViewerHeader2;
+        break;
+      case "Header3":
+        block.Component = ViewerHeader3;
+        break;
+      case "Features1":
+        block.Component = ViewerFeatures1;
+        break;
+      case "Features2":
+        block.Component = ViewerFeatures2;
+        break;
+      case "Features3":
+        block.Component = ViewerFeatures3;
+        break;
+      case "Faq1":
+        block.Component = ViewerFaq1;
+        break;
+    }
+    return block;
+  });
+};
 export const unmapBlocks = (Blocks) => {
   return Blocks.map((block) => {
     const componentMap = {

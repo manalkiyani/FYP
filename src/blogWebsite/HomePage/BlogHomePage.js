@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { UserContext } from "../../App";
 import {
   getTemplateData,
-  fetchBlocks,
+  fetchAdminBlocks,
 } from "../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
 import Main from "../Main";
@@ -29,7 +29,7 @@ const BlogHomePage = () => {
 
   const checkHomePageinContext = () => {
     const homePage = template.pages?.HomePage;
-
+    console.log("not in context");
     if (homePage) {
       setDataForMain(homePage.blocks);
 
@@ -40,7 +40,7 @@ const BlogHomePage = () => {
   };
   const fetchHomePageBlocks = async (blockIds) => {
     try {
-      const blocks = await fetchBlocks(blockIds);
+      const blocks = await fetchAdminBlocks(blockIds);
 
       setTemplateinContext(blocks);
       setDataForMain(blocks);
@@ -54,7 +54,7 @@ const BlogHomePage = () => {
       const Template = await getTemplateData(id);
       console.log(Template);
       if (Template.pages?.HomePage?.blocks) {
-        const blocks = await fetchBlocks(Template.pages.HomePage.blocks);
+        const blocks = await fetchAdminBlocks(Template.pages.HomePage.blocks);
         console.log(blocks);
         homePageBlocks = blocks;
       }
@@ -87,8 +87,9 @@ const BlogHomePage = () => {
     if (!inContext) {
       if (id === "001") {
         fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
+
       } else {
-        console.log("in else");
+        
         loadSavedTemplate();
       }
     }

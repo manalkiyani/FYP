@@ -1,149 +1,57 @@
-import Blog from "../Blog/Blog";
-import React from "react";
-import "./Blogs.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { Textarea } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
-export default function Blogs({ blogIds }) {
-  const [blogs, setBlogs] = useState(null);
-  const [searchField, setSearchField] = useState("");
-
-  useEffect(() => {
-    axios
-      .post("http://localhost:8800/api/blogs/get", { blogIds })
-      .then((res) => {
-        setBlogs(res.data.Blogs);
-
-        console.log(res.data.Blogs);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
+import { Link } from "react-router-dom";
+import classes from "../../../../blogWebsite/components/Blog/Blog.module.css";
+import { FacebookShareButton } from "react-share";
+import { FacebookIcon } from "react-share";
+import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+export default function Blog({
+  bid,
+  img,
+  title,
+  tagline,
+  writer,
+  time,
+  desc,
+  deleted,
+  tags,
+  edit,
+}) {
   return (
-    <div className="bigContainer">
-      <Box sx={{}}>
-        <AppBar
-          style={{
-            backgroundColor: "white",
-            marginTop: "30px",
-            width: "1244px",
-          }}
-          position="static"
-        >
-          <Toolbar>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            ></Typography>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search ..."
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => setSearchField(e.target.value)}
-              />
-            </Search>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <div className="posts">
-        <div></div>
-        {blogs &&
-          blogs
-            .filter((blog) => {
+    <div className={classes.post}>
+      <div style={{display:'flex',justifyContent:'space-between',marginBottom:'5px'}}>
+        <span className={classes.postTitle}>{title}</span>
+        <BookmarkAdd />
+      </div>
+       <span className={classes.postDate}>{time}</span>
+
+      <img className={classes.postImg} src={img} alt="" />
+      <div className={classes.postInfo}>
+        <div className={classes.container}>
+          <div className={classes.postCats}>
+            {tags.split(",").map((tag) => {
               return (
-                blog.title.toLowerCase().includes(searchField.toLowerCase()) ||
-                blog.tagline
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase()) ||
-                blog.description
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase())
-              );
-            })
-            .map((blog) => {
-              return (
-                <Blog
-                  key={blog._id}
-                  bid={blog._id}
-                  img={blog.image}
-                  title={blog.title}
-                  tagline={blog.tagline}
-                  writer={blog.writer}
-                  time={blog.readingTime}
-                  desc={blog.description}
-                  tags={blog.tags}
-                  deleted={delBlog}
-                  edit={handleOpenEdit}
-                />
+              
+                <div key={tag} className={classes.postCat}>
+                  <center>    {tag}</center>
+              
+                </div>
               );
             })}
+          </div>
+          <div>
+            <FacebookShareButton
+              url="https://blog.logrocket.com/integrating-google-maps-react/"
+              quote="This is me"
+              hashtag="#Music#Technology"
+            >
+              
+             <FacebookOutlinedIcon/>
+            </FacebookShareButton>
+          </div>
+        </div>
+
+       
+        <p className={classes.postDesc}>{desc}</p>
       </div>
     </div>
   );

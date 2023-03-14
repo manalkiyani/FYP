@@ -1,25 +1,20 @@
-import Blog from "../Blog/Blog";
+import Blog from "./Blog";
 import React from "react";
-import "./Blogs.css";
+import classes from "../../../../blogWebsite/components/Blogs/Blogs.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+
 import Slide from "@mui/material/Slide";
-import TextField from "@mui/material/TextField";
+
 import Box from "@mui/material/Box";
-import { Textarea } from "@mui/material";
+
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import SearchIcon from "@mui/icons-material/Search";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -81,28 +76,25 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
-
   return (
-    <div className="bigContainer">
-      <Box sx={{}}>
+    <div className={classes.bigContainer}>
+      <Box style={{marginBottom:'50px'}}>
         <AppBar
           style={{
             backgroundColor: "white",
             marginTop: "30px",
-            width: "1244px",
+            width: "100%",
           }}
           position="static"
         >
-           <Toolbar>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            >
-              
-            </Typography>
-            <Search>
+          <Toolbar
+            style={{
+              display: "flex",
+              justifyContent: "center"
+
+            }}
+          >
+            <Search style={{width:'50%'}}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -115,11 +107,8 @@ export default function Blogs({ blogIds }) {
           </Toolbar>
         </AppBar>
       </Box>
-      <div className="posts">
-        <div>
-        
-       
-        </div>
+      <div className={classes.posts}>
+        <div></div>
         {blogs &&
           blogs
             .filter((blog) => {
@@ -145,8 +134,6 @@ export default function Blogs({ blogIds }) {
                   time={blog.readingTime}
                   desc={blog.description}
                   tags={blog.tags}
-                  deleted={delBlog}
-                  edit={handleOpenEdit}
                 />
               );
             })}

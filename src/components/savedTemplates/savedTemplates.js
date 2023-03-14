@@ -7,7 +7,7 @@ import { UserContext } from "../../App";
 
 const SavedTemplates = () => {
   const [savedTemplates, setSavedTemplates] = React.useState(null);
-  const { setTemplateId } = useContext(UserContext);
+  const { setTemplateId, setTemplate } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,14 +23,24 @@ const SavedTemplates = () => {
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
 
   const openAsViewer = (id, type) => {
+    setTemplate({
+      type: "",
+      pages: {},
+      data: {},
+    });
     setTemplateId(id);
 
-    navigate(`view/${type}/template/${id}`);
+    navigate(`/view/${type}/template/${id}`);
   };
-    const openAsAdmin = (id, type) => {
+  const openAsAdmin = (id, type) => {
+    setTemplate({
+      type: "",
+      pages: {},
+      data: {},
+    });
     setTemplateId(id);
 
     navigate(`/${type}/template/${id}`);
@@ -46,7 +56,9 @@ const SavedTemplates = () => {
                 <p>{template.type}</p>
               </div>
 
-              <p onClick={() => openAsViewer(template._id, template.type)}>View as others</p>
+              <p onClick={() => openAsViewer(template._id, template.type)}>
+                View as others
+              </p>
             </div>
           );
         })}

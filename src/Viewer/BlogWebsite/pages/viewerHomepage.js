@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
 import {
   getTemplateData,
-  fetchBlocks,
-} from "../../utilityFunctions/axiosFunctions";
+  fetchViewerBlocks,
+} from "../../../utilityFunctions/axiosFunctions";
 import FadeLoader from "react-spinners/FadeLoader";
 
 
-const viewerHomepage = () => {
+const ViewerHomepage = () => {
   const { id } = useParams();
 
   const [loaded, setLoaded] = React.useState(false);
@@ -32,7 +32,7 @@ const viewerHomepage = () => {
       const Template = await getTemplateData(id);
       //   console.log(Template);
       if (Template.pages?.HomePage?.blocks) {
-        const blocks = await fetchBlocks(Template.pages.HomePage.blocks);
+        const blocks = await fetchViewerBlocks(Template.pages.HomePage.blocks);
         // console.log(blocks);
         homePageBlocks = blocks;
       }
@@ -53,6 +53,7 @@ const viewerHomepage = () => {
 
   return (
     <>
+    {console.log('viewerHomepage')}
       {main ? (
         <DisplayBlocks data={dataToSend} />
       ) : (
@@ -70,4 +71,4 @@ const viewerHomepage = () => {
   );
 };
 
-export default viewerHomepage;
+export default ViewerHomepage;

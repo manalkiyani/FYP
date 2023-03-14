@@ -1,26 +1,17 @@
 import React, { Component } from "react";
-
-import classes from "./Header1.module.css";
+import classes from "../../../components/blocks/Header1/Header1.module.css";
 import ContentEditable from "react-contenteditable";
-import SocialIcons from "../socialIcons/socialIcons";
 
 export default class viewerHeader1 extends Component {
-
-
   render() {
     return (
-      <div
-        
-        className={classes.header}
-      >
-        
+      <div className={classes.header}>
         <img className={classes.img} src={this.props.Data.data.img} />
         <div style={{ position: "absolute", zIndex: 1 }}>
           <ContentEditable
             className={classes.h}
             html={this.props.Data.data.h.text} // innerHTML of the editable div
             disabled={true} // use true to disable editing
-           
             style={{
               fontSize: this.props.Data.data.h.size,
               fontFamily: this.props.Data.data.h.family,
@@ -41,7 +32,6 @@ export default class viewerHeader1 extends Component {
             html={this.props.Data.data.p.text} // innerHTML of the editable div
             disabled={true} // use true to disable editing
             className={classes.p}
-           
             style={{
               fontSize: this.props.Data.data.p.size,
               fontFamily: this.props.Data.data.p.family,
@@ -58,29 +48,24 @@ export default class viewerHeader1 extends Component {
             }}
           />
 
-        
-
           <ContentEditable
             className={classes.btn}
             html={this.props.Data.data.btn.text}
             disabled={true}
-           
             style={{
               fontSize: this.props.Data.data.btn.size,
               fontFamily: this.props.Data.data.btn.family,
               color: this.props.Data.data.btn.color,
-              fontWeight:this.props.Data.data.btn.bold === true ? "bold" : "normal",
-              textDecoration:this.props.Data.data.btn.underline === true
+              fontWeight:
+                this.props.Data.data.btn.bold === true ? "bold" : "normal",
+              textDecoration:
+                this.props.Data.data.btn.underline === true
                   ? "underline"
                   : "none",
-              fontStyle:this.props.Data.data.btn.italic === true ? "italic" : "normal",
+              fontStyle:
+                this.props.Data.data.btn.italic === true ? "italic" : "normal",
               textAlign: this.props.Data.data.btn.align,
             }}
-          />
-
-          <SocialIcons
-            socialIcons={this.props.Data.socialIcons}
-            handleSocialIcons={this.handleSocialIcons}
           />
         </div>
       </div>

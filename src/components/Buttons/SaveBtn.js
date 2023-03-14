@@ -19,11 +19,7 @@ const SaveBtn = () => {
     toast.error(<b>You have reached the Limit</b>);
   });
 
-toast.promise(promise, {
-  loading: "Checking...",
-  success: <b>Template Saved Successfully</b>,
-  error: <b>You have reached the Limit</b>,
-});
+
 
 
   };

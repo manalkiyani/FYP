@@ -3,16 +3,14 @@ import { useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
-
+import Blogs from "../components/Blogs/Blogs";
 import BeatLoader from "react-spinners/BeatLoader";
-import {
-  fetchBlocks,
-  getTemplateData,
-} from "../../utilityFunctions/axiosFunctions";
+import { fetchViewerBlocks,getTemplateData } from "../../../utilityFunctions/axiosFunctions";
 
-const BlogssPage = () => {
+
+const ViewerBlogsPage = () => {
   const { id } = useParams();
-
+  const [blogIds, setBlogIds] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
 
@@ -26,13 +24,7 @@ const BlogssPage = () => {
   }, [dataToSend]);
 
   //
-  const setDataForMain = (blocks, blogIds) => {
-    setDataToSend({
-      type: "blog",
-      blocks,
-      blogIds,
-    });
-  };
+
 
   const loadSavedTemplate = async () => {
     let BlogsPageBlocks = [];
@@ -41,7 +33,7 @@ const BlogssPage = () => {
       const Template = await getTemplateData(id);
       console.log(Template);
       if (Template.pages?.BlogsPage?.blocks) {
-        const blocks = await fetchBlocks(Template.pages.BlogsPage.blocks);
+        const blocks = await fetchViewerBlocks(Template.pages.BlogsPage.blocks);
         console.log(blocks);
         BlogsPageBlocks = blocks;
       }
@@ -49,8 +41,13 @@ const BlogssPage = () => {
         BlogIds = Template.data.blogs;
       }
 
+      setDataToSend({
+     
+      blocks:BlogsPageBlocks
       
-      setDataForMain(BlogsPageBlocks, BlogIds);
+    });
+    setBlogIds(BlogIds);
+    
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +59,7 @@ const BlogssPage = () => {
   return (
     <>
      {/*display blogs here*/ }
-     
+     {blogIds && <Blogs blogIds={blogIds} />}
     {/*display blocks here*/}
       {main ? (
         <DisplayBlocks data={dataToSend} />
@@ -83,4 +80,4 @@ const BlogssPage = () => {
   );
 };
 
-export default BlogssPage;
+export default ViewerBlogsPage;
