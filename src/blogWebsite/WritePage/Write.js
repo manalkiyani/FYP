@@ -3,7 +3,6 @@ import React  from "react";
 import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
 import { uploadImage } from "../../utilityFunctions/imageUpload";
 import { useContext } from "react";
 import { UserContext } from "../../../src/App";
@@ -62,7 +61,7 @@ export default function Write() {
          toast.success('Blog Added Successfully');
         console.log(data);
             setTemplate({
-          ...template,
+              ...template,
           
           data: {
             
@@ -73,6 +72,7 @@ export default function Write() {
 
        
       }).catch((err) => {
+        console.log(err);
         toast.error('Oops! An error occurred');
       
 

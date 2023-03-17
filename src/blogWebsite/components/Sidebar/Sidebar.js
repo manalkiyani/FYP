@@ -1,53 +1,51 @@
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
+import { getBookmarkedBlogs } from "../../../utilityFunctions/axiosFunctions";
 
+const testUserId="63e8df1974cc16f2b7ecacb6";
 export default function Sidebar() {
+  const [bookmarkedBlogs, setBookmarkedBlogs] = React.useState([]);
+
+  useEffect(() => {
+    getBookmarkedBlogs(testUserId).then((res) => {
+     
+      setBookmarkedBlogs(res.blogs);
+    });
+  }, []);
+ 
+
   return (
     <div className="sidebar">
+   
       <div className="sidebarItem">
-        <span className="sidebarTitle">ABOUT ME</span>
-        <img
-          src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670497587/pexels-photo-774909_xmfle0.jpg"
-          alt=""
-        />
-        <p style={{margin:'0px'}}>
-          Laboris sunt aute cupidatat velit magna velit ullamco dolore mollit
-          amet ex esse.Sunt eu ut nostrud id quis proident.
-        </p>
-      </div>
-      <div className="sidebarItem">
-        <span className="sidebarTitle">CATEGORIES</span>
+        <span className="sidebarTitle">BOOKMARKED BLOGS</span>
+       
         <ul className="sidebarList">
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Life">
-              Life
-            </Link>
+           {bookmarkedBlogs.map((blog) => (
+            <li
+            key={blog._id}
+             className="sidebarListItem">
+              <img
+               style={{width:'70px',height:'70px',borderRadius:'50px',marginRight:'10px'}}
+          src={blog.image}
+          alt={blog.title}
+          
+        />
+        <div>
+           <p >
+        {blog.title.toLowerCase()}
+        </p>
+         <p style={{fontSize:'12px',color:'#999999',fontStyle:'italic'}} >
+        {blog.readingTime}
+        </p>
+        </div>
+        
           </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Music">
-              Music
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Sport">
-              Sport
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Style">
-              Style
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Tech">
-              Tech
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Cinema">
-              Cinema
-            </Link>
-          </li>
+           ))}
+          
+          
+     
         </ul>
       </div>
     

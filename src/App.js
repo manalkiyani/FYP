@@ -12,6 +12,7 @@ import Username from "./pages/Username/username";
 import UcraftNavbar from "../../FYP/src/components/NavBar/NavBar";
 import Plan from "./pages/Plan/Plan";
 import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
+import ContactForm from "./pages/ContactUs/ContactUs";
 import Home from "./Admin/Home/Home";
 import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
 import Messages from "./Admin/Messages/Messages";
@@ -89,7 +90,7 @@ const App = () => {
             <Route path="/reset" element={<ResetPassword />} />
             <Route path="/username" element={<Username />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/contact" element={<ContactSuperAdmin />}></Route>
+            <Route path="/contact" element={<ContactForm />}></Route>
             <Route path="/pricing" element={<Plan />}></Route>
             <Route path="/dashboard" element={  <AuthorizeUser> <Dashboard /> </AuthorizeUser>}/>
 

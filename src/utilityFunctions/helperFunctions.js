@@ -620,7 +620,7 @@ export const UpdateTemplate = async (template, id) => {
    
   }
   switch (template.type) {
-    case "blog":
+   case "blog":
       {
         if (template.pages.BlogsPage?.blocks.length > 0) {
           mainpageBlockIds = await updateBlocks(template.pages.BlogsPage.blocks);

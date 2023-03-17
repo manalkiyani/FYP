@@ -67,3 +67,31 @@ export const getListOfProducts = async (productIds) => {
   }
 }
 
+{/* Blog Template */}
+export const addBookmark = async (userId, blogId) => {
+  try {
+    
+    const response = await axios.post(`http://localhost:8800/api/blogs/bookmark/${blogId}`, { userId });
+  
+    return response.data;
+    // handle success response
+  } catch (error) {
+    return error
+    
+    // handle error
+  }
+};
+export const getBookmarkedBlogs = async (userId) => {
+  try {
+    
+    const response = await axios.post(`http://localhost:8800/api/blogs/bookmarkedBlogs`,  { userId });
+  
+    return response.data;
+    // handle success response
+  } catch (error) {
+    return error
+    
+    // handle error
+  }
+};
+

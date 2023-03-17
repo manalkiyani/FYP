@@ -10,6 +10,7 @@ const blog = new Schema({
   publishedDate: { type: String },
   description: { type: String, required: true },
   image: { type: String },
+  template: { type: 'boolean', default: false },
   rating: {
     stars: { type: String },
     count: { type: Number },

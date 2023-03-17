@@ -3,7 +3,7 @@ import classes from "../../../../blogWebsite/components/Blog/Blog.module.css";
 import { FacebookShareButton } from "react-share";
 import { FacebookIcon } from "react-share";
 import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 export default function Blog({
   bid,
   img,
@@ -12,17 +12,26 @@ export default function Blog({
   writer,
   time,
   desc,
-  deleted,
   tags,
-  edit,
+  bookmarkBlog,
 }) {
   return (
     <div className={classes.post}>
-      <div style={{display:'flex',justifyContent:'space-between',marginBottom:'5px'}}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "5px",
+        }}
+      >
         <span className={classes.postTitle}>{title}</span>
-        <BookmarkAdd />
+
+        <BookmarkAdd
+          className={classes.bookmark}
+          onClick={() => bookmarkBlog(bid)}
+        />
       </div>
-       <span className={classes.postDate}>{time}</span>
+      <span className={classes.postDate}>{time}</span>
 
       <img className={classes.postImg} src={img} alt="" />
       <div className={classes.postInfo}>
@@ -30,10 +39,8 @@ export default function Blog({
           <div className={classes.postCats}>
             {tags.split(",").map((tag) => {
               return (
-              
                 <div key={tag} className={classes.postCat}>
-                  <center>    {tag}</center>
-              
+                  <center> {tag}</center>
                 </div>
               );
             })}
@@ -44,13 +51,11 @@ export default function Blog({
               quote="This is me"
               hashtag="#Music#Technology"
             >
-              
-             <FacebookOutlinedIcon/>
+              <FacebookOutlinedIcon />
             </FacebookShareButton>
           </div>
         </div>
 
-       
         <p className={classes.postDesc}>{desc}</p>
       </div>
     </div>

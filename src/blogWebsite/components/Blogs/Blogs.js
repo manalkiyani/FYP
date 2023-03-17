@@ -1,8 +1,9 @@
 import Blog from "../Blog/Blog";
 import React from "react";
-import toast, { Toaster } from "react-hot-toast";
+
 import classes from "./Blogs.module.css";
 import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -16,6 +17,7 @@ import Box from "@mui/material/Box";
 
 import { useContext } from "react";
 import {UserContext} from '../../../App'
+
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -37,6 +39,9 @@ export default function Blogs({ blogIds }) {
   const { template, setTemplate } = useContext(UserContext);
 
 
+ 
+    
+
   const getBlogs = async () => {
       axios.post("http://localhost:8800/api/blogs/get", { blogIds })
       .then((res) => {
@@ -47,17 +52,24 @@ export default function Blogs({ blogIds }) {
         console.error(err);
       });
   }
-
-
-
   useEffect(() => {
     getBlogs();
   }, []);
   const delBlog = (id) => {
-    console.log(id);
+   
     axios
       .delete(`http://localhost:8800/api/blogs/${id}`)
       .then(function (response) {
+           setTemplate({
+          ...template,
+          
+          data: {
+            
+            blogs: blogs.filter((blogId) => blogId !== id),
+          },
+
+        });
+          
         toast.success("Blog Deleted Successfully");
        
       })
@@ -110,7 +122,7 @@ export default function Blogs({ blogIds }) {
 
   return (
     <>
-     <Toaster position="top-center" reverseOrder={false}></Toaster>
+       <Toaster position="top-center" reverseOrder={false}></Toaster>
     <div className={classes.bigContainer}>
    
       <div className={classes.posts}>
@@ -214,6 +226,7 @@ export default function Blogs({ blogIds }) {
                   key={blog._id}
                   bid={blog._id}
                   img={blog.image}
+
                   title={blog.title}
                   tagline={blog.tagline}
                   writer={blog.writer}

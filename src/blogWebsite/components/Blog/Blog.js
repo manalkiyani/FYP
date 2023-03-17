@@ -22,25 +22,9 @@ export default function Blog({
       <img className={classes.postImg} src={img} alt="" />
       <div className={classes.postInfo}>
         <div className={classes.container}>
-          <div className={classes.postCats}>
-            {tags.split(",").map((tag) => {
-              return (
-                <span key={tag} className={classes.postCat}>
-                  <Link className={classes.link} to="/posts?cat=Music">
-                    {tag}
-                  </Link>
-                </span>
-              );
-            })}
-          </div>
+          
           <div>
-            <FacebookShareButton
-              url="https://blog.logrocket.com/integrating-google-maps-react/"
-              quote="This is me"
-              hashtag="#Music#Technology"
-            >
-              <FacebookIcon className={classes.icon} round={true}></FacebookIcon>
-            </FacebookShareButton>
+           
             <img
               alt=""
               className={classes.icon}

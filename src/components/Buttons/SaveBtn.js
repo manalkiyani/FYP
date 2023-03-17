@@ -12,7 +12,7 @@ const SaveBtn = () => {
 
   const saveTemplate = async () => {
 
-   const promise = SavedTemplate(template, setTemplate)
+    SavedTemplate(template, setTemplate)
   .then((result) => {
     console.log('blogTemplate',blogTemplate)
     toast.success(<b>Template Saved Successfully</b>);

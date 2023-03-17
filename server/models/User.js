@@ -5,6 +5,7 @@ const User = new mongoose.Schema(
     email: { type: String, unique: true },
     password: String,
     cart: Array,
+    bookmarks: Array, //array of blog ids
   },
  
 );
