@@ -10,9 +10,18 @@ export default class ViewerFeatures1 extends Component {
         <div className={classes.boxes}>
           {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
             return (
-              <div key={index} className={classes.box}>
-                
-
+              <div
+                key={index}
+                className={classes.box}
+               style={{
+                  width:
+                    this.props.Data.layout === 4
+                      ? "20%"
+                      : this.props.Data.layout === 3
+                      ? "30%"
+                      : "40%",
+                }}
+              >
                 <ContentEditable
                   html={this.props.Data.data[index].h.text} // innerHTML of the editable div
                   disabled={true} // use true to disable editing

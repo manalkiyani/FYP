@@ -1,16 +1,12 @@
 /*jshint esversion: 6 */
 const Blog = require("../models/Blog");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 
 function postBlog(req, res) {
-  if (
-    !req.body.title ||
-    !req.body.readingTime ||
-    !req.body.description ||
-    !req.body.writer
-  ) {
+  if (!req.body.title || !req.body.description) {
     return res
-      .status(400)
+      .status(500)
       .json({ message: "Please fill all the required fields" });
   }
   let date_ob = new Date();
@@ -46,17 +42,15 @@ function postBlog(req, res) {
       return res.status(201).json({
         success: true,
         message: "New blog created successfully",
-        Blog: newBlog,
+        blogId: newBlog._id,
       });
     })
     .catch((error) => {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Server error. Please try again.",
-          error: error.message,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: error.message,
+      });
     });
 }
 function getBlogs(req, res) {
@@ -70,13 +64,11 @@ function getBlogs(req, res) {
       });
     })
     .catch((err) => {
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "Server error. Please try again.",
-          error: err.message,
-        });
+      return res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
     });
 }
 function getBlog(req, res) {
@@ -101,9 +93,9 @@ function getBlog(req, res) {
 async function getListOfBlogs(req, res) {
   console.log("Req.body", req.body.blogIds);
 
-  //find blogs which have ids in the array  
-  Blog.find({ id: { $in: req.body.blogIds } })
-    .populate("image")
+  //find blogs which have ids in the array
+  Blog.find({ _id: { $in: req.body.blogIds } })
+
     .then((allBlogs) => {
       return res.status(200).json({
         success: true,
@@ -112,6 +104,7 @@ async function getListOfBlogs(req, res) {
       });
     })
     .catch((err) => {
+      console.log(err);
       return res.status(500).json({
         success: false,
         message: "Server error. Please try again.",
@@ -155,6 +148,55 @@ function deleteBlog(req, res) {
       })
     );
 }
+async function bookmarkBlog(req, res) {
+  try {
+    const { userId } = req.body; //assuming you also pass the userId from the frontend
+    const user = await User.findById(userId); //find the user by their ID
+
+    if (!user) {
+      return res.status(200).json({ message: "User not found" });
+    }
+
+    const { bookmarks } = user;
+    if (bookmarks.includes(req.params.blogId)) {
+      return res.status(200).json({ message: "Blog already bookmarked" });
+    }
+
+    //add the blog ID to the user's bookmarks array
+    bookmarks.push(req.params.blogId);
+    user.bookmarks = bookmarks;
+    await user.save();
+
+    return res.status(200).json({ message: "Blog bookmarked successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+//get bookmarked blogs
+async function getBookmarkedBlogs(req, res) {
+  try {
+    const { userId } = req.body; //assuming you also pass the userId from the frontend
+    const user = await User.findById(userId); //find the user by their ID
+
+    if (!user) {
+      return res.status(200).json({ message: "User not found" });
+    }
+
+    const { bookmarks } = user;
+
+    Blog.find({ _id: { $in: bookmarks } }).then((blogs) => {
+      
+      return res.status(200).json({ message: " bookmarked blogs", blogs: blogs });
+    });
+
+    
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
 module.exports = {
   getBlogs,
   postBlog,
@@ -162,4 +204,6 @@ module.exports = {
   updateBlog,
   deleteBlog,
   getListOfBlogs,
+  bookmarkBlog,
+  getBookmarkedBlogs,
 };

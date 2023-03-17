@@ -10,7 +10,7 @@ const payment = new mongoose.Schema(
     required: true},
 
     amount: { type: String, required: true },
-    activePlan: { type: String, default: "Basic" },
+    activePlan: { type: String, default: "Basic",enum: ["Basic", "Starter", "Professional", "Organization"] },
     paymentMethod: { type: String, default: "Card" }, //card - easypaisa - jazzcash
     transID : {type:String},
     approvedTrans: {type:Boolean}

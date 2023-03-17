@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 
-import fb from "../../../assets/icons/facebook.png";
-import twitter from "../../../assets/icons/twitter.png";
-import insta from "../../../assets/icons/instagram.png";
+
 
 import classes from "./socialIcons.module.css";
 

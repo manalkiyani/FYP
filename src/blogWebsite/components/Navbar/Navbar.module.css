@@ -33,3 +33,7 @@
     font-weight: 500;
 
 }
+.link:hover{
+    color: #148190;
+    text-decoration: underline;
+}

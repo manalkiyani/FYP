@@ -1,0 +1,83 @@
+.container {
+    margin: 40px;
+    display: flex;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  .summaryBox {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    margin-left: 30px;
+    background-color: #f2f2f2;
+    width: 300px;
+
+  
+}
+
+.spacebetween{
+  margin-top: 20px;
+}
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+       cursor: pointer;
+    max-height: 100px; /* replace with your desired width */
+    overflow-y: auto;
+
+  }
+  
+  .header {
+    text-align: left;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .row {
+    border: 1px solid #ddd;
+  }
+  
+  .cell {
+    padding: 8px;
+  }
+  .productImage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.icons{
+margin-left: 10px;
+margin-right: 10px;
+    
+}
+.icons1{
+    border: 1px solid black;
+    margin-left: 10px;
+    margin-right: 10px;
+        
+    }
+
+    .spacebutton{
+      background-color: #6F4790;
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+
+    }

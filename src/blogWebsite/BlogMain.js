@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import { useParams } from "react-router-dom";
 import SaveBtn from "../components/Buttons/SaveBtn";
 import Blogs from "./components/Blogs/Blogs";
+import Products from "../eccomerceWebsite/pages/ProductsPage";
 import DragDrop from "../DragDrop/DragDrop";
 import UpdateBtn from "../components/Buttons/UpdateBtn";
 
@@ -22,6 +23,8 @@ const Main = (props) => {
   const [textEditor, setTextEditor] = useState(null);
   const [type, setType] = useState(null);
   const [blogIds, setBlogIds] = useState(null);
+   const [productIds, setProductIds] = useState(null);
+  
 
   //inside context , i will have blocks complete info
 
@@ -31,17 +34,19 @@ const Main = (props) => {
 
   const setContext = () => {
     console.log("template", template);
+
     setTemplate({
       ...template,
       pages: {
         ...template.pages,
-        ["BlogsPage"]: {
+        [props.data.page]: {
           blocks: components,
         },
       },
     });
   };
   useEffect(() => {
+    console.log("props.data.type", props.data.type);
     const alteredBlocks = props.data.blocks.map((block) => {
       return {
         ...block,
@@ -49,14 +54,26 @@ const Main = (props) => {
       };
     });
     setComponents(alteredBlocks);
-    setBlogIds(props.data.blogIds);
-    console.log(props.data.blogIds);
+    if (props.data.type === "blog") {
+      setBlogIds(props.data.blogIds);  
+      console.log(props.data.blogIds);
+    }
+    if (props.data.type === "eccomerce") {
+      setProductIds(props.data.productIds);
+      console.log(props.data.productIds);
+    }
+   
+    
   }, [props.data]);
 
   return (
     <>
-      {id === "001" ? <SaveBtn /> : <UpdateBtn />}
+     {(id === "001" || id === "002") ? <SaveBtn /> : <UpdateBtn />}
+
+
       {blogIds && <Blogs blogIds={blogIds} />}
+      {productIds && <Products productIds={productIds} />}
+
       <DragDrop
         components={components}
         setComponents={setComponents}

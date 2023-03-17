@@ -13,6 +13,8 @@ import {
   updateComponentData,
   dragOverHandler,
   dragEndHandler,
+  changeBackgroundColor,
+  changeBackgroundImage
 } from "../utilityFunctions/helperFunctions";
 
 import DragAndDropPanel from "../components/DragAndDropPanel";
@@ -235,6 +237,25 @@ const DragDrop = ({
                                 )
                               )
                             }
+                            changeBackgroundColor = {(color,idFromComponent) =>
+                              setComponents(
+                                changeBackgroundColor(
+                                  color,
+                                  idFromComponent,
+                                  components
+                                )
+                              )
+                            }
+                            changeBackgroundImage = {(image,idFromComponent) =>
+                              setComponents(
+                                changeBackgroundImage(
+                                  image,
+                                  idFromComponent,
+                                  components
+                                )
+                              )
+                            }
+                              
                           />
                         </div>
                       )}

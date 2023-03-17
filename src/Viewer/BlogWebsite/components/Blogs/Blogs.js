@@ -1,25 +1,19 @@
 import Blog from "./Blog";
 import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 import classes from "../../../../blogWebsite/components/Blogs/Blogs.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-import Slide from "@mui/material/Slide";
-
 import Box from "@mui/material/Box";
-
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import {addBookmark} from '../../../../utilityFunctions/axiosFunctions'
+import Sidebar from "../../../../blogWebsite/components/Sidebar/Sidebar";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -59,10 +53,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+const testUserId="63e8df1974cc16f2b7ecacb6";
+
 export default function Blogs({ blogIds }) {
   const [blogs, setBlogs] = useState(null);
   const [searchField, setSearchField] = useState("");
-
+ 
   useEffect(() => {
     axios
       .post("http://localhost:8800/api/blogs/get", { blogIds })
@@ -76,8 +73,26 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
+   const bookmarkBlog = (blogId) => {
+
+    addBookmark(testUserId, blogId)
+  .then((result) => {
+  console.log(result.message)
+
+    toast.success(result.message);
+  })
+  .catch((error) => {
+    console.log(error)
+     toast.error(error);
+   
+  });
+  }
+
   return (
-    <div className={classes.bigContainer}>
+    <>
+    <Toaster position="top-center" reverseOrder={false}></Toaster>
+    <div className={classes.home}>
+      <div className={classes.bigContainer}>
       <Box style={{marginBottom:'50px'}}>
         <AppBar
           style={{
@@ -125,6 +140,7 @@ export default function Blogs({ blogIds }) {
             .map((blog) => {
               return (
                 <Blog
+                  bookmarkBlog={bookmarkBlog}
                   key={blog._id}
                   bid={blog._id}
                   img={blog.image}
@@ -139,5 +155,10 @@ export default function Blogs({ blogIds }) {
             })}
       </div>
     </div>
+    <Sidebar/>
+    </div>
+   
+    </>
+    
   );
 }

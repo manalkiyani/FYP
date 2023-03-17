@@ -30,7 +30,7 @@ const Main = (props) => {
   const setContext = () => {
     console.log("template", template);
     setTemplate({
-      type: "blog",
+      type: props.data.type,
       ...template,
       pages: {
         ...template.pages,
@@ -54,7 +54,7 @@ const Main = (props) => {
 
   return (
     <>
-      {id === "001" ? <SaveBtn /> : <UpdateBtn />}
+      {(id === "001" || id === "002") ? <SaveBtn /> : <UpdateBtn />}
 
       <DragDrop
         components={components}

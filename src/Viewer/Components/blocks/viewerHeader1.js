@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import classes from "../../../components/blocks/Header1/Header1.module.css";
 import ContentEditable from "react-contenteditable";
+import ViewerSocialIcons from "../viewerSocialIcons/viewerSocialIcons";
 
-export default class viewerHeader1 extends Component {
+export default class ViewerHeader1 extends Component {
   render() {
     return (
       <div className={classes.header}>
@@ -66,6 +67,9 @@ export default class viewerHeader1 extends Component {
                 this.props.Data.data.btn.italic === true ? "italic" : "normal",
               textAlign: this.props.Data.data.btn.align,
             }}
+          />
+          <ViewerSocialIcons
+            socialIcons={this.props.Data.socialIcons}
           />
         </div>
       </div>

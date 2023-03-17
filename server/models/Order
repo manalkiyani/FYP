@@ -1,0 +1,14 @@
+const mongoose = require("mongoose");
+
+const order = new mongoose.Schema(
+  {
+    userid: String,
+    totalprice: Number,
+    products: Array,
+    address: String,
+    paymentmethod: String,
+    transactionid: String,
+  }
+
+);
+module.exports = mongoose.model("Order", order);

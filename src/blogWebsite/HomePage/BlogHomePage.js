@@ -29,10 +29,10 @@ const BlogHomePage = () => {
 
   const checkHomePageinContext = () => {
     const homePage = template.pages?.HomePage;
-    console.log("not in context");
+
     if (homePage) {
       setDataForMain(homePage.blocks);
-
+      console.log(template);
       return true;
     } else {
       return false;
@@ -41,7 +41,7 @@ const BlogHomePage = () => {
   const fetchHomePageBlocks = async (blockIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-
+      console.log(blocks);
       setTemplateinContext(blocks);
       setDataForMain(blocks);
     } catch (error) {
@@ -69,6 +69,7 @@ const BlogHomePage = () => {
     setTemplate({
       type: "blog",
       pages: {
+        ...template.pages,
         HomePage: { blocks },
       },
     });
@@ -87,9 +88,7 @@ const BlogHomePage = () => {
     if (!inContext) {
       if (id === "001") {
         fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
-
       } else {
-        
         loadSavedTemplate();
       }
     }

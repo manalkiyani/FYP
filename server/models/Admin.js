@@ -14,7 +14,7 @@ const admin = new mongoose.Schema(
     accountStatus: { type: String, default: "Active" },
 
 
-    activePlan: { type: String, default: "Basic" },
+    activePlan: { type: String, default: "Basic",enum: ["Basic", "Starter", "Professional", "Organization"] },
     accountStatus: { type: String, default: "Active" },
     savedTemplates: [{ type: mongoose.Schema.Types.ObjectId, ref: "template" }],
 
@@ -25,9 +25,3 @@ const admin = new mongoose.Schema(
 module.exports = mongoose.model("admin", admin);
 
 
-// things to display in invoices table
-// username
-// cost
-// date
-// amount 
-// plan

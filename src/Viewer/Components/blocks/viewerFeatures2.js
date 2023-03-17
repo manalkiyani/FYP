@@ -8,7 +8,14 @@ export default class ViewerFeatures2 extends Component {
       <div className={classes.panel}>
         {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
           return (
-            <div key={index} className={classes.card}>
+            <div key={index} className={classes.card}   style={{
+                width:
+                  this.props.Data.layout === 5
+                    ? "17%"
+                    : this.props.Data.layout === 4
+                    ? "20%"
+                    : "30%",
+              }}>
               <img
                 className={classes.img}
                 src={this.props.Data.data[index].bg.picture}

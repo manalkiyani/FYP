@@ -16,19 +16,24 @@ exports.saveTemplate = (req, res) => {
     let allowedTemps = 0;
     switch (userPlan) {
       case "Basic":
+        console.log('basic plan')
+        allowedTemps = 10;
+        break;
+      case "starter":
+        allowedTemps = 3;
+        break;
+      case "professional":
         allowedTemps = 5;
         break;
-      case "Pro":
-        allowedTemps = 8;
-        break;
-      case "Enterprise":
-        allowedTemps = 20;
+      case "organization":
+        allowedTemps = 10;
         break;
       default:
         allowedTemps = 0;
     }
 
     if (totalTemps >= allowedTemps) {
+      console.log(user)
       return res.status(500).json({ message: "Limit Reached" });
     } else {
       const template = new Template({
@@ -46,6 +51,7 @@ exports.saveTemplate = (req, res) => {
             .save()
             .then((updatedUser) => {
               return res.status(201).json({
+                status: 201,
                 success: true,
                 message: "New template created successfully",
                 Template: newTemp,
@@ -165,7 +171,7 @@ exports.updateTemplate = async (req, res) => {
     await template.save();
     
     // return updated template as response
-    res.json({ template });
+    res.status(201).json({ template });
   } catch (error) {
     // handle errors and return appropriate response
     console.log(error);
