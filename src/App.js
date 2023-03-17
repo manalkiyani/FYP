@@ -22,6 +22,8 @@ import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
 import Messages from "./Admin/Messages/Messages";
 import AdminDasboard from "./SuperAdmin/SuperAdminDashboard";
 import Payments from "./Admin/Payments/Payments";
+import Appointments from "./Admin/Appointments/Appointments";
+import JobApplications from "./Admin/JobApplications/JobApplications";
 
 
 import Otp from "./pages/OTP/otp";
@@ -69,7 +71,7 @@ const App = () => {
           <UcraftNavbar />
           <Routes>
 
-           
+      
             <>
               {/* ucraft */}
               <Route path="/login" element={<Login />} />
@@ -109,6 +111,8 @@ const App = () => {
                 <Route path="/publishedwebsites" element={<PublishedWebsites/>}></Route>
                 <Route path="/adminmessages" element={<Messages/>}></Route>
                 <Route path="/adminpayments" element={<Payments/>}></Route>
+                <Route path="/adminappointments" element={<Appointments/>}></Route>
+                <Route path="/adminjobapplications" element={<JobApplications/>}></Route>
 
           </Routes>
         </BrowserRouter>

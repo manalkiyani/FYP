@@ -1,5 +1,7 @@
 const express = require('express');
-const { registeredAdmins , getEmailAndUsernameOfAdmins, buyPlan, stripePayment, addPaymentIdinAdmin, addInMessageSentToSuperAdmin,addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard, getPaymentsOnAdminDashboard, getOrdersOnAdminDashboard} =require('../controllers/admin.controller');
+const { registeredAdmins , getEmailAndUsernameOfAdmins, buyPlan, stripePayment, addPaymentIdinAdmin, addInMessageSentToSuperAdmin,addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard, getPaymentsOnAdminDashboard, getOrdersOnAdminDashboard, getAppointmentsOnAdminDashboard, getJobApplicationsOnAdminDashboard} =require('../controllers/admin.controller');
+const { mailerAdminMessages }= require("./../controllers/maileradminmessages");
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
 const router = express.Router();
 
@@ -17,6 +19,10 @@ router.put('/updateactiveplan', updateActivePlan);
 router.post('/getmessagesonadmindashboard', getMessagesOnAdminDashboard)
 router.post('/getpaymentsonadmindashboard', getPaymentsOnAdminDashboard)
 router.post('/getordersonadmindashboard', getOrdersOnAdminDashboard )
+router.post('/maileradminmessages',mailerAdminMessages)
+router.post('/getpaymentsonadmindashboard', getPaymentsOnAdminDashboard)
+router.post('/getappointmentsonadmindashboard',getAppointmentsOnAdminDashboard)
+router.post('/getjobapplicationsonadmindashboard',getJobApplicationsOnAdminDashboard)
 
 
 module.exports = router;
