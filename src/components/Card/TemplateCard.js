@@ -9,17 +9,20 @@ import { useContext } from "react";
 import { UserContext } from "../../App";
 
 export default function (props) {
-  const {setTemplateId} = useContext(UserContext);
+  const { setTemplateId, setTemplate } = useContext(UserContext);
   const navigate = useNavigate();
   const openTemplate = (id) => {
-      setTemplateId(id);
-   
+    setTemplate({
+      type: "",
+      pages: {},
+      data: {},
+    });
+    setTemplateId(id);
 
-      navigate(`/${props.type}/template/${id}`);
-    
+    navigate(`/${props.type}/template/${id}`);
   };
   return (
-    <Card onClick={()=>openTemplate(props.id)} sx={{ maxWidth: 300 }}>
+    <Card onClick={() => openTemplate(props.id)} sx={{ maxWidth: 300 }}>
       <CardActionArea>
         <CardMedia
           component="img"

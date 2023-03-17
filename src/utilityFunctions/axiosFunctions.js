@@ -55,4 +55,43 @@ export const fetchViewerBlocks = async (blockIds) => {
     throw error;
   }
 };
+{/* Ecommerce Template */}
+export const getListOfProducts = async (productIds) => {
+  try {
+    const res = await axios.post("http://localhost:8800/api/products/get",{productIds});
+    const fetchedProducts = res.data.Products;
+    return fetchedProducts;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+{/* Blog Template */}
+export const addBookmark = async (userId, blogId) => {
+  try {
+    
+    const response = await axios.post(`http://localhost:8800/api/blogs/bookmark/${blogId}`, { userId });
+  
+    return response.data;
+    // handle success response
+  } catch (error) {
+    return error
+    
+    // handle error
+  }
+};
+export const getBookmarkedBlogs = async (userId) => {
+  try {
+    
+    const response = await axios.post(`http://localhost:8800/api/blogs/bookmarkedBlogs`,  { userId });
+  
+    return response.data;
+    // handle success response
+  } catch (error) {
+    return error
+    
+    // handle error
+  }
+};
 

@@ -80,7 +80,7 @@ function LoginScreen() {
       <div className={classes.app}>
         <form className={classes.form} onSubmit={handleSubmit}>
           <div className={classes.center}>
-            <h1 className={classes.h1}>Signin Now!</h1>
+            <h1 className={classes.h1}>Join uCraft Community!</h1>
             {inputs.map((input) => (
               <FormInput
                 key={input.id}

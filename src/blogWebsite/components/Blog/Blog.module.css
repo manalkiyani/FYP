@@ -8,6 +8,10 @@
   border-radius: 15px;
 }
 
+.bookmark:hover{
+   color: #7b0a0a;
+}
+
 .postImg {
  
   height: 280px;

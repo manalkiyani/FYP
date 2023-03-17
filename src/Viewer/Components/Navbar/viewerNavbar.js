@@ -5,7 +5,7 @@ import { UserContext } from "../../../App";
 import { useContext } from "react";
 
 
-export default function ViewerNavbar() {
+export default function ViewerNavbar(props) {
   const { templateId } = useContext(UserContext);
 
   return (
@@ -16,16 +16,18 @@ export default function ViewerNavbar() {
         </div>
 
         <div className={classes.left}>
-          <Link className={classes.link} to={`/view/blog/template/${templateId}`}>
-            Home
-          </Link>
-
-          <Link className={classes.link} to={`/view/blog/template/${templateId}/blogs`}>
-            Blogs
-          </Link>
-          <Link className={classes.link} to={`/view/blog/template/${templateId}/contactUs`}>
-            Contact Us
-          </Link>
+            {props.pages.map((page,index) => {
+            return (
+              <Link
+                key={page}
+                className={classes.link}
+                to={`/view/${props.type}/template/${templateId}/${page}`}
+              >
+               {props.names[index]}
+              </Link>
+            );
+            })}
+       
          
         </div>
       </div>

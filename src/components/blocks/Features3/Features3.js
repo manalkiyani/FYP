@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import classes from "./Features3.module.css";
 
-
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
-
 
 export default class Features3 extends Component {
   state = {
@@ -15,18 +13,14 @@ export default class Features3 extends Component {
   delCard = (index) => {
     this.props.deleteCard(index, this.props.id);
   };
-  // textFromComponent,
-  //   index,
-  //   tag,
-  //   clickedComponentId,
-  //   type
+
   handleTextChange = (e, index, tag) => {
     this.props.changeText(
       e.target.value,
       index,
       tag,
       this.props.id,
-      "features2"
+      "features3"
     );
   };
 
@@ -87,7 +81,7 @@ export default class Features3 extends Component {
                     html={this.props.Data.data[index].h.text} // innerHTML of the editable div
                     disabled={false} // use true to disable editing
                     onClick={() =>
-                      this.props.onClick(this.props.id, "h", index, "features2")
+                      this.props.onClick(this.props.id, "h", index, "features3")
                     }
                     onChange={(e) => this.handleTextChange(e, index, "h")} // handle innerHTML change
                     style={{
@@ -114,7 +108,7 @@ export default class Features3 extends Component {
                     html={this.props.Data.data[index].p.text} // innerHTML of the editable div
                     disabled={false} // use true to disable editing
                     onClick={() =>
-                      this.props.onClick(this.props.id, "p", index, "features2")
+                      this.props.onClick(this.props.id, "p", index, "features3")
                     }
                     onChange={(e) => this.handleTextChange(e, index, "p")} // handle innerHTML change
                     style={{

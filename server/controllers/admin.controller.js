@@ -2,10 +2,8 @@ const Admin = require("../models/Admin");
 const Payment = require("../models/Payment")
 const Message = require ("../models/Message")
 const SuperAdmin = require ("../models/SuperAdmin")
-const Order=require("../models/Ecommerce/orderSchema")
+const Order=require("../models/Order")
 const mongoose = require("mongoose");
-const superadmin = require("../models/SuperAdmin");
-require('dotenv').config();
 
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);

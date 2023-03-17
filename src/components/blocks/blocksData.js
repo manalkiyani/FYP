@@ -19,6 +19,10 @@ const blocks = [
     img: "header1.png",
     Component: Header1,
     Data: {
+      btnLink:{
+        link:"",
+        page:''
+      },
       socialIcons: [
         {
           icon: "Facebook",

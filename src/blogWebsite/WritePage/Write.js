@@ -1,24 +1,13 @@
 import "./Write.css";
-import React, { useEffect } from "react";
+import React  from "react";
 import { Carousel } from "react-bootstrap";
 import { useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
-import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { uploadImage } from "../../utilityFunctions/imageUpload";
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { useContext } from "react";
+import { UserContext } from "../../../src/App";
 
 export default function Write() {
-  const [open, setOpen] = React.useState(false);
-  const [content, setContent] = React.useState("");
-
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
   const [tags, setTags] = useState("");
@@ -26,8 +15,8 @@ export default function Write() {
   const [time, setTime] = useState("");
   const [desc, setdesc] = useState("");
   const [image, setImage] = useState(null);
-
   const [images, setImages] = useState([]);
+   const { template, setTemplate } = useContext(UserContext);
 
   const fileChange = (e) => {
     const newImage = e.target.files[0];
@@ -69,37 +58,32 @@ export default function Write() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setOpen(true);
+         toast.success('Blog Added Successfully');
+        console.log(data);
+            setTemplate({
+              ...template,
+          
+          data: {
+            
+            blogs: [...template.data.blogs, data.blogId],
+          },
 
-        setContent(data.message);
+        });
+
+       
+      }).catch((err) => {
+        console.log(err);
+        toast.error('Oops! An error occurred');
+      
+
+      
       });
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
   return (
     <>
-      <div>
-        {open && (
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>{"Blog Publishing"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                {content}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>CLOSE</Button>
-            </DialogActions>
-          </Dialog>
-        )}
-      </div>
+    <Toaster position="top-center" reverseOrder={false}></Toaster>
+      
       <div className="write">
         <Carousel fade={true} pause={false}>
           {images.map((image) => {
@@ -194,11 +178,7 @@ export default function Write() {
         </form>
       </div>
       <div>
-        {/* {imageData && imageData.map((singleData)=>{
-        const base64String =String.fromCharCode(...new Uint8Array(singleData.img.data.data))
-        
-        return <img alt="im" src={`data:image/png;base64,${base64String}`}/>
-      })} */}
+     
       </div>
     </>
   );

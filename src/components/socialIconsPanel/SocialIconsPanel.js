@@ -44,7 +44,7 @@ const SocialIconsPanel = ({show,closePanel,socialIcons,handleSocialIcons}) => {
           
    }
     const updateLink = (e,icon)=>{
-        socialIcons.map(obj => {
+        socialIconsCopy.map(obj => {
             
                 if (obj.icon === icon){
                     obj.link=e.target.value
@@ -53,10 +53,11 @@ const SocialIconsPanel = ({show,closePanel,socialIcons,handleSocialIcons}) => {
         })
     }
     const sendUpdatedSocialIcons = () =>{
+        console.log(socialIconsCopy)
             handleSocialIcons(socialIconsCopy)
     }
     const applyhoverEffect = (icon) =>{
-      console.log(icons)
+     
        setIcons( icons.map(obj=> {
         if(obj.icon === icon) 
         {
@@ -70,7 +71,7 @@ const SocialIconsPanel = ({show,closePanel,socialIcons,handleSocialIcons}) => {
     } 
    
     ) )
-      console.log(icons)
+      
     }
     const removehoverEffect = (icon) =>{
       
@@ -107,7 +108,7 @@ return (
                           {socialIconsCopy && socialIconsCopy.map(({icon,url,link})=>{
                            filteredIcons.push(icon)
                             return(
-                            <div className={classes.group}>
+                            <div   key={icon} className={classes.group}>
                           
                                 <img className={classes.item} alt="" src={url}/>
                                 <TextField 
@@ -127,13 +128,14 @@ return (
 
 
                             {  icons.filter( (val)=> {
-                                console.log(filteredIcons)
+                               
                                 return (!filteredIcons.includes(val.icon))
                             }
                                 
                                 ).map(({icon,url})=>{
                                    
                                 return  <img 
+                                        key={icon}
                                         onClick = {()=>handleAddIcon(icon)}
                                         onMouseEnter={()=>applyhoverEffect(icon)} 
                                         onMouseLeave={()=>removehoverEffect(icon)}
