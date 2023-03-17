@@ -17,10 +17,15 @@ import Home from "./Admin/Home/Home";
 import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
 import Messages from "./Admin/Messages/Messages";
 import Payments from "./Admin/Payments/Payments";
+
+import Appointments from "./Admin/Appointments/Appointments";
+import JobApplications from "./Admin/JobApplications/JobApplications";
+
 import Dashboard from "./pages/Dashboard/dashboard";
 import HomePage from "./pages/HomePage/HomePage";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/SignUp/SignUp";
+
 
 // ecommerce Website
 import ProductsPage from "./eccomerceWebsite/pages/ProductsPage";
@@ -78,6 +83,7 @@ const App = () => {
         setTemplate,
       }}
     >
+
 <ThemeProvider theme={theme}>
   <BrowserRouter>
    <UcraftNavbar />
@@ -108,6 +114,7 @@ const App = () => {
             </Route>
           </>
 
+
             {/* blog Website Viewer */}
             <Route exact path="view/blog/template/:id" element={<ViewerNavbar type="blog" pages={["", "blogs", "contactUs"]}  names={["Home", "Blogs", "Contact Us"]} />} >
               <Route path="" element={<ViewerHomepage />} />
@@ -131,13 +138,21 @@ const App = () => {
               <Route path="contactUs" element={<h1>Contact Us</h1>} />
             </Route>
 
+            
+                <Route path="/superadmindashboard" element={<SuperAdminDasboard/>}></Route>
+              
+                <Route path="/admindashboard" element={<Home/>}></Route>
+                <Route path="/publishedwebsites" element={<PublishedWebsites/>}></Route>
+                <Route path="/adminmessages" element={<Messages/>}></Route>
+                <Route path="/adminpayments" element={<Payments/>}></Route>
+                <Route path="/adminappointments" element={<Appointments/>}></Route>
+                <Route path="/adminjobapplications" element={<JobApplications/>}></Route>
 
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </UserContext.Provider>
 
-
-      </Routes>
-    </BrowserRouter>
-  </ThemeProvider>
-</UserContext.Provider>
   );
 };
 

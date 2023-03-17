@@ -4,17 +4,21 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ReplyForm from "../../ReplyForm/ReplyForm";
 
 
 const Datatable = () => {
   const [fetchData, setFetchData] = useState(true);
   const [tempData, setTempData]= useState([])
-
+  const [email, setEmail] = useState('');
+  const [open, setOpen]= useState(false)
   const handleReply = async (params) => {
 
+    await setEmail(params.row.email)
     
-
    console.log(params.row.email); // log the email of the selected row
+   setOpen(true);
+   
    
 
 
@@ -74,6 +78,7 @@ const Datatable = () => {
         getRowId={(row) => row.email}
         checkboxSelection = {false}
       />
+      {open && <ReplyForm email = {email} open={open} setOpen={setOpen}></ReplyForm>}
     </div>
   );
 };

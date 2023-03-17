@@ -309,7 +309,7 @@ const getMessagesOnAdminDashboard = async(req, res)=>{
   
     }
 
-    const getOrdersOnAdminDashboard = async (req, res) => {
+    const getOrdersOnAdminDashboard = async (req, res) => { ///these are displayed on /adminpayments route
       try {
         const admin = await Admin.findById(req.body.ADMIN_ID).populate('savedTemplates');
         const ordersArray = [];
@@ -339,11 +339,76 @@ const getMessagesOnAdminDashboard = async(req, res)=>{
         res.status(500).json({ message: 'Server Error' });
       }
     };
+
+    const getAppointmentsOnAdminDashboard = async (req, res)=>{
+      try {
+        const admin = await Admin.findById(req.body.ADMIN_ID).populate('savedTemplates');
+        const appointmentsArray = [];
+    
+        for (const template of admin.savedTemplates) {
+          if (template && template.data && template.data.appointments) {
+            const appointments = template.data.appointments;
+    
+            for (const appointmentId of appointments) {
+              const appointment = await Order.findById(appointmentId);
+              if (appointment) {
+                const appointmentDetails = {
+                  customername: appointment.customername,
+                  doctorname: appointment.doctorname,
+                  time: appointment.time
+                };
+                appointmentsArray.push(appointmentDetails);
+              }
+            }
+          }
+        }
+        console.log(appointmentsArray);
+    
+        res.status(200).json(appointmentsArray);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+      }
+
+    }
+
+    const getJobApplicationsOnAdminDashboard = async (req, res)=>{
+
+      try {
+        const admin = await Admin.findById(req.body.ADMIN_ID).populate('savedTemplates');
+        const jobApplicationsArray = [];
+    
+        for (const template of admin.savedTemplates) {
+          if (template && template.data && template.data.jobApplications) {
+            const jobApplications = template.data.jobApplications;
+    
+            for (const jobApplicationId of jobApplications) {
+              const jobApplication = await Order.findById(jobApplicationId);
+              if (jobApplication) {
+                const jobApplicationDetails = {
+                  name: jobApplication.name,
+                  designation: jobApplication.designation,
+                  application: jobApplication.application
+                };
+                jobApplicationsArray.push(jobApplicationDetails);
+              }
+            }
+          }
+        }
+        console.log(jobApplicationsArray);
+    
+        res.status(200).json(jobApplicationsArray);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+      }
+
+    }
     
 
 module.exports = {registeredAdmins, getEmailAndUsernameOfAdmins,
    buyPlan, stripePayment, addPaymentIdinAdmin,addInMessageSentToSuperAdmin, 
   addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, 
   getAdminData, updateActivePlan, getMessagesOnAdminDashboard, getPaymentsOnAdminDashboard,
-  getOrdersOnAdminDashboard
+  getOrdersOnAdminDashboard, getAppointmentsOnAdminDashboard, getJobApplicationsOnAdminDashboard
 };
