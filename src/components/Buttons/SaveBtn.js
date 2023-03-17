@@ -1,11 +1,12 @@
 import * as React from "react";
-import LoadingButton from "@mui/lab/LoadingButton";
+
 import { Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import SaveIcon from "@mui/icons-material/Save";
 import { SavedTemplate } from "../../utilityFunctions/helperFunctions";
 import { useContext } from "react";
 import { UserContext } from "../../App";
+import { blogTemplate } from "../../TemplatesData/blogTemplate";
 const SaveBtn = () => {
   const { template, setTemplate } = useContext(UserContext);
 
@@ -13,14 +14,12 @@ const SaveBtn = () => {
 
    const promise = SavedTemplate(template, setTemplate)
   .then((result) => {
+    console.log('blogTemplate',blogTemplate)
     toast.success(<b>Template Saved Successfully</b>);
   })
   .catch((error) => {
-    toast.error(<b>You have reached the Limit</b>);
+    toast.error(<b>Oops! Please Upgrade Your Plan to create new Websites</b>);
   });
-
-
-
 
   };
 

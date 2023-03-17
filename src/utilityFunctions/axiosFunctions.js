@@ -55,4 +55,15 @@ export const fetchViewerBlocks = async (blockIds) => {
     throw error;
   }
 };
+{/* Ecommerce Template */}
+export const getListOfProducts = async (productIds) => {
+  try {
+    const res = await axios.post("http://localhost:8800/api/products/get",{productIds});
+    const fetchedProducts = res.data.Products;
+    return fetchedProducts;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 

@@ -23,7 +23,7 @@ export default class Features1 extends Component {
       index,
       tag,
       this.props.id,
-      "features2"
+      "features1"
     );
   };
 
@@ -83,7 +83,7 @@ export default class Features1 extends Component {
                   html={this.props.Data.data[index].h.text} // innerHTML of the editable div
                   disabled={false} // use true to disable editing
                   onClick={() =>
-                    this.props.onClick(this.props.id, "h", index, "features2")
+                    this.props.onClick(this.props.id, "h", index, "features1")
                   }
                   onChange={(e) => this.handleTextChange(e, index, "h")} // handle innerHTML change
                   style={{

@@ -64,6 +64,7 @@ const BlogssPage = () => {
   const setDataForMain = (blocks, blogIds) => {
     setDataToSend({
       type: "blog",
+      page:'BlogsPage',
       blocks,
       blogIds,
     });

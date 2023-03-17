@@ -6,7 +6,8 @@ import {
   getTemplateData,
   fetchViewerBlocks,
 } from "../../../utilityFunctions/axiosFunctions";
-import FadeLoader from "react-spinners/FadeLoader";
+
+import BeatLoader from "react-spinners/BeatLoader";
 
 
 const ViewerHomepage = () => {
@@ -30,10 +31,10 @@ const ViewerHomepage = () => {
     let homePageBlocks = [];
     try {
       const Template = await getTemplateData(id);
-      //   console.log(Template);
+      
       if (Template.pages?.HomePage?.blocks) {
         const blocks = await fetchViewerBlocks(Template.pages.HomePage.blocks);
-        // console.log(blocks);
+         console.log(blocks);
         homePageBlocks = blocks;
       }
 
@@ -47,18 +48,19 @@ const ViewerHomepage = () => {
 
   useEffect(() => {
     if (!loaded) {
+  
       loadSavedTemplate();
     }
   }, []);
 
   return (
     <>
-    {console.log('viewerHomepage')}
+ 
       {main ? (
         <DisplayBlocks data={dataToSend} />
       ) : (
         <center>
-          <FadeLoader
+          <BeatLoader
             color={"#7890A3"}
             loading={loading}
             size={20}

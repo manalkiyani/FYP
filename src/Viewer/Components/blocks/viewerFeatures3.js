@@ -9,7 +9,14 @@ export default class ViewerFeatures3 extends Component {
         <div className={classes.Container}>
           {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
             return (
-              <div key={index} className={classes.card}>
+              <div key={index} className={classes.card}  style={{
+                  width:
+                    this.props.Data.layout === 3
+                      ? "30%"
+                      : this.props.Data.layout === 2
+                      ? "40%"
+                      : "50%",
+                }}>
                 <div className={classes.container}>
                   <ContentEditable
                     html={this.props.Data.data[index].h.text} // innerHTML of the editable div

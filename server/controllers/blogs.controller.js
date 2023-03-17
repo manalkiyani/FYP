@@ -4,13 +4,11 @@ const mongoose = require("mongoose");
 
 function postBlog(req, res) {
   if (
-    !req.body.title ||
-    !req.body.readingTime ||
-    !req.body.description ||
-    !req.body.writer
+    !req.body.title ||!req.body.description 
+   
   ) {
     return res
-      .status(400)
+      .status(500)
       .json({ message: "Please fill all the required fields" });
   }
   let date_ob = new Date();
@@ -46,7 +44,7 @@ function postBlog(req, res) {
       return res.status(201).json({
         success: true,
         message: "New blog created successfully",
-        Blog: newBlog,
+        blogId: newBlog._id,
       });
     })
     .catch((error) => {
@@ -102,8 +100,8 @@ async function getListOfBlogs(req, res) {
   console.log("Req.body", req.body.blogIds);
 
   //find blogs which have ids in the array  
-  Blog.find({ id: { $in: req.body.blogIds } })
-    .populate("image")
+  Blog.find({ _id: { $in: req.body.blogIds } })
+   
     .then((allBlogs) => {
       return res.status(200).json({
         success: true,
@@ -112,6 +110,7 @@ async function getListOfBlogs(req, res) {
       });
     })
     .catch((err) => {
+      console.log(err)
       return res.status(500).json({
         success: false,
         message: "Server error. Please try again.",

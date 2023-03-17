@@ -12,56 +12,20 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";import { styled, alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 
-import InputBase from "@mui/material/InputBase";
+import { useContext } from "react";
+import {UserContext} from '../../../App'
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
+
+
 export default function Blogs({ blogIds }) {
   const [blogs, setBlogs] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  
   const [edit, setEdit] = React.useState(false);
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
@@ -70,20 +34,24 @@ export default function Blogs({ blogIds }) {
   const [time, setTime] = useState("");
   const [desc, setdesc] = useState("");
   const [blogId, setBlogId] = useState("");
-  const [searchField, setSearchField] = useState("");
+  const { template, setTemplate } = useContext(UserContext);
 
 
-  useEffect(() => {
-    axios
-      .post("http://localhost:8800/api/blogs/get", { blogIds })
+  const getBlogs = async () => {
+      axios.post("http://localhost:8800/api/blogs/get", { blogIds })
       .then((res) => {
         setBlogs(res.data.Blogs);
 
-        console.log(res.data.Blogs);
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+
+
+  useEffect(() => {
+    getBlogs();
   }, []);
   const delBlog = (id) => {
     console.log(id);
@@ -239,20 +207,7 @@ export default function Blogs({ blogIds }) {
             </Dialog>
           }
         </div>
-        {blogs &&
-          blogs
-            .filter((blog) => {
-              return (
-                blog.title.toLowerCase().includes(searchField.toLowerCase()) ||
-                blog.tagline
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase()) ||
-                blog.description
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase())
-              );
-            })
-            .map((blog) => {
+        {blogs && blogs.map((blog) => {
              
               return (
                 <Blog

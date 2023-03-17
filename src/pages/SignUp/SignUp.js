@@ -108,7 +108,7 @@ const Signup = () => {
             <button className={classes.button}>Register</button>
           </div>
           <div>
-            <h1 className={classes.h1}>Register Now!</h1>
+            <h1 className={classes.h1}>Create a New Account!</h1>
             <img
               src={join}
               alt="join"
