@@ -1,8 +1,27 @@
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsSemiBold";
+  src: url("../../../assets/PoppinsSemiBold.ttf");
+}
+@font-face {
+  font-family: "PoppinsRegular";
+  src: url("../../../assets/PoppinsRegular.ttf");
+}
+
 .featured {
   flex: 2;
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   padding: 10px;
+
+
 
   .top {
     display: flex;
@@ -13,6 +32,7 @@
     .title {
       font-size: 24px;
       font-weight: 500;
+      font-family: "PoppinsBold";
     }
 
 
@@ -29,20 +49,46 @@
     .featuredChart {
       width: 100px;
       height: 100px;
+
     }
 
     .title {
       font-weight: 500;
-      color: gray;
+      color: #40AFC0;
     }
-
+.info{
+  display: flex;
+}
+.leftinfobox{
+  margin-left: -100px;
+}
+.rightinfobox{
+  margin-left: 40px;
+}
     .amount {
-      font-size: 16px;
-      color: gray;
+      font-size: 18px;
+      color: black;
+      font-family: "PoppinsRegular";
+    }
+    .doubleamount{
+      display: flex;
+      font-size: 18px;
+      color: black;
+      font-family: "PoppinsRegular";
+
+    }
+    .doubleamount1{
+      display: flex;
+      font-size: 15px;
+      margin-top: -15px;
+      color: black;
+      font-family: "PoppinsRegular";
+
     }
 
     .data {
-      font-size: 30px;
+      font-size: 18px;
+      font-family: "PoppinsRegular";
   
     }
 

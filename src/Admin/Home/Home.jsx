@@ -16,8 +16,8 @@ const Home = () => {
           <Featured />
 
         </div>
-        <div style={{marginTop:'20px'}}>
-        Available Templates
+        <div  >
+         <p className='AvailableTemplatesHeader'>Available Templates</p>
         <div className="charts">
         <AvailableTemplate  title='Ecommerce' description='An eCommerce template is a pre-designed framework for creating an online store. It includes ready-made pages and features that can be customized to fit specific needs. This saves time and effort'></AvailableTemplate>
           <AvailableTemplate  title='Blog' description = 'A blog template is a pre-designed framework for creating a blog. It includes ready-made pages and features that can be customized to fit specific needs. This makes it easier and quicker to launch a blog.'></AvailableTemplate>
@@ -28,8 +28,8 @@ const Home = () => {
 
         </div>
 
-        <div  style={{marginTop:'20px'}}>
-        Saved Templates
+        <div >
+        <p className="SaveTemplatesHeader">Saved Templates</p>
         <div className="charts">
         <AvailableTemplate  title='Ecommerce' description='An eCommerce template is a pre-designed framework for creating an online store. It includes ready-made pages and features that can be customized to fit specific needs. This saves time and effort'></AvailableTemplate>
           <AvailableTemplate  title='Blog' description = 'A blog template is a pre-designed framework for creating a blog. It includes ready-made pages and features that can be customized to fit specific needs. This makes it easier and quicker to launch a blog.'></AvailableTemplate>

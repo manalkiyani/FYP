@@ -1,3 +1,37 @@
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsSemiBold";
+  src: url("../../assets/PoppinsSemiBold.ttf");
+}
+@font-face {
+  font-family: "PoppinsRegular";
+  src: url("../../assets/PoppinsRegular.ttf");
+}
+
+.AvailableTemplatesHeader{
+  margin-top: 20px;
+  margin-left: 35px;
+  color: #40AFC0;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: "PoppinsBold";
+}
+.SaveTemplatesHeader{
+  margin-top: 20px;
+  margin-left: 35px;
+
+  color: #40AFC0;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: "PoppinsBold";
+}
 .home {
   display: flex;
 
