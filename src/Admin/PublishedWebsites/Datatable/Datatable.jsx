@@ -37,8 +37,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Published Websites
-
+      <p style={{color:'#40AFC0'}} className="headertext"> Published Websites </p> 
       </div>
       <DataGrid
         className="datagrid"

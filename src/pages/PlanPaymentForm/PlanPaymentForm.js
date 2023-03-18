@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import StripeContainer from './StripeContainer';
 import { ApprovalRounded } from '@mui/icons-material';
+import { TextField as Muiinput } from '@mui/material';
 
 
 const styles = {
@@ -147,28 +148,16 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
       <div style={styles.dialogContainer}>
         <form onSubmit={handleSubmit} style={styles.formContainer}>
           
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-        
           
-            style={styles.input}
-          />
-          <input
-            type="text"
-            name="Phone Number"
-            placeholder="Phone Number"
-    
+        <Muiinput style={{marginTop:'10px'}} label="Name" name='name' placeholder='Name' variant="standard" />
+
+        <Muiinput style={{marginTop:'10px'}} label="Contact" type='number' name='Phone Number' placeholder="Contact" variant="standard" />
 
 
-            style={styles.input}
-          />
-
-
-<div className={styles.container}>
+<div style={{marginTop:'30px'}} className={styles.container}>
     
       <div className={styles.method}>
+        <label>
         <input
           type="radio"
           id="card"
@@ -178,17 +167,22 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
           onChange={handleOptionChange}
           
         />
+        &nbsp;
+        </label>
         <label htmlFor="card">Card</label>
       </div>
-      <div className={styles.method}>
-        <input
-          type="radio"
-          id="easypaisa"
-          name="paymentMethod"
-          value="Easypaisa"
-          checked={selectedOption === 'Easypaisa'}
-          onChange={handleOptionChange}
-        />
+      <div style={{marginBottom:'20px'}} className={styles.method}>
+      <label>
+  <input
+    type="radio"
+    id="easypaisa"
+    name="paymentMethod"
+    value="Easypaisa"
+    checked={selectedOption === 'Easypaisa'}
+    onChange={handleOptionChange}
+  />
+  &nbsp;
+</label>
         <label htmlFor="easypaisa">Easypaisa</label>
       </div>
       {selectedEasypaisa && <Input onChange={handleTransactionid} placeholder='Transaction id'></Input>}

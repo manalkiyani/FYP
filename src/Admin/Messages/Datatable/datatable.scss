@@ -1,3 +1,21 @@
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsExtraLight";
+  src: url("../../../assets/PoppinsExtraLight.ttf");
+}
+@font-face {
+  font-family: "PoppinsSemiBold";
+  src: url("../../../assets/PoppinsSemiBold.ttf");
+}
+@font-face {
+  font-family: "PoppinsRegular";
+  src: url("../../../assets/PoppinsRegular.ttf");
+}
+
+
 .datatable {
   height: 600px;
   padding: 20px;
@@ -53,7 +71,12 @@
       color: crimson;
     }
   }
-
+.headertext{
+  font-size: 24px;
+  font-weight: 500;
+  font-family: "PoppinsBold";
+  
+}
   .cellAction {
     display: flex;
     align-items: center;

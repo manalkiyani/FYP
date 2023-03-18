@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Button } from "@mui/material";
 import ReplyForm from "../../ReplyForm/ReplyForm";
 
 
@@ -43,9 +44,9 @@ const Datatable = () => {
 
   const userColumns = [
 
-    { field: "email", headerName: "Email",     width: 230, },
-    { field: "message", headerName: "Message",    width: 200, },
-    { field: "subject", headerName: "Subject",   width: 200,},
+    { field: "email", headerName: "Email",     width: 300, },
+    { field: "message", headerName: "Message",    width: 300, },
+    { field: "subject", headerName: "Subject",   width: 250,},
     {
       field: "reply",
       headerName: "Reply",
@@ -55,7 +56,7 @@ const Datatable = () => {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
-        <button onClick={() => handleReply(params)}>Reply</button>
+        <Button onClick={() => handleReply(params)}>Reply</Button>
       ),
     },
     
@@ -66,7 +67,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Messages
+        <p style={{color:'#40AFC0'}} className="headertext">Messages</p>
 
       </div>
       <DataGrid

@@ -13,8 +13,8 @@ const admin = new mongoose.Schema(
     transactionID:{type:mongoose.Schema.Types.ObjectId,ref:"payment"},
     accountStatus: { type: String, default: "Active" },
 
-
-    activePlan: { type: String, default: "Basic",enum: ["Basic", "Starter", "Professional", "Organization"] },
+    activePlan: { type: String, default: "Basic" },
+    //activePlan: { type: String, default: "Basic",enum: ["Basic", "Starter", "Professional", "Organization"] },
     accountStatus: { type: String, default: "Active" },
     savedTemplates: [{ type: mongoose.Schema.Types.ObjectId, ref: "template" }],
 

@@ -4,6 +4,7 @@ const Message = require ("../models/Message")
 const SuperAdmin = require ("../models/SuperAdmin")
 const Order=require("../models/Order")
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
@@ -75,6 +76,7 @@ const buyPlan = async(req, res)=>{
           }
         )
 .catch((error) => {
+
        return res.status(500).json({success: false, message: 'Server error. Please try again.', error: error.message});
     });
 }
@@ -127,7 +129,7 @@ const stripePayment = async (req, res) => {
     res.send(admin);
     
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message+"THIS ISS ERROR");
     res.status(500).send('Server Error');
   }
 };

@@ -34,9 +34,9 @@ const Datatable = () => {
 
   const userColumns = [
 
-    { field: "paymentmethod", headerName: "Payment Method",     width: 230, },
-    { field: "address", headerName: "Address",    width: 200, },
-    { field: "totalprice", headerName: "Total Price",   width: 200,},
+    { field: "paymentmethod", headerName: "Payment Method",     width: 300, },
+    { field: "address", headerName: "Address",    width: 300, },
+    { field: "totalprice", headerName: "Total Price",   width: 250,},
     {
       field: "status",
       headerName: "Status",
@@ -57,7 +57,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Orders
+       <p style={{color:'#40AFC0'}} className="headertext"> Orders </p>
 
       </div>
       <DataGrid
