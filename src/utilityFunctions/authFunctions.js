@@ -9,6 +9,9 @@ export async function getUsername() {
   let decode = jwt_decode(token);
   return decode;
 }
+export async function logout() {
+  localStorage.removeItem("token");
+}
 /** get User details */
 export async function getUser({ username }) {
   try {

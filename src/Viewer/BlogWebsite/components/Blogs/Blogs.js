@@ -71,7 +71,7 @@ export default function Blogs({ blogIds }) {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [blogs]);
 
    const bookmarkBlog = (blogId) => {
 

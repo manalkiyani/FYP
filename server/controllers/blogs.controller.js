@@ -4,7 +4,7 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 
 function postBlog(req, res) {
-  if (!req.body.title || !req.body.description) {
+  if (!req.body.title || !req.body.description || !req.body.image) {
     return res
       .status(500)
       .json({ message: "Please fill all the required fields" });
@@ -115,17 +115,21 @@ async function getListOfBlogs(req, res) {
 function updateBlog(req, res) {
   const id = req.params.blogId;
   const blogObject = req.body;
+  console.log('blogObject', blogObject)
   Blog.findOneAndUpdate({ _id: id }, { $set: blogObject })
     .exec()
     .then(() => {
+      
       res.status(200).json({
         success: true,
         message: "Blog is updated",
-        Blog: blogObject,
+        Blog: {_id:id, ...blogObject},
       });
     })
     .catch((err) => {
+      console.log(err)
       res.status(500).json({
+
         success: false,
         message: "Server error. Please try again.",
       });

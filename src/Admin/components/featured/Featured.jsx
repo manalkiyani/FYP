@@ -3,7 +3,7 @@ import "./featured.scss";
 
 
 
-
+import PersonIcon from '@mui/icons-material/Person';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -45,7 +45,7 @@ const Featured = () => {
   return (
     <div className="featured">
       <div className="top">
-        <h1  style={{color:'#40AFC0'}} className="title">Admin Profile</h1>   
+   <h1  className="title"> <PersonIcon/>&nbsp;   Your Profile</h1>  
       </div>
       <Divider flexItem ></Divider>
       <div className="bottom">
