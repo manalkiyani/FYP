@@ -1,0 +1,23 @@
+.card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E9E9E9;
+    border-radius: 20px;
+       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+     margin:20px 50px 20px 50px;
+    width: 300px;
+  
+    flex-direction: column;
+   
+   
+    position: relative;
+
+cursor: pointer;
+  }
+  .flex{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-left: 30px;
+  }

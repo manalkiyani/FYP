@@ -4,19 +4,32 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import img2 from "../../../assets/img2.jpeg"
+import { useContext } from 'react';
+import { UserContext } from '../../../App';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function AvailableTemplate({title, description}) {
+export default function AvailableTemplate({id,type,img,title,description}) {
+const { setTemplateId, setTemplate } = useContext(UserContext);
+  const navigate = useNavigate();
+  const openTemplate = (id) => {
+    setTemplate({
+      type: "",
+      pages: {},
+      data: {},
+    });
+    setTemplateId(id);
 
+    navigate(`/${type}/template/${id}`);
+  };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card onClick={() => openTemplate(id)} sx={{ maxWidth: 280,minWidth:280 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={img2}
+          image={img}
           alt="green iguana"
         />
         <CardContent>
