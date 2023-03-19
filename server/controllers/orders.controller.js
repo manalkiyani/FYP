@@ -41,11 +41,13 @@ const orderReceived = async (req, res)=>{
     });
 
     try {
+    
        // Get the ID from the request body in which you want to store these orderids
-      const template = await Template.findById('63ee37bca5586e55f45bb2d5'); // Find the document with the specified ID
+      const template = await Template.findById('6416cfa6e7576796af285c3d'); // Find the document with the specified ID
       if (!template) {
         return res.send({ message: 'Template not found' });
       } 
+        consle.log(template)
       // Update the data field with the orderids array
       template.data = { orders: orderIds }; 
       await template.save(); // Save the changes to the document

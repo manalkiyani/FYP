@@ -6,7 +6,40 @@ import Table from "../components/table/Table"
 import AvailableTemplate from "../components/availableTemplates/availableTemplate";
 
 
-
+const templates = [
+    {
+      id: '001',
+      img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg",
+      title: "Blog Template",
+      description: "A blog template is a pre-designed framework for creating a blog.  This makes it easier and quicker to launch a blog.",
+      type: "blog",
+    },
+    {
+      id: '002',
+      img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg",
+      title: "Eccomerce Template",
+      description:
+       "An eCommerce template is a pre-designed framework for creating an online store.This saves time and effort",
+      type: "eccomerce",
+    },
+    {
+      id: '003',
+      img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg",
+      title: "Medical Template",
+      description:
+        "A medical template is a pre-designed framework for creating a website related to healthcare or medical services.",
+      type: "medical",
+    },
+    {
+      id: '004',
+      img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg",
+      title: "Business Template",
+      description:
+       "A business template is a pre-designed framework for creating a website related to a company or organization..",
+        
+      type: "business",
+    },
+  ];
 const Home = () => {
   return (
     <div className="home">
@@ -17,24 +50,25 @@ const Home = () => {
 
         </div>
         <div  >
-         <p className='AvailableTemplatesHeader'>Available Templates</p>
+      <center> <p className='AvailableTemplatesHeader'>Available Templates</p></center>  
         <div className="charts">
-        <AvailableTemplate  title='Ecommerce' description='An eCommerce template is a pre-designed framework for creating an online store. It includes ready-made pages and features that can be customized to fit specific needs. This saves time and effort'></AvailableTemplate>
-          <AvailableTemplate  title='Blog' description = 'A blog template is a pre-designed framework for creating a blog. It includes ready-made pages and features that can be customized to fit specific needs. This makes it easier and quicker to launch a blog.'></AvailableTemplate>
-          <AvailableTemplate  title='Medical' description = 'A medical template is a pre-designed framework for creating a website related to healthcare or medical services. It includes ready-made pages and features that can be customized to fit specific needs'></AvailableTemplate>
-          <AvailableTemplate  title='Business' description = 'A business template is a pre-designed framework for creating a website related to a company or organization. It includes ready-made pages and features that can be customized to fit specific needs'></AvailableTemplate>
-
+       
+          <AvailableTemplate id= '001'   type= "blog" img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1679227053/WhatsApp_Image_2023-03-19_at_4.57.17_PM_ewpmih.jpg" title= "Blog Template" description = 'A blog template is a pre-designed framework for creating a blog.  This makes it easier and quicker to launch a blog.'></AvailableTemplate>
+          <AvailableTemplate id= '002'  type= "eccomerce"    img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1679226873/WhatsApp_Image_2023-03-19_at_1.34.27_PM_1_h8los5.jpg"  title= "Eccomerce Template" description='An eCommerce template is a pre-designed framework for creating an online store.  This saves time and effort'></AvailableTemplate>
+          <AvailableTemplate id= '003'  type= "medical"    img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1679226870/WhatsApp_Image_2023-03-19_at_1.34.28_PM_qgxil7.jpg"  title= "Medical Template" description='A medical template is a pre-designed framework for creating a website related to healthcare or medical services.'></AvailableTemplate>
+          <AvailableTemplate id= '004'   type= "business" img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1670359345/istockphoto-1177339095-170667a_qnpg6m.jpg" title= "Business Template" description = 'A business template is a pre-designed framework for creating a website related to a company or organization'></AvailableTemplate>
+          
         </div>
 
         </div>
 
         <div >
-        <p className="SaveTemplatesHeader">Saved Templates</p>
+       <center> <p className="SaveTemplatesHeader">Saved Templates</p></center>
         <div className="charts">
-        <AvailableTemplate  title='Ecommerce' description='An eCommerce template is a pre-designed framework for creating an online store. It includes ready-made pages and features that can be customized to fit specific needs. This saves time and effort'></AvailableTemplate>
-          <AvailableTemplate  title='Blog' description = 'A blog template is a pre-designed framework for creating a blog. It includes ready-made pages and features that can be customized to fit specific needs. This makes it easier and quicker to launch a blog.'></AvailableTemplate>
-          <AvailableTemplate  title='Medical' description = 'A medical template is a pre-designed framework for creating a website related to healthcare or medical services. It includes ready-made pages and features that can be customized to fit specific needs'></AvailableTemplate>
-          <AvailableTemplate  title='Business' description = 'A business template is a pre-designed framework for creating a website related to a company or organization. It includes ready-made pages and features that can be customized to fit specific needs'></AvailableTemplate>
+        <AvailableTemplate  title='Ecommerce' description='An eCommerce template is a pre-designed framework for creating an online store.  This saves time and effort'></AvailableTemplate>
+          <AvailableTemplate  title='Blog' description = 'A blog template is a pre-designed framework for creating a blog.  This makes it easier and quicker to launch a blog.'></AvailableTemplate>
+          <AvailableTemplate  title='Medical' description = 'A medical template is a pre-designed framework for creating a website related to healthcare or medical services.'></AvailableTemplate>
+          <AvailableTemplate  title='Business' description = 'A business template is a pre-designed framework for creating a website related to a company or organization.'></AvailableTemplate>
 
         </div>
 

@@ -105,6 +105,9 @@ const App = () => {
             <Route path="/publishedwebsites" element={<PublishedWebsites />} ></Route>
             <Route path="/adminmessages" element={<Messages />}></Route>
             <Route path="/adminpayments" element={<Payments />}></Route>
+            <Route path="/adminappointments" element={<Appointments/>}></Route>
+            <Route path="/adminjobapplications" element={<JobApplications/>}></Route>
+
 
             {/* blog Website Admin */}
             <Route exact path="/blog/template/:id" element={ <Navbar type="blog" pages={["", "blogs", "write", "contact"]}  names={["Home", "Blogs", "Write", "Contact Us"]} /> } >
@@ -141,13 +144,6 @@ const App = () => {
             
 
               
-                <Route path="/admindashboard" element={<Home/>}></Route>
-                <Route path="/publishedwebsites" element={<PublishedWebsites/>}></Route>
-                <Route path="/adminmessages" element={<Messages/>}></Route>
-                <Route path="/adminpayments" element={<Payments/>}></Route>
-                <Route path="/adminappointments" element={<Appointments/>}></Route>
-                <Route path="/adminjobapplications" element={<JobApplications/>}></Route>
-
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
