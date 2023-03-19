@@ -27,7 +27,7 @@ const UpdateBtn = () => {
     <Button
       onClick={updateTemplate}
       style={{ position: "sticky", top: 0, zIndex: 1000 }}
-      size="small"
+      size="medium"
       color="primary"
       startIcon={<UpdateIcon />}
       variant="contained"

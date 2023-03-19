@@ -29,8 +29,9 @@ const BlogssPage = () => {
   //
   const checkBlogsPageinContext = () => {
     const BlogsPage = template.pages?.BlogsPage;
-
+   
     if (BlogsPage) {
+      console.log(template.data.blogs)
       setDataForMain(BlogsPage.blocks, template.data.blogs);
 
       return true;
@@ -42,7 +43,7 @@ const BlogssPage = () => {
   const fetchBlogsPageData = async (blockIds, blogIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-
+      console.log(blogIds)
       setTemplateinContext(blocks, blogIds);
       setDataForMain(blocks, blogIds);
     } catch (error) {

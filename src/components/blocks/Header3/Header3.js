@@ -84,7 +84,7 @@ export default class Header3 extends Component {
             enableDrag={this.props.enableDrag}
           />
         )}
-        <UploadImage handleImageChange={this.handleImageChange} image={this.state.image} />
+        {this.state.displayHandleBlock &&  <UploadImage  top={55} left={10} handleImageChange={this.handleImageChange} image={this.state.image} />}
         <img style={{zIndex:'100',height:'500px'}} src={this.props.Data.data.img} />
         
        

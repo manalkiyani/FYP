@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import classes from "./Blog.module.css";
-import { FacebookShareButton, WhatsappShareButton } from "react-share";
-import { FacebookIcon, WhatsappIcon } from "react-share";
 
 export default function Blog({
   bid,
@@ -18,12 +16,9 @@ export default function Blog({
   return (
    
     <div className={classes.post}>
-       {console.log(img)}
+      
       <img className={classes.postImg} src={img} alt="" />
-      <div className={classes.postInfo}>
-        <div className={classes.container}>
-          
-          <div>
+      <div className= {classes.icons}>
            
             <img
               alt=""
@@ -39,12 +34,16 @@ export default function Blog({
               onClick={() => deleted(bid)}
               src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670362234/delete_wpauco.png"
             />
-          </div>
+        
         </div>
+      <div className={classes.postInfo}>
+      
+          
+          
         <span className={classes.postTitle}>
-          <Link to="" className={classes.link}>
+          <h6 className={classes.link}>
             {title}
-          </Link>
+          </h6>
         </span>
 
         <span className={classes.postDate}>{time}</span>

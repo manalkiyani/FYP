@@ -11,16 +11,16 @@ const SaveBtn = () => {
   const { template, setTemplate } = useContext(UserContext);
 
   const saveTemplate = async () => {
-
     SavedTemplate(template, setTemplate)
-  .then((result) => {
-    console.log('blogTemplate',blogTemplate)
-    toast.success(<b>Template Saved Successfully</b>);
-  })
-  .catch((error) => {
-    toast.error(<b>Oops! Please Upgrade Your Plan to create new Websites</b>);
-  });
-
+      .then((result) => {
+        console.log("blogTemplate", blogTemplate);
+        toast.success(<b>Template Saved Successfully</b>);
+      })
+      .catch((error) => {
+        toast.error(
+          <b>Oops! Please Upgrade Your Plan to create new Websites</b>
+        );
+      });
   };
 
   return (
@@ -28,8 +28,8 @@ const SaveBtn = () => {
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Button
         onClick={saveTemplate}
-        style={{ position: "sticky", top: 0, zIndex: 1000 }}
-        size="small"
+        style={{ position: "sticky", left: 10, top: -200, zIndex: 1000 }}
+        size="medium"
         color="primary"
         startIcon={<SaveIcon />}
         variant="contained"
