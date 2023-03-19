@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 
 const styles = {
@@ -110,30 +112,38 @@ const ReplyForm = ({email, open, setOpen}) => {
       <div style={styles.dialogContainer}>
         <form onSubmit={handleSubmit} style={styles.formContainer}>
 
-          <input
+          <TextField
 
+          style={{marginTop:'10px'}}
+          label="Subject"
             name="subject"
             placeholder="Subject"
             onChange={handleSubject}
 
 
-            style={styles.input}
+
           />
-          <textarea
+          <TextField
+                    id="standard-multiline-static"
+                    label="Reply"
+                    rows={4}
+
+              style={{marginTop:'30px'}}
             name="reply"
+            multiline
             placeholder="Reply"
             onChange={handleMessage}
 
 
-            style={{ ...styles.input, height: '100px' }}
+
           />
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button type="button" style={{ ...styles.button, marginRight: '10px' }} onClick={handleClose}>
+            <Button type="button" style={{ ...styles.button, marginRight: '10px' }} onClick={handleClose}>
               Close
-            </button>
-            <button type="submit" style={styles.button}>
+            </Button>
+            <Button type="submit" style={styles.button}>
               Send
-            </button>
+            </Button>
           </div>
         </form>
       </div>

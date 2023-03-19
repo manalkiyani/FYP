@@ -13,59 +13,64 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
+import Divider from '@mui/material/Divider';
 
 const Sidebar = () => {
 
   return (
-    <div className="sidebar">
-      <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">ADMIN NAME</span>
-        </Link>
-      </div>
+    <div style={{backgroundColor:'#40AFC0'}} className="sidebar">
+
       <hr />
-      <div className="center">
+      <div style={{marginLeft:'-115px'}} className="center">
         <ul>
-          <p className="title">MAIN</p>
+        <Divider flexItem sx={{marginBottom:'5px',  backgroundColor:'white' }} />
+
+        
           <li>
+
             <DashboardIcon className="icon" />
-            <span>Dashboard</span>
+            <span className="semiboldfont">Dashboard</span>
           </li>
+          <Divider flexItem sx={{ marginTop:'5px', backgroundColor:'white' }} />
           <p className="title">LISTS</p>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/adminmessages" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Messages</span>
+              <span className="semiboldfont">Messages</span>
             </li>
           </Link>
 
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <Link to="/adminpayments" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
-              <span>Orders</span>
+              <span style={{marginTop:'10px'}} className="semiboldfont">Orders</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/adminappointments" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Appointments</span>
+              <span style={{marginTop:'10px'}} className="semiboldfont">Appointments</span>
             </li>
           </Link>
           <li>
             <CreditCardIcon className="icon" />
-            <span>Job Applications</span>
+            <span style={{marginTop:'10px'}} className="semiboldfont">Job Applications</span>
           </li>
+          <Divider flexItem sx={{ marginTop:'10px', backgroundColor:'white' }} />
 
 
           <p className="title">USER</p>
+          <Link to="/admindashboard" style={{ textDecoration: "none" }}>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
+            <span className="semiboldfont">Profile</span>
           </li>
+          </Link>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span style={{marginTop:'10px'}} className="semiboldfont">Logout</span>
           </li>
+          <Divider flexItem sx={{ marginTop:'10px', backgroundColor:'white' }} />
         </ul>
       </div>
 
