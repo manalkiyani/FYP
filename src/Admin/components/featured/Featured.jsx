@@ -54,11 +54,6 @@ const Featured = () => {
 
         <div className="info">
 
-        <div className="featuredChart">
-        
-       
-      
-      </div>
 
 
         <div style={{marginTop:'15px', marginRight:'50px'}} className="leftinfobox">

@@ -35,7 +35,11 @@ const Navbar = () => {
     navigate('/login');
   }
   return (  
-    
+    <>
+    <button className={styles.navbarToggle} onClick={handleToggleMenu}>
+          {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+      
+      </button>
     <nav className={isOpen ? styles.navbar:`${styles.navbar} ${styles.close}`}>
        <div className={styles.navbarLogo}>
         <Link to="/"
@@ -44,10 +48,7 @@ const Navbar = () => {
         </Link>
       </div>
       
-      <button className={styles.navbarToggle} onClick={handleToggleMenu}>
-          {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       
-      </button>
       <ul className={styles.navbarList}>
         <li className={styles.navbarItem}><Link to="/" className={styles.navbarLink}>Home</Link></li>
         <li className={styles.navbarItem}><Link to="/dashboard" className={styles.navbarLink}>Dashboard</Link></li>
@@ -72,6 +73,9 @@ const Navbar = () => {
 
 
     </nav>
+    </>
+    
+    
   )
 }
 

@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 import ReplyForm from "../../ReplyForm/ReplyForm";
 
 
-const Datatable = () => {
+const Datatable = ({id}) => {
   const [fetchData, setFetchData] = useState(true);
   const [tempData, setTempData]= useState([])
   const [email, setEmail] = useState('');
@@ -20,6 +20,7 @@ const Datatable = () => {
    console.log(params.row.email); // log the email of the selected row
    setOpen(true);
    
+
    
 
 
@@ -27,11 +28,12 @@ const Datatable = () => {
 
 
   useEffect(() => {
+    console.log(id);
     if (fetchData) {
-      axios.post("http://localhost:8800/api/admin/getmessagesonadmindashboard",{ADMIN_ID:'64058525e63bfc4d3d681984'})
+      axios.post("http://localhost:8800/api/admin/getmessagesonadmindashboard",{ADMIN_ID:id})
         .then((response) => {
           setTempData(response.data);
-          console.log(response.data + "this is messages data");
+          console.log(response.data , "this is messages data");
         })
         .catch((error) => {
           console.error(error);
@@ -43,8 +45,10 @@ const Datatable = () => {
   }, [fetchData]);
 
   const userColumns = [
-
-    { field: "email", headerName: "Email",     width: 300, },
+ 
+   
+    { field: "id", headerName: "ID",     width: 30, },
+     { field: "email", headerName: "Email",     width: 300, },
     { field: "message", headerName: "Message",    width: 300, },
     { field: "subject", headerName: "Subject",   width: 250,},
     {
@@ -76,7 +80,7 @@ const Datatable = () => {
         columns={userColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        getRowId={(row) => row.email}
+        getRowId={(row) => row.id}
         checkboxSelection = {false}
       />
       {open && <ReplyForm email = {email} open={open} setOpen={setOpen}></ReplyForm>}

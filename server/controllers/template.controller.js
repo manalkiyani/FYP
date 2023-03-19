@@ -17,7 +17,7 @@ exports.saveTemplate = (req, res) => {
     switch (userPlan) {
       case "Basic":
         console.log('basic plan')
-        allowedTemps = 10;
+        allowedTemps = 1;
         break;
       case "starter":
         allowedTemps = 3;
@@ -36,8 +36,21 @@ exports.saveTemplate = (req, res) => {
       console.log(user)
       return res.status(500).json({ message: "Limit Reached" });
     } else {
+
+
+       let date_ob = new Date();
+  // current date
+  // adjust 0 before single digit date
+  let date = ("0" + date_ob.getDate()).slice(-2);
+  // current month
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  // current year
+  let year = date_ob.getFullYear();
+
       const template = new Template({
         _id: mongoose.Types.ObjectId(),
+        createdAt: date + "-" + month + "-" + year,
+        name: req.body.template.name,
         type: req.body.template.type,
         pages: req.body.template.pages,
         data: req.body.template.data,
@@ -53,7 +66,7 @@ exports.saveTemplate = (req, res) => {
               return res.status(201).json({
                 status: 201,
                 success: true,
-                message: "New template created successfully",
+                message: "success",
                 Template: newTemp,
                 User: updatedUser,
               });
@@ -178,3 +191,27 @@ exports.updateTemplate = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+//delete template from admin list and then from template schema, get user id and template id
+
+exports.deleteTemplate = async (req, res) => {
+  try {
+    const { adminId, templateId } = req.params;
+
+    // Remove the template ID from the savedTemplates field in the admin document
+    const admin = await Admin.findByIdAndUpdate(
+      adminId,
+      { $pull: { savedTemplates: templateId } },
+      { new: true }
+    );
+
+    // If the template was saved by no admins, delete the template document itself
+    await Template.findByIdAndDelete(templateId);
+
+    res.status(201).json(admin);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+

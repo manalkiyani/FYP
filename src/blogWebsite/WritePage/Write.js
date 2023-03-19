@@ -58,7 +58,7 @@ export default function Write() {
     })
       .then((res) => res.json())
       .then((response) => {
-        toast.success('Please wait while we add your blog')
+       
         if (response.success === true) {
           toast.success("Blog Added Successfully");
         }
@@ -75,7 +75,7 @@ export default function Write() {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Please fill all the fields");
+        
       });
   };
 

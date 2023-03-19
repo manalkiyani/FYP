@@ -41,7 +41,7 @@ import Write from "./blogWebsite/WritePage/Write";
 
 
 //common components
-
+import ViewerContactForm from "./Viewer/ContactUsPage/ContactUs";
 //admin
 import Navbar from "./blogWebsite/components/Navbar/Navbar";
 
@@ -122,7 +122,7 @@ const App = () => {
             <Route exact path="view/blog/template/:id" element={<ViewerNavbar type="blog" pages={["", "blogs", "contactUs"]}  names={["Home", "Blogs", "Contact Us"]} />} >
               <Route path="" element={<ViewerHomepage />} />
               <Route path="blogs" element={<ViewerMainPage type="blog" />} />
-              <Route path="contactUs" element={<h1>Contact Us</h1>} />
+              <Route path="contactUs" element={<ViewerContactForm/>} />
             </Route>
 
           
@@ -130,6 +130,7 @@ const App = () => {
             <Route exact path="/eccomerce/template/:id" element={<Navbar type="eccomerce" pages={["", "products", "contact"]} names={["Home", "Products", "Contact Us"]} />}>
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
+             
             </Route>
             
 
@@ -138,7 +139,7 @@ const App = () => {
               <Route path="" element={<ViewerHomepage />} />
               <Route path="products" element={<ViewerMainPage type="eccomerce" />} />
               <Route path="cart" element={<CartPage />} />
-              <Route path="contactUs" element={<h1>Contact Us</h1>} />
+               <Route path="contactUs" element={<ViewerContactForm/>} />
             </Route>
 
             
