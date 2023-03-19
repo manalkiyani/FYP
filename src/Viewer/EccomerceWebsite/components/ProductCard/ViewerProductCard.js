@@ -6,7 +6,7 @@ import { getListOfProducts } from ".././../../../utilityFunctions/axiosFunctions
 import { Button } from "@mui/material";
 import axios from "axios";
 
-const ViewerProductCard = ({ searchedquery, productIds }) => {
+const ViewerProductCard = ({ searchedquery, productIds, sortOrder, sortfunc }) => {
   const [products, setProducts] = useState(null);
   const [open1, setOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -31,10 +31,27 @@ const ViewerProductCard = ({ searchedquery, productIds }) => {
   const getProducts = async () => {
     const products = await getListOfProducts(productIds);
     setProducts(products);
+
+    ///sorting products
+    if(sortfunc){
+          
+      if (sortOrder == "low-to-high") {
+        console.log("in if")
+      
+        setProducts([...products].sort((a, b) => a.price - b.price));
+        
+      } else {
+        console.log("in else")
+      
+        setProducts([...products].sort((a, b) => b.price - a.price));
+        
+      }
+    }
+
   };
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [sortOrder]);
 
   const AddToCart = async (id, image, name, price, description) => {
     try {

@@ -58,6 +58,7 @@ const CheckOutForm = ({userid,removeAllFromCartAfterOrderReceived,subtotal,cartP
     const [address,setAddress]=useState('')
     const [price,setPrice]=useState()
 
+
     const [quantity,setQuantity]=useState('')
     const [paymentMethod,setPaymentMethod]=useState('')
     const [transactionid,setTransactionid]=useState('')
@@ -90,38 +91,47 @@ const CheckOutForm = ({userid,removeAllFromCartAfterOrderReceived,subtotal,cartP
     };
 
 
-  const handleSubmit =async(event)  => {
-    setOpen(false)
-
-
-    fetch("http://localhost:8800/api/orders/orderreceived", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        userid: userid,
-        products:cartProducts,
-        totalprice:subtotal,
-        address: address,
-        paymentmethod:selectedOption,
-        transactionid: transactionid,
-        
-      }),
-    }).then((res) => res.json())
-    .then((data) => {
-
-      setCartProducts([])
-      console.log("Order received");
-      removeAllFromCartAfterOrderReceived();
-
-    })
-    setOpen(false);
-
-  };
+    const handleSubmit = async (event) => {
+      setOpen(false);
+    
+      fetch("http://localhost:8800/api/orders/orderreceived", {
+        method: "POST",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          userid: userid,
+          products: cartProducts,
+          totalprice: subtotal,
+          address: address,
+          paymentmethod: selectedOption,
+          transactionid: transactionid,
+        }),
+      })
+        .then((res) => res.json())
+        .then(async (data) => {
+          let orderId = data.order._id;
+          console.log("this is orderid" + orderId)
+          try {
+            const response = await axios.put(
+              "http://localhost:8800/api/orders/addordersintemplate",
+              { orderId }
+            );
+            console.log("this is response +" + response.data);
+          } catch (error) {
+            console.log(error);
+          }
+    
+          setCartProducts([]);
+          console.log("Order received");
+          removeAllFromCartAfterOrderReceived();
+        });
+      setOpen(false);
+    };
+    
   const handleAddress = (event) =>{
     setAddress(event.target.value)
 
@@ -221,3 +231,4 @@ const CheckOutForm = ({userid,removeAllFromCartAfterOrderReceived,subtotal,cartP
   );
 };
 export default CheckOutForm;
+

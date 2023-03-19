@@ -81,11 +81,8 @@ const CartPage = (props) => {   //we have to receive userid here in the props to
       console.log("this is response "+response.status)
 
       console.log("in remove all")
-      const response1 = await axios.put("http://localhost:8800/api/products/addordersintemplate", {
-  
- 
-      });
-      console.log("this is respons1e "+response1.message)
+      //const response1 = await axios.put("http://localhost:8800/api/products/addordersintemplate", {});
+      //console.log("this is respons1e "+response1.message)
       }
 
     const removeProductFromCart = async (pid) => {

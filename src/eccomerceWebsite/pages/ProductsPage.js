@@ -18,8 +18,28 @@ function Products({ productIds }) {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
+  const [sortfunc, setSortFunc] = useState(false);
+  const [sortAnchorEl, setSortAnchorEl] = useState(null);
+  const [sortOrder, setSortOrder] = useState("");
 
   const [open, setOpen] = useState(false);
+  
+
+  const handleSortClick = (event) => {
+    setSortAnchorEl(event.currentTarget);
+  };
+
+  const handleSortClose = () => {
+    setSortAnchorEl(null);
+  };
+
+  const handleSortOrder =  (order) => {
+    setSortOrder(order);
+    setSortFunc(true);
+
+    handleSortClose();
+
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
