@@ -10,7 +10,7 @@ import Otp from "./pages/OTP/otp";
 import ResetPassword from "./pages/resetPassword/resetPassword";
 import Username from "./pages/Username/username";
 import UcraftNavbar from "../../FYP/src/components/NavBar/NavBar";
-import Plan from "./pages/Plan/Plan";
+import Plan from "./pages/Plan/Plan"
 import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
 import ContactForm from "./pages/ContactUs/ContactUs";
 import Home from "./Admin/Home/Home";
@@ -124,7 +124,7 @@ const App = () => {
 
           
            {/* eccomerce Website Admin */}
-            <Route exact path="/eccomerce/template/:id" element={<Navbar type="eccomerce" pages={["", "products", "cart", "contact"]} names={["Home", "Products", "Cart", "Contact Us"]} />}>
+            <Route exact path="/eccomerce/template/:id" element={<Navbar type="eccomerce" pages={["", "products", "contact"]} names={["Home", "Products", "Contact Us"]} />}>
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
             </Route>
@@ -134,7 +134,7 @@ const App = () => {
             <Route exact path="view/eccomerce/template/:id" element={<ViewerNavbar type="eccomerce" pages={["", "products","cart", "contactUs"]}  names={["Home", "Products","Cart", "Contact Us"]}   />} >
               <Route path="" element={<ViewerHomepage />} />
               <Route path="products" element={<ViewerMainPage type="eccomerce" />} />
-              <Route path="cartpage" element={<CartPage />} />
+              <Route path="cart" element={<CartPage />} />
               <Route path="contactUs" element={<h1>Contact Us</h1>} />
             </Route>
 

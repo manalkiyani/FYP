@@ -3,9 +3,10 @@
     flex-direction: row;
     padding: 10px 40px;
     justify-content: space-between;
+    align-items: center;
     background-color: white;
-    shadow: 0 0 10px 0 rgba(0,0,0,0.2);
-   
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+         position: relative;
    
     font-family: "Josefin Sans", sans-serif;
 }

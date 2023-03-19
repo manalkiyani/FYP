@@ -14,7 +14,8 @@ import {
   dragOverHandler,
   dragEndHandler,
   changeBackgroundColor,
-  changeBackgroundImage
+  changeBackgroundImage,
+  changeCardImage
 } from "../utilityFunctions/helperFunctions";
 
 import DragAndDropPanel from "../components/DragAndDropPanel";
@@ -227,6 +228,16 @@ const DragDrop = ({
                                   components
                                 )
                               )
+                            }
+                            changeCardImage= {(image,index,idFromComponent) =>
+                              setComponents(
+                                changeCardImage(
+                                  image,
+                                  index,
+                                  idFromComponent,
+                                  components
+                                  )
+                                )
                             }
                             handleSocialIcons={(socialIcons, idFromComponent) =>
                               setComponents(

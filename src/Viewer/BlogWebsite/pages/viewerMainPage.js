@@ -7,7 +7,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
 import { fetchViewerBlocks,getTemplateData } from "../../../utilityFunctions/axiosFunctions";
 import Blogs from "../components/Blogs/Blogs";
-import Products from"../../../eccomerceWebsite/pages/ProductsPage"
+import ViewerProducts from '../../EccomerceWebsite/pages/ProductPage/ViewerProductPage';
 
 
 const ViewerMainPage = (props) => {
@@ -79,7 +79,7 @@ const ViewerMainPage = (props) => {
      {/*display blogs here*/ }
      {blogIds && <Blogs blogIds={blogIds} />}
       {/*display products here*/ }
-      {productIds && <Products productIds={productIds} />}
+      {productIds && <ViewerProducts productIds={productIds} />}
    
     {/*display blocks here*/}
       {main ? (

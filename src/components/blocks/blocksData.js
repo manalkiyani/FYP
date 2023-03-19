@@ -11,8 +11,8 @@ import link from "../../assets/imgs/link.png";
 import Faq1 from "./FAQ/Faq1";
 import Features3 from "./Features3/Features3";
 import Features1 from "./Features1/Features1";
-import bg2 from "../../assets/imgs/bg2.png";
-import bg3  from "../../assets/imgs/bg3.png";
+
+
 const blocks = [
   {
     type: "header1",
