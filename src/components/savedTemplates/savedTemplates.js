@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../App";
 
+import classes from "./savedTemplates.module.css";
 const SavedTemplates = () => {
   const [savedTemplates, setSavedTemplates] = React.useState(null);
   const { setTemplateId, setTemplate } = useContext(UserContext);
@@ -46,14 +47,14 @@ const SavedTemplates = () => {
     navigate(`/${type}/template/${id}`);
   };
   return (
-    <div>
+    <div className={classes.flex}>
       {savedTemplates &&
         savedTemplates.map((template) => {
           return (
-            <div key={template._id} style={{ backgroundColor: "red" }}>
+            <div key={template._id} className={classes.card}>
               <div onClick={() => openAsAdmin(template._id, template.type)}>
                 <h1>{template.name}</h1>
-                <p>{template.type}</p>
+                <p>Edit {template.type} Template</p>
               </div>
 
               <p onClick={() => openAsViewer(template._id, template.type)}>

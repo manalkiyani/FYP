@@ -1,7 +1,9 @@
 import "./datatable.scss";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
-import { Link } from "react-router-dom";
+import { getUser,getUsername } from "../../../utilityFunctions/authFunctions";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -14,11 +16,12 @@ const Datatable = () => {
 
 
  };
-
-
- useEffect(() => {
-
-    axios.post("http://localhost:8800/api/admin/getordersonadmindashboard",{ADMIN_ID:'64045dc3c9f73b8649beebe4'})
+  const [user, setUser] = React.useState({});
+  React.useEffect(() => {
+    getUserData()
+      .then((data) => {
+        console.log('sk',data);
+           axios.post("http://localhost:8800/api/admin/getordersonadmindashboard",{ADMIN_ID:data._id})
       .then((response) => {
         
         console.log(response.data + "this is messages data");
@@ -27,6 +30,24 @@ const Datatable = () => {
       .catch((error) => {
         console.error(error);
       })
+        setUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const getUserData = async () => {
+    const token = await getUsername();
+    console.log(token);
+    const { data } = await getUser({ username: token.username });
+    console.log(data);
+    return data; // Return the data retrieved from the API
+  };
+
+
+ useEffect(() => {
+
+   
 
   
 }, []);

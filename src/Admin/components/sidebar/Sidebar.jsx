@@ -36,25 +36,25 @@ const Sidebar = () => {
           <Link to="/adminmessages" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span className="semiboldfont">Messages</span>
+              <span >Messages</span>
             </li>
           </Link>
 
           <Link to="/adminpayments" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
-              <span style={{marginTop:'10px'}} className="semiboldfont">Orders</span>
+              <span style={{marginTop:'10px'}} >Orders</span>
             </li>
           </Link>
           <Link to="/adminappointments" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span style={{marginTop:'10px'}} className="semiboldfont">Appointments</span>
+              <span style={{marginTop:'10px'}} >Appointments</span>
             </li>
           </Link>
           <li>
             <CreditCardIcon className="icon" />
-            <span style={{marginTop:'10px'}} className="semiboldfont">Job Applications</span>
+            <span style={{marginTop:'10px'}} >Job Applications</span>
           </li>
           <Divider flexItem sx={{ marginTop:'10px', backgroundColor:'white' }} />
 
@@ -63,12 +63,12 @@ const Sidebar = () => {
           <Link to="/admindashboard" style={{ textDecoration: "none" }}>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
-            <span className="semiboldfont">Profile</span>
+            <span >Profile</span>
           </li>
           </Link>
           <li>
             <ExitToAppIcon className="icon" />
-            <span style={{marginTop:'10px'}} className="semiboldfont">Logout</span>
+            <span style={{marginTop:'10px'}} >Logout</span>
           </li>
           <Divider flexItem sx={{ marginTop:'10px', backgroundColor:'white' }} />
         </ul>
