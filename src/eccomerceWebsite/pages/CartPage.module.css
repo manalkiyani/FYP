@@ -23,13 +23,17 @@
 }
 
 .spacebetween{
-  margin-top: 20px;
+ 
+    margin: 3px 0px;
+  display: flex;
+  justify-content: space-between;
 }
 .summaryInfo {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+ 
 }
   
   .table {
@@ -75,7 +79,7 @@ margin-right: 10px;
     }
 
     .spacebutton{
-      background-color: #6F4790;
+     
       margin-top: 20px;
       margin-bottom: 20px;
 

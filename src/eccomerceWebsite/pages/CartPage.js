@@ -2,8 +2,9 @@ import React from "react";
 import styles from './CartPage.module.css';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "../../pages/UI/Button";
+import Button from '@mui/material/Button';
 import  CheckOutForm  from '../components/CartPage/CheckOutForm';
+import { Divider } from "@mui/material";
 
 const CartPage = (props) => {   //we have to receive userid here in the props to make this code work
     const [cartProducts, setCartProducts] = useState([]);
@@ -181,21 +182,22 @@ const response = await axios.put("http://localhost:8800/api/products/editquantit
                     <div className={styles.summaryInfo}>
                         <div className={styles.spacebetween}>
                             <span>Order Total:</span>
-                            <span>${totalAmount}</span>
+                            &nbsp; &nbsp; <span>${totalAmount}</span>
                         </div>
+                        <Divider style={{color:' black'}}  />
                         <div className={styles.spacebetween}>
                             <span>Shipping Fee:</span>
-                            <span>${shippingFee}</span>
+                            &nbsp; &nbsp; &nbsp; <span>${shippingFee}</span>
                         </div>  
                         <div className={styles.spacebetween}>
                             <span >Tax:</span>
-                            <span>{tax * 100}%</span>
+                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   <span>{tax * 100}%</span>
                         </div>
                         <div className={styles.spacebetween}>
                             <span >Subtotal:</span>
                             <span>${subtotal.toFixed(2)}</span>
                         </div>
-                        <Button className={styles.spacebutton} onClick={handleOpen}>Checkout</Button>
+                        <Button variant="contained" color="error" className={styles.spacebutton} onClick={handleOpen}>Checkout</Button>
 
                     </div>
 

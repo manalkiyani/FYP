@@ -5,12 +5,15 @@ import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
 import SocialIcons from "../socialIcons/socialIcons";
+import {uploadImage} from "../../../utilityFunctions/imageUpload";
+import UploadImage from "../../uploadImage/uploadImage";
 
 export default class Header1 extends Component {
   state = {
     showMenu: false,
     ref: null,
     displayHandleBlock: false,
+     image: null,
   };
   //  textFromComponent,
   //   index,
@@ -22,7 +25,18 @@ export default class Header1 extends Component {
     console.log(e.target.value);
     this.props.changeText(e.target.value, null, tag, this.props.id, "header1");
   };
-
+   handleImageChange = async (event) => {
+    this.setState({
+      image: event.target.files[0],
+    });
+    try {
+      const link = await uploadImage(event.target.files[0]);
+      console.log(link);
+      this.props.changeBackgroundImage(link, this.props.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   handleClick = () => {
     this.props.onClick(this.props.id, "btn", null, "header1");
     this.setState({
@@ -68,6 +82,7 @@ export default class Header1 extends Component {
             enableDrag={this.props.enableDrag}
           />
         )}
+      { this.state.displayHandleBlock &&  <UploadImage top={55} left={10} handleImageChange={this.handleImageChange} image={this.state.image} />}
         <img className={classes.img} src={this.props.Data.data.img} />
         <div style={{ position: "absolute", zIndex: 1 }}>
           <ContentEditable

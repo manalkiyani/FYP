@@ -210,6 +210,38 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //update the state
   return componentsList;
 };
+
+//change image of a card
+export const changeCardImage = (
+  imageURL,
+
+  index,
+  idFromComponent,
+  components
+) => {
+  let position = 0;
+  let componentsList = [...components];
+  //get the cliked components key and component
+  const component = componentsList.find((ele, index) => {
+    position = index;
+
+    return ele.key === idFromComponent;
+  });
+  //delete component from components list
+  componentsList.splice(position, 1);
+  const newData = JSON.parse(JSON.stringify(component.Data.data));
+
+  //update card image
+  newData[index].bg.picture = imageURL;
+  const updatedComponent = { ...component };
+  updatedComponent["Data"]["data"] = newData;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+};
 export const changeComponentText = (
   components,
   textFromComponent,
@@ -433,11 +465,12 @@ const saveBlocks = async (blocks) => {
   const Blocks = unmapBlocks(blocks);
 
   try {
-   const res = await axios.post("http://localhost:8800/api/blocks/saveBlocks", { blocks: Blocks })
-   return res.data.savedBlockKeys;
-  }
-  catch(error)
-  {
+    const res = await axios.post(
+      "http://localhost:8800/api/blocks/saveBlocks",
+      { blocks: Blocks }
+    );
+    return res.data.savedBlockKeys;
+  } catch (error) {
     console.error(error);
   }
 };
@@ -445,11 +478,12 @@ const updateBlocks = async (blocks) => {
   const Blocks = unmapBlocks(blocks);
 
   try {
-   const res = await axios.post("http://localhost:8800/api/blocks/updateBlocks", { blocks: Blocks })
-   return res.data.updatedBlockKeys;
-  }
-  catch(error)
-  {
+    const res = await axios.post(
+      "http://localhost:8800/api/blocks/updateBlocks",
+      { blocks: Blocks }
+    );
+    return res.data.updatedBlockKeys;
+  } catch (error) {
     console.error(error);
   }
 };
@@ -507,37 +541,35 @@ const updateTemplate = async (
   dataType,
   mainPageDataIds
 ) => {
-
   try {
     const res = await axios.post(
       "http://localhost:8800/api/templates/updateTemplate",
-       {template: {
-              id,
-              type: type,
-              pages: {
-                HomePage: {
-                  blocks: homepageBlockIds,
-                },
-                [mainPage]: {
-                  blocks: mainpageBlockIds,
-                },
-              },
-              data: {
-                [dataType]: mainPageDataIds,
-              },
-            },}
+      {
+        template: {
+          id,
+          type: type,
+          pages: {
+            HomePage: {
+              blocks: homepageBlockIds,
+            },
+            [mainPage]: {
+              blocks: mainpageBlockIds,
+            },
+          },
+          data: {
+            [dataType]: mainPageDataIds,
+          },
+        },
+      }
     );
     if (res.status === 201) {
-     
-      const response = { status: "201"};
+      const response = { status: "201" };
       return response;
     } else if (res.status === 500) {
-      
-      const response = { status: "500"};
+      const response = { status: "500" };
       return response;
     }
   } catch (err) {
-    
     return { status: "500" };
   }
 };
@@ -549,7 +581,6 @@ export const SavedTemplate = async (template) => {
   let mainPageDataIds = [];
 
   if (template.pages?.HomePage?.blocks.length > 0) {
-  
     homepageBlockIds = await saveBlocks(template.pages.HomePage.blocks);
   }
   switch (template.type) {
@@ -608,7 +639,6 @@ export const SavedTemplate = async (template) => {
 };
 
 export const UpdateTemplate = async (template, id) => {
- 
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
@@ -616,27 +646,33 @@ export const UpdateTemplate = async (template, id) => {
   let mainPageDataIds = [];
 
   if (template.pages?.HomePage?.blocks.length > 0) {
-      homepageBlockIds = await updateBlocks(template.pages.HomePage.blocks);
-   
+    homepageBlockIds = await updateBlocks(template.pages.HomePage.blocks);
   }
   switch (template.type) {
-   case "blog":
+    case "blog":
       {
         if (template.pages.BlogsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(template.pages.BlogsPage.blocks);
+          mainpageBlockIds = await updateBlocks(
+            template.pages.BlogsPage.blocks
+          );
         }
         if (template.data?.blogs) {
           mainPageDataIds = template.data?.blogs;
         }
-        const response = await   updateTemplate(id, template.type, homepageBlockIds, "BlogsPage", mainpageBlockIds, "blogs", mainPageDataIds)
-        if (response.status === 201) {  
-          
-            return Promise.resolve({ msg: 'Updated Successfully' });
-          } else if (response.status === 500) {
-          
-            return Promise.reject({ error: 'Server Error' });
-          }
-        
+        const response = await updateTemplate(
+          id,
+          template.type,
+          homepageBlockIds,
+          "BlogsPage",
+          mainpageBlockIds,
+          "blogs",
+          mainPageDataIds
+        );
+        if (response.status === 201) {
+          return Promise.resolve({ msg: "Updated Successfully" });
+        } else if (response.status === 500) {
+          return Promise.reject({ error: "Server Error" });
+        }
       }
       break;
   }
@@ -644,20 +680,27 @@ export const UpdateTemplate = async (template, id) => {
     case "eccomerce":
       {
         if (template.pages.ProductsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(template.pages.ProductsPage.blocks);
+          mainpageBlockIds = await updateBlocks(
+            template.pages.ProductsPage.blocks
+          );
         }
         if (template.data?.products) {
           mainPageDataIds = template.data?.products;
         }
-     const response = await   updateTemplate(id, template.type, homepageBlockIds, "ProductsPage", mainpageBlockIds, "products", mainPageDataIds)
-     if (response.status === 201) {
-       
-        return Promise.resolve({ msg: 'Updated Successfully' });
-      } else if (response.status === 500) {
-       
-        return Promise.reject({ error: 'Server Error' });
-      }
-        
+        const response = await updateTemplate(
+          id,
+          template.type,
+          homepageBlockIds,
+          "ProductsPage",
+          mainpageBlockIds,
+          "products",
+          mainPageDataIds
+        );
+        if (response.status === 201) {
+          return Promise.resolve({ msg: "Updated Successfully" });
+        } else if (response.status === 500) {
+          return Promise.reject({ error: "Server Error" });
+        }
       }
       break;
   }

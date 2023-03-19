@@ -19,7 +19,7 @@ export const blogTemplate = {
     blogs: [
       "64136890ef73fadc5e771e31",
       "640f542137033f1777a4f28a",
-      // "640f531f37033f1777a4f286",
+     
       "640dcaa86e4260a55127d157",
     ],
   },

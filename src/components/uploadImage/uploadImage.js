@@ -7,9 +7,12 @@ const UploadImage = (props) => {
     <div
       style={{
         position: "absolute",
-        left: "75px",
-        top: "10px",
+        left: props.left,
+        top: props.top,
         zIndex: "104",
+        backgroundColor: "white",
+         borderRadius: "25px",
+     
       }}
     >
       <input
@@ -24,10 +27,10 @@ const UploadImage = (props) => {
            
             component="span"
             style={{
-            color: "white",
-              marginBottom: "100px",
+            color: "#40AFC0",
+             
               width: "138px",
-              borderRadius: "25px",
+             
               fontFamily: "arial",
               textAlign: "center",
               padding: "5px",

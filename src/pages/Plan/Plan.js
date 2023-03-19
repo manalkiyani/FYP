@@ -15,7 +15,7 @@ function Plan() {
     setActivePlan(event);
     if (event === "starter") {
       setAmount(9.99);
-      console.log("THIS IS EVEBT " + event);
+      
     } else if (event === "professional") {
       setAmount(19.99);
     } else if (event === "organization") {

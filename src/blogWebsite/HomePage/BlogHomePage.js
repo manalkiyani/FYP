@@ -41,7 +41,7 @@ const BlogHomePage = () => {
   const fetchHomePageBlocks = async (blockIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-      console.log(blocks);
+      
       setTemplateinContext(blocks);
       setDataForMain(blocks);
     } catch (error) {

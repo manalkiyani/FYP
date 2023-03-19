@@ -1,12 +1,12 @@
 import "./Write.css";
-import React  from "react";
+import React from "react";
 import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { uploadImage } from "../../utilityFunctions/imageUpload";
 import { useContext } from "react";
 import { UserContext } from "../../../src/App";
-
+import { Button } from "@mui/material";
 export default function Write() {
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
@@ -16,7 +16,7 @@ export default function Write() {
   const [desc, setdesc] = useState("");
   const [image, setImage] = useState(null);
   const [images, setImages] = useState([]);
-   const { template, setTemplate } = useContext(UserContext);
+  const { template, setTemplate } = useContext(UserContext);
 
   const fileChange = (e) => {
     const newImage = e.target.files[0];
@@ -57,33 +57,26 @@ export default function Write() {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-         toast.success('Blog Added Successfully');
-        console.log(data);
-            setTemplate({
-              ...template,
-          
+      .then((response) => {
+        toast.success("Blog Added Successfully");
+        console.log(response);
+        setTemplate({
+          ...template,
           data: {
-            
-            blogs: [...template.data.blogs, data.blogId],
+            blogs: [...template.data.blogs, response.blogId],
           },
-
         });
-
-       
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
-        toast.error('Oops! An error occurred');
-      
-
-      
+        toast.error("Oops! An error occurred");
       });
   };
- 
+
   return (
     <>
-    <Toaster position="top-center" reverseOrder={false}></Toaster>
-      
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+
       <div className="write">
         <Carousel fade={true} pause={false}>
           {images.map((image) => {
@@ -172,14 +165,12 @@ export default function Write() {
             />
           </div>
 
-          <button onClick={handleSubmit} className="writeSubmit" type="submit">
+          <Button onClick={handleSubmit} variant="contained" className="writeSubmit" type="submit">
             Publish
-          </button>
+          </Button>
         </form>
       </div>
-      <div>
-     
-      </div>
+      <div></div>
     </>
   );
 }
