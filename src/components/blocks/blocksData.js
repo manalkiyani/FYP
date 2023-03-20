@@ -89,7 +89,7 @@ const blocks = [
       data: {
         h: {
           text: "For Private clinics and medical centers",
-          size: "24px",
+          size: "36px",
           color: "#fff",
           bold: false,
           underline: false,
@@ -99,7 +99,7 @@ const blocks = [
         },
         p: {
           text: "Simplify the day to day operations of your employees and increase the flow of patients",
-          size: "16px",
+          size: "20px",
           color: "#EBF1FC",
           bold: false,
           underline: false,
@@ -118,7 +118,7 @@ const blocks = [
           family: "Sans-serif",
         },
         img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678545576/m3-removebg-preview_jorxiz.png",
-        bgColor: "#068078",
+        bgColor: "#4DB6AC",
       },
     },
   },
@@ -130,27 +130,27 @@ const blocks = [
       data: {
         h: {
           text: "Spring Sales Only",
-          size: "24px",
-          color: "#fff",
+          size: "48px",
+          color: "#000000",
           bold: false,
           underline: false,
           italic: false,
           align: "left",
-          family: "Sans-serif",
+          family: "Serif",
         },
         //Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         p: {
           text: "Upto 50% off",
-          size: "16px",
-          color: "#EBF1FC",
-          bold: false,
+          size: "20px",
+          color: "#653294",
+          bold: true,
           underline: false,
           italic: false,
           align: "left",
           family: "Sans-serif",
         },
         s: {
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          text: "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.",
           size: "16px",
           color: "#EBF1FC",
           bold: false,
@@ -170,7 +170,7 @@ const blocks = [
           family: "Sans-serif",
         },
         img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1669815537/samples/ecommerce/shoes.png",
-        bgColor: "#5f3777",
+        bgColor: "#E1BEE7",
       },
     },
   },
@@ -512,11 +512,10 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
           },
-            bg: {
+          bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679295087/sunny-ng-KVIlNRoGwxk-unsplash_j5mxm3.jpg",
           },
-         
         },
         2: {
           p: {
@@ -530,11 +529,10 @@ const blocks = [
             family: "Sans-serif",
           },
 
-         bg: {
+          bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679296051/evie-s-vz3IQy0LOaA-unsplash_fobcsr.jpg",
           },
-          
         },
         3: {
           p: {
@@ -556,44 +554,37 @@ const blocks = [
       },
     },
   },
-   {
+  {
     type: "gallery2",
     img: "gallery2.jpeg",
     Component: Gallery2,
     Data: {
-   
       data: {
         1: {
-         
-            bg: {
+          bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679302828/hanna-balan-W-CDfBfMCzQ-unsplash_zbdsq8.jpg",
           },
-         
         },
         2: {
-         
-
-         bg: {
+          bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679302849/valentina-ivanova-vLWKTPPp72g-unsplash_z6hnt9.jpg",
           },
-          
         },
-       
-         3: {
+
+        3: {
           bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679304300/hanna-balan-1cMQFzjaXi0-unsplash_xez11j.jpg",
           },
         },
-         4: {
+        4: {
           bg: {
             picture:
               "https://res.cloudinary.com/djlewzcd5/image/upload/v1679303000/pexels-brett-sayles-992734_br54dm.jpg",
           },
         },
-      
       },
     },
   },
@@ -633,12 +624,11 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-        
+
         bgColor: "#DCEDC8",
       },
     },
   },
-
 ];
 
 export default blocks;

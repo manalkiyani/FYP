@@ -9,13 +9,13 @@ const addProduct = async (req, res) => {
   console.log(req.body);
 
   try {
-    await Product.create({
+  const product =  await Product.create({
       name,
       price,
       description,
       image,
     });
-    res.send({ status: "Product added Sucessfully" });
+    res.send({ status: "success", product });
   } catch (error) {
     res.send({ status: "error" });
   }
@@ -31,21 +31,19 @@ function getProducts(req, res) {
       });
     })
     .catch((err) => {
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "Server error. Please try again.",
-          error: err.message,
-        });
+      return res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
     });
 }
 async function getListOfProducts(req, res) {
   console.log("Req.body", req.body.productIds);
 
-  //find blogs which have ids in the array  
+  //find blogs which have ids in the array
   Product.find({ id: { $in: req.body.productIds } })
-    
+
     .then((allProds) => {
       return res.status(200).json({
         success: true,
@@ -100,7 +98,7 @@ function editproduct(req, res) {
 }
 
 const addtocart = async (req, res) => {
-  const { userid, productid, name, price, description,image } = req.body;
+  const { userid, productid, name, price, description, image } = req.body;
   console.log(req.body);
   User.findOne({ _id: userid }, (err, user) => {
     if (user) {
@@ -111,7 +109,7 @@ const addtocart = async (req, res) => {
         User.updateOne(
           { _id: userid },
           { $set: { cart: user.cart } },
-        (err, result) => {
+          (err, result) => {
             if (err) {
               console.log(err);
               res.status(500).send({ error: "Failed to update cart" });
@@ -128,8 +126,8 @@ const addtocart = async (req, res) => {
           _id: productid,
           name: name,
           price: price,
-         
-          image
+
+          image,
         });
         User.updateOne(
           { _id: userid },
@@ -140,10 +138,9 @@ const addtocart = async (req, res) => {
           }
         );
       }
-    }
-    else {
+    } else {
       console.log("User not found");
-      res.status(404).send('User not found');
+      res.status(404).send("User not found");
     }
   });
 };
@@ -214,17 +211,17 @@ const stripePayment = async (req, res) => {
 
 const addreviewindb = async (req, res) => {
   try {
-    const productId = '6416ea62e450c43bbd81264e'
-    const reviewAdded = 'test'
+    const productId = "6416ea62e450c43bbd81264e";
+    const reviewAdded = "test";
 
     if (!productId || !reviewAdded) {
-      return res.status(400).json({ error: 'Missing fields: id or review' });
+      return res.status(400).json({ error: "Missing fields: id or review" });
     }
 
     const product = await Product.findById(productId);
 
     if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
 
     if (!product.review) {
@@ -238,59 +235,86 @@ const addreviewindb = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
+const addRating = async (req, res) => {
+  const { productId, ratingValue } = req.body;
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    // Generate a random rating between 1 to 5 if ratingValue is null
+    const finalRatingValue = ratingValue || Math.floor(Math.random() * 5) + 1;
 
-const addRating = async (req,res)=>{
+    if (!product.rating) {
+      product.rating = [];
+    }
+    product.rating.push(finalRatingValue);
 
-    const { productId, ratingValue } = req.body;
-    try {
-      const product = await Product.findById(productId);
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-// Generate a random rating between 1 to 5 if ratingValue is null
-const finalRatingValue = ratingValue || Math.floor(Math.random() * 5) + 1;
+    const sum = product.rating.reduce((acc, val) => acc + val, 0);
 
-if (!product.rating) {
-  product.rating = [];
-}
-product.rating.push(finalRatingValue);
+    const avg = (sum / product.rating.length).toFixed(2);
+    product.avgRating = avg;
 
-const sum = product.rating.reduce((acc, val) => acc + val, 0);
-
-const avg = (sum / product.rating.length).toFixed(2);
-product.avgRating=avg
-
-await product.save();
-return res.status(200).json({ avgRating: product.avgRating });
-} catch (err) {
-  console.log("Error adding rating:", err);
-  return res.status(500).json({ error: "Internal server error" });
+    await product.save();
+    return res.status(200).json({ avgRating: product.avgRating });
+  } catch (err) {
+    console.log("Error adding rating:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
-  };
+};
 
-  // const getAvgRating = async (req, res)=>{
-  //   try {
-  //     const product = await Product.findById(req.params.id);
-  //     if (!product) {
-  //       return res.status(404).json({ error: 'Product not found' });
-  //     }
-  //     const sum = product.rating.reduce((acc, val) => acc + val, 0);
-  //     const avg = sum / product.rating.length;
-  //     console.log(`Average rating: ${avg}`);
+const getReviews = async (req, res) => {
+  try {
+    console.log(req.body.productId);
+    // find the SuperAdmin document with the specified ID and populate the "messages" array with Message data
+    const product = await Product.findById(req.body.productId);
 
-  //     return res.status(200).json({ averageRating: avg });
-  //   } catch (err) {
-  //     console.log('Error getting average rating:', err);
-  //     return res.status(500).json({ error: 'Internal server error' });
-  //   }
+    // extract the relevant data from the populated "payments" array
+    const reviews = product.review;
 
-  // }
+    // send the extracted data as a response to the frontend
+    console.log(reviews);
+    res.json(reviews);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal sdsdserver error" });
+  }
+};
+const addReview = async (req, res) => {
+  try {
+    const productId = req.body.productId;
+    const reviewAdded = req.body.review;
+    console.log("this is type " + typeof productId);
+    console.log("this is product id in server " + productId);
 
+    if (!productId || !reviewAdded) {
+      return res.status(400).json({ error: "Missing fields: id or review" });
+    }
 
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    if (!product.review) {
+      product.review = [];
+    }
+
+    product.review.push(reviewAdded);
+
+    await product.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 module.exports = {
   addProduct,
@@ -305,6 +329,6 @@ module.exports = {
   stripePayment,
   addreviewindb,
   addRating,
-
-
+  getReviews,
+  addReview,
 };

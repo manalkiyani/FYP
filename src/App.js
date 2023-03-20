@@ -110,7 +110,7 @@ const App = () => {
 
 
             {/* blog Website Admin */}
-            <Route exact path="/blog/template/:id" element={ <Navbar type="blog" pages={["", "blogs", "write", "contact"]}  names={["Home", "Blogs", "Write", "Contact Us"]} /> } >
+            <Route exact path="/blog/template/:id" element={ <Navbar type="blog" pages={["", "blogs", "write"]}  names={["Home", "Blogs", "Write"]} /> } >
               <Route path="" element={<BlogHomePage />} />
               <Route path="blogs" element={<BlogssPage />} />
               <Route path="write" element={<Write />} />
@@ -127,7 +127,7 @@ const App = () => {
 
           
            {/* eccomerce Website Admin */}
-            <Route exact path="/eccomerce/template/:id" element={<Navbar type="eccomerce" pages={["", "products", "contact"]} names={["Home", "Products", "Contact Us"]} />}>
+            <Route exact path="/eccomerce/template/:id" element={<Navbar type="eccomerce" pages={["", "products"]} names={["Home", "Products"]} />}>
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
              

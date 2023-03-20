@@ -1,6 +1,7 @@
 import classes from "./ProductsPage.module.css";
-import Input from "../../pages/UI/Input";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useContext } from "react";
+import { UserContext } from "../../App";
 import ProductCard from "../components/ProductsPage/ProductCard";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +19,9 @@ function Products({ productIds }) {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
+  const { template, setTemplate } = useContext(UserContext);
+  const [productIds1, setProductIds1] = useState(productIds);
+  const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
 
@@ -29,6 +33,9 @@ function Products({ productIds }) {
     setOpen(false);
   };
   const handleSubmit = async () => {
+
+    setLoading(true);
+      setOpen(false);
     let link = "";
     try {
       link = await uploadImage(image);
@@ -52,10 +59,20 @@ function Products({ productIds }) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "Product added");
+      .then((response) => {
+        toast.dismiss();
+        setLoading(false);
+       toast.success("Product Added");
+        setTemplate({
+          ...template,
+          data: {
+            products: [...template.data.products, response.product._id],
+          },
+        });
+        setProductIds1([...productIds1, response.product._id]);
+        console.log(response, "Product added");
       });
-    setOpen(false);
+  
   };
 
   const fileChange = (e) => {
@@ -68,15 +85,17 @@ function Products({ productIds }) {
   };
 
   return (
+    <>
+    { loading && toast.loading("Adding Product...")}
+  
+    {console.log('inrender',productIds1)}
+    <Toaster position="top-center" reverseOrder={false}></Toaster>
     <div className={classes.container}>
-   
-        <Button className={classes.button} onClick={handleClickOpen}>
-          <p className={classes.text}> Add Product </p>
-        </Button>
-     
-   
-        <ProductCard productIds={productIds}></ProductCard>
-   
+      <Button className={classes.button} onClick={handleClickOpen}>
+        <p className={classes.text}> Add Product </p>
+      </Button>
+
+      <ProductCard productIds={productIds1}></ProductCard>
 
       <Dialog
         open={open}
@@ -166,6 +185,8 @@ function Products({ productIds }) {
         </DialogActions>
       </Dialog>
     </div>
+    </>
+    
   );
 }
 export default Products;

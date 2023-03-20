@@ -640,14 +640,7 @@ export const SavedTemplate = async (template, title) => {
         title
       );
       console.log(response);
-      if (response.status === 201) {
-        console.log("here");
-        return Promise.resolve({ msg: response.msg });
-      } else if (response.status === 500) {
-        console.log("here");
-        return Promise.reject({ error: response.msg });
-      }
-      break;
+      return response;
     }
 
     case "eccomerce": {
@@ -667,12 +660,7 @@ export const SavedTemplate = async (template, title) => {
         mainPageDataIds,
         title
       );
-      if (response.status === 201) {
-        return Promise.resolve({ msg: response.msg });
-      } else if (response.status === 500) {
-        return Promise.reject({ error: response.msg });
-      }
-      break;
+      return response;
     }
   }
 };

@@ -18,6 +18,7 @@ export default function Write() {
   const [images, setImages] = useState([]);
   const { template, setTemplate } = useContext(UserContext);
 
+  const [loading, setLoading] = useState(false);
   const fileChange = (e) => {
     const newImage = e.target.files[0];
 
@@ -28,6 +29,7 @@ export default function Write() {
   };
 
   const handleSubmit = async (e) => {
+      setLoading(true);
     e.preventDefault();
     let link = "";
     try {
@@ -58,8 +60,9 @@ export default function Write() {
     })
       .then((res) => res.json())
       .then((response) => {
-       
+       setLoading(false);
         if (response.success === true) {
+
           toast.success("Blog Added Successfully");
         }
         else{
@@ -82,7 +85,8 @@ export default function Write() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-
+{ loading && toast.loading("Publishing Your Blog...")}
+  {!loading && toast.dismiss()}
       <div className="write">
         <Carousel fade={true} pause={false}>
           {images.map((image) => {
