@@ -212,6 +212,86 @@ const stripePayment = async (req, res) => {
   }
 };
 
+const addreviewindb = async (req, res) => {
+  try {
+    const productId = '6416ea62e450c43bbd81264e'
+    const reviewAdded = 'test'
+
+    if (!productId || !reviewAdded) {
+      return res.status(400).json({ error: 'Missing fields: id or review' });
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    if (!product.review) {
+      product.review = [];
+    }
+
+    product.review.push(reviewAdded);
+
+    await product.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+const addRating = async (req,res)=>{
+
+    const { productId, ratingValue } = req.body;
+    try {
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+// Generate a random rating between 1 to 5 if ratingValue is null
+const finalRatingValue = ratingValue || Math.floor(Math.random() * 5) + 1;
+
+if (!product.rating) {
+  product.rating = [];
+}
+product.rating.push(finalRatingValue);
+
+const sum = product.rating.reduce((acc, val) => acc + val, 0);
+
+const avg = (sum / product.rating.length).toFixed(2);
+product.avgRating=avg
+
+await product.save();
+return res.status(200).json({ avgRating: product.avgRating });
+} catch (err) {
+  console.log("Error adding rating:", err);
+  return res.status(500).json({ error: "Internal server error" });
+  }
+  };
+
+  // const getAvgRating = async (req, res)=>{
+  //   try {
+  //     const product = await Product.findById(req.params.id);
+  //     if (!product) {
+  //       return res.status(404).json({ error: 'Product not found' });
+  //     }
+  //     const sum = product.rating.reduce((acc, val) => acc + val, 0);
+  //     const avg = sum / product.rating.length;
+  //     console.log(`Average rating: ${avg}`);
+
+  //     return res.status(200).json({ averageRating: avg });
+  //   } catch (err) {
+  //     console.log('Error getting average rating:', err);
+  //     return res.status(500).json({ error: 'Internal server error' });
+  //   }
+
+  // }
+
+
+
 module.exports = {
   addProduct,
   getProducts,
@@ -223,4 +303,8 @@ module.exports = {
   getproduct,
   editQuantityinCart,
   stripePayment,
+  addreviewindb,
+  addRating,
+
+
 };

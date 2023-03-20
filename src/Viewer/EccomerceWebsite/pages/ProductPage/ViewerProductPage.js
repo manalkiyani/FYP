@@ -6,6 +6,9 @@ import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Sort } from "@mui/icons-material";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -47,6 +50,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 function ViewerProducts({ productIds }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortfunc, setSortFunc] = useState(false);
+
+  
+  const [sortAnchorEl, setSortAnchorEl] = useState(null);
+  const [sortOrder, setSortOrder] = useState("");
+  const handleSortClick = (event) => {
+    setSortAnchorEl(event.currentTarget);
+  };
+
+  const handleSortClose = () => {
+    setSortAnchorEl(null);
+  };
+
+  const handleSortOrder =  (order) => {
+    setSortOrder(order);
+    setSortFunc(true);
+
+    handleSortClose();
+
+  };
 
   var searched;
 
@@ -76,13 +99,48 @@ function ViewerProducts({ productIds }) {
         </Search>
       </Toolbar>
 
+
+            }}
+          >
+            <Search style={{width:'50%'}}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search ..."
+                inputProps={{ "aria-label": "search" }}
+                onChange={handleSearchBar}
+              />
+            </Search>
+            <IconButton onClick={handleSortClick}>
+          <Sort />
+        </IconButton>
+        <Menu
+          anchorEl={sortAnchorEl}
+          open={Boolean(sortAnchorEl)}
+          onClose={handleSortClose}
+        >
+          <MenuItem onClick={() => handleSortOrder("low-to-high")}>
+            Price: Low to High
+          </MenuItem>
+          <MenuItem onClick={() => handleSortOrder("high-to-low")}>
+            Price: High to Low
+          </MenuItem>
+        </Menu>
+          </Toolbar>
+        </AppBar>
+    
+        {/* <Input
+
       {/* <Input
+
           className={classes.searchbar}
           onChange={handleSearchBar}
           placeholder="    Search "
         ></Input> */}
 
       <ViewerProductCard
+      sortOrder={sortOrder} sortfunc={sortfunc}
         productIds={productIds}
         searchedquery={searchQuery}
       ></ViewerProductCard>

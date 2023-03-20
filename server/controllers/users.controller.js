@@ -76,4 +76,24 @@ router.get('/',verify , async (req,res)=>{
     }
 })
 
+router.post('/addrating', async (req, res) => {
+    const { productId, rating } = req.body;
+    try {
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      if (!product.rating) {
+        product.rating = [];
+      }
+      product.rating.push(rating);
+      await product.save();
+      return res.status(200).json({ message: 'Rating added successfully' });
+    } catch (err) {
+      console.log('Error adding rating:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+
 module.exports = router;
