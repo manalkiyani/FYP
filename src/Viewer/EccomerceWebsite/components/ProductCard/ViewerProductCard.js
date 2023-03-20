@@ -137,7 +137,8 @@ const ViewerProductCard = ({ searchedquery, productIds, sortOrder, sortfunc }) =
                   <div className={styles.flex}>
                     <h2 className={styles.name}>{product.name}</h2>
                     <p className={styles.price}>{product.price + "$"}</p>
-                    <p className={styles.avgrating}> <p style={{color:'black', marginRight:'10px', marginTop:'-4px'}}>{product.avgRating}</p> <FontAwesomeIcon key={''} icon={faStar} /> </p>
+                    <p className={styles.avgrating}> <p style={{color:'black', marginRight:'10px', marginTop:'-4px'}}>{product.avgRating}</p>
+                     <FontAwesomeIcon key={''} icon={faStar} /> </p>
                   </div>
                   <p className={styles.description}>{product.description}</p>
                     <Button

@@ -52,7 +52,6 @@ function ViewerProducts({ productIds }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortfunc, setSortFunc] = useState(false);
 
-  
   const [sortAnchorEl, setSortAnchorEl] = useState(null);
   const [sortOrder, setSortOrder] = useState("");
   const handleSortClick = (event) => {
@@ -63,12 +62,11 @@ function ViewerProducts({ productIds }) {
     setSortAnchorEl(null);
   };
 
-  const handleSortOrder =  (order) => {
+  const handleSortOrder = (order) => {
     setSortOrder(order);
     setSortFunc(true);
 
     handleSortClose();
-
   };
 
   var searched;
@@ -84,7 +82,7 @@ function ViewerProducts({ productIds }) {
         style={{
           marginTop: "30px",
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <Search style={{ width: "50%" }}>
@@ -97,22 +95,8 @@ function ViewerProducts({ productIds }) {
             onChange={handleSearchBar}
           />
         </Search>
-      </Toolbar>
 
-
-            }}
-          >
-            <Search style={{width:'50%'}}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search ..."
-                inputProps={{ "aria-label": "search" }}
-                onChange={handleSearchBar}
-              />
-            </Search>
-            <IconButton onClick={handleSortClick}>
+        <IconButton onClick={handleSortClick}>
           <Sort />
         </IconButton>
         <Menu
@@ -127,20 +111,11 @@ function ViewerProducts({ productIds }) {
             Price: High to Low
           </MenuItem>
         </Menu>
-          </Toolbar>
-        </AppBar>
-    
-        {/* <Input
-
-      {/* <Input
-
-          className={classes.searchbar}
-          onChange={handleSearchBar}
-          placeholder="    Search "
-        ></Input> */}
+      </Toolbar>
 
       <ViewerProductCard
-      sortOrder={sortOrder} sortfunc={sortfunc}
+        sortOrder={sortOrder}
+        sortfunc={sortfunc}
         productIds={productIds}
         searchedquery={searchQuery}
       ></ViewerProductCard>

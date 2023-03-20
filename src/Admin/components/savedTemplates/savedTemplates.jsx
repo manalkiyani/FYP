@@ -108,7 +108,7 @@ export default function SavedTemplates() {
          <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
 
            <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
-          Type : 
+          <b>Type </b>
           </Typography>
            <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
           <i> {template.type}</i>
@@ -117,7 +117,8 @@ export default function SavedTemplates() {
            <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
 
            <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
-          Created At : 
+         
+          <b> Created At  </b>
           </Typography>
            <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
           <i> {template.createdAt} </i>

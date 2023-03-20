@@ -4,7 +4,7 @@
     border: 2px dashed #40AFC0;
   }
 .draggable{
-  width: 80%;
+  width: 300px;
   height: auto;
   border-radius: 10px;
  
@@ -15,11 +15,5 @@
   cursor: grab;
         
     
-  
-}
-@media (max-width:1020px) {
-  .draggable{
-    width:100%
-  }
   
 }

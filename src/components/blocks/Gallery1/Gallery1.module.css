@@ -13,15 +13,15 @@
    
 }
 .card{
-   width:30%;
+    width:30%;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-bottom: 25px;
+    margin-bottom: 40px;
     margin-left: 25px;
     min-width: 200px;
-  
-    position: relative;
-   
+    height: 500px;
+    
+   position: relative;
  display: flex;
  flex-direction: column;
 
@@ -29,34 +29,28 @@
 }
 .container {
    
-    padding:  20px;
+    padding:  10px;
+    width: 50%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom:-20px;
+    left: 25%;
+    z-Index:100;
+    background-color: rgba(227, 222, 222, 0.995);
     
   }
 .img{
+  width:100%;
     display: block;
-    height:'300px';
-   width: 100%;
-   height:500px;
-  
-}
-.btn{
-    
-width:fit-content;
-background-color: #40AFC0 ;
-border-radius: 10px;
+   height: 500px;
 
-box-sizing: border-box;
-padding: 10px;
-margin: 0px;
-margin-top: 10px;
-border: none;
-
+  object-fit: cover;
 }
 
 
 
-.subHeading{
-   
-    margin: 5px 0px;
 
-}
+

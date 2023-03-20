@@ -1,17 +1,23 @@
-import Features2 from "./Features2/Features2";
-import Header1 from "./Header1/Header1";
-import Header2 from "./Header2/Header2";
-import Header3 from "./Header3/Header3";
-import sample1 from "../../assets/imgs/sample1.jpg";
-import sample2 from "../../assets/imgs/sample2.jpg";
-import sample3 from "../../assets/imgs/sample3.jpg";
 import hours from "../../assets/imgs/hours.png";
 import printer from "../../assets/imgs/printer.png";
 import link from "../../assets/imgs/link.png";
 import Faq1 from "./FAQ/Faq1";
-import Features3 from "./Features3/Features3";
-import Features1 from "./Features1/Features1";
+import Header1 from "./Header1/Header1";
+import Header2 from "./Header2/Header2";
+import Header3 from "./Header3/Header3";
 
+import Features1 from "./Features1/Features1";
+import Features2 from "./Features2/Features2";
+import Features3 from "./Features3/Features3";
+
+import sample1 from "../../assets/imgs/sample1.jpg";
+import sample2 from "../../assets/imgs/sample2.jpg";
+import sample3 from "../../assets/imgs/sample3.jpg";
+
+import Gallery1 from "./Gallery1/Gallery1";
+import Gallery2 from "./Gallery2/Gallery2";
+
+import About1 from "./About1/About1";
 
 const blocks = [
   {
@@ -19,9 +25,9 @@ const blocks = [
     img: "header1.png",
     Component: Header1,
     Data: {
-      btnLink:{
-        link:"",
-        page:''
+      btnLink: {
+        link: "",
+        page: "",
       },
       socialIcons: [
         {
@@ -71,7 +77,7 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
         },
-       img:'https://res.cloudinary.com/djlewzcd5/image/upload/v1678558265/pexels-quang-nguyen-vinh-2649403_byuwhi.jpg',
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678558265/pexels-quang-nguyen-vinh-2649403_byuwhi.jpg",
       },
     },
   },
@@ -488,6 +494,151 @@ const blocks = [
       },
     },
   },
+  {
+    type: "gallery1",
+    img: "gallery1.jpeg",
+    Component: Gallery1,
+    Data: {
+      layout: 3,
+      data: {
+        1: {
+          p: {
+            text: "BEAUTY",
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+            bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679295087/sunny-ng-KVIlNRoGwxk-unsplash_j5mxm3.jpg",
+          },
+         
+        },
+        2: {
+          p: {
+            text: "NATURE",
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+
+         bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679296051/evie-s-vz3IQy0LOaA-unsplash_fobcsr.jpg",
+          },
+          
+        },
+        3: {
+          p: {
+            text: "LIFE",
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+          },
+
+          bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679223218/ldsgk8wnpb8jcshaxhb3.jpg",
+          },
+        },
+      },
+    },
+  },
+   {
+    type: "gallery2",
+    img: "gallery2.jpeg",
+    Component: Gallery2,
+    Data: {
+   
+      data: {
+        1: {
+         
+            bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679302828/hanna-balan-W-CDfBfMCzQ-unsplash_zbdsq8.jpg",
+          },
+         
+        },
+        2: {
+         
+
+         bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679302849/valentina-ivanova-vLWKTPPp72g-unsplash_z6hnt9.jpg",
+          },
+          
+        },
+       
+         3: {
+          bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679304300/hanna-balan-1cMQFzjaXi0-unsplash_xez11j.jpg",
+          },
+        },
+         4: {
+          bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1679303000/pexels-brett-sayles-992734_br54dm.jpg",
+          },
+        },
+      
+      },
+    },
+  },
+  {
+    type: "about1",
+    img: "about1.jpeg",
+    Component: About1,
+    Data: {
+      data: {
+        h: {
+          text: "ABOUT",
+          size: "36px",
+          color: "#000000",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "left",
+          family: "Serif",
+        },
+        p: {
+          text: "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.",
+          size: "16px",
+          color: "#808080",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+        },
+        btn: {
+          text: "READ MORE",
+          size: "14px",
+          color: "#fff",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+        },
+        
+        bgColor: "#DCEDC8",
+      },
+    },
+  },
+
 ];
 
 export default blocks;

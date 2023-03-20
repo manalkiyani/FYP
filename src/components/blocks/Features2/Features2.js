@@ -14,11 +14,12 @@ export default class Features2 extends Component {
   };
 
   delCard = (index) => {
-     
+     console.log(index)
     this.props.deleteCard(index, this.props.id);
   };
 
     handleImageChange = async (event,index) => {
+      console.log('in here features 2 ')
       console.log('index',index)
     this.setState({
       image: event.target.files[0],
@@ -91,7 +92,7 @@ export default class Features2 extends Component {
               className={classes.card}
             >
               <DelCard del={this.delCard} index={index} />
-               <UploadImage top={5} left={5} handleImageChange={(event)=>this.handleImageChange(event,index)} image={this.state.image} />
+               <UploadImage top={5} left={5} handleImageChange={this.handleImageChange} index={index} image={this.state.image} />
               <img
                 className={classes.img}
                 src={this.props.Data.data[index].bg.picture}

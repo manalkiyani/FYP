@@ -21,7 +21,7 @@ const DragAndDropPanel = (props) => {
         </div>
         <div
           style={{
-            padding: "20px 25px 20px 25px",
+            padding: "20px 0px 20px 20px",
           }}
         >
           <h5>Headers Section</h5>
@@ -50,6 +50,28 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
+           <h5>Gallery and Image Slider</h5>
+            {blocks.map((item) => {
+            return item.type === "gallery1" || item.type === "gallery2" ? (
+              <Image
+                dragStart={props.dragStartHandler}
+                key={item.type}
+                id={item.type}
+                source={require("../assets/imgs/" + item.img)}
+              />
+            ) : null;
+          })}
+            <h5>About Section</h5>
+          {blocks.map((item) => {
+            return item.type === "about1" ? (
+              <Image
+                dragStart={props.dragStartHandler}
+                key={item.type}
+                id={item.type}
+                source={require("../assets/imgs/" + item.img)}
+              />
+            ) : null;
+          })}
           <h5>FAQ Section</h5>
           {blocks.map((item) => {
             return item.type === "faq1" || item.type === "faq2" ? (
@@ -61,6 +83,11 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
+
+        
+
+         
+        
         </div>
       </>
     </SideDrawer>
