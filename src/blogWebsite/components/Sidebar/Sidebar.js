@@ -4,7 +4,7 @@ import "./Sidebar.css";
 import { getBookmarkedBlogs } from "../../../utilityFunctions/axiosFunctions";
 
 const testUserId="63e8df1974cc16f2b7ecacb6";
-export default function Sidebar() {
+export default function Sidebar({changed}) {
   const [bookmarkedBlogs, setBookmarkedBlogs] = React.useState([]);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function Sidebar() {
      
       setBookmarkedBlogs(res.blogs);
     });
-  }, []);
+  }, [changed]);
  
 
   return (

@@ -8,6 +8,7 @@ const template = new Schema({
   pages: {
     type: Object,
   },
+  createdAt:{ type: String },
   
   data: { type: Object }, //may contain list of blogs,orders,appointments,applications
   message: [{ type: Object }], //messagesSent by the user

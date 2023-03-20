@@ -57,40 +57,31 @@ function ViewerProducts({ productIds }) {
 
   return (
     <div>
-        <AppBar
-          style={{
-            backgroundColor: "white",
-            marginTop: "30px",
-            width: "100%",
-          }}
-          position="static"
-        >
-          <Toolbar
-            style={{
-              display: "flex",
-              justifyContent: "center"
+      <Toolbar
+        style={{
+          marginTop: "30px",
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        <Search style={{ width: "50%" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search ..."
+            inputProps={{ "aria-label": "search" }}
+            onChange={handleSearchBar}
+          />
+        </Search>
+      </Toolbar>
 
-            }}
-          >
-            <Search style={{width:'50%'}}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search ..."
-                inputProps={{ "aria-label": "search" }}
-                onChange={handleSearchBar}
-              />
-            </Search>
-          </Toolbar>
-        </AppBar>
-    
-        {/* <Input
+      {/* <Input
           className={classes.searchbar}
           onChange={handleSearchBar}
           placeholder="    Search "
         ></Input> */}
-    
+
       <ViewerProductCard
         productIds={productIds}
         searchedquery={searchQuery}

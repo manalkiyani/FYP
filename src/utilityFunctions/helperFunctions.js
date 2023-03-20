@@ -493,7 +493,8 @@ const saveTemplate = async (
   mainPage,
   mainpageBlockIds,
   dataType,
-  mainPageDataIds
+  mainPageDataIds,
+  title
 ) => {
   const userData = await getUserData();
   try {
@@ -502,6 +503,7 @@ const saveTemplate = async (
       {
         username: userData.username,
         template: {
+          name:title,
           type: type,
           pages: {
             HomePage: {
@@ -573,7 +575,7 @@ const updateTemplate = async (
     return { status: "500" };
   }
 };
-export const SavedTemplate = async (template) => {
+export const SavedTemplate = async (template,title) => {
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
@@ -599,7 +601,8 @@ export const SavedTemplate = async (template) => {
         "BlogsPage",
         mainpageBlockIds,
         "blogs",
-        mainPageDataIds
+        mainPageDataIds,
+        title
       );
       console.log(response);
       if (response.status === 201) {
@@ -626,7 +629,8 @@ export const SavedTemplate = async (template) => {
         "ProductsPage",
         mainpageBlockIds,
         "products",
-        mainPageDataIds
+        mainPageDataIds,
+        title
       );
       if (response.status === 201) {
         return Promise.resolve({ msg: response.msg });
