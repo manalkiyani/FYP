@@ -8,6 +8,10 @@ const blog = new Schema({
   readingTime: { type: String,},
   writer: { type: String,  },
   publishedDate: { type: String },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   description: { type: String, required: true },
   image: { type: String },
   template: { type: 'boolean', default: false },

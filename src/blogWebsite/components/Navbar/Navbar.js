@@ -2,19 +2,24 @@
 import { Link, Outlet } from "react-router-dom";
 import classes from "./Navbar.module.css";
 import { UserContext } from "../../../App";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 
 export default function Navbar(props) {
   const { templateId } = useContext(UserContext);
+ 
   
+//get the templateId from the context and use it to fetch the template from the database
+
+
 
   return (
     <>
     
       <div className={classes.top}>
         <div className={classes.right}>
-          <h4 className={classes.logo}> My Blogs</h4>
+          <h4 className={classes.logo}>{props.type} Template</h4>
         </div>
 
         <div className={classes.left}>

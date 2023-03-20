@@ -7,7 +7,7 @@ import StripeContainer from './StripeContainer';
 import { ApprovalRounded } from '@mui/icons-material';
 import { TextField as Muiinput } from '@mui/material';
 
-
+import { getUsername,getUser } from '../../utilityFunctions/authFunctions';
 const styles = {
   container: {
     display: 'flex',
@@ -62,6 +62,7 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
     const[paymentID, setPaymentID]= useState('');
 
     const handleTransactionid = (event)=>{
+      event.preventDefault();
       setTransactionid(event.target.value)
     }
 
@@ -85,9 +86,17 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
       }
 
     };
-
+const getUserId = async () => {
+    const token = await getUsername();
+    console.log(token);
+    const { data } = await getUser({ username: token.username });
+    console.log(data);
+    return data; // Return the data retrieved from the API
+  };
 
   const handleSubmit =async()  => {
+
+ const user = await getUserId();
     setOpen(false)
     console.log("this is data amount "+amount+"/n activePlan "+activePlan+" /n transID "+transactionid+" /n pM "+selectedOption );
 
@@ -110,9 +119,9 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
     }).then((res) => res.json())
     .then((data) => {
 
-//////////// ADMIN ID NEEDS TO COME DYNAMICALLY IN THE BODY *********************
 
-      axios.put("http://localhost:8800/api/admin/addpaymentidinadmin",{paymentID:data.payment._id, adminID:'638f3652dba2c457af52b35b'})        
+
+      axios.put("http://localhost:8800/api/admin/addpaymentidinadmin",{paymentID:data.payment._id, adminID:user._id})        
       .then((response) => {
         console.log(response.data)
 
@@ -127,7 +136,7 @@ const PlanPaymentForm = ({setOpen, activePlan, amount}) => {
 
       });
 
-      axios.put("http://localhost:8800/api/admin/updateactiveplan",{adminID:'638f3652dba2c457af52b35b', activePlan})        
+      axios.put("http://localhost:8800/api/admin/updateactiveplan",{adminID:user._id, activePlan})        
       .then((response) => {
         console.log(response.data)
       });

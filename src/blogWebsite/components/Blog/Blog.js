@@ -24,7 +24,7 @@ export default function Blog({
               alt=""
               className={classes.icon}
               onClick={() =>
-                edit(bid, title, tagline, tags, desc, writer, time)
+                edit(bid, title, tagline, tags, desc, writer, time,img)
               }
               src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670362324/edit_zevkr0.png"
             />

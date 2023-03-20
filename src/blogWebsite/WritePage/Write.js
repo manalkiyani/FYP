@@ -23,7 +23,7 @@ export default function Write() {
 
     if (newImage) {
       setImage(newImage);
-      setImages([...images, URL.createObjectURL(newImage)]);
+      setImages([URL.createObjectURL(newImage)]);
     }
   };
 
@@ -32,8 +32,8 @@ export default function Write() {
     let link = "";
     try {
       link = await uploadImage(image);
-      console.log(link);
-      setImages([...images, link]);
+    
+      setImages([link]);
     } catch (err) {
       console.log(err);
     }
@@ -47,7 +47,7 @@ export default function Write() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        title,
+        title,  
         tagline,
         image: link,
         tags,
@@ -58,7 +58,13 @@ export default function Write() {
     })
       .then((res) => res.json())
       .then((response) => {
-        toast.success("Blog Added Successfully");
+       
+        if (response.success === true) {
+          toast.success("Blog Added Successfully");
+        }
+        else{
+          toast.error("Please fill all the fields");
+        }
         console.log(response);
         setTemplate({
           ...template,
@@ -69,7 +75,7 @@ export default function Write() {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Oops! An error occurred");
+        
       });
   };
 
@@ -90,6 +96,14 @@ export default function Write() {
 
         <form className="writeForm">
           <div className="writeFormGroup">
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              className="writeSubmit"
+              type="submit"
+            >
+              Publish
+            </Button>
             <label>
               <img
                 className="writeIcon"
@@ -164,10 +178,6 @@ export default function Write() {
               onChange={(e) => setTime(e.target.value)}
             />
           </div>
-
-          <Button onClick={handleSubmit} variant="contained" className="writeSubmit" type="submit">
-            Publish
-          </Button>
         </form>
       </div>
       <div></div>

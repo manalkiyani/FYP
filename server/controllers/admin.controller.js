@@ -268,6 +268,7 @@ const getMessagesOnAdminDashboard = async(req, res)=>{
     // extract the relevant data from the populated "payments" array
     const messagesData = admin.messages.map((message) => {
       return {
+        id: message._id,
         message: message.message,
         email: message.email,
         subject: message.subject,
@@ -406,10 +407,61 @@ const getMessagesOnAdminDashboard = async(req, res)=>{
       }
 
     }
+    const addInMessageSentToAdmin = async(req, res)=>{ // this will add message that is sent to admin in the message collection
+
+    const { email, subject, message } = req.body;
+  
+    const saveMessage =  Message({
+  
+      _id: mongoose.Types.ObjectId(),
+      email,
+      subject,
+      message,
+  })
+  
+    return saveMessage.save()
+    .then((newMessage) => {
+      console.log(newMessage)
+          return res.status(201).json
+          ({
+            success: true, 
+            message: newMessage
+            })
+            }
+          )
+  .catch((error) => {
+         return res.status(500).json({success: false, message: 'Server error. Please try again.', error: error.message});
+      });
+  }
+
+  const addMessageIdinAdmin = async (req, res) => {
+    const messageID = req.body.messageID;
+    console.log("This is messageiD: "+messageID)
     
+    const adminID = req.body.ADMIN_ID
+    console.log("This is adminID: "+adminID)
+    
+    try {
+      // add message id in messages array of super admin
+      const admin = await Admin.findById(adminID);
+      admin.messages.push(messageID);
+  
+  
+      // Save the updated Super Admin document
+      await admin.save();
+  
+      // Send the updated Admin document back as the response
+      console.log(admin)
+      res.send(admin);
+      
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  };
 
 module.exports = {registeredAdmins, getEmailAndUsernameOfAdmins,
-   buyPlan, stripePayment, addPaymentIdinAdmin,addInMessageSentToSuperAdmin, 
+ addInMessageSentToAdmin,addMessageIdinAdmin,  buyPlan, stripePayment, addPaymentIdinAdmin,addInMessageSentToSuperAdmin, 
   addMessageIdinSuperAdmin, addpaymentidinsuperadmin, getTotalPaymentsAndMessages, 
   getAdminData, updateActivePlan, getMessagesOnAdminDashboard, getPaymentsOnAdminDashboard,
   getOrdersOnAdminDashboard, getAppointmentsOnAdminDashboard, getJobApplicationsOnAdminDashboard

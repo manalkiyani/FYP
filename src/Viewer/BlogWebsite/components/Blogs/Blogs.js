@@ -12,7 +12,7 @@ import InputBase from "@mui/material/InputBase";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-import {addBookmark} from '../../../../utilityFunctions/axiosFunctions'
+import { addBookmark } from "../../../../utilityFunctions/axiosFunctions";
 import Sidebar from "../../../../blogWebsite/components/Sidebar/Sidebar";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -54,12 +54,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const testUserId="63e8df1974cc16f2b7ecacb6";
+const testUserId = "63e8df1974cc16f2b7ecacb6";
 
 export default function Blogs({ blogIds }) {
   const [blogs, setBlogs] = useState(null);
+
   const [searchField, setSearchField] = useState("");
- 
+  const [changed, setChanged] = useState(false);
+
   useEffect(() => {
     axios
       .post("http://localhost:8800/api/blogs/get", { blogIds })
@@ -73,92 +75,90 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
-   const bookmarkBlog = (blogId) => {
-
+  const bookmarkBlog = (blogId) => {
     addBookmark(testUserId, blogId)
-  .then((result) => {
-  console.log(result.message)
-
-    toast.success(result.message);
-  })
-  .catch((error) => {
-    console.log(error)
-     toast.error(error);
-   
-  });
-  }
+      .then((result) => {
+        console.log(result.message);
+        setChanged(!changed);
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error);
+      });
+  };
 
   return (
     <>
-    <Toaster position="top-center" reverseOrder={false}></Toaster>
-    <div className={classes.home}>
-      <div className={classes.bigContainer}>
-      <Box style={{marginBottom:'50px'}}>
-        <AppBar
-          style={{
-            backgroundColor: "white",
-            marginTop: "30px",
-            width: "100%",
-          }}
-          position="static"
-        >
-          <Toolbar
-            style={{
-              display: "flex",
-              justifyContent: "center"
-
-            }}
-          >
-            <Search style={{width:'50%'}}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search ..."
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => setSearchField(e.target.value)}
-              />
-            </Search>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <div className={classes.posts}>
-        <div></div>
-        {blogs &&
-          blogs
-            .filter((blog) => {
-              return (
-                blog.title.toLowerCase().includes(searchField.toLowerCase()) ||
-                blog.tagline
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase()) ||
-                blog.description
-                  .toLowerCase()
-                  .includes(searchField.toLowerCase())
-              );
-            })
-            .map((blog) => {
-              return (
-                <Blog
-                  bookmarkBlog={bookmarkBlog}
-                  key={blog._id}
-                  bid={blog._id}
-                  img={blog.image}
-                  title={blog.title}
-                  tagline={blog.tagline}
-                  writer={blog.writer}
-                  time={blog.readingTime}
-                  desc={blog.description}
-                  tags={blog.tags}
-                />
-              );
-            })}
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <div className={classes.home}>
+        <div className={classes.bigContainer}>
+          <Box style={{ marginBottom: "50px" }}>
+            <AppBar
+              style={{
+                backgroundColor: "white",
+                marginTop: "30px",
+                width: "80vw",
+                boxShadow: "none",
+              }}
+              position="static"
+            >
+              <Toolbar
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Search style={{ width: "50%" }}>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search ..."
+                    inputProps={{ "aria-label": "search" }}
+                    onChange={(e) => setSearchField(e.target.value)}
+                  />
+                </Search>
+              </Toolbar>
+            </AppBar>
+          </Box>
+          <div className={classes.posts}>
+            <div></div>
+            {blogs &&
+              blogs
+                .filter((blog) => {
+                  return (
+                    blog.title
+                      .toLowerCase()
+                      .includes(searchField.toLowerCase()) ||
+                    blog.tagline
+                      .toLowerCase()
+                      .includes(searchField.toLowerCase()) ||
+                    blog.description
+                      .toLowerCase()
+                      .includes(searchField.toLowerCase())
+                  );
+                })
+                .map((blog) => {
+                  return (
+                    <Blog
+                      bookmarkBlog={bookmarkBlog}
+                      key={blog._id}
+                      bid={blog._id}
+                      img={blog.image}
+                      title={blog.title}
+                      tagline={blog.tagline}
+                      writer={blog.writer}
+                      time={blog.readingTime}
+                      desc={blog.description}
+                      tags={blog.tags}
+                    />
+                  );
+                })}
+          </div>
+        </div>
+        <Sidebar changed={changed} />
       </div>
-    </div>
-    <Sidebar/>
-    </div>
-   
     </>
-    
   );
 }
