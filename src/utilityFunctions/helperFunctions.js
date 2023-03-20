@@ -2,14 +2,17 @@ import blocks from "../components/blocks/blocksData";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import { getUserData } from "./authFunctions";
+import cloneDeep from "lodash/cloneDeep";
 
 import Header1 from "../components/blocks/Header1/Header1";
-import Features2 from "../components/blocks/Features2/Features2";
 import Header2 from "../components/blocks/Header2/Header2";
 import Header3 from "../components/blocks/Header3/Header3";
 import Features1 from "../components/blocks/Features1/Features1";
+import Features2 from "../components/blocks/Features2/Features2";
 import Features3 from "../components/blocks/Features3/Features3";
 import Faq1 from "../components/blocks/FAQ/Faq1";
+import Gallery1 from "../components/blocks/Gallery1/Gallery1";
+import Gallery2 from "../components/blocks/Gallery2/Gallery2";
 
 import ViewerFaq1 from "../Viewer/Components/blocks/viewerFaq1";
 import ViewerFeatures1 from "../Viewer/Components/blocks/viewerFeatures1";
@@ -18,10 +21,14 @@ import ViewerFeatures3 from "../Viewer/Components/blocks/viewerFeatures3";
 import ViewerHeader1 from "../Viewer/Components/blocks/viewerHeader1";
 import ViewerHeader2 from "../Viewer/Components/blocks/viewerHeader2";
 import ViewerHeader3 from "../Viewer/Components/blocks/viewerHeader3";
+import ViewerGallery1 from "../Viewer/Components/blocks/viewerGallery1";
+import ViewerGallery2 from "../Viewer/Components/blocks/viewerGallery2";
+import About1 from "../components/blocks/About1/About1";
+import ViewerAbout1 from "../Viewer/Components/blocks/viewerAbout1";
 
 export const handleLayout = (numberOfCards, idFromComponent, components) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components position and component
   const component = componentsList.find((ele, index) => {
@@ -33,9 +40,7 @@ export const handleLayout = (numberOfCards, idFromComponent, components) => {
   //delete component from components list
   componentsList.splice(position, 1);
   //update component data
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["layout"] = numberOfCards;
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
@@ -48,7 +53,7 @@ export const handleLayout = (numberOfCards, idFromComponent, components) => {
 };
 export const deleteCard = (index, idFromComponent, components) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components key and component
   const component = componentsList.find((ele, index) => {
@@ -78,9 +83,7 @@ export const deleteCard = (index, idFromComponent, components) => {
     revisedData[count] = refinedData[val];
   });
 
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["data"] = revisedData;
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
@@ -88,7 +91,7 @@ export const deleteCard = (index, idFromComponent, components) => {
   return componentsList;
 };
 export const deleteBlock = (idFromComponent, components) => {
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
   const position = componentsList.findIndex(
     (ele) => ele.key === idFromComponent
   );
@@ -100,8 +103,10 @@ export const deleteBlock = (idFromComponent, components) => {
   return componentsList;
 };
 export const handleAddCard = (idFromComponent, components) => {
+  console.log("handleAddCard called", idFromComponent);
+
   let position = 0;
-  const componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components key and component
   const component = componentsList.find((ele, index) => {
@@ -115,25 +120,25 @@ export const handleAddCard = (idFromComponent, components) => {
 
   // update components data
 
-  const newData = JSON.parse(JSON.stringify(component.Data.data));
+  const newData = cloneDeep(component.Data.data);
   let count = 0;
   Object.getOwnPropertyNames(newData).forEach(() => count++);
   count = count + 1;
   const cards = blocks.find((ele) => ele.Component === component.Component);
-  const i = Math.floor(Math.random() * 3) + 1;
+  const i = Math.floor(Math.random() * 2) + 1;
   newData[count] = cards.Data.data[i];
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["data"] = newData;
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
+
+  console.log("handleAddCard called", componentsList);
 
   return componentsList;
 };
 export const handleSocialIcons = (socialIcons, idFromComponent, components) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components position and component
   const component = componentsList.find((ele, index) => {
@@ -145,9 +150,7 @@ export const handleSocialIcons = (socialIcons, idFromComponent, components) => {
   //delete component from components list
   componentsList.splice(position, 1);
   //update component data
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["socialIcons"] = socialIcons;
 
   //add component to the same position again
@@ -162,7 +165,7 @@ export const changeBackgroundImage = (
   components
 ) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components position and component
   const component = componentsList.find((ele, index) => {
@@ -174,9 +177,7 @@ export const changeBackgroundImage = (
   //delete component from components list
   componentsList.splice(position, 1);
   //update component data
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent.Data.data.img = imageURL;
 
   //add component to the same position again
@@ -187,7 +188,7 @@ export const changeBackgroundImage = (
 };
 export const changeBackgroundColor = (color, idFromComponent, components) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components position and component
   const component = componentsList.find((ele, index) => {
@@ -199,9 +200,7 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //delete component from components list
   componentsList.splice(position, 1);
   //update component data
-  const updatedComponent = {
-    ...component,
-  };
+  const updatedComponent = cloneDeep(component);
   updatedComponent.Data.data.bgColor = color;
 
   //add component to the same position again
@@ -210,7 +209,6 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //update the state
   return componentsList;
 };
-
 //change image of a card
 export const changeCardImage = (
   imageURL,
@@ -220,7 +218,7 @@ export const changeCardImage = (
   components
 ) => {
   let position = 0;
-  let componentsList = [...components];
+  const componentsList = cloneDeep(components);
   //get the cliked components key and component
   const component = componentsList.find((ele, index) => {
     position = index;
@@ -233,7 +231,7 @@ export const changeCardImage = (
 
   //update card image
   newData[index].bg.picture = imageURL;
-  const updatedComponent = { ...component };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["data"] = newData;
 
   //add component to the same position again
@@ -252,7 +250,7 @@ export const changeComponentText = (
 ) => {
   let position = 0;
 
-  const componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components key and component
   const component = componentsList.find((ele, index) => {
@@ -268,12 +266,19 @@ export const changeComponentText = (
 
   const newData = JSON.parse(JSON.stringify(component.Data.data));
 
-  if (type === "header1" || type === "header2" || type === "header3") {
+  if (
+    type === "header1" ||
+    type === "header2" ||
+    type === "header3" ||
+    type === "about1"
+  ) {
     newData[tag].text = textFromComponent;
   } else if (
     type === "features1" ||
     type === "features2" ||
-    type === "features3"
+    type === "features3" ||
+    type === "gallery1" ||
+    type === "gallery2"
   ) {
     newData[index][tag].text = textFromComponent;
   } else if (type === "faq1") {
@@ -283,7 +288,7 @@ export const changeComponentText = (
       newData.faqList[index][tag] = textFromComponent;
     }
   }
-  const updatedComponent = { ...component };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["data"] = newData;
 
   //add component to the same position again
@@ -293,6 +298,7 @@ export const changeComponentText = (
   return componentsList;
 };
 export const dragStartHandler = (event) => {
+  console.log("drag start", event.target.id);
   event.dataTransfer.setData("key", event.target.id);
 };
 export const dropHandler = (event, components) => {
@@ -323,7 +329,7 @@ export const updateComponentData = (
   type
 ) => {
   let position = 0;
-  const componentsList = [...components];
+  const componentsList = cloneDeep(components);
 
   //get the cliked components key and component
   const component = componentsList.find((ele, index) => {
@@ -338,7 +344,12 @@ export const updateComponentData = (
   // update components data
 
   const newData = JSON.parse(JSON.stringify(component.Data.data));
-  if (type === "header1" || type === "header2" || type === "header3") {
+  if (
+    type === "header1" ||
+    type === "header2" ||
+    type === "header3" ||
+    type === "about1"
+  ) {
     newData[tag] = {
       ...newData[tag],
       ...stateFromTextEditor,
@@ -346,7 +357,9 @@ export const updateComponentData = (
   } else if (
     type === "features1" ||
     type === "features2" ||
-    type === "features3"
+    type === "features3" ||
+    type === "gallery1" ||
+    type === "gallery2"
   ) {
     newData[index][tag] = {
       ...newData[index][tag],
@@ -367,7 +380,7 @@ export const updateComponentData = (
     }
   }
 
-  const updatedComponent = { ...component };
+  const updatedComponent = cloneDeep(component);
   updatedComponent["Data"]["data"] = newData;
 
   //add component to the same position again
@@ -377,8 +390,8 @@ export const updateComponentData = (
 };
 export const dragEndHandler = (result, components) => {
   if (!result.destination) return;
+  const items = cloneDeep(components);
 
-  const items = [...components];
   //delete component from prev location
   const [reorderedItem] = items.splice(result.source.index, 1);
   //add component to new location
@@ -414,6 +427,16 @@ export const mapAdminBlocks = (Blocks) => {
       case "Faq1":
         block.Component = Faq1;
         break;
+
+      case "Gallery1":
+        block.Component = Gallery1;
+        break;
+      case "Gallery2":
+        block.Component = Gallery2;
+        break;
+      case "About1":
+        block.Component = About1;
+        break;
     }
     return block;
   });
@@ -442,6 +465,15 @@ export const mapViewerBlocks = (Blocks) => {
       case "Faq1":
         block.Component = ViewerFaq1;
         break;
+      case "Gallery1":
+        block.Component = ViewerGallery1;
+        break;
+      case "Gallery2":
+        block.Component = ViewerGallery2;
+        break;
+      case "About1":
+        block.Component = ViewerAbout1;
+        break;
     }
     return block;
   });
@@ -449,6 +481,8 @@ export const mapViewerBlocks = (Blocks) => {
 export const unmapBlocks = (Blocks) => {
   return Blocks.map((block) => {
     const componentMap = {
+      [Gallery1]: "Gallery1",
+      [Gallery2]: "Gallery2",
       [Header1]: "Header1",
       [Header2]: "Header2",
       [Header3]: "Header3",
@@ -456,6 +490,7 @@ export const unmapBlocks = (Blocks) => {
       [Features2]: "Features2",
       [Features3]: "Features3",
       [Faq1]: "Faq1",
+      [About1]: "About1",
     };
     block.Component = componentMap[block.Component];
     return block;
@@ -503,7 +538,7 @@ const saveTemplate = async (
       {
         username: userData.username,
         template: {
-          name:title,
+          name: title,
           type: type,
           pages: {
             HomePage: {
@@ -575,7 +610,7 @@ const updateTemplate = async (
     return { status: "500" };
   }
 };
-export const SavedTemplate = async (template,title) => {
+export const SavedTemplate = async (template, title) => {
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
@@ -709,12 +744,3 @@ export const UpdateTemplate = async (template, id) => {
       break;
   }
 };
-
-// //blog template
-// blocks - homepage;
-// blocks - mainpage;
-// blogs - mainpage;
-// //eccomerce template
-// blocks - homepage;
-// blocks - mainpage;
-// products - mainpage;

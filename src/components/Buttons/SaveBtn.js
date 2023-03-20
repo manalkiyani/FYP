@@ -30,6 +30,7 @@ const SaveBtn = () => {
     setOpen(false);
     SavedTemplate(template, name)
       .then((result) => {
+        console.log('result'.result)
         if (result.data.message === "success") {
           toast.success(<b>Template Saved Successfully</b>);
         } else {
@@ -39,6 +40,7 @@ const SaveBtn = () => {
         }
       })
       .catch((error) => {
+        console.log(error);
         toast.error(
           <b>Oops! Please Upgrade Your Plan to create new Websites</b>
         );

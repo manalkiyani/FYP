@@ -1819,7 +1819,7 @@
     "prop-types" "^15.8.1"
     "react-is" "^18.2.0"
 
-"@mui/material@^5.0.0", "@mui/material@^5.11.11", "@mui/material@^5.4.1":
+"@mui/material@^5.0.0", "@mui/material@^5.11.13", "@mui/material@^5.4.1":
   "integrity" "sha512-2CnSj43F+159LbGmTLLQs5xbGYMiYlpTByQhP7c7cMX6opbScctBFE1PuyElpAmwW8Ag9ysfZH1d1MFAmJQkjg=="
   "resolved" "https://registry.npmjs.org/@mui/material/-/material-5.11.13.tgz"
   "version" "5.11.13"
@@ -5353,11 +5353,6 @@
   "integrity" "sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w=="
   "resolved" "https://registry.npmjs.org/fs/-/fs-0.0.1-security.tgz"
   "version" "0.0.1-security"
-
-"fsevents@^2.3.2", "fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
