@@ -1,8 +1,12 @@
 import React from 'react';
+import {useEffect} from 'react'
 import del from '../../../assets/icons/delete.png';
 import classes from './delCard.module.css';
 
-const delCard = (props) => {
+const DelCard = (props) => {
+  useEffect(() => {
+    console.log('props',props)
+  }, [props])
   return (
     <div  onClick={ ()=> props.del(props.index)} 
             className={classes.container}
@@ -12,4 +16,4 @@ const delCard = (props) => {
   )
 }
 
-export default delCard
+export default DelCard

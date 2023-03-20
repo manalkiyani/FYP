@@ -28,23 +28,24 @@ const SaveBtn = () => {
   const saveTemplate = async (name) => {
     console.log(name);
     setOpen(false);
-    SavedTemplate(template, name)
-      .then((result) => {
-        console.log('result'.result)
-        if (result.data.message === "success") {
-          toast.success(<b>Template Saved Successfully</b>);
+    try {
+      const response = await SavedTemplate(template, name);
+      console.log(response);
+       if (response?.status === "201") {
+          toast.success('Template Saved Successfully');
         } else {
           toast.error(
-            <b>Oops! Please Upgrade Your Plan to create new Websites</b>
+            'Oops! Please Upgrade Your Plan to create new Websites'
           );
         }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(
-          <b>Oops! Please Upgrade Your Plan to create new Websites</b>
-        );
-      });
+    }
+    catch (error) {
+      console.log(error);
+      toast.error(
+            'Oops! An error occured. Please try again later'
+          );
+    }
+ 
   };
 
   return (

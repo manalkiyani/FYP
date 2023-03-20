@@ -4,10 +4,9 @@ import classes from "./Header3.module.css";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
-import {
- 
-  uploadImage,
-} from "../../../utilityFunctions/imageUpload";
+import BgColor from "../../BackgroundColor/BgColor";
+
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
 
 export default class Header3 extends Component {
@@ -16,12 +15,9 @@ export default class Header3 extends Component {
     ref: null,
     displayHandleBlock: false,
     image: null,
+    openColorPicker: false,
   };
-  //  textFromComponent,
-  //   index,
-  //   tag,
-  //   clickedComponentId,
-  //   type
+
   handleTextChange = (e, tag) => {
     console.log(e.target.value);
     this.props.changeText(e.target.value, null, tag, this.props.id, "header3");
@@ -64,6 +60,12 @@ export default class Header3 extends Component {
       console.log(err);
     }
   };
+  handleClose = () => {
+    this.setState({ openColorPicker: false });
+  };
+  changeBackgroundColor = (color) => {
+    this.props.changeBackgroundColor(color.hex, this.props.id);
+  };
   render() {
     return (
       <div
@@ -78,18 +80,32 @@ export default class Header3 extends Component {
         onMouseOut={this.disableHandleBlock}
         className={classes.header}
       >
+        <BgColor
+          handleClose={this.handleClose}
+          updateColor={this.changeBackgroundColor}
+          open={this.state.openColorPicker}
+        />
         {this.state.displayHandleBlock && (
           <HandleBlock
             del={() => this.props.deleteBlock(this.props.id)}
             enableDrag={this.props.enableDrag}
+             openColorPicker={()=>this.setState({openColorPicker: true})}
           />
         )}
-        {this.state.displayHandleBlock &&  <UploadImage  top={55} left={10} handleImageChange={this.handleImageChange} image={this.state.image} />}
-        <img style={{zIndex:'100',height:'500px'}} src={this.props.Data.data.img} />
-        
-       
+        {this.state.displayHandleBlock && (
+          <UploadImage
+            top={55}
+            left={10}
+            handleImageChange={this.handleImageChange}
+            image={this.state.image}
+          />
+        )}
+        <img
+          style={{ zIndex: "100", height: "500px" }}
+          src={this.props.Data.data.img}
+        />
 
-        <div>
+        <div className={classes.content}>
           <ContentEditable
             className={classes.h}
             html={this.props.Data.data.h.text} // innerHTML of the editable div

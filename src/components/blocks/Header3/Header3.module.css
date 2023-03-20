@@ -14,11 +14,23 @@
     margin-bottom: 40px;
     margin-top: 40px;
 }
-
+.content{
+     width: 40%;
+   flex-direction: column;
+   height: 100%;
+   
+    
+    display: flex;
+    align-items:left;
+    justify-content: space-between;
+   
+}
 
 .img{
 height: 100%;
 margin: 0px 5px;
+width:500px;
+object-fit: cover;
 }
 .btn{
 color:#fff ;

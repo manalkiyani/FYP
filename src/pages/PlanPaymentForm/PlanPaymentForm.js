@@ -19,6 +19,7 @@ const styles = {
     right: '0',
     bottom: '0',
     backgroundColor: 'rgba(0, 0, 0, 0.3)'
+     
   },
   dialogContainer: {
     backgroundColor: '#fff',
@@ -28,7 +29,8 @@ const styles = {
     maxWidth: '90%',
     display: 'flex',
     flexDirection: 'column',
-    padding: '20px'
+   
+     padding:'30px'
   },
   title: {
     fontSize: '22px',
@@ -97,6 +99,7 @@ const getUserId = async () => {
   const handleSubmit =async()  => {
 
  const user = await getUserId();
+ console.log(user._id)
     setOpen(false)
     console.log("this is data amount "+amount+"/n activePlan "+activePlan+" /n transID "+transactionid+" /n pM "+selectedOption );
 
@@ -156,15 +159,17 @@ const getUserId = async () => {
     <div style={styles.container}>
       <div style={styles.dialogContainer}>
         <form onSubmit={handleSubmit} style={styles.formContainer}>
+          <h5 className={style.heading}  > Personal Details</h5>
+             <hr/>
           
-          
-        <Muiinput style={{marginTop:'10px'}} label="Name" name='name' placeholder='Name' variant="standard" />
+        <Muiinput style={{marginTop:'10px'}} label="Name" name='name' placeholder='Name' variant="outlined" />
 
-        <Muiinput style={{marginTop:'10px'}} label="Contact" type='number' name='Phone Number' placeholder="Contact" variant="standard" />
+        <Muiinput style={{marginTop:'10px'}} label="Contact" type='number' name='Phone Number' placeholder="Contact" variant="outlined" />
 
 
 <div style={{marginTop:'30px'}} className={styles.container}>
-    
+  <h5 className={style.heading}  > Select Payment Method</h5>
+       <hr/>
       <div className={styles.method}>
         <label>
         <input
@@ -176,7 +181,7 @@ const getUserId = async () => {
           onChange={handleOptionChange}
           
         />
-        &nbsp;
+        &nbsp; &nbsp; &nbsp;
         </label>
         <label htmlFor="card">Card</label>
       </div>
@@ -190,14 +195,16 @@ const getUserId = async () => {
     checked={selectedOption === 'Easypaisa'}
     onChange={handleOptionChange}
   />
-  &nbsp;
+  &nbsp; &nbsp; &nbsp;
 </label>
         <label htmlFor="easypaisa">Easypaisa</label>
       </div>
-      {selectedEasypaisa && <Input onChange={handleTransactionid} placeholder='Transaction id'></Input>}
+       <h5 className={style.heading}  > Payment Details</h5>
+       <hr/>
+      {selectedEasypaisa && <Muiinput variant="outlined" onChange={handleTransactionid} placeholder='Transaction id'></Muiinput>}
       {selectedCard && <div className={style.cardfield}> <StripeContainer  cancelDisable={cancelDisable} setCancelDisable={setCancelDisable} PlaceOrderDisable = {PlaceOrderDisable} setPlaceOrderDisable={setPlaceOrderDisable}/> </div>}
     </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end',marginTop:'20px' }}>
 
             <Button type="button" disabled = {cancelDisable}  onClick={handleClose}> Cancel </Button>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import {useEffect} from 'react'
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadIcon from "@mui/icons-material/CloudUpload";
@@ -11,6 +12,8 @@ const UploadImage = (props) => {
       props.handleImageChange(event);
     }
   };
+
+
   return (
     <div
       style={{
@@ -26,7 +29,7 @@ const UploadImage = (props) => {
         accept="image/*"
         id="avatar-image-upload"
         type="file"
-        onChange={changeImage}
+        onChange={(event)=>changeImage(event)}
       />
       <label htmlFor="avatar-image-upload">
         {

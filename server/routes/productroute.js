@@ -1,5 +1,5 @@
 const express = require('express');
-const { getProducts,addProduct,getListOfProducts, delProduct, editproduct, addtocart, getfromcart,getproduct, editQuantityinCart, stripePayment, addRating, addreviewindb} = require("../controllers/products.controller");
+const { getProducts,getReviews,addReview,addProduct,getListOfProducts, delProduct, editproduct, addtocart, getfromcart,getproduct, editQuantityinCart, stripePayment, addRating, addreviewindb} = require("../controllers/products.controller");
 
 const router = express.Router();
 
@@ -19,7 +19,8 @@ router.post("/stripe/charge", stripePayment )
 router.post("/addrating", addRating ) 
 router.post("/addreviewindb", addreviewindb ) 
 
-
+router.post("/getreviews", getReviews )
+router.post("/addreview", addReview )
 
 module.exports = router;
 

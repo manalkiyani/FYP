@@ -10,7 +10,10 @@ import UploadImage from "../../uploadImage/uploadImage";
 export default class Features2 extends Component {
   state = {
     displayHandleBlock: false,
-     image: null,
+   
+    cardImages: [],
+
+    
   };
 
   delCard = (index) => {
@@ -21,9 +24,9 @@ export default class Features2 extends Component {
     handleImageChange = async (event,index) => {
       console.log('in here features 2 ')
       console.log('index',index)
-    this.setState({
-      image: event.target.files[0],
-    });
+       const cardImages = { ...this.state.cardImages };
+  cardImages[index] = event.target.files[0];
+   this.setState({ cardImages });
     try {
       const link = await uploadImage(event.target.files[0]);
       console.log(link);
@@ -92,7 +95,11 @@ export default class Features2 extends Component {
               className={classes.card}
             >
               <DelCard del={this.delCard} index={index} />
-               <UploadImage top={5} left={5} handleImageChange={this.handleImageChange} index={index} image={this.state.image} />
+             
+                <UploadImage top={5} left={5} 
+               handleImageChange={this.handleImageChange} 
+               index={index} 
+               image={this.state.cardImages[index]} />
               <img
                 className={classes.img}
                 src={this.props.Data.data[index].bg.picture}

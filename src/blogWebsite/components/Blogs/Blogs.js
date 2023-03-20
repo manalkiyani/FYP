@@ -129,6 +129,8 @@ export default function Blogs({ blogIds }) {
   };
 
   const editBlog = async () => {
+         toast.success("Updating your blog");
+
      let link = null;
     if (imageChanged) {
       
@@ -162,7 +164,7 @@ export default function Blogs({ blogIds }) {
     })
       .then((res) => res.json())
       .then((data) => {
-         toast.success("Updating your blog");
+        toast.success("Blog Updated Successfully");
         console.log(data,'daata')
         setBlogs(blogs.map((blog) => (blog._id === blogId ? data.Blog : blog)));
         console.log(data.Blog);
