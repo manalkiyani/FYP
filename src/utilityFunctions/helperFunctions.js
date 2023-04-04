@@ -280,6 +280,9 @@ export const changeComponentText = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
+
+    console.log('type',type)
+    console.log(newData[index][tag].text)
     newData[index][tag].text = textFromComponent;
   } else if (type === "faq1") {
     if (tag === "heading") {
@@ -361,6 +364,9 @@ export const updateComponentData = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
+
+    console.log('type',type)   
+     console.log('data',newData[index][tag])    
     newData[index][tag] = {
       ...newData[index][tag],
       ...stateFromTextEditor,

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../App";
-import BlogMain from "../BlogMain";
+import BlogMain from "../../CommonComponnets/BlogMain";
 import { blogTemplate } from "../../TemplatesData/blogTemplate";
 
 import BeatLoader from "react-spinners/BeatLoader";
@@ -29,9 +29,9 @@ const BlogssPage = () => {
   //
   const checkBlogsPageinContext = () => {
     const BlogsPage = template.pages?.BlogsPage;
-   
+
     if (BlogsPage) {
-      console.log(template.data.blogs)
+      console.log(template.data.blogs);
       setDataForMain(BlogsPage.blocks, template.data.blogs);
 
       return true;
@@ -43,7 +43,7 @@ const BlogssPage = () => {
   const fetchBlogsPageData = async (blockIds, blogIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-      console.log(blogIds)
+      console.log(blogIds);
       setTemplateinContext(blocks, blogIds);
       setDataForMain(blocks, blogIds);
     } catch (error) {
@@ -65,7 +65,7 @@ const BlogssPage = () => {
   const setDataForMain = (blocks, blogIds) => {
     setDataToSend({
       type: "blog",
-      page:'BlogsPage',
+      page: "BlogsPage",
       blocks,
       blogIds,
     });
@@ -102,7 +102,6 @@ const BlogssPage = () => {
           blogTemplate.data.blogs
         );
       } else {
-        
         loadSavedTemplate();
       }
     }

@@ -1,32 +1,30 @@
 import React, { Component } from "react";
 import classes from "./Gallery1.module.css";
 
-
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
-import {uploadImage} from "../../../utilityFunctions/imageUpload";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
 export default class Gallery1 extends Component {
   state = {
     displayHandleBlock: false,
-     image: null,
+    image: null,
   };
 
   delCard = (index) => {
-     
     this.props.deleteCard(index, this.props.id);
   };
 
-    handleImageChange = async (event,index) => {
-      console.log('index',index)
+  handleImageChange = async (event, index) => {
+    console.log("index", index);
     this.setState({
       image: event.target.files[0],
     });
     try {
       const link = await uploadImage(event.target.files[0]);
       console.log(link);
-      this.props.changeCardImage(link,index, this.props.id);
+      this.props.changeCardImage(link, index, this.props.id);
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +35,7 @@ export default class Gallery1 extends Component {
       index,
       tag,
       this.props.id,
-      "gallery1y1"
+      "gallery1"
     );
   };
 
@@ -91,16 +89,20 @@ export default class Gallery1 extends Component {
               className={classes.card}
             >
               <DelCard del={this.delCard} index={index} />
-               <UploadImage top={5} left={5} handleImageChange={(event)=>this.handleImageChange(event,index)} image={this.state.image} />
+              <UploadImage
+                top={5}
+                left={5}
+                handleImageChange={(event) =>
+                  this.handleImageChange(event, index)
+                }
+                index={index}
+                image={this.state.image}
+              />
               <img
                 className={classes.img}
                 src={this.props.Data.data[index].bg.picture}
               />
               <div className={classes.container}>
-               
-
-                
-
                 <ContentEditable
                   html={this.props.Data.data[index].p.text} // innerHTML of the editable div
                   disabled={false} // use true to disable editing
@@ -127,8 +129,6 @@ export default class Gallery1 extends Component {
                     textAlign: this.props.Data.data[index].p.align,
                   }}
                 />
-
-               
               </div>
             </div>
           );

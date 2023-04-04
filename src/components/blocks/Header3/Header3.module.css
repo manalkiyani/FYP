@@ -11,24 +11,24 @@
     justify-content: space-around;
     padding:50px ;
     padding-right: 100px;
-    margin-bottom: 40px;
+    margin-bottom: 100px;
     margin-top: 40px;
 }
 .content{
-     width: 40%;
+     width: 50%;
    flex-direction: column;
    height: 100%;
-   
+   margin-left: 50px;
     
     display: flex;
     align-items:left;
-    justify-content: space-between;
+    justify-content: center;
    
 }
 
 .img{
-height: 100%;
-margin: 0px 5px;
+height: 500px;
+margin: 5px 5px;
 width:500px;
 object-fit: cover;
 }

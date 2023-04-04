@@ -1,28 +1,72 @@
 .write {
   padding-top: 50px;
+  padding-bottom: 50px;   
+  display: flex;
 }
 input[type="file"] {
     display: none;
 }
 
 .writeImg {
-  margin-left: 150px;
-  width: 70vw;
-  height: 300px;
+  
+  width: 100%;
+  height: 500px;
   border-radius: 10px;
   object-fit: cover;
 }
 
 .writeForm {
   position: relative;
+   
+  width: 70vw;
+ padding: 10px 20px 10px  100px;
 }
 
 .writeFormGroup {
-  margin-left: 150px;
+ width: 100%;
+  margin-top: 40px;
+ 
+  
+
+}
+.writeQuill{
+  height: 80vh;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+}
+
+.writeFormGroup1 {
+ 
+  margin-top: 40px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
-   margin-bottom: 10px;
+  justify-content: space-between;
+  
+
+}
+
+.blogInputTitle{
+ width: 100%;
+                border: none;
+                font-size: 30px;
+                font-weight: bold;
+                outline: none;
+           
+}
+.blogInputTagline{
+ width: 100%;
+                border: none;
+                font-size: 20px;
+                font-weight:500;
+                                outline: none;
+                                color: #625f5f;
+           
+}
+.tags{
+  
+  border-radius: 20px;
+  
+  color:#47474d
 
 }
 
@@ -38,17 +82,8 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.writeInput {
-  font-size: 30px;
-  border: 1px solid #ccc;
-  
-  border-right: 0px;
-   border-left: 0px;
 
-  border-top:0;
-  padding: 20px;
-  width: 67vw;
-}
+
 .main{
   display: flex;
 }
@@ -83,5 +118,5 @@ font-size: 20px;
     
   color: white;
   background-color: teal;
- margin-right: 30px;
+
 }

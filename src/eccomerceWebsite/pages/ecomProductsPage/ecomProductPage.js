@@ -1,11 +1,14 @@
-import React, { useEffect ,useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import BeatLoader from "react-spinners/BeatLoader";
 import { UserContext } from "../../../App";
-import BlogMain from '../../../blogWebsite/BlogMain'
+import BlogMain from "../../../CommonComponnets/BlogMain";
 import { productTemplate } from "../../../TemplatesData/productTemplate";
-import { fetchAdminBlocks,getTemplateData} from "../../../utilityFunctions/axiosFunctions";
+import {
+  fetchAdminBlocks,
+  getTemplateData,
+} from "../../../utilityFunctions/axiosFunctions";
 
 const EcomPage = () => {
   const { id } = useParams();
@@ -59,7 +62,7 @@ const EcomPage = () => {
   const setDataForMain = (blocks, productIds) => {
     setDataToSend({
       type: "eccomerce",
-      page:'ProductsPage',
+      page: "ProductsPage",
       blocks,
       productIds,
     });
@@ -72,7 +75,9 @@ const EcomPage = () => {
       const Template = await getTemplateData(id);
       console.log(Template);
       if (Template.pages?.ProductsPage?.blocks) {
-        const blocks = await fetchAdminBlocks(Template.pages.ProductsPage.blocks);
+        const blocks = await fetchAdminBlocks(
+          Template.pages.ProductsPage.blocks
+        );
         console.log(blocks);
         ProsuctsPageBlocks = blocks;
       }
@@ -96,7 +101,6 @@ const EcomPage = () => {
           productTemplate.data.products
         );
       } else {
-        
         loadSavedTemplate();
       }
     }

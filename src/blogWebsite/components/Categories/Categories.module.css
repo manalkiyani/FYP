@@ -1,0 +1,27 @@
+.sidebar {
+  height: fit-content;
+  width: 25vw;
+  
+  background-color: #fdfbfb;
+  border-radius: 10px;
+ 
+  
+  position: sticky;
+  padding: 20px;
+ 
+  top: 20px;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.sidebarItem{
+    margin-bottom: 10px;
+}
+.categoryButton{
+     border-radius: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-color: #9F9F9F;
+    background-color: #ebebeb;
+    color: #47474d;
+    text-transform: capitalize;
+}
+

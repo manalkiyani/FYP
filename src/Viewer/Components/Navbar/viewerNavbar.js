@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import classes from "../../../blogWebsite/components/Navbar/Navbar.module.css";
+import classes from "./Navbar.module.css";
 import { UserContext } from "../../../App";
 import { useContext, useState, useEffect } from "react";
 import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
@@ -22,7 +22,7 @@ export default function ViewerNavbar(props) {
     <>
       <div className={classes.top}>
         <div className={classes.right}>
-          <h4 className={classes.logo}> {templateName || ''}</h4>
+          <h4 className={classes.logo}> {templateName || ""}</h4>
         </div>
 
         <div className={classes.left}>

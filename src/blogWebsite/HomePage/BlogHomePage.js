@@ -9,7 +9,7 @@ import {
   fetchAdminBlocks,
 } from "../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
-import Main from "../Main";
+import Main from "../../CommonComponnets/Main";
 
 const BlogHomePage = () => {
   const { id } = useParams();
@@ -41,7 +41,7 @@ const BlogHomePage = () => {
   const fetchHomePageBlocks = async (blockIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-      
+
       setTemplateinContext(blocks);
       setDataForMain(blocks);
     } catch (error) {

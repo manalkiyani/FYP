@@ -51,9 +51,9 @@ const Home = () => {
 
         </div>
         <div  >
-        <div className='container'>
+        <div >
       <p className='AvailableTemplatesHeader'>Pick the Website Template You Love</p>
-        <div className="charts">
+        <div style={{width:'65vw',display:'flex',flexWrap:'wrap',justifyContent:'space-evenly'}} className="charts">
        
           <AvailableTemplate id= '001'   type= "blog" img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1679227053/WhatsApp_Image_2023-03-19_at_4.57.17_PM_ewpmih.jpg" title= "Blog Template" description = 'A blog template is a pre-designed framework for creating a blog.  This makes it easier and quicker to launch a blog.'></AvailableTemplate>
           <AvailableTemplate id= '002'  type= "eccomerce"    img= "https://res.cloudinary.com/djlewzcd5/image/upload/v1679226873/WhatsApp_Image_2023-03-19_at_1.34.27_PM_1_h8los5.jpg"  title= "Eccomerce Template" description='An eCommerce template is a pre-designed framework for creating an online store.  This saves time and effort'></AvailableTemplate>

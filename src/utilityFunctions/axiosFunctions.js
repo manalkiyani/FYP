@@ -95,3 +95,20 @@ export const getBookmarkedBlogs = async (userId) => {
   }
 };
 
+export const getBlog = async (blogId) => {
+  try {
+    const response = await axios.get(`http://localhost:8800/api/blogs/${blogId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export const getBlogsByCategory = async (category) => {
+  try {
+    const response = await axios.get(`http://localhost:8800/api/blogs/category/${category}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

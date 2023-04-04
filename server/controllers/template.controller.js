@@ -3,7 +3,6 @@ const Template = require("../models/Template");
 const Admin = require("../models/Admin");
 const mongoose = require("mongoose");
 
-
 //add a template to user's saved Templates
 exports.saveTemplate = (req, res) => {
   console.log("inside savedTEmplate");
@@ -16,11 +15,11 @@ exports.saveTemplate = (req, res) => {
     let allowedTemps = 0;
     switch (userPlan) {
       case "Basic":
-        console.log('basic plan')
+        console.log("basic plan");
         allowedTemps = 1;
         break;
       case "starter":
-        allowedTemps = 3;
+        allowedTemps = 2;
         break;
       case "professional":
         allowedTemps = 5;
@@ -33,19 +32,17 @@ exports.saveTemplate = (req, res) => {
     }
 
     if (totalTemps >= allowedTemps) {
-      console.log(user)
+      console.log(user);
       return res.status(500).json({ message: "Limit Reached" });
     } else {
-
-
-       let date_ob = new Date();
-  // current date
-  // adjust 0 before single digit date
-  let date = ("0" + date_ob.getDate()).slice(-2);
-  // current month
-  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-  // current year
-  let year = date_ob.getFullYear();
+      let date_ob = new Date();
+      // current date
+      // adjust 0 before single digit date
+      let date = ("0" + date_ob.getDate()).slice(-2);
+      // current month
+      let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+      // current year
+      let year = date_ob.getFullYear();
 
       const template = new Template({
         _id: mongoose.Types.ObjectId(),
@@ -173,8 +170,8 @@ exports.updateTemplate = async (req, res) => {
     console.log("template", template);
     // if template not found, return 404 error
     if (!template) {
-      console.log('Template not found');  
-      return res.status(404).json({ error: 'Template not found' });
+      console.log("Template not found");
+      return res.status(404).json({ error: "Template not found" });
     }
 
     // update template with new data and save changes
@@ -182,13 +179,13 @@ exports.updateTemplate = async (req, res) => {
     template.pages = pages;
     template.data = data;
     await template.save();
-    
+
     // return updated template as response
     res.status(201).json({ template });
   } catch (error) {
     // handle errors and return appropriate response
     console.log(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -214,4 +211,3 @@ exports.deleteTemplate = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-

@@ -31,21 +31,15 @@ const SaveBtn = () => {
     try {
       const response = await SavedTemplate(template, name);
       console.log(response);
-       if (response?.status === "201") {
-          toast.success('Template Saved Successfully');
-        } else {
-          toast.error(
-            'Oops! Please Upgrade Your Plan to create new Websites'
-          );
-        }
-    }
-    catch (error) {
+      if (response?.status === "201") {
+        toast.success("Template Saved Successfully");
+      } else {
+        toast.error("Oops! Please Upgrade Your Plan to create new Websites");
+      }
+    } catch (error) {
       console.log(error);
-      toast.error(
-            'Oops! An error occured. Please try again later'
-          );
+      toast.error("Oops! An error occured. Please try again later");
     }
- 
   };
 
   return (
@@ -54,7 +48,7 @@ const SaveBtn = () => {
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Button
         onClick={handleClickOpen}
-        style={{ position: "sticky", left: 10, top: -200, zIndex: 1000 }}
+        style={{ position: "absolute", right: 10, top: 15, zIndex: 100000 }}
         size="medium"
         color="primary"
         startIcon={<SaveIcon />}

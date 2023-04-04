@@ -1,21 +1,20 @@
 import { Link } from "react-router-dom";
 import classes from "./Blog.module.css";
+import { useParams, useNavigate } from "react-router-dom";
+export default function Blog({bid,img,title,tagline,writer,time,desc,deleted,tags,edit})
+ {
+  const params = useParams();
+  const { id } = params;
+  const navigate = useNavigate();
+  const viewBlogDetail = () => {
+    navigate(`/blog/template/${id}/blogs/${bid}`);
+  }
 
-export default function Blog({
-  bid,
-  img,
-  title,
-  tagline,
-  writer,
-  time,
-  desc,
-  deleted,
-  tags,
-  edit,
-}) {
+
+
   return (
    
-    <div className={classes.post}>
+    <div className={classes.post} onClick={viewBlogDetail}>
       
       <img className={classes.postImg} src={img} alt="" />
       <div className= {classes.icons}>
@@ -47,7 +46,8 @@ export default function Blog({
         </span>
 
         <span className={classes.postDate}>{time}</span>
-        <p className={classes.postDesc}>{desc}</p>
+        {/* <p >{desc}</p> */}
+         <div className={classes.postDesc} dangerouslySetInnerHTML={{ __html: desc }}></div>
       </div>
     </div>
   );

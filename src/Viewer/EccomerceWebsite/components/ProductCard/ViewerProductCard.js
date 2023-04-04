@@ -104,7 +104,7 @@ const ViewerProductCard = ({
       console.error(error.message + "inerror");
     }
 
-    return alert("Added to cart");
+   toast.success("Added to Cart Successfully");
   };
 
   return (

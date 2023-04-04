@@ -24,7 +24,7 @@ const { setTemplateId, setTemplate } = useContext(UserContext);
     navigate(`/${type}/template/${id}`);
   };
   return (
-    <Card onClick={() => openTemplate(id)} sx={{ maxWidth: 280,minWidth:280 }}>
+    <Card onClick={() => openTemplate(id)} sx={{marginBottom:'30px' ,maxWidth: 300,minWidth:300 }}>
       <CardActionArea>
         <CardMedia
           component="img"
