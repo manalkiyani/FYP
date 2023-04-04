@@ -18,7 +18,7 @@ export default class ViewerHeader3 extends Component {
           src={this.props.Data.data.img}
         />
 
-        <div>
+        <div className={classes.content}>
           <ContentEditable
             className={classes.h}
             html={this.props.Data.data.h.text} // innerHTML of the editable div

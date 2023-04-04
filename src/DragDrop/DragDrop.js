@@ -15,7 +15,7 @@ import {
   dragEndHandler,
   changeBackgroundColor,
   changeBackgroundImage,
-  changeCardImage
+  changeCardImage,
 } from "../utilityFunctions/helperFunctions";
 
 import DragAndDropPanel from "../components/DragAndDropPanel";
@@ -57,12 +57,19 @@ const DragDrop = ({
     );
     let dataForTextEditor = {};
 
-    if (type === "header1" || type === "header2" || type === "header3") {
+    if (
+      type === "header1" ||
+      type === "header2" ||
+      type === "header3" ||
+      type === "about1"
+    ) {
       dataForTextEditor = clickedComponent.Data.data[tagFromComponent];
     } else if (
       type === "features1" ||
       type === "features2" ||
-      type === "features3"
+      type === "features3" ||
+      type === "gallery1" ||
+      type === "gallery2"
     ) {
       console.log(" i am happy");
       dataForTextEditor = clickedComponent.Data.data[index][tagFromComponent];
@@ -116,7 +123,7 @@ const DragDrop = ({
     <div
       style={{
         maxWidth: "100%",
-        overflowX: 'hidden',
+        overflowX: "hidden",
         border: dragDisable === false ? "5px solid #AAFF00 " : "none",
       }}
     >
@@ -229,15 +236,15 @@ const DragDrop = ({
                                 )
                               )
                             }
-                            changeCardImage= {(image,index,idFromComponent) =>
+                            changeCardImage={(image, index, idFromComponent) =>
                               setComponents(
                                 changeCardImage(
                                   image,
                                   index,
                                   idFromComponent,
                                   components
-                                  )
                                 )
+                              )
                             }
                             handleSocialIcons={(socialIcons, idFromComponent) =>
                               setComponents(
@@ -248,7 +255,7 @@ const DragDrop = ({
                                 )
                               )
                             }
-                            changeBackgroundColor = {(color,idFromComponent) =>
+                            changeBackgroundColor={(color, idFromComponent) =>
                               setComponents(
                                 changeBackgroundColor(
                                   color,
@@ -257,7 +264,7 @@ const DragDrop = ({
                                 )
                               )
                             }
-                            changeBackgroundImage = {(image,idFromComponent) =>
+                            changeBackgroundImage={(image, idFromComponent) =>
                               setComponents(
                                 changeBackgroundImage(
                                   image,
@@ -266,7 +273,6 @@ const DragDrop = ({
                                 )
                               )
                             }
-                              
                           />
                         </div>
                       )}

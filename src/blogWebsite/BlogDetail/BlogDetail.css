@@ -1,0 +1,15 @@
+/* Style the previous arrow */
+.slick-prev:before {
+  /* Set the content to the arrow symbol */
+  font-size: 24px; /* Set the font size */
+  color: #000; /* Set the color */
+  left: 10px; /* Set the position from the left edge */
+}
+
+/* Style the next arrow */
+.slick-next:before {
+ /* Set the content to the arrow symbol */
+  font-size: 24px; /* Set the font size */
+  color: #000; /* Set the color */
+  right: 10px; /* Set the position from the right edge */
+}

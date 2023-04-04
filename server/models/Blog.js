@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const blog = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  category: { type: String ,default: 'Other'},
   title: { type: String, required: true },
   tagline: { type: String },
-  tags: { type: String },
+  tags: { type: Array },
   readingTime: { type: String,},
   writer: { type: String,  },
   publishedDate: { type: String },
@@ -21,8 +22,10 @@ const blog = new Schema({
   },
   reviews: [
     {
-      user: { type: Schema.Types.ObjectId, ref: "User" },
-      text: { type: String },
+     name: { type: String },
+      email: { type: String },
+      comment: { type: String },
+      date: { type: Date, default: Date.now },
     },
   ],
   bookmarks: { type: Number },

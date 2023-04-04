@@ -323,6 +323,7 @@ export default function Blogs({ blogIds }) {
             blogs.map((blog) => {
               return (
                 <Blog
+                  
                   key={blog._id}
                   bid={blog._id}
                   img={blog.image}

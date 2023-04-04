@@ -4,11 +4,7 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 
 function postBlog(req, res) {
-  if (!req.body.title || !req.body.description || !req.body.image) {
-    return res
-      .status(500)
-      .json({ message: "Please fill all the required fields" });
-  }
+
   let date_ob = new Date();
   // current date
   // adjust 0 before single digit date
@@ -20,6 +16,7 @@ function postBlog(req, res) {
 
   const blog = new Blog({
     _id: mongoose.Types.ObjectId(),
+    category: req.body.category,
     title: req.body.title,
     tagline: req.body.tagline,
     tags: req.body.tags,
@@ -78,13 +75,13 @@ function getBlog(req, res) {
       res.status(200).json({
         success: true,
         message: `More on ${blog.title}`,
-        Blog: blog,
+        blog: blog,
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message: "This cause does not exist",
+        message: "This blog does not exist",
         error: err.message,
       });
     });
@@ -201,6 +198,55 @@ async function getBookmarkedBlogs(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+
+
+
+async function addReview (req, res)  {
+  const { name, email, comment } = req.body;
+  const blogId = req.params.id;
+
+  try {
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).send('Blog not found');
+    }
+
+    blog.reviews.push({ name, email, comment });
+    await blog.save();
+
+    return res.send(blog);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('Server error');
+  }
+};
+
+
+async function getBlogsByCategory (req, res)  {
+  const category = req.params.category;
+
+  try {
+    const blogs = await Blog.find({ category });
+
+    if (blogs.length === 0) {
+      return res.status(404).send('No blog posts found for this category');
+    }
+
+    return res.send(blogs);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('Server error');
+  }
+};
+
+
+
+
+
+
+
 module.exports = {
   getBlogs,
   postBlog,
@@ -210,4 +256,6 @@ module.exports = {
   getListOfBlogs,
   bookmarkBlog,
   getBookmarkedBlogs,
+  addReview,
+  getBlogsByCategory
 };

@@ -4,23 +4,23 @@ export const blogTemplate = {
   pages: {
     HomePage: {
       blocks: [
-        "06566dee-6108-4903-bf8a-6e294f4f5954",
-        "183a78e4-359f-4506-a989-31f934a04878",
+        "743a0894-09c1-41ef-86fe-199465b3e6ae",
+        "f6e9fb26-8be7-4ecb-9c2d-c38fd8678b43",
+        "08fecab0-a53d-4fde-91fd-84aa1c65268f",
+        "9a9493c8-c1bb-41fe-9ad3-cf36cfec2663",
+        "7a517caa-5a64-495c-909c-6bfc8243fbf0",
       ],
     },
     BlogsPage: {
       blocks: [
-        "06566dee-6108-4903-bf8a-6e294f4f5954",
-        "183a78e4-359f-4506-a989-31f934a04878",
+        "05089707-2b44-4e9d-9dd4-97a7adc60586",
+        "790bcfa1-3d40-40c3-9010-65ef70241a4d",
       ],
     },
   },
   data: {
     blogs: [
-      "64136890ef73fadc5e771e31",
-      "640f542137033f1777a4f28a",
-     
-      "640dcaa86e4260a55127d157",
+      "642b18d699cf3687adb5dd09"
     ],
   },
 };

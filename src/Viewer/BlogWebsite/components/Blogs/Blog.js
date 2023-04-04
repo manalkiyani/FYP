@@ -37,13 +37,13 @@ export default function Blog({
       <div className={classes.postInfo}>
         <div className={classes.container}>
           <div className={classes.postCats}>
-            {tags.split(",").map((tag) => {
+            {/* {tags.map((tag) => {
               return (
                 <div key={tag} className={classes.postCat}>
                   <center> {tag}</center>
                 </div>
               );
-            })}
+            })} */}
           </div>
           <div>
             <FacebookShareButton
@@ -56,7 +56,8 @@ export default function Blog({
           </div>
         </div>
 
-        <p className={classes.postDesc}>{desc}</p>
+        {/* <p className={classes.postDesc}>{desc}</p> */}
+          <div className={classes.postDesc} dangerouslySetInnerHTML={{ __html: desc }}></div>
       </div>
     </div>
   );

@@ -6,9 +6,12 @@ import { productTemplate } from "../../../TemplatesData/productTemplate";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
 
-import { getTemplateData,fetchAdminBlocks } from "../../../utilityFunctions/axiosFunctions";
+import {
+  getTemplateData,
+  fetchAdminBlocks,
+} from "../../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
-import Main from "../../../blogWebsite/Main";
+import Main from "../../../CommonComponnets/Main";
 
 const EcomHomePage = () => {
   const { id } = useParams();
@@ -86,9 +89,7 @@ const EcomHomePage = () => {
     if (!inContext) {
       if (id === "002") {
         fetchHomePageBlocks(productTemplate.pages.HomePage.blocks);
-
       } else {
-        
         loadSavedTemplate();
       }
     }

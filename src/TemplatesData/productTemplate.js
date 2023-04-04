@@ -4,14 +4,18 @@ export const productTemplate = {
   pages: {
     HomePage: {
       blocks: [
-        "06566dee-6108-4903-bf8a-6e294f4f5954",
-        "183a78e4-359f-4506-a989-31f934a04878",
+        "67618273-0a91-4ef1-983c-c4b35b9ae3b2",
+        "0b41a6c1-ece5-4975-bb72-e1bc51ab38ce",
+        "3567bf29-5851-46cd-99b9-e713d8090187",
+        "313d9598-423f-4218-b690-f7daee156ee1",
+        "3b70b2aa-e966-4a07-865b-0172d0d1b46d",
       ],
     },
     ProductsPage: {
       blocks: [
-        "06566dee-6108-4903-bf8a-6e294f4f5954",
-        "183a78e4-359f-4506-a989-31f934a04878",
+       
+        "3b70b2aa-e966-4a07-865b-0172d0d1b46d",
+         "313d9598-423f-4218-b690-f7daee156ee1",
       ],
     },
   },
