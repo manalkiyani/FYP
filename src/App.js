@@ -32,6 +32,7 @@ import CartPage from "./eccomerceWebsite/pages/CartPage";
 import EcomHomePage from "./eccomerceWebsite/pages/ecomHomePage/ecomHomePage";
 import EcomProductsPage from "./eccomerceWebsite/pages/ecomProductsPage/ecomProductPage";
 
+
 //blog Website
 import BlogHomePage from "./blogWebsite/HomePage/BlogHomePage";
 import BlogssPage from "./blogWebsite/BlogsPage/BlogssPage";
@@ -50,6 +51,11 @@ import ViewerMainPage from "./Viewer/BlogWebsite/pages/viewerMainPage";
 import BlogDetail from "../src/blogWebsite/BlogDetail/BlogDetail"
 
 import Test from "./Test";
+
+
+import MedicalHomePage from "./medicalWebsite/MedicalHomePage/MedicalHomePage";
+import DoctorsPage from "./medicalWebsite/DoctorsPage/DoctorsPage";
+import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
 
 const theme = createTheme({
   palette: {
@@ -91,6 +97,13 @@ const App = () => {
           <Routes>
             <>
               {/* ucraft */}
+
+
+            
+              <Route path="/medicalhomepage" element={<MedicalHomePage />} />
+              <Route path="/doctorspage" element={<DoctorsPage />} />
+              <Route path="/adddoctor" element={<AddDoctorPage />} />
+
               <Route path="/login" element={<Login />} />
                {/* <Route path="/test" element={<Test />} /> */}
                  <Route path="/blogDetail" element={<BlogDetail />} />
