@@ -290,7 +290,7 @@ function Education({
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
-      <Group position="apart" mt="xl">
+      <Group position="apart" mt="md">
         <Text fz="sm" fw={700} className={classes.title}>
           {Institute}
         </Text>
@@ -337,7 +337,7 @@ function Experience({ title, company, description, location, dates = [] }) {
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
-      <Group position="apart" mt="xl">
+      <Group position="apart" mt="md">
         <Text fz="sm" fw={700} className={classes.title}>
           {title}
         </Text>

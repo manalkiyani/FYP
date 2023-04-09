@@ -10,7 +10,7 @@ import {
   rem,
   Flex,
 } from "@mantine/core";
-
+import PersonPinIcon from "@mui/icons-material/PersonPinCircleOutlined";
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -53,32 +53,21 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const mockdata = [
-  { label: "4 passengers" },
-  { label: "100 km/h in 4 seconds" },
-  { label: "Automatic gearbox" },
-  { label: "Electric" },
-];
-
 const ViewJob = () => {
   const { classes } = useStyles();
-  const features = mockdata.map((feature) => (
-    <Center key={feature.label}>
-      <Text size="xs">{feature.label}</Text>
-    </Center>
-  ));
 
   return (
     <Card withBorder radius="md" className={classes.card}>
       <Group position="apart" mt="md">
         <div>
-          <Text fw={500}>Tesla Model S</Text>
+          <Text fw={500}>Job Title</Text>
+
           <Text fz="xs" c="dimmed">
-            Free recharge at any station
+            Employment Type , Location
           </Text>
         </div>
         <Badge color="red" size="lg">
-          25-03-2023
+          25-03-2023 -end date
         </Badge>
       </Group>
 
@@ -88,7 +77,9 @@ const ViewJob = () => {
         </Text>
 
         <Group spacing={8} mb={-8}>
-          {features}
+          <Center>
+            <Text size="xs">Bachelors</Text>
+          </Center>
         </Group>
       </Card.Section>
 

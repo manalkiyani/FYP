@@ -54,6 +54,7 @@ import AddJob from "./businessWebsite/Pages/addJob/AddJob";
 import ViewJobs from "../src/Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
 import ApplyJob from "../src/Viewer/BusinessWebsite/Pages/ApplyJob/ApplyJob";
 import ApplicationDetail from "./businessWebsite/Pages/Applications/ApplicationDetail";
+import JobDetail from "./businessWebsite/Pages/JobDetail/JobDetail";
 const theme = createTheme({
   palette: {
     primary: {
@@ -95,10 +96,12 @@ const App = () => {
             <>
               {/* ucraft */}
               <Route path="/login" element={<Login />} />
+              
               <Route path="/addJob" element={<AddJob />} />
               <Route path="/viewJob" element={<ViewJobs />} />
               <Route path="/applyJob" element={<ApplyJob />} />
               <Route path="/applicationDetail" element={<ApplicationDetail />} />
+              <Route path="/jobDetail" element={<JobDetail />} />
               {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/blogDetail" element={<BlogDetail />} />
               <Route path="/signup" element={<Signup />} />

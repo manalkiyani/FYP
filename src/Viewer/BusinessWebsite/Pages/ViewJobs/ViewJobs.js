@@ -92,13 +92,15 @@ const ViewJobs = () => {
                   <Checkbox mr={20} mt={20} label="Contract" />
                   <Checkbox mr={20} mt={20} label="Internship" />
                   <Checkbox mr={20} mt={20} label="Temporary" />
+                  <Checkbox mr={20} mt={20} label="In Office" />
+                  <Checkbox mr={20} mt={20} label="Remote" />
                 </Flex>
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
         </Container>
       </Grid.Col>
-      <Grid.Col span={8}>
+      <Grid.Col span={7}>
         <Flex direction="column">
           <ViewJob />
           <ViewJob />
