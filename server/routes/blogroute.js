@@ -11,7 +11,7 @@ router.post('/get',getListOfBlogs)
 router.post('/bookmark/:blogId',bookmarkBlog)
 router.patch('/:blogId',updateBlog)
 router.delete('/:blogId',deleteBlog)
-router.post('/:id/reviews',  addReview)
+router.post('/:id/review',  addReview)
 router.get('/category/:category', getBlogsByCategory)
 
 

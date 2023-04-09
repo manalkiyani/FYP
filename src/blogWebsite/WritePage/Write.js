@@ -1,5 +1,5 @@
 import "./Write.css";
-import React from "react";
+import React, { useCallback } from "react";
 import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -18,7 +18,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Person } from "@mui/icons-material";
 
 export default function Write() {
-  const quillRef = React.useRef();
+  const quillRef = React.useRef(null);
   const [title, setTitle] = useState(null);
   const [tagline, setTagline] = useState("");
   const [tags, setTags] = useState([]);
@@ -55,53 +55,54 @@ export default function Write() {
         ["link", "image", "video"], // link, image, and video
       ],
       handlers: {
-        // image: () => {
-        //   const input = document.createElement("input");
-        //   input.setAttribute("type", "file");
-        //   input.setAttribute("accept", "image/*");
-        //   input.click();
-        //   input.onchange = async () => {
+        image: () => {
+          const input = document.createElement("input");
+          input.setAttribute("type", "file");
+          input.setAttribute("accept", "image/*");
+          input.click();
+          input.onchange = async () => {
+            const file = input.files[0];
+            try {
+              const link = await uploadImage(file);
+              console.log(link);
+              let quillObj = quillRef.current.getEditor();
+              const range = quillObj.getSelection();
+              let position = range ? range.index : 0;
+              console.log(range);
+              quillObj.insertEmbed(position, "image", link);
+              quillObj.setSelection(position + 1);
+              // quillObj.editor.insertEmbed(range.index, "image", link);
+            } catch (err) {
+              console.log(err);
+            }
+          };
+        },
         //     const file = input.files[0];
-        //     try {
-        //       const link = await uploadImage(file);
-        //       console.log(link);
-        //       let quillObj = quillRef.current.getEditor();
-        //       const range = quillObj.getSelection();
-        //        let position = range ? range.index : 0;
-        //       console.log(range);
-        //        quillObj.insertEmbed(position, "image",link);
-        //                 quillObj.setSelection(position + 1);
-        //      // quillObj.editor.insertEmbed(range.index, "image", link);
-        //     } catch (err) {
-        //       console.log(err);
-        //     }
+        //     const formData = new FormData();
+        //     formData.append("image", file);
+        //     // Replace the URL below with your backend endpoint that handles image uploads
+        //     const response = await fetch(
+        //       "https://my-backend.com/upload-image",
+        //       {
+        //         method: "POST",
+        //         body: formData,
+        //       }
+        //     );
+        //     const data = await response.json();
+        //     const range = quillRef.current.getEditor().getSelection(true);
+        //     quillRef.current
+        //       .getEditor()
+        //       .insertEmbed(range.index, "image", data.imageUrl);
         //   };
+        // },
+        // video: () => {
+        //   const url = prompt("Enter the video URL");
+        //   const range = quillRef.current.getEditor().getSelection(true);
+        //   quillRef.current
+        //     .getEditor()
+        //     .insertEmbed(range.index, "video", url, "user");
+        // },
       },
-      //     const file = input.files[0];
-      //     const formData = new FormData();
-      //     formData.append("image", file);
-      //     // Replace the URL below with your backend endpoint that handles image uploads
-      //     const response = await fetch(
-      //       "https://my-backend.com/upload-image",
-      //       {
-      //         method: "POST",
-      //         body: formData,
-      //       }
-      //     );
-      //     const data = await response.json();
-      //     const range = quillRef.current.getEditor().getSelection(true);
-      //     quillRef.current
-      //       .getEditor()
-      //       .insertEmbed(range.index, "image", data.imageUrl);
-      //   };
-      // },
-      // video: () => {
-      //   const url = prompt("Enter the video URL");
-      //   const range = quillRef.current.getEditor().getSelection(true);
-      //   quillRef.current
-      //     .getEditor()
-      //     .insertEmbed(range.index, "video", url, "user");
-      // },
     },
   };
 
@@ -180,12 +181,6 @@ export default function Write() {
   };
   const handlePopperState = (event) => {
     setOpen((prevOpen) => !prevOpen);
-  };
-
-  const seeDesc = (data) => {
-    // //  const desc = event.target.value;
-    setdesc(data);
-    console.log(data);
   };
 
   const setSelectedCategory = (category) => {
@@ -342,15 +337,14 @@ export default function Write() {
           </div>
 
           <div className="writeFormGroup">
-
             <div className="writeQuill">
               <ReactQuill
                 ref={quillRef}
                 placeholder={"Write something awesome..."}
-                style={{ height:'100%' }}
+                style={{ height: "100%" }}
                 theme="snow"
-                value={desc}
-                onChange={seeDesc}
+                //  value={desc}
+                onChange={(desc)=>setdesc(desc)}
                 modules={modules}
               />
             </div>

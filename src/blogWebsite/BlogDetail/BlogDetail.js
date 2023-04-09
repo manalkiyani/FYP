@@ -8,10 +8,10 @@ import "slick-carousel/slick/slick-theme.css";
 import "./BlogDetail.css";
 import { UserContext } from "../../App";
 
-
 import {
   getBlog,
   getBlogsByCategory,
+  addReview,
 } from "../../utilityFunctions/axiosFunctions";
 import {
   Box,
@@ -50,8 +50,8 @@ const settings = {
 const BlogDetail = () => {
   //comment
   const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
 
   //blog
   const [blog, setBlog] = React.useState(null);
@@ -61,8 +61,6 @@ const BlogDetail = () => {
   //related blogs list
   const [relatedBlogs, setRelatedBlogs] = useState([]);
 
-
-  
   const getRelatedBlogs = async (category) => {
     try {
       const data = await getBlogsByCategory(category);
@@ -88,12 +86,19 @@ const BlogDetail = () => {
     }
   };
 
+  const handleAddReview = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await addReview(blogId, name, email, comment);
+      console.log("Review added successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getBlogData();
   }, [blogId]);
-
-
-  
 
   return (
     <>
@@ -157,7 +162,7 @@ const BlogDetail = () => {
         )}
       </div>
       <div className={classes.container}>
-        <h2
+        <h4
           style={{
             alignSelf: "start",
             family: "poppins",
@@ -166,7 +171,7 @@ const BlogDetail = () => {
           }}
         >
           More from {blog?.category}
-        </h2>
+        </h4>
       </div>
       <center>
         <div className={classes.relatedBlogs} style={{ width: "70%" }}>
@@ -178,7 +183,7 @@ const BlogDetail = () => {
                   title={blog.title}
                   tagline={blog.tagline}
                   image={blog.image}
-                  blogId = {blog._id}
+                  blogId={blog._id}
                 />
                 // <div>{blog.title}</div>
               ))}
@@ -187,7 +192,7 @@ const BlogDetail = () => {
         </div>
       </center>
       <div className={classes.container}>
-        <h3
+        <h4
           style={{
             textAlign: "left",
             family: "poppins",
@@ -196,21 +201,21 @@ const BlogDetail = () => {
           }}
         >
           Write a Comment
-        </h3>
+        </h4>
       </div>
 
       <center>
         <div className={classes.contactForm}>
           <form
             className={classes.Form}
-            // onSubmit={handleSubmit}
+            onSubmit={handleAddReview}
             autoComplete="off"
           >
             <div className={classes.inputContainer}>
               <p>Comment</p>
               <textarea
-                onChange={(e) => setMessage(e.target.value)}
-                name="message"
+                onChange={(e) => setComment(e.target.value)}
+                name="comment"
                 className={classes.input}
               ></textarea>
             </div>
@@ -227,9 +232,9 @@ const BlogDetail = () => {
             <div className={classes.inputContainer}>
               <p>Name (required)</p>
               <input
-                onChange={(e) => setSubject(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
-                name="subject"
+                name="name"
                 className={classes.input}
               />
             </div>
@@ -244,9 +249,9 @@ const BlogDetail = () => {
 
 export default BlogDetail;
 
-function Blog({ title, tagline, image,blogId }) {
-const navigate = useNavigate();
-const {templateId} = useContext(UserContext)
+function Blog({ title, tagline, image, blogId }) {
+  const navigate = useNavigate();
+  const { templateId } = useContext(UserContext);
   const openBlogDetail = () => {
     navigate(`/blog/template/${templateId}/blogs/${blogId}`);
   };
@@ -269,7 +274,7 @@ const {templateId} = useContext(UserContext)
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={()=>openBlogDetail()} size="small" color="primary">
+        <Button onClick={() => openBlogDetail()} size="small" color="primary">
           Read Now
         </Button>
       </CardActions>

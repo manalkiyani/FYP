@@ -216,7 +216,11 @@ async function addReview (req, res)  {
     blog.reviews.push({ name, email, comment });
     await blog.save();
 
-    return res.send(blog);
+    return res.status(200).send({
+     
+      message: 'Review added successfully',
+      blog:blog
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send('Server error');

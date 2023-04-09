@@ -155,7 +155,7 @@ const ViewerProductCard = ({
                         {product.avgRating}
                       </p>
                     </div>
-                    <p className={styles.description}>{product.description}</p>
+                    {/* <p className={styles.description}>{product.description}</p> */}
                     <Button
                       onClick={() => {
                         handleClickOpen(productId);
