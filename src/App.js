@@ -56,6 +56,7 @@ import Test from "./Test";
 import MedicalHomePage from "./medicalWebsite/MedicalHomePage/MedicalHomePage";
 import DoctorsPage from "./medicalWebsite/DoctorsPage/DoctorsPage";
 import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
+import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
 
 const theme = createTheme({
   palette: {
@@ -103,6 +104,7 @@ const App = () => {
               <Route path="/medicalhomepage" element={<MedicalHomePage />} />
               <Route path="/doctorspage" element={<DoctorsPage />} />
               <Route path="/adddoctor" element={<AddDoctorPage />} />
+              <Route path="/docprofile" element={<DocProfile />} />
 
               <Route path="/login" element={<Login />} />
                {/* <Route path="/test" element={<Test />} /> */}

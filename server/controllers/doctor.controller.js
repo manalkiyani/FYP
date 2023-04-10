@@ -24,4 +24,52 @@ const addDoctor = async (req, res)=>{
       }
     }
 
-    module.exports = {addDoctor,}
+    const getAllDoctors = async (req, res)=>{
+      try {
+        const doctors = await Doctor.find().exec();
+        res.json(doctors);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+      }
+    }
+
+    function delDoctor(req, res) {
+      const id = req.params.Id;
+    
+      Doctor.findByIdAndRemove(id)
+        .exec()
+        .then(() =>
+          res.status(204).json({
+            messsage: "Doctor successfully deleted",
+            success: true,
+          })
+        )
+        .catch((err) =>
+          res.status(500).json({
+            success: false,
+          })
+        );
+    }
+
+    function editDoctor(req, res) {
+      const id = req.params.Id;
+      const doctorObject = req.body;
+      Doctor.findOneAndUpdate({ _id: id }, doctorObject, { new: true })
+        .then((product) => {
+          res.status(200).json({
+            success: true,
+            message: "Doctor successfully updated",
+            product: product,
+          });
+        })
+        .catch((err) =>
+          res.status(500).json({
+            success: false,
+            message: "Server error. Please try again.",
+            error: err.message,
+          })
+        );
+    }
+
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor}
