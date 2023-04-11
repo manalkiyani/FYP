@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-function DocProfile() {
+function ViewerDocProfile() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const doctor = JSON.parse(decodeURIComponent(searchParams.get("doctor")));
@@ -40,4 +40,4 @@ function DocProfile() {
 
 }
 
-export default DocProfile;
+export default ViewerDocProfile;
