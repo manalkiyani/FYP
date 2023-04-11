@@ -9,7 +9,7 @@ function DocProfile() {
   // use the received data here
   return (
     <div>
-      <h1>{doctor.name}</h1>
+      <h1>NAME: {doctor.name}</h1>
       <p>Gender: {doctor.gender}</p>
       <p>Department: {doctor.department}</p>
       <p>Average Rating: {doctor.avgRating}</p>
@@ -37,6 +37,7 @@ function DocProfile() {
               </ul>
     </div>
   );
+
 }
 
 export default DocProfile;
