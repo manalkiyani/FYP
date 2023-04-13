@@ -63,6 +63,7 @@ import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
 import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
 import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
+import BookAppointmentPage from "./Viewer/medicalWebsite/DocProfile/BookAppointmentPage/BookAppointmentPage";
 
 const theme = createTheme({
   palette: {
@@ -113,6 +114,10 @@ const App = () => {
               <Route
                 path="/viewerdoctorspage"
                 element={<ViewerDoctorsPage />}
+              />
+                            <Route
+                path="/BookAppointmentPage"
+                element={<BookAppointmentPage />}
               />
 
               <Route path="/login" element={<Login />} />
