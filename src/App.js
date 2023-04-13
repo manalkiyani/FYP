@@ -50,11 +50,20 @@ import ViewerMainPage from "./Viewer/BlogWebsite/pages/viewerMainPage";
 import BlogDetail from "../src/blogWebsite/BlogDetail/BlogDetail";
 
 import Test from "./Test";
+
 import AddJob from "./businessWebsite/Pages/addJob/AddJob";
 import ViewJobs from "../src/Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
 import ApplyJob from "../src/Viewer/BusinessWebsite/Pages/ApplyJob/ApplyJob";
 import ApplicationDetail from "./businessWebsite/Pages/Applications/ApplicationDetail";
 import JobDetail from "./businessWebsite/Pages/JobDetail/JobDetail";
+
+import MedicalHomePage from "./medicalWebsite/MedicalHomePage/MedicalHomePage";
+import DoctorsPage from "./medicalWebsite/DoctorsPage/DoctorsPage";
+import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
+import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
+import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
+import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -95,12 +104,26 @@ const App = () => {
           <Routes>
             <>
               {/* ucraft */}
+
+              <Route path="/medicalhomepage" element={<MedicalHomePage />} />
+              <Route path="/doctorspage" element={<DoctorsPage />} />
+              <Route path="/adddoctor" element={<AddDoctorPage />} />
+              <Route path="/docprofile" element={<DocProfile />} />
+              <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
+              <Route
+                path="/viewerdoctorspage"
+                element={<ViewerDoctorsPage />}
+              />
+
               <Route path="/login" element={<Login />} />
-              
+
               <Route path="/addJob" element={<AddJob />} />
               <Route path="/viewJob" element={<ViewJobs />} />
               <Route path="/applyJob" element={<ApplyJob />} />
-              <Route path="/applicationDetail" element={<ApplicationDetail />} />
+              <Route
+                path="/applicationDetail"
+                element={<ApplicationDetail />}
+              />
               <Route path="/jobDetail" element={<JobDetail />} />
               {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/blogDetail" element={<BlogDetail />} />
