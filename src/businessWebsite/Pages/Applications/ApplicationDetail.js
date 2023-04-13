@@ -15,6 +15,7 @@ import {
   RingProgress,
   SegmentedControl,
   Textarea,
+  ScrollArea,
 } from "@mantine/core";
 
 import EmailIcon from "@mui/icons-material/EmailOutlined";
@@ -26,17 +27,31 @@ import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 const inputStyles = createStyles((theme) => ({
   innerContainer: {
     paddingTop: "2rem",
-    paddingBottom: "1rem",
+    marginBottom: "2rem",
     width: "100%",
     borderRadius: "20px",
     minHeight: "90vh",
+    border: "1px solid #E5E5E5",
   },
   Container: {
-    paddingTop: "2rem",
-    paddingBottom: "2rem",
+    padding: "2rem 3rem 2rem 3rem",
+
+    maxWidth: "100rem",
+  },
+  mainContainer: {
+    padding: 0,
+    overflowX: "hidden",
+  },
+  noPadding: {
+    padding: 0,
+  },
+  applicationContainer: {
+    padding: "30px",
+    paddingTop: "100px",
+    borderRight: "1px solid #E5E5E5",
   },
   Item: {
-    margin: "0px",
+    padding: 0,
   },
   card: {
     backgroundColor:
@@ -57,165 +72,245 @@ const inputStyles = createStyles((theme) => ({
     lineHeight: 1,
   },
 }));
+
 const ApplicationDetail = () => {
+
+
+
+
   const { classes } = inputStyles();
   return (
-    <Container bg="#FBFBFB" className={classes.Container} size="300rem">
-      <Grid justify="space-around">
-        <Grid.Col className={classes.Item} span={4}>
-          <Container
-            px="xl"
-            bg="#fff"
-            className={classes.innerContainer}
-            radius="xl"
-          >
-            <Flex
-              mih={60}
-              gap="md"
-              align="center"
-              direction="column"
-              wrap="wrap"
+    <Container
+      style={{ overflow: "hidden" }}
+      className={classes.mainContainer}
+      size="100vw"
+      bg="#E7E9EB"
+    >
+      <Grid columns={16}>
+        <Grid.Col sm={4} className={classes.noPadding}>
+          <ScrollArea h={670}>
+            <Container
+              style={{
+                width: "25%",
+                position: "fixed",
+                left: 0,
+                bottom: 0,
+                top: 0,
+              }}
+              className={classes.applicationContainer}
+              bg="#fff"
             >
-              <Avatar
-                radius="50px"
-                size="6rem"
-                src="https://res.cloudinary.com/djlewzcd5/image/upload/v1680546172/qzabhaixwlgsodp7x8p0.jpg"
-                alt="it's me"
-              />
-              <Title fw={600} className={classes.title} order={3}>
-                Leopard Camphill
-              </Title>
-            </Flex>
+              <Container>
+                <ContactDetails
+                  title="Email"
+                  desc="manalkiyani687@gmail"
+                  Icon={EmailIcon}
+                />
 
-            <Space h="md" />
-            <Divider my="sm" />
-            <Text fw={500} mb="lg" mt="lg" order={6}>
-              Review Resume
-            </Text>
+                <ContactDetails
+                  title="Email"
+                  desc="manalkiyani687@gmail"
+                  Icon={EmailIcon}
+                />
 
-            <SegmentedControl
-              wrap="wrap"
-              data={[
-                { label: "Interview", value: "interview" },
-                { label: "Not a Fit", value: "notFit" },
-                { label: "On Hold", value: "hold" },
-                { label: "Further Review", value: "further" },
-                { label: "Reject", value: "reject" },
-              ]}
-            />
-            <Text fw={500} mb="md" mt="lg" order={6}>
-              Leave a Note
-            </Text>
-            <Textarea
-              autosize
-              description="Write notes here about the candidate and their application."
-            />
-            <Space h="md" />
-            <Text fw={500} mb="md" mt="lg" order={6}>
-              Contact Details
-            </Text>
-            <ContactDetails
-              title="Email"
-              desc="manalkiyani687@gmail"
-              Icon={EmailIcon}
-            />
-            <ContactDetails
-              title="Phone"
-              desc="0333-509-2759"
-              Icon={PhoneIcon}
-            />
-            <ContactDetails
-              title="Address"
-              desc="Islamabad I-8/4"
-              Icon={PinIcon}
-            />
-          </Container>
+                <ContactDetails
+                  title="Email"
+                  desc="manalkiyani687@gmail"
+                  Icon={EmailIcon}
+                />
+                <ContactDetails
+                  title="Email"
+                  desc="manalkiyani687@gmail"
+                  Icon={EmailIcon}
+                />
+              </Container>
+            </Container>
+          </ScrollArea>
         </Grid.Col>
 
-        <Grid.Col className={classes.Item} span={8}>
-          <Container
-            px="xl"
-            bg="#fff"
-            className={classes.innerContainer}
-            radius="xl"
-          >
-            <Tabs
-              color="cyan"
-              variant="outline"
-              radius="md"
-              defaultValue="resume"
-            >
-              <Tabs.List>
-                <Tabs.Tab value="resume">Resume</Tabs.Tab>
-                <Tabs.Tab value="experience">
-                  {" "}
-                  Education and Experience
-                </Tabs.Tab>
-                <Tabs.Tab value="web">On the Web</Tabs.Tab>
-              </Tabs.List>
+        <Grid.Col className={classes.noPadding} sm={12}>
+          <Container className={classes.Container}>
+            <Flex>
+              <Container
+                style={{
+                  minHeight: "730px",
+                  width: "40%",
+                  boxSizing: "border-box",
+                }}
+                px="xl"
+                bg="#fff"
+                className={classes.innerContainer}
+                radius="xl"
+              >
+                <Flex
+                  mih={60}
+                  gap="md"
+                  align="center"
+                  direction="column"
+                  wrap="wrap"
+                >
+                  <Avatar
+                    radius="50px"
+                    size="6rem"
+                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1680546172/qzabhaixwlgsodp7x8p0.jpg"
+                    alt="it's me"
+                  />
+                  <Title fw={600} className={classes.title} order={3}>
+                    Leopard Camphill
+                  </Title>
+                </Flex>
 
-              <Tabs.Panel value="resume" pt="sm">
-                <ResumeViewer resumeUrl="https://www.africau.edu/images/default/sample.pdf" />
-              </Tabs.Panel>
-
-              <Tabs.Panel value="experience" pt="sm">
-                {/*Experience */}
-                <Text fw={500} mb="md" mt="lg" order={4}>
-                  Experience
+                <Space h="md" />
+                <Divider my="sm" />
+                <Text fw={500} mb="lg" mt="lg" order={6}>
+                  Review Resume
                 </Text>
-                <Experience
-                  dates={[
-                    { title: "Start Date", value: "2019-01-01" },
-                    { title: "End Date", value: "2019-01-01" },
-                  ]}
-                  title="Software Engineer"
-                  company="Google"
-                  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                  location="Mountain View, CA"
-                />
 
-                <Space h="xl" />
+                <SegmentedControl
+                  size="xs"
+                  data={[
+                    { label: "Hire", value: "hired" },
+                    { label: "Interview", value: "interview" },
 
-                {/*Education */}
-                <Text fw={500} mb="md" mt="lg" order={4}>
-                  Education
-                </Text>
-                <Education
-                  Institute="Leopard Camphill"
-                  Major="Computer Science"
-                  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                  location="Islamabad I-8/4"
-                  dates={[
-                    { title: "Start Date", value: "2019-01-01" },
-                    { title: "End Date", value: "2019-01-01" },
-                  ]}
-                />
-              </Tabs.Panel>
+                    { label: "accept", value: "accepted" },
 
-              <Tabs.Panel value="web" pt="sm">
-                <Space h="xl" />
-                <WebLinks
-                  links={[
-                    { title: "Github", link: "https://github.com/" },
-                    { title: "Github", link: "https://github.com/" },
-                    { title: "Github", link: "https://github.com/" },
-                    { title: "Github", link: "https://github.com/" },
-                    { title: "Github", link: "https://github.com/" },
+                    { label: "Further Review", value: "further" },
+                    { label: "Not a Fit", value: "notFit" },
+                    { label: "Reject", value: "rejected" },
                   ]}
                 />
 
-                <Space h="xl" />
-                <Text fw={500} mb="md" mt="lg" order={4}>
-                  Optional Message
+                <Text fw={500} mb="md" mt="lg" order={6}>
+                  Leave a Note
                 </Text>
-                <Text fz="sm">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                <Textarea
+                  autosize
+                  description="Write notes here about the candidate and their application."
+                />
+                <Space h="md" />
+                <Text fw={500} mb="md" mt="lg" order={6}>
+                  Contact Details
                 </Text>
-              </Tabs.Panel>
-            </Tabs>
+                <ContactDetails
+                  title="Email"
+                  desc="manalkiyani687@gmail"
+                  Icon={EmailIcon}
+                />
+                <ContactDetails
+                  title="Phone"
+                  desc="0333-509-2759"
+                  Icon={PhoneIcon}
+                />
+                <ContactDetails
+                  title="Address"
+                  desc="Islamabad I-8/4"
+                  Icon={PinIcon}
+                />
+              </Container>
+
+              <Container
+                style={{
+                  minHeight: "900px",
+                  width: "60%",
+                  boxSizing: "border-box",
+                }}
+                px="xl"
+                bg="#fff"
+                className={classes.innerContainer}
+                radius="xl"
+              >
+                <Tabs
+                  color="cyan"
+                  variant="outline"
+                  radius="md"
+                  defaultValue="resume"
+                >
+                  {/* Tabs  */}
+                  <Tabs.List>
+                    <Tabs.Tab value="resume">Resume</Tabs.Tab>
+                    <Tabs.Tab value="experience">
+                      {" "}
+                      Education and Experience
+                    </Tabs.Tab>
+                    <Tabs.Tab value="web">On the Web</Tabs.Tab>
+                  </Tabs.List>
+
+                  <Tabs.Panel value="resume" pt="sm">
+                    <ResumeViewer resumeUrl="https://www.africau.edu/images/default/sample.pdf" />
+                  </Tabs.Panel>
+
+                  <Tabs.Panel value="experience" pt="sm">
+                    <ScrollArea h={800}>
+                      {/*Experience */}
+                      <Text fw={500} mb="md" mt="lg" order={4}>
+                        Experience
+                      </Text>
+                      <Experience
+                        dates={[
+                          { title: "Start Date", value: "2019-01-01" },
+                          { title: "End Date", value: "2019-01-01" },
+                        ]}
+                        title="Software Engineer"
+                        company="Google"
+                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                        location="Mountain View, CA"
+                      />
+                      <Experience
+                        dates={[
+                          { title: "Start Date", value: "2019-01-01" },
+                          { title: "End Date", value: "2019-01-01" },
+                        ]}
+                        title="Software Engineer"
+                        company="Google"
+                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                        location="Mountain View, CA"
+                      />
+
+                      <Space h="xl" />
+
+                      {/*Education */}
+                      <Text fw={500} mb="md" mt="lg" order={4}>
+                        Education
+                      </Text>
+                      <Education
+                        Institute="Leopard Camphill"
+                        Major="Computer Science"
+                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                        location="Islamabad I-8/4"
+                        dates={[
+                          { title: "Start Date", value: "2019-01-01" },
+                          { title: "End Date", value: "2019-01-01" },
+                        ]}
+                      />
+                    </ScrollArea>
+                  </Tabs.Panel>
+
+                  <Tabs.Panel value="web" pt="sm">
+                    <Space h="xl" />
+                    <WebLinks
+                      links={[
+                        { title: "Github", link: "https://github.com/" },
+                        { title: "LinkedIn", link: "https://LinkedIn.com/" },
+                        { title: "Facebook", link: "https://Facebook.com/" },
+                        { title: "Twitter", link: "https://Twitter.com/" },
+                        { title: "Website", link: "https://Website.com/" },
+                      ]}
+                    />
+
+                    <Space h="xl" />
+                    <Text fw={500} mb="md" mt="lg" order={4}>
+                      Optional Message
+                    </Text>
+                    <Text fz="sm">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </Text>
+                  </Tabs.Panel>
+                </Tabs>
+              </Container>
+            </Flex>
           </Container>
         </Grid.Col>
       </Grid>
@@ -255,7 +350,7 @@ function ResumeViewer({ resumeUrl }) {
 
   return (
     <DocViewer
-      style={{ width: 600, height: 670 }}
+      style={{ width: 600, height: 850 }}
       pluginRenderers={DocViewerRenderers}
       documents={docs}
     />
@@ -272,7 +367,7 @@ function Education({
   Institute,
   Major,
   description,
-  location = "Not available",
+  grade = "0",
   dates = [],
 }) {
   const { classes } = inputStyles();
@@ -303,7 +398,7 @@ function Education({
         <PinIcon size="1rem" />
         <Space w="xs" />
         <Text mt="sm" mb="md" c="dimmed" fz="xs">
-          {location}
+          {grade}
         </Text>
       </Flex>
 

@@ -43,10 +43,10 @@ export default function DropImage(props) {
 
         <div>
           <Text size="xl" inline>
-            Drag images here or click to select files
+            Drag resume here or click to browse files
           </Text>
           <Text size="sm" color="dimmed" inline mt={7}>
-            Attach as many files as you like, each file should not exceed 5mb
+            Attach your pdf or docx resume here.Each file should not exceed 10mb
           </Text>
         </div>
       </Group>

@@ -62,9 +62,24 @@ const modules = {
   },
 };
 const AddJob = () => {
+  //save data
+  const [Title, setTitle] = useState("");
+  const [Type, setType] = useState("");
+  const [Location, setLocation] = useState("");
+  const [Qualification, setQualification] = useState("");
+  const [Deadline, setDeadline] = useState("");
+  const [StartDate, setStartDate] = useState("");
+  const [Description, setDescription] = useState("");
+  const [ShowPayBy, setShowPayBy] = React.useState("Range");
+  const [Range, setRange] = useState({ min: "", max: "" });
+  const [StartingAmount, setStartingAmount] = useState("");
+  const [MaximumAmount, setMaximumAmount] = useState("");
+  const [ExactAmount, setExactAmount] = useState("");
+  const [detailsFile, setDetailsFile] = useState("");
+
   const quillRef = React.useRef(null);
   const [desc, setdesc] = useState(null);
-  const [showPayBy, setShowPayBy] = React.useState("Range");
+
   const { classes } = inputStyles();
 
   const [active, setActive] = useState(1);
@@ -73,6 +88,24 @@ const AddJob = () => {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
+  const saveInformation = () => {
+    console.log("saveInformation");
+    console.log(StartingAmount);
+    console.log(MaximumAmount);
+    nextStep();
+    
+
+
+
+
+
+
+
+
+
+
+
+  };
   return (
     <div className={styles.container}>
       <Stepper
@@ -96,6 +129,8 @@ const AddJob = () => {
               placeholder="Front End Developer"
               classNames={classes}
               required
+              value={Title}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <Select
@@ -109,12 +144,19 @@ const AddJob = () => {
                 "Intern",
                 "Contract",
               ]}
+              value={Type}
+              onChange={setType}
               placeholder="Pick one"
               label="Employment type"
               classNames={classes}
               required
             />
+            <Text className={classes.text} mt="sm" mb={10}>
+              Location
+            </Text>
             <SegmentedControl
+              value={Location}
+              onChange={(e) => setLocation(e.target.value)}
               radius="xl"
               size="md"
               data={["InOffice", "Remote", "Both"]}
@@ -127,6 +169,8 @@ const AddJob = () => {
               classNames={classes}
               clearable={false}
               required
+              value={Deadline}
+              onChange={(e) => setDeadline(e.target.value)}
             />
             <DatePickerInput
               mt="md"
@@ -134,6 +178,8 @@ const AddJob = () => {
               label="Expected Start Date"
               classNames={classes}
               clearable={false}
+              value={StartDate}
+              onChange={(e) => setStartDate(e.target.value)}
             />
 
             <Text className={classes.text} mt="sm" mb={10}>
@@ -149,6 +195,8 @@ const AddJob = () => {
                 "Ph.D",
                 "Pursuing Degree",
               ]}
+              value={Qualification}
+              onChange={(e) => setQualification(e.target.value)}
             />
           </div>
           <Group position="center" mt="xl">
@@ -182,11 +230,18 @@ const AddJob = () => {
               label="Show Pay by"
               classNames={classes}
               required
-              value={showPayBy}
+              value={ShowPayBy}
               onChange={setShowPayBy}
             />
 
-            <SalaryChoice classes={classes} option={showPayBy} />
+            <SalaryChoice
+              setExactAmount={setExactAmount}
+              setMaximumAmount={setMaximumAmount}
+              setStartingAmount={setStartingAmount}
+              setRange={setRange}
+              classes={classes}
+              option={ShowPayBy}
+            />
           </div>
           <Group position="center" mt="xl">
             <Button variant="default" onClick={prevStep}>
@@ -221,8 +276,8 @@ const AddJob = () => {
                 }
                 style={{ height: "90%" }}
                 theme="snow"
-                value={desc}
-                onChange={(desc) => setdesc(desc)}
+                value={Description}
+                onChange={setDescription}
                 modules={modules}
               />
             </div>
@@ -231,7 +286,7 @@ const AddJob = () => {
             <Button variant="default" onClick={prevStep}>
               Back
             </Button>
-            <Button color="cyan" onClick={nextStep}>
+            <Button color="cyan" onClick={saveInformation}>
               Submit Now
             </Button>
           </Group>

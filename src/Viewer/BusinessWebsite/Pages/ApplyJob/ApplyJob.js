@@ -13,6 +13,7 @@ import {
   Button,
   Textarea,
 } from "@mantine/core";
+import { v4 as uuid } from "uuid";
 import React from "react";
 import DropImage from "./DropImage";
 import { DatePickerInput } from "@mantine/dates";
@@ -46,6 +47,37 @@ const inputStyles = createStyles((theme) => ({
 }));
 const ApplyJob = () => {
   const { classes } = inputStyles();
+
+    //data
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [education, setEducation] = useState([{
+    key:uuid(),
+    institute:"",
+    degree:"",
+    major:"",
+    startDate:"",
+    endDate:"",
+    description:"",
+    grade:""
+
+  }]);
+  const [experience, setExperience] = useState([{
+    key:uuid(),
+    company:"",
+    title:"",
+    startDate:"",
+    endDate:"",
+    description:"",
+    location:""
+  }]);
+  const [webLinks,setWebLinks] = useState([]);
+  const [message, setMessage] = useState("");
+  const [resume, setResume] = useState("");
+
   return (
     <Container>
       <Flex direction="column">
@@ -55,8 +87,7 @@ const ApplyJob = () => {
             Easy Apply
           </Title>
           <Text fz="md">
-            Choose an option to autocomplete your application. You can still
-            fill your profile manually.
+           Fill your job application
           </Text>
           <Space h="md" />
           <DropImage />
@@ -76,18 +107,20 @@ const ApplyJob = () => {
             bg="#FBFBFB"
           >
             <Group position="center" spacing="md" grow>
-              <TextInput label="First Name" classNames={classes} required />
-              <TextInput label="Last Name" classNames={classes} required />
+              <TextInput label="First Name" classNames={classes} required value={firstName} onChange={setFirstName} />
+              <TextInput label="Last Name" classNames={classes} required value={lastName} onChange={lastName}  />
             </Group>
 
             <Group position="center" spacing="md" grow>
-              <TextInput label="Email" classNames={classes} required />
-              <TextInput label="Phone" classNames={classes} required />
+              <TextInput label="Email" classNames={classes} required value={email} onChange={setEmail}/>
+              <TextInput label="Phone" classNames={classes} required value={phone} onChange={setPhone} />
             </Group>
             <TextInput
               label="Place of residence"
               classNames={classes}
               required
+              value={address}
+              onChange={setAddress}
             />
           </Container>
         </Container>
@@ -110,7 +143,18 @@ const ApplyJob = () => {
             </Button>
           </Flex>
           <Space h="md" />
-
+              {experience.map((exp,index)=>{
+                return (<Experience
+                key={exp.key}
+                company={exp.company}
+                title={exp.title}
+                startDate={exp.startDate}
+                endDate={exp.endDate}
+                description={exp.description}
+                location={exp.location}
+                   
+            /> )
+              })}
           <Experience />
         </Container>
         <Divider my="sm" />
@@ -176,7 +220,7 @@ const ApplyJob = () => {
 
 export default ApplyJob;
 
-const Experience = () => {
+const Experience = ({key,company,title,startDate,endDate,description,location}) => {
   const [workHere, setWorkHere] = React.useState(false);
   const { classes } = inputStyles();
   return (
@@ -187,10 +231,17 @@ const Experience = () => {
       bg="#FBFBFB"
     >
       <Group position="center" spacing="md" grow>
-        <TextInput label="Title" classNames={classes} required />
-        <TextInput label="Company" classNames={classes} required />
+        <TextInput label="Title" classNames={classes} required 
+        value={title}
+       
+         />
+        <TextInput label="Company" classNames={classes} required 
+        value={company}
+        />
       </Group>
-      <TextInput label="Office Location" classNames={classes} required />
+      <TextInput label="Office Location" classNames={classes} required 
+      value={location}
+      />
       <TextInput label="Description" classNames={classes} />
       <Group position="center" spacing="md" grow>
         <DatePickerInput
@@ -243,7 +294,7 @@ const Education = () => {
         <TextInput label="Major" classNames={classes} />
         <TextInput label="Degree" classNames={classes} />
       </Group>
-      <TextInput label="School Location" classNames={classes} />
+      <TextInput label="Grade" classNames={classes} />
       <TextInput label="Description" classNames={classes} />
       <Group position="center" spacing="md" grow>
         <DatePickerInput

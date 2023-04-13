@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { NumberInput, Flex, Select } from "@mantine/core";
-const SalaryChoice = ({ option, classes }) => {
+const SalaryChoice = ({
+  option,
+  classes,
+  setStartingAmount,
+  setExactAmount,
+  setMaximumAmount,
+  setRange,
+}) => {
   switch (option) {
     case "Range":
       return (
@@ -36,6 +43,7 @@ const SalaryChoice = ({ option, classes }) => {
           classNames={classes}
           label="Starting Amount"
           step={1000}
+          onChange={setStartingAmount}
         />
       );
     case "Maximum amount":
@@ -46,6 +54,7 @@ const SalaryChoice = ({ option, classes }) => {
           classNames={classes}
           label="Maximum Amount"
           step={1000}
+          onChange={setMaximumAmount}
         />
       );
     case "Exact amount":
@@ -56,6 +65,7 @@ const SalaryChoice = ({ option, classes }) => {
           classNames={classes}
           label="Exact Amount"
           step={1000}
+          onChange={setExactAmount}
         />
       );
     default:
