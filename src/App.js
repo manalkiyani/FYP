@@ -32,7 +32,6 @@ import CartPage from "./eccomerceWebsite/pages/CartPage";
 import EcomHomePage from "./eccomerceWebsite/pages/ecomHomePage/ecomHomePage";
 import EcomProductsPage from "./eccomerceWebsite/pages/ecomProductsPage/ecomProductPage";
 
-
 //blog Website
 import BlogHomePage from "./blogWebsite/HomePage/BlogHomePage";
 import BlogssPage from "./blogWebsite/BlogsPage/BlogssPage";
@@ -48,10 +47,15 @@ import ViewerNavbar from "./Viewer/Components/Navbar/viewerNavbar";
 import ViewerHomepage from "./Viewer/BlogWebsite/pages/viewerHomepage";
 import ViewerMainPage from "./Viewer/BlogWebsite/pages/viewerMainPage";
 
-import BlogDetail from "../src/blogWebsite/BlogDetail/BlogDetail"
+import BlogDetail from "../src/blogWebsite/BlogDetail/BlogDetail";
 
 import Test from "./Test";
 
+import AddJob from "./businessWebsite/Pages/addJob/AddJob";
+import ViewJobs from "../src/Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
+import ApplyJob from "../src/Viewer/BusinessWebsite/Pages/ApplyJob/ApplyJob";
+import ApplicationDetail from "./businessWebsite/Pages/Applications/ApplicationDetail";
+import JobDetail from "./businessWebsite/Pages/JobDetail/JobDetail";
 
 import MedicalHomePage from "./medicalWebsite/MedicalHomePage/MedicalHomePage";
 import DoctorsPage from "./medicalWebsite/DoctorsPage/DoctorsPage";
@@ -101,18 +105,28 @@ const App = () => {
             <>
               {/* ucraft */}
 
-
-            
               <Route path="/medicalhomepage" element={<MedicalHomePage />} />
               <Route path="/doctorspage" element={<DoctorsPage />} />
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />
               <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
-              <Route path="/viewerdoctorspage" element={<ViewerDoctorsPage />} />
+              <Route
+                path="/viewerdoctorspage"
+                element={<ViewerDoctorsPage />}
+              />
 
               <Route path="/login" element={<Login />} />
-               {/* <Route path="/test" element={<Test />} /> */}
-                 <Route path="/blogDetail" element={<BlogDetail />} />
+
+              <Route path="/addJob" element={<AddJob />} />
+              <Route path="/viewJob" element={<ViewJobs />} />
+              <Route path="/applyJob" element={<ApplyJob />} />
+              <Route
+                path="/applicationDetail"
+                element={<ApplicationDetail />}
+              />
+              <Route path="/jobDetail" element={<JobDetail />} />
+              {/* <Route path="/test" element={<Test />} /> */}
+              <Route path="/blogDetail" element={<BlogDetail />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/recovery" element={<Otp />} />
               <Route path="/reset" element={<ResetPassword />} />
@@ -148,7 +162,17 @@ const App = () => {
               ></Route>
 
               {/* blog Website Admin */}
-              <Route exact path="/blog/template/:id" element={ <Navbar type="blog" pages={["", "blogs", "write"]} names={["Home", "Blogs", "Write"]}/>}>
+              <Route
+                exact
+                path="/blog/template/:id"
+                element={
+                  <Navbar
+                    type="blog"
+                    pages={["", "blogs", "write"]}
+                    names={["Home", "Blogs", "Write"]}
+                  />
+                }
+              >
                 <Route path="" element={<BlogHomePage />} />
                 <Route path="blogs" element={<BlogssPage />} />
                 <Route path="blogs/:blogId" element={<BlogDetail />} />

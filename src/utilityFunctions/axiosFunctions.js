@@ -112,3 +112,12 @@ export const getBlogsByCategory = async (category) => {
     return error;
   }
 }
+
+export const addReview = async (blogId, name, email, comment) => {
+  try {
+    const response = await axios.post(`http://localhost:8800/api/blogs/${blogId}/review`, { name, email, comment });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
