@@ -6,38 +6,46 @@ function ViewerDocProfile() {
   const searchParams = new URLSearchParams(location.search);
   const doctor = JSON.parse(decodeURIComponent(searchParams.get("doctor")));
 
-  // use the received data here
+  const splitTimeRange = (start, end) => {
+    const slots = [];
+    let current = new Date(`2022-01-01T${start}:00`);
+    const endSlot = new Date(`2022-01-01T${end}:00`);
+    while (current < endSlot) {
+      const slotStart = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      current.setMinutes(current.getMinutes() + 30);
+      const slotEnd = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      slots.push(`${slotStart} - ${slotEnd}`);
+    }
+    return slots;
+  };
+
+  const renderAvailabilityButtons = (availability) => {
+    const days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+    return days.map((day) => {
+      const slots = splitTimeRange(
+        availability[day].start,
+        availability[day].end
+      );
+      return (
+        <div key={day}>
+          <p>{day.toUpperCase()}</p>
+          {slots.map((slot) => (
+            <button key={slot}>{slot}</button>
+          ))}
+        </div>
+      );
+    });
+  };
+
   return (
     <div>
       <h1>NAME: {doctor.name}</h1>
       <p>Gender: {doctor.gender}</p>
       <p>Department: {doctor.department}</p>
       <p>Average Rating: {doctor.avgRating}</p>
-      <ul>
-                <li>
-                  Monday: {doctor.availability.monday.start} -{" "}
-                  {doctor.availability.monday.end}
-                </li>
-                <li>
-                  Tuesday: {doctor.availability.tuesday.start} -{" "}
-                  {doctor.availability.tuesday.end}
-                </li>
-                <li>
-                  Wednesday: {doctor.availability.wednesday.start} -{" "}
-                  {doctor.availability.wednesday.end}
-                </li>
-                <li>
-                  Thursday: {doctor.availability.thursday.start} -{" "}
-                  {doctor.availability.thursday.end}
-                </li>
-                <li>
-                  Friday: {doctor.availability.friday.start} -{" "}
-                  {doctor.availability.friday.end}
-                </li>
-              </ul>
+      <div>{renderAvailabilityButtons(doctor.availability)}</div>
     </div>
   );
-
 }
 
 export default ViewerDocProfile;
