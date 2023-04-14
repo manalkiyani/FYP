@@ -14,7 +14,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { v4 as uuid } from "uuid";
-import React from "react";
+import React ,{useState}from "react";
 import DropImage from "./DropImage";
 import { DatePickerInput } from "@mantine/dates";
 import AddIcon from "@mui/icons-material/AddOutlined";

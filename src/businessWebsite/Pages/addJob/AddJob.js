@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./AddJob.module.css";
-import job1 from "../../../assets/business/job1.jpg";
+import axios from "axios";
 import SalaryChoice from "./SalaryChoice";
 
 import {
@@ -17,7 +17,7 @@ import {
 } from "@mantine/core";
 import ReactQuill from "react-quill";
 import { DatePickerInput } from "@mantine/dates";
-
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 const inputStyles = createStyles((theme) => ({
   root: {
     position: "relative",
@@ -63,48 +63,57 @@ const modules = {
 };
 const AddJob = () => {
   //save data
-  const [Title, setTitle] = useState("");
-  const [Type, setType] = useState("");
-  const [Location, setLocation] = useState("");
-  const [Qualification, setQualification] = useState("");
-  const [Deadline, setDeadline] = useState("");
-  const [StartDate, setStartDate] = useState("");
-  const [Description, setDescription] = useState("");
-  const [ShowPayBy, setShowPayBy] = React.useState("Range");
-  const [Range, setRange] = useState({ min: "", max: "" });
-  const [StartingAmount, setStartingAmount] = useState("");
-  const [MaximumAmount, setMaximumAmount] = useState("");
-  const [ExactAmount, setExactAmount] = useState("");
-  const [detailsFile, setDetailsFile] = useState("");
-
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+  const [location, setLocation] = useState("");
+  const [qualification, setQualification] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [showPayBy, setShowPayBy] = React.useState("Range");
+  const [range, setRange] = useState({ min: "", max: "" });
+  const [startingAmount, setStartingAmount] = useState("");
+  const [maximumAmount, setMaximumAmount] = useState("");
+  const [exactAmount, setExactAmount] = useState("");
+  const [file, setFile] = useState("");
   const quillRef = React.useRef(null);
-  const [desc, setdesc] = useState(null);
+  ////////////////////////////////////////////////////////////////
 
   const { classes } = inputStyles();
-
   const [active, setActive] = useState(1);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-  const saveInformation = () => {
-    console.log("saveInformation");
-    console.log(StartingAmount);
-    console.log(MaximumAmount);
-    nextStep();
-    
+  const addJob = async () => {
+    let response = await axios.get(
+      `http://localhost:8800/api/jobs/check/${title}`
+    );
+    console.log(response.data);
+    if (response.data.success) {
+      const fileLink = await uploadImage(file);
+      console.log(fileLink);
 
-
-
-
-
-
-
-
-
-
-
+      response = await axios.post("http://localhost:8800/api/jobs/", {
+        title,
+        employmentType: type,
+        location,
+        deadline,
+        startDate,
+        minimumQualification: qualification,
+        showPayBy,
+        range,
+        startingAmount,
+        maximumAmount,
+        exactAmount,
+        description,
+        detailsFile: fileLink,
+      });
+      nextStep();
+    } else {
+      alert("Job title already exists");
+    }
   };
   return (
     <div className={styles.container}>
@@ -129,7 +138,7 @@ const AddJob = () => {
               placeholder="Front End Developer"
               classNames={classes}
               required
-              value={Title}
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
 
@@ -144,7 +153,7 @@ const AddJob = () => {
                 "Intern",
                 "Contract",
               ]}
-              value={Type}
+              value={type}
               onChange={setType}
               placeholder="Pick one"
               label="Employment type"
@@ -155,10 +164,10 @@ const AddJob = () => {
               Location
             </Text>
             <SegmentedControl
-              value={Location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={location}
+              onChange={setLocation}
               radius="xl"
-              size="md"
+              size="sm"
               data={["InOffice", "Remote", "Both"]}
             />
 
@@ -169,8 +178,8 @@ const AddJob = () => {
               classNames={classes}
               clearable={false}
               required
-              value={Deadline}
-              onChange={(e) => setDeadline(e.target.value)}
+              value={deadline}
+              onChange={setDeadline}
             />
             <DatePickerInput
               mt="md"
@@ -178,8 +187,8 @@ const AddJob = () => {
               label="Expected Start Date"
               classNames={classes}
               clearable={false}
-              value={StartDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={startDate}
+              onChange={setStartDate}
             />
 
             <Text className={classes.text} mt="sm" mb={10}>
@@ -187,7 +196,7 @@ const AddJob = () => {
             </Text>
             <SegmentedControl
               radius="xl"
-              size="md"
+              size="sm"
               data={[
                 "Associate",
                 "Masters",
@@ -195,8 +204,8 @@ const AddJob = () => {
                 "Ph.D",
                 "Pursuing Degree",
               ]}
-              value={Qualification}
-              onChange={(e) => setQualification(e.target.value)}
+              value={qualification}
+              onChange={setQualification}
             />
           </div>
           <Group position="center" mt="xl">
@@ -230,7 +239,7 @@ const AddJob = () => {
               label="Show Pay by"
               classNames={classes}
               required
-              value={ShowPayBy}
+              value={showPayBy}
               onChange={setShowPayBy}
             />
 
@@ -240,7 +249,7 @@ const AddJob = () => {
               setStartingAmount={setStartingAmount}
               setRange={setRange}
               classes={classes}
-              option={ShowPayBy}
+              option={showPayBy}
             />
           </div>
           <Group position="center" mt="xl">
@@ -262,6 +271,8 @@ const AddJob = () => {
               Job Description
             </Text>
             <FileInput
+              value={file}
+              onChange={setFile}
               placeholder="Pick file"
               label="Upload a PDf or Docx file"
               withAsterisk
@@ -276,7 +287,7 @@ const AddJob = () => {
                 }
                 style={{ height: "90%" }}
                 theme="snow"
-                value={Description}
+                value={description}
                 onChange={setDescription}
                 modules={modules}
               />
@@ -286,7 +297,7 @@ const AddJob = () => {
             <Button variant="default" onClick={prevStep}>
               Back
             </Button>
-            <Button color="cyan" onClick={saveInformation}>
+            <Button color="cyan" onClick={addJob}>
               Submit Now
             </Button>
           </Group>

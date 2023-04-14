@@ -233,6 +233,29 @@ const App = () => {
               <Route path="cart" element={<CartPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
+
+            {/* business Website Admin */}
+            <Route
+              exact
+              path="/business/template/:id"
+              element={
+                <Navbar
+                  type="business"
+                  pages={["", "jobs","applications","contact"]}
+                  names={["Home", "Jobs","Applications","Contact Us"]}
+                />
+              }
+            >
+              {/* <Route path="" element={<BusinessHomePage />} />
+              <Route path="jobs" element={<BussinessJobsPage />} />
+              <Route path="applications" element={<BussinessApplicationsPage />} /> */}
+              {/* <Route path="products" element={<BussinessContactUsPage />} /> */}
+            </Route>
+
+            {/* business Website Viewer */}
+
+            {/*medical Website Admin */}
+            {/* medical Website Viewer */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
