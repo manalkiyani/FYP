@@ -2,9 +2,11 @@ import { Link, Outlet } from "react-router-dom";
 import classes from "./Navbar.module.css";
 import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react";
+import { useLocalStorageState } from "ahooks";
 
 export default function Navbar(props) {
-  const { templateId } = useContext(UserContext);
+  
+  const[templateId] =useLocalStorageState("templateId","")
 
   //get the templateId from the context and use it to fetch the template from the database
 

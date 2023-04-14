@@ -19,8 +19,6 @@ export const blogTemplate = {
     },
   },
   data: {
-    blogs: [
-      "642b18d699cf3687adb5dd09"
-    ],
+    blogs: ["642b18d699cf3687adb5dd09"],
   },
 };

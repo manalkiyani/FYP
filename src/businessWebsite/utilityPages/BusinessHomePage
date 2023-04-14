@@ -1,19 +1,17 @@
 import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { productTemplate } from "../../../TemplatesData/productTemplate";
-
+import { businessTemplate } from "../../TemplatesData/businessTemplate";
 import { useContext } from "react";
-import { UserContext } from "../../../App";
-
+import { UserContext } from "../../App";
 import {
   getTemplateData,
   fetchAdminBlocks,
-} from "../../../utilityFunctions/axiosFunctions";
+} from "../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
-import Main from "../../../CommonComponnets/Main";
+import Main from "../../CommonComponnets/Main";
 
-const EcomHomePage = () => {
+const BusinessHomePage = () => {
   const { id } = useParams();
 
   const [loading, setLoading] = React.useState(true);
@@ -31,10 +29,10 @@ const EcomHomePage = () => {
 
   const checkHomePageinContext = () => {
     const homePage = template.pages?.HomePage;
-    console.log("not in context");
+
     if (homePage) {
       setDataForMain(homePage.blocks);
-
+      console.log(template);
       return true;
     } else {
       return false;
@@ -69,8 +67,9 @@ const EcomHomePage = () => {
   };
   const setTemplateinContext = (blocks) => {
     setTemplate({
-      type: "eccomerce",
+      type: "blog",
       pages: {
+        ...template.pages,
         HomePage: { blocks },
       },
     });
@@ -78,7 +77,7 @@ const EcomHomePage = () => {
   const setDataForMain = (blocks) => {
     console.log("inside setDataForMain");
     setDataToSend({
-      type: "eccomerce",
+      type: "blog",
       blocks,
     });
   };
@@ -87,14 +86,13 @@ const EcomHomePage = () => {
     const inContext = checkHomePageinContext();
 
     if (!inContext) {
-      if (id === "002") {
-        fetchHomePageBlocks(productTemplate.pages.HomePage.blocks);
+      if (id === "001") {
+        fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
       } else {
         loadSavedTemplate();
       }
     }
   }, []);
-  
 
   return (
     <>
@@ -115,4 +113,4 @@ const EcomHomePage = () => {
   );
 };
 
-export default EcomHomePage;
+export default BusinessHomePage;

@@ -7,6 +7,11 @@ import Blogs from "../blogWebsite/components/Blogs/Blogs";
 import Products from "../eccomerceWebsite/pages/ProductsPage";
 import DragDrop from "../DragDrop/DragDrop";
 import UpdateBtn from "../components/Buttons/UpdateBtn";
+import {
+  mapAdminBlocks,
+  unmapBlocks,
+} from "../utilityFunctions/helperFunctions";
+import { cloneDeep } from "lodash";
 
 //Blog Home Page
 const Main = (props) => {
@@ -28,25 +33,27 @@ const Main = (props) => {
   //inside context , i will have blocks complete info
 
   useEffect(() => {
-    setContext();
+    setLocalStorage();
   }, [components]);
 
-  const setContext = () => {
-    console.log("template", template);
+  const setLocalStorage = async () => {
+    const componentsCopy = cloneDeep(components);
+    const unmapedBlocks = await unmapBlocks(componentsCopy);
 
     setTemplate({
       ...template,
       pages: {
         ...template.pages,
         [props.data.page]: {
-          blocks: components,
+          blocks: unmapedBlocks,
         },
       },
     });
   };
-  useEffect(() => {
-    console.log("props.data.type", props.data.type);
-    const alteredBlocks = props.data.blocks.map((block) => {
+  const alterBlocks = async () => {
+    const blocks = await mapAdminBlocks(props.data.blocks);
+
+    const alteredBlocks = blocks.map((block) => {
       return {
         ...block,
         key: uuid(),
@@ -61,6 +68,9 @@ const Main = (props) => {
       setProductIds(props.data.productIds);
       console.log(props.data.productIds);
     }
+  };
+  useEffect(() => {
+    alterBlocks();
   }, [props.data]);
 
   return (

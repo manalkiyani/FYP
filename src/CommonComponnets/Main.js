@@ -5,10 +5,14 @@ import SaveBtn from "../components/Buttons/SaveBtn";
 import { useParams } from "react-router-dom";
 import DragDrop from "../DragDrop/DragDrop";
 import UpdateBtn from "../components/Buttons/UpdateBtn";
-//Blog Home Page
+import { mapAdminBlocks } from "../utilityFunctions/helperFunctions";
+import { unmapBlocks } from "../utilityFunctions/helperFunctions";
+import { useLocalStorageState } from "ahooks";
+import cloneDeep from "lodash/cloneDeep";
 const Main = (props) => {
   const { id } = useParams();
-  const { template, setTemplate } = useContext(UserContext);
+  // const { template, setTemplate } = useContext(UserContext);
+  const [template, setTemplate] = useLocalStorageState("template", "");
   const [components, setComponents] = useState([]);
   const [tag, setTag] = useState(null);
   const [Index, setIndex] = useState(null);
@@ -18,64 +22,80 @@ const Main = (props) => {
   const [textEditorDisplayed, setTextEditorDisplayed] = useState(false);
   const [textEditor, setTextEditor] = useState(null);
   const [type, setType] = useState(null);
+  const [showDragDrop, setShowDragDrop] = useState(false);
 
   //inside context , i will have blocks complete info
-  
+
   useEffect(() => {
     if (components.length > 0) {
-      setContext();
+      console.log("components", components);
+      setShowDragDrop(true);
     }
   }, [components]);
 
-  const setContext = () => {
-    console.log("template", template);
+  useEffect(() => {
+    if (components.length > 0) {
+      setLocalStorage();
+    }
+  }, [components]);
+
+  const setLocalStorage = async () => {
+    const componentsCopy = cloneDeep(components);
+    const unmapedBlocks = await unmapBlocks(componentsCopy);
+    
     setTemplate({
-      type: props.data.type,
       ...template,
       pages: {
         ...template.pages,
         ["HomePage"]: {
-          blocks: components,
+          blocks: unmapedBlocks,
         },
       },
     });
   };
-  useEffect(() => {
-    console.log(template);
-    const alteredBlocks = props.data.blocks.map((block) => {
+  const alterBlocks = async () => {
+    const blocks = await mapAdminBlocks(props.data.blocks);
+    console.log("admin blocks", blocks);
+    const alteredBlocks = blocks.map((block) => {
       return {
         ...block,
         key: uuid(),
       };
     });
-    console.log("alteredBlocks", alteredBlocks);
+
     setComponents(alteredBlocks);
+  };
+  useEffect(() => {
+    alterBlocks();
   }, [props.data]);
 
   return (
     <>
-      {(id === "001" || id === "002") ? <SaveBtn /> : <UpdateBtn />}
+      {console.log("in return", components)}
+      {id === "001" || id === "002" ? <SaveBtn /> : <UpdateBtn />}
 
-      <DragDrop
-        components={components}
-        setComponents={setComponents}
-        blocksPanelDisplayed={blocksPanelDisplayed}
-        setBlocksPanelDisplayed={setBlocksPanelDisplayed}
-        dragDisable={dragDisable}
-        setDragDisable={setDragDisable}
-        clickedComponentId={clickedComponentId}
-        setClickedComponentId={setClickedComponentId}
-        Index={Index}
-        setIndex={setIndex}
-        tag={tag}
-        setTag={setTag}
-        textEditorDisplayed={textEditorDisplayed}
-        setTextEditorDisplayed={setTextEditorDisplayed}
-        textEditor={textEditor}
-        setTextEditor={setTextEditor}
-        type={type}
-        setType={setType}
-      />
+      {showDragDrop ? (
+        <DragDrop
+          components={components}
+          setComponents={setComponents}
+          blocksPanelDisplayed={blocksPanelDisplayed}
+          setBlocksPanelDisplayed={setBlocksPanelDisplayed}
+          dragDisable={dragDisable}
+          setDragDisable={setDragDisable}
+          clickedComponentId={clickedComponentId}
+          setClickedComponentId={setClickedComponentId}
+          Index={Index}
+          setIndex={setIndex}
+          tag={tag}
+          setTag={setTag}
+          textEditorDisplayed={textEditorDisplayed}
+          setTextEditorDisplayed={setTextEditorDisplayed}
+          textEditor={textEditor}
+          setTextEditor={setTextEditor}
+          type={type}
+          setType={setType}
+        />
+      ) : null}
     </>
   );
 };

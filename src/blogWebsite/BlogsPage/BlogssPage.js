@@ -1,67 +1,17 @@
 import React from "react";
 import { useEffect } from "react";
-import { useContext } from "react";
-import { useParams } from "react-router-dom";
-import { UserContext } from "../../App";
+
 import BlogMain from "../../CommonComponnets/BlogMain";
-import { blogTemplate } from "../../TemplatesData/blogTemplate";
 
 import BeatLoader from "react-spinners/BeatLoader";
-import {
-  fetchAdminBlocks,
-  getTemplateData,
-} from "../../utilityFunctions/axiosFunctions";
-
+import { useLocalStorageState } from "ahooks";
 const BlogssPage = () => {
-  const { id } = useParams();
-  const { template, setTemplate } = useContext(UserContext);
+  const [template, setTemplate] = useLocalStorageState("template", "");
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
 
   const [main, setMain] = React.useState(false);
 
-  useEffect(() => {
-    if (dataToSend) {
-      setMain(true);
-      setLoading(false);
-    }
-  }, [dataToSend]);
-  //
-  const checkBlogsPageinContext = () => {
-    const BlogsPage = template.pages?.BlogsPage;
-
-    if (BlogsPage) {
-      console.log(template.data.blogs);
-      setDataForMain(BlogsPage.blocks, template.data.blogs);
-
-      return true;
-    } else {
-      return false;
-    }
-  };
-  //
-  const fetchBlogsPageData = async (blockIds, blogIds) => {
-    try {
-      const blocks = await fetchAdminBlocks(blockIds);
-      console.log(blogIds);
-      setTemplateinContext(blocks, blogIds);
-      setDataForMain(blocks, blogIds);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //
-  const setTemplateinContext = (blocks, blogIds) => {
-    setTemplate(
-      //store template in context
-      {
-        type: "blog", //type
-        pages: { ...template.pages, BlogsPage: { blocks: blocks } },
-        data: { ...template.data, blogs: blogIds },
-      }
-    );
-  };
-  //
   const setDataForMain = (blocks, blogIds) => {
     setDataToSend({
       type: "blog",
@@ -70,42 +20,16 @@ const BlogssPage = () => {
       blogIds,
     });
   };
-
-  const loadSavedTemplate = async () => {
-    let BlogsPageBlocks = [];
-    let BlogIds = [];
-    try {
-      const Template = await getTemplateData(id);
-      console.log(Template);
-      if (Template.pages?.BlogsPage?.blocks) {
-        const blocks = await fetchAdminBlocks(Template.pages.BlogsPage.blocks);
-        console.log(blocks);
-        BlogsPageBlocks = blocks;
-      }
-      if (Template.data?.blogs) {
-        BlogIds = Template.data.blogs;
-      }
-
-      setTemplateinContext(BlogsPageBlocks, BlogIds);
-      setDataForMain(BlogsPageBlocks, BlogIds);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
-    const inContext = checkBlogsPageinContext();
-    //load default template
-    if (!inContext) {
-      if (id === "001") {
-        fetchBlogsPageData(
-          blogTemplate.pages.BlogsPage.blocks,
-          blogTemplate.data.blogs
-        );
-      } else {
-        loadSavedTemplate();
-      }
+    setDataForMain(template.pages.BlogsPage.blocks, template.data.blogs);
+  }, [template]);
+
+  useEffect(() => {
+    if (dataToSend) {
+      setMain(true);
+      setLoading(false);
     }
-  }, []);
+  }, [dataToSend]);
 
   return (
     <>

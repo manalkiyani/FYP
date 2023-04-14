@@ -90,12 +90,12 @@ const App = () => {
       value={{
         templateId,
         setTemplateId,
-        user,
-        setUser,
-        template,
-        setTemplate,
-        contextImage,
-        setContextImage,
+          user,
+          setUser,
+          template,
+          setTemplate,
+          contextImage,
+          setContextImage,
       }}
     >
       <ThemeProvider theme={theme}>

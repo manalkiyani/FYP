@@ -1,98 +1,190 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { blogTemplate } from "../../TemplatesData/blogTemplate";
-import { useContext } from "react";
-import { UserContext } from "../../App";
 import {
   getTemplateData,
   fetchAdminBlocks,
 } from "../../utilityFunctions/axiosFunctions";
 import BeatLoader from "react-spinners/BeatLoader";
 import Main from "../../CommonComponnets/Main";
+import { useLocalStorageState } from "ahooks";
 
 const BlogHomePage = () => {
   const { id } = useParams();
 
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
-  const { template, setTemplate } = useContext(UserContext);
-
+  const [template, setTemplate] = useLocalStorageState("template", {
+    defaultValue: {
+      type: "",
+      pages: {},
+      data: {},
+    },
+  });
   const [main, setMain] = React.useState(false);
 
-  useEffect(() => {
-    if (dataToSend) {
-      setMain(true);
-      setLoading(false);
-    }
-  }, [dataToSend]);
 
-  const checkHomePageinContext = () => {
+  // useEffect(() => {
+  //   if (dataToSend) {
+  //     setMain(true);
+  //     setLoading(false);
+  //   }
+  // }, [dataToSend]);
+
+  const checkHomePageinLocalStorage = async () => {
     const homePage = template.pages?.HomePage;
-
+    console.log("homePage", homePage);
     if (homePage) {
       setDataForMain(homePage.blocks);
-      console.log(template);
+
       return true;
     } else {
       return false;
     }
   };
+
   const fetchHomePageBlocks = async (blockIds) => {
     try {
       const blocks = await fetchAdminBlocks(blockIds);
-
-      setTemplateinContext(blocks);
+      console.log("blocks", blocks);
+      await setHomePageDataInLocalStorage(blocks);
       setDataForMain(blocks);
     } catch (error) {
       console.error(error);
     }
   };
-  const loadSavedTemplate = async () => {
+  const loadSavedHomePage = async () => {
     let homePageBlocks = [];
     try {
-      const Template = await getTemplateData(id);
-      console.log(Template);
-      if (Template.pages?.HomePage?.blocks) {
-        const blocks = await fetchAdminBlocks(Template.pages.HomePage.blocks);
+      const savedTemplate = await getTemplateData(id);
+      console.log(savedTemplate);
+      if (savedTemplate.pages?.HomePage?.blocks) {
+        const blocks = await fetchAdminBlocks(
+          savedTemplate.pages.HomePage.blocks
+        );
         console.log(blocks);
         homePageBlocks = blocks;
+        setHomePageDataInLocalStorage(blocks);
       }
-
-      setTemplateinContext(homePageBlocks);
       setDataForMain(homePageBlocks);
     } catch (error) {
       console.error(error);
     }
   };
-  const setTemplateinContext = (blocks) => {
+  const setHomePageDataInLocalStorage = async (blocks) => {
+    console.log("template", template);
     setTemplate({
+    
       type: "blog",
       pages: {
         ...template.pages,
         HomePage: { blocks },
       },
+      data: {
+        ...template.data,
+      },
     });
+    console.log(template);
   };
   const setDataForMain = (blocks) => {
-    console.log("inside setDataForMain");
+   
     setDataToSend({
       type: "blog",
       blocks,
     });
   };
 
-  useEffect(() => {
-    const inContext = checkHomePageinContext();
+  const fetchBlogsPageData = async (blockIds, blogIds) => {
+    try {
+      const blocks = await fetchAdminBlocks(blockIds);
 
-    if (!inContext) {
+      setBlogsPageDataInLocalStorage(blocks, blogIds);
+      // setDataForMain(blocks, blogIds);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const setBlogsPageDataInLocalStorage = (blocks, blogIds) => {
+    console.log("setBlogsPageDataInLocalStorage");
+    setTemplate(
+      //store template in context
+      {
+        type: "blog", //type
+        pages: { ...template.pages, BlogsPage: { blocks: blocks } },
+        data: { blogs: blogIds },
+      }
+    );
+  };
+  const checkBlogsPageinLocalStorage = async () => {
+    const BlogsPage = template.pages?.BlogsPage;
+
+    if (BlogsPage) {
+      console.log(template?.data?.blogs);
+      // setDataForMain(BlogsPage.blocks, template.data.blogs);
+
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const loadSavedBlogsPage = async () => {
+    let BlogsPageBlocks = [];
+    let BlogIds = [];
+    try {
+      const Template = await getTemplateData(id);
+      console.log(Template);
+      if (Template.pages?.BlogsPage?.blocks) {
+        const blocks = await fetchAdminBlocks(Template.pages.BlogsPage.blocks);
+        console.log(blocks);
+        BlogsPageBlocks = blocks;
+      }
+      if (Template.data?.blogs) {
+        BlogIds = Template.data.blogs;
+      }
+
+      setBlogsPageDataInLocalStorage(BlogsPageBlocks, BlogIds);
+      // setDataForMain(BlogsPageBlocks, BlogIds);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const setLocalStorage = async () => {
+    const homePageInStorage = await checkHomePageinLocalStorage();
+
+    const BlogsPageInStorage = await checkBlogsPageinLocalStorage();
+
+    if (!homePageInStorage) {
+      console.log("homepagenotinStorage");
       if (id === "001") {
-        fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
+        await fetchHomePageBlocks(blogTemplate.pages.HomePage.blocks);
       } else {
-        loadSavedTemplate();
+        await loadSavedHomePage();
       }
     }
-  }, []);
+    console.log("template", template);
+
+    if (!BlogsPageInStorage) {
+      console.log("BlogsPageNotInStorage");
+      if (id === "001") {
+        await fetchBlogsPageData(
+          blogTemplate.pages.BlogsPage.blocks,
+          blogTemplate.data.blogs
+        );
+      } else {
+        await loadSavedBlogsPage();
+      }
+    }
+    console.log("template", template);
+     setMain(true);
+      setLoading(false);
+  };
+  useEffect(() => {
+    if (template) {
+      setLocalStorage();
+    }
+  }, [template]);
 
   return (
     <>

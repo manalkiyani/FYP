@@ -7,16 +7,14 @@ import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../App";
+import { useLocalStorageState } from "ahooks"
 
 export default function (props) {
-  const { setTemplateId, setTemplate } = useContext(UserContext);
+ 
+   const [ templateId,setTemplateId ] = useLocalStorageState("templateId","");
   const navigate = useNavigate();
   const openTemplate = (id) => {
-    setTemplate({
-      type: "",
-      pages: {},
-      data: {},
-    });
+   
     setTemplateId(id);
 
     navigate(`/${props.type}/template/${id}`);
