@@ -4,8 +4,6 @@ import { Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import SaveIcon from "@mui/icons-material/Save";
 import { SavedTemplate } from "../../utilityFunctions/helperFunctions";
-import { useContext } from "react";
-import { UserContext } from "../../App";
 
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -13,9 +11,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-const SaveBtn = () => {
-  const { template, setTemplate } = useContext(UserContext);
 
+import { useLocalStorageState } from "ahooks";
+
+const SaveBtn = () => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,10 +25,70 @@ const SaveBtn = () => {
   };
 
   const saveTemplate = async (name) => {
-    console.log(name);
+    let template = localStorage.getItem("template");
+
+    template = await JSON.parse(template);
+    console.log("template here: ", template);
+    Object.getOwnPropertyNames(template?.pages).forEach((page) =>
+      template.pages.map((page) =>
+      page?.blocks?.map((block) => {
+        const str = block?.type;
+        const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+
+        return (block.Component = capitalized);
+      })
+    ))
+
     setOpen(false);
+    console.log(template);
+    let response;
     try {
-      const response = await SavedTemplate(template, name);
+      switch (template.type) {
+        case "blog":
+          {
+            response = await SavedTemplate(
+              template,
+              "BlogHomePage",
+              "BlogsPage",
+              "blogs",
+              name
+            );
+          }
+          break;
+        case "eccomerce":
+          {
+            response = await SavedTemplate(
+              template,
+              "EccomerceHomePage",
+              "ProductsPage",
+              "products",
+              name
+            );
+          }
+          break;
+        case "business":
+          {
+            response = await SavedTemplate(
+              template,
+              "BusinessHomePage",
+              "JobsPage",
+              "jobs",
+              name
+            );
+          }
+          break;
+        case "medical":
+          {
+            response = await SavedTemplate(
+              template,
+              "MedicalHomePage",
+              "DoctorsPage",
+              "doctors",
+              name
+            );
+          }
+          break;
+      }
       console.log(response);
       if (response?.status === "201") {
         toast.success("Template Saved Successfully");

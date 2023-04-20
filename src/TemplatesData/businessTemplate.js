@@ -2,7 +2,7 @@ export const businessTemplate = {
   _id: "63e61d3a289b0ee36e3bf764",
   type: "business",
   pages: {
-    HomePage: {
+    BusinessHomePage: {
       blocks: [
         "743a0894-09c1-41ef-86fe-199465b3e6ae",
         "f6e9fb26-8be7-4ecb-9c2d-c38fd8678b43",

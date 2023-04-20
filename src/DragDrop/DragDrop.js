@@ -161,7 +161,7 @@ const DragDrop = ({
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {components.map(({ key, Component, Data, type }, index) => {
+                {components?.map(({ key, Component, Data, type }, index) => {
                   return (
                     <Draggable
                       isDragDisabled={dragDisable}

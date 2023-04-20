@@ -30,11 +30,10 @@ async function postBlock(req, res) {
 
 //get Blocks from a specified array of ids
 async function getBlocks(req, res) {
- 
-
   //find blogs which have ids in the array
   Block.find({ key: { $in: req.body.blockIds } })
     .then((allBlocks) => {
+      console.log("allBlocks", allBlocks);
       return res.status(200).json({
         success: true,
         message: "A list of all blocks",
@@ -53,10 +52,9 @@ async function getBlocks(req, res) {
 //save a list of blocks
 async function postBlocks(req, res) {
   const blocks = req.body.blocks;
- 
+
   try {
     const Blocks = blocks.map((block) => {
-    
       return new Block({
         _id: mongoose.Types.ObjectId(),
         key: block.key,
@@ -66,11 +64,11 @@ async function postBlocks(req, res) {
         Data: block.Data,
       });
     });
-  
+
     const savedBlocks = await Block.insertMany(Blocks).catch((error) => {
       console.log(error);
     });
-   
+
     const savedBlockKeys = savedBlocks.map((block) => block.key);
     res.status(201).json({ savedBlockKeys });
   } catch (error) {
@@ -89,7 +87,6 @@ async function updateBlocks(req, res) {
       const foundBlock = await Block.findOneAndUpdate(
         { key: block.key },
         { $set: block }
-       
       );
       if (foundBlock) {
         updatedBlockKeys.push(foundBlock.key);
@@ -107,7 +104,7 @@ async function updateBlocks(req, res) {
         newBlocks.push(savedBlock);
       }
     }
-    console.log("updatedBlockKeys",updatedBlockKeys);
+    console.log("updatedBlockKeys", updatedBlockKeys);
 
     res.json({ updatedBlockKeys, newBlocks });
   } catch (error) {
@@ -120,10 +117,12 @@ async function deleteBlocks(req, res) {
   const { keepKeys } = req.body;
 
   try {
-    const deletedBlocks = await Block.deleteMany({ key: { $nin: keepKeys } }).exec();
+    const deletedBlocks = await Block.deleteMany({
+      key: { $nin: keepKeys },
+    }).exec();
     res.json({ deletedBlocks });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 }
@@ -133,5 +132,5 @@ module.exports = {
   postBlock,
   getBlocks,
   postBlocks,
-  updateBlocks
+  updateBlocks,
 };

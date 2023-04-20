@@ -2,7 +2,7 @@ export const blogTemplate = {
   _id: "63e61d3a289b0ee36e3bf3d1",
   type: "blog",
   pages: {
-    HomePage: {
+    BlogHomePage: {
       blocks: [
         "743a0894-09c1-41ef-86fe-199465b3e6ae",
         "f6e9fb26-8be7-4ecb-9c2d-c38fd8678b43",

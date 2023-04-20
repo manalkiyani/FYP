@@ -27,41 +27,40 @@ const Main = (props) => {
   //inside context , i will have blocks complete info
 
   useEffect(() => {
-    if (components.length > 0) {
-      console.log("components", components);
-      setShowDragDrop(true);
-    }
-  }, [components]);
-
-  useEffect(() => {
-    if (components.length > 0) {
-      setLocalStorage();
-    }
+    components && setLocalStorage();
+    components && setShowDragDrop(true);
   }, [components]);
 
   const setLocalStorage = async () => {
+    console.log("inside setLocalStorage MAIN");
     const componentsCopy = cloneDeep(components);
     const unmapedBlocks = await unmapBlocks(componentsCopy);
-    
+    console.log("unmapedBlocks in MAIN", unmapedBlocks);
+
     setTemplate({
       ...template,
       pages: {
-        ...template.pages,
-        ["HomePage"]: {
+        ...template?.pages,
+        [props?.data?.homePage]: {
           blocks: unmapedBlocks,
         },
       },
     });
   };
   const alterBlocks = async () => {
-    const blocks = await mapAdminBlocks(props.data.blocks);
-    console.log("admin blocks", blocks);
-    const alteredBlocks = blocks.map((block) => {
-      return {
-        ...block,
-        key: uuid(),
-      };
-    });
+    console.log("unaltered blocks in MAIN", props?.data?.blocks);
+    const copy = cloneDeep(props?.data?.blocks);
+    const alteredBlocks = await mapAdminBlocks(copy);
+    console.log("alteredBlocks in MAIN", alteredBlocks);
+
+    // console.log("alteredBlocks", alteredBlocks);
+    // console.log("admin blocks", blocks);
+    // const alteredBlocks = blocks.map((block) => {
+    //   return {
+    //     ...block,
+    //     key: uuid(),
+    //   };
+    // });
 
     setComponents(alteredBlocks);
   };
@@ -72,7 +71,11 @@ const Main = (props) => {
   return (
     <>
       {console.log("in return", components)}
-      {id === "001" || id === "002" ? <SaveBtn /> : <UpdateBtn />}
+      {id === "001" || id === "002" || id === "003" || id === "004" ? (
+        <SaveBtn />
+      ) : (
+        <UpdateBtn />
+      )}
 
       {showDragDrop ? (
         <DragDrop

@@ -280,9 +280,8 @@ export const changeComponentText = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
-
-    console.log('type',type)
-    console.log(newData[index][tag].text)
+    console.log("type", type);
+    console.log(newData[index][tag].text);
     newData[index][tag].text = textFromComponent;
   } else if (type === "faq1") {
     if (tag === "heading") {
@@ -364,9 +363,8 @@ export const updateComponentData = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
-
-    console.log('type',type)   
-     console.log('data',newData[index][tag])    
+    console.log("type", type);
+    console.log("data", newData[index][tag]);
     newData[index][tag] = {
       ...newData[index][tag],
       ...stateFromTextEditor,
@@ -410,7 +408,7 @@ export const dragOverHandler = (event) => {
   return false;
 };
 export const mapAdminBlocks = (Blocks) => {
-  return Blocks.map((block) => {
+  return Blocks?.map((block) => {
     switch (block.Component) {
       case "Header1":
         block.Component = Header1;
@@ -528,8 +526,17 @@ const updateBlocks = async (blocks) => {
     console.error(error);
   }
 };
+// template.type,
+//   HomePage,
+//   homepageBlockIds,
+//   MainPage,
+//   mainpageBlockIds,
+//   data,
+//   mainPageDataIds,
+//   title
 const saveTemplate = async (
   type,
+  homepage,
   homepageBlockIds,
   mainPage,
   mainpageBlockIds,
@@ -547,7 +554,7 @@ const saveTemplate = async (
           name: title,
           type: type,
           pages: {
-            HomePage: {
+            [homepage]: {
               blocks: homepageBlockIds,
             },
             [mainPage]: {
@@ -574,10 +581,19 @@ const saveTemplate = async (
     return { status: "500", msg: err };
   }
 };
+//  id,
+//           template.type,
+//           HomePage,
+//           homepageBlockIds,
+//           MainPage,
+//           mainpageBlockIds,
+//           data,
+//           mainPageDataIds
 
 const updateTemplate = async (
   id,
   type,
+  homepage,
   homepageBlockIds,
   mainPage,
   mainpageBlockIds,
@@ -592,7 +608,7 @@ const updateTemplate = async (
           id,
           type: type,
           pages: {
-            HomePage: {
+            [homepage]: {
               blocks: homepageBlockIds,
             },
             [mainPage]: {
@@ -616,125 +632,85 @@ const updateTemplate = async (
     return { status: "500" };
   }
 };
-export const SavedTemplate = async (template, title) => {
+// template, "BlogHomePage", "BlogsPage", "blogs", name;
+export const SavedTemplate = async (
+  template,
+  HomePage,
+  MainPage,
+  data,
+  title
+) => {
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
   let mainpageBlockIds = [];
   let mainPageDataIds = [];
 
-  if (template.pages?.HomePage?.blocks.length > 0) {
-    homepageBlockIds = await saveBlocks(template.pages.HomePage.blocks);
+  if (template.pages?.[HomePage]?.blocks.length > 0) {
+    homepageBlockIds = await saveBlocks(template.pages?.[HomePage].blocks);
   }
-  switch (template.type) {
-    case "blog": {
-      if (template.pages.BlogsPage?.blocks.length > 0) {
-        console.log(template.pages.BlogsPage.blocks);
-        mainpageBlockIds = await saveBlocks(template.pages.BlogsPage.blocks);
-      }
-      if (template.data?.blogs) {
-        mainPageDataIds = template.data?.blogs;
-      }
 
-      const response = await saveTemplate(
-        template.type,
-        homepageBlockIds,
-        "BlogsPage",
-        mainpageBlockIds,
-        "blogs",
-        mainPageDataIds,
-        title
-      );
-      console.log(response);
-      return response;
-    }
-
-    case "eccomerce": {
-      if (template.pages.ProductsPage?.blocks.length > 0) {
-        mainpageBlockIds = await saveBlocks(template.pages.ProductsPage.blocks);
-      }
-      if (template.data?.products) {
-        mainPageDataIds = template.data?.products;
-      }
-
-      const response = await saveTemplate(
-        template.type,
-        homepageBlockIds,
-        "ProductsPage",
-        mainpageBlockIds,
-        "products",
-        mainPageDataIds,
-        title
-      );
-      return response;
-    }
+  if (template.pages[MainPage]?.blocks.length > 0) {
+    mainpageBlockIds = await saveBlocks(template.pages[MainPage].blocks);
   }
+  if (template.data?.[data]) {
+    mainPageDataIds = template.data?.[data];
+  }
+
+  const response = await saveTemplate(
+    template.type,
+    HomePage,
+    homepageBlockIds,
+    MainPage,
+    mainpageBlockIds,
+    data,
+    mainPageDataIds,
+    title
+  );
+  return response;
+  // return response;
 };
-
-export const UpdateTemplate = async (template, id) => {
+// template,
+//               "BlogHomePage",
+//               "BlogsPage",
+//               "blogs",
+//               id
+export const UpdateTemplate = async (
+  template,
+  HomePage,
+  MainPage,
+  data,
+  id
+) => {
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
   let mainpageBlockIds = [];
   let mainPageDataIds = [];
 
-  if (template.pages?.HomePage?.blocks.length > 0) {
-    homepageBlockIds = await updateBlocks(template.pages.HomePage.blocks);
+  if (template.pages?.[HomePage]?.blocks.length > 0) {
+    homepageBlockIds = await updateBlocks(template.pages[HomePage].blocks);
   }
-  switch (template.type) {
-    case "blog":
-      {
-        if (template.pages.BlogsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(
-            template.pages.BlogsPage.blocks
-          );
-        }
-        if (template.data?.blogs) {
-          mainPageDataIds = template.data?.blogs;
-        }
-        const response = await updateTemplate(
-          id,
-          template.type,
-          homepageBlockIds,
-          "BlogsPage",
-          mainpageBlockIds,
-          "blogs",
-          mainPageDataIds
-        );
-        if (response.status === 201) {
-          return Promise.resolve({ msg: "Updated Successfully" });
-        } else if (response.status === 500) {
-          return Promise.reject({ error: "Server Error" });
-        }
-      }
-      break;
+
+  if (template.pages[MainPage]?.blocks.length > 0) {
+    mainpageBlockIds = await updateBlocks(template.pages[MainPage].blocks);
   }
-  switch (template.type) {
-    case "eccomerce":
-      {
-        if (template.pages.ProductsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(
-            template.pages.ProductsPage.blocks
-          );
-        }
-        if (template.data?.products) {
-          mainPageDataIds = template.data?.products;
-        }
-        const response = await updateTemplate(
-          id,
-          template.type,
-          homepageBlockIds,
-          "ProductsPage",
-          mainpageBlockIds,
-          "products",
-          mainPageDataIds
-        );
-        if (response.status === 201) {
-          return Promise.resolve({ msg: "Updated Successfully" });
-        } else if (response.status === 500) {
-          return Promise.reject({ error: "Server Error" });
-        }
-      }
-      break;
+  if (template.data?.[data]) {
+    mainPageDataIds = template.data?.[data];
+  }
+  const response = await updateTemplate(
+    id,
+    template.type,
+    HomePage,
+    homepageBlockIds,
+    MainPage,
+    mainpageBlockIds,
+    data,
+    mainPageDataIds
+  );
+  if (response.status === 201) {
+    return Promise.resolve({ msg: "Updated Successfully" });
+  } else if (response.status === 500) {
+    return Promise.reject({ error: "Server Error" });
   }
 };

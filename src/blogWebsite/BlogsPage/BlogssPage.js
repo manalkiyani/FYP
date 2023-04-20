@@ -6,7 +6,7 @@ import BlogMain from "../../CommonComponnets/BlogMain";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useLocalStorageState } from "ahooks";
 const BlogssPage = () => {
-  const [template, setTemplate] = useLocalStorageState("template", "");
+  const [template] = useLocalStorageState("template", "");
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
 
@@ -16,12 +16,12 @@ const BlogssPage = () => {
     setDataToSend({
       type: "blog",
       page: "BlogsPage",
-      blocks,
+      blocks, 
       blogIds,
     });
   };
   useEffect(() => {
-    setDataForMain(template.pages.BlogsPage.blocks, template.data.blogs);
+    setDataForMain(template?.pages?.BlogsPage?.blocks, template?.data?.blogs);
   }, [template]);
 
   useEffect(() => {

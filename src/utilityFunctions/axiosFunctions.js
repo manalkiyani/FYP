@@ -25,12 +25,14 @@ export const getTemplateData = async (templateId) => {
     throw err; // rethrow the error to be caught by the caller
   }
 };
+
 export const fetchAdminBlocks = async (blockIds) => {
   try {
     const res = await axios.post("http://localhost:8800/api/blocks/get", {
       blockIds,
     });
     const fetchedBlocks = res.data.Blocks;
+    console.log("3.in fetchAdminBlocks in axiosFunctions.js", fetchedBlocks);
 
     return fetchedBlocks;
   } catch (error) {
@@ -44,10 +46,8 @@ export const fetchViewerBlocks = async (blockIds) => {
       blockIds,
     });
     const fetchedBlocks = res.data.Blocks;
-
-    const blocks = await mapViewerBlocks(fetchedBlocks);
-    console.log(blocks);
-    return blocks;
+    console.log("fetchedBlocks", fetchedBlocks);
+    return fetchedBlocks;
   } catch (error) {
     console.error(error);
     throw error;

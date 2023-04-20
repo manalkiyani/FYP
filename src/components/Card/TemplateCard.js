@@ -7,37 +7,40 @@ import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../App";
-import { useLocalStorageState } from "ahooks"
+import { useLocalStorageState } from "ahooks";
 
 export default function (props) {
- 
-   const [ templateId,setTemplateId ] = useLocalStorageState("templateId","");
+  const [templateId, setTemplateId] = useLocalStorageState("count", "0");
+  
   const navigate = useNavigate();
   const openTemplate = (id) => {
-   
+    console.log("in open template");
     setTemplateId(id);
 
     navigate(`/${props.type}/template/${id}`);
   };
   return (
-    <Card onClick={() => openTemplate(props.id)} sx={{ maxWidth: 300 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={props.img}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {props.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {props.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <>
+      {console.log("in template card")}
+      <Card onClick={() => openTemplate(props.id)} sx={{ maxWidth: 300 }}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="140"
+            image={props.img}
+            alt="green iguana"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h1" component="div">
+              hello
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {props.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </>
   );
 }
 

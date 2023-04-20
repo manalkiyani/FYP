@@ -12,12 +12,15 @@ import {
   unmapBlocks,
 } from "../utilityFunctions/helperFunctions";
 import { cloneDeep } from "lodash";
+import { BeatLoader } from "react-spinners";
+import { useLocalStorageState } from "ahooks";
 
 //Blog Home Page
 const Main = (props) => {
   const { id } = useParams();
 
-  const { template, setTemplate } = useContext(UserContext);
+  // const { template, setTemplate } = useContext(UserContext);
+   const [template, setTemplate] = useLocalStorageState("template", "");
   const [components, setComponents] = useState([]);
   const [tag, setTag] = useState(null);
   const [Index, setIndex] = useState(null);
@@ -29,16 +32,18 @@ const Main = (props) => {
   const [type, setType] = useState(null);
   const [blogIds, setBlogIds] = useState(null);
   const [productIds, setProductIds] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   //inside context , i will have blocks complete info
 
   useEffect(() => {
-    setLocalStorage();
+   components &&  setLocalStorage();
   }, [components]);
 
   const setLocalStorage = async () => {
     const componentsCopy = cloneDeep(components);
     const unmapedBlocks = await unmapBlocks(componentsCopy);
+    console.log("props.data.page in BLOGMAIN", props.data.page);
 
     setTemplate({
       ...template,
@@ -46,25 +51,31 @@ const Main = (props) => {
         ...template.pages,
         [props.data.page]: {
           blocks: unmapedBlocks,
-        },
+        },  
       },
     });
   };
   const alterBlocks = async () => {
-    const blocks = await mapAdminBlocks(props.data.blocks);
+    console.log("in BLogMAin");
+    console.log("in Blog main", props.data.blocks);
+    const copy = cloneDeep(props.data.blocks);
+    const alteredBlocks = await mapAdminBlocks(copy);
 
-    const alteredBlocks = blocks.map((block) => {
-      return {
-        ...block,
-        key: uuid(),
-      };
-    });
+    // const alteredBlocks = blocks.map((block) => {
+    //   return {
+    //     ...block,
+    //     key: uuid(),
+    //   };
+    // });
+    console.log("in BLogMAin Altered Blogs", alteredBlocks);
     setComponents(alteredBlocks);
     if (props.data.type === "blog") {
+      setLoading(false);
       setBlogIds(props.data.blogIds);
       console.log(props.data.blogIds);
     }
     if (props.data.type === "eccomerce") {
+      setLoading(false);
       setProductIds(props.data.productIds);
       console.log(props.data.productIds);
     }
@@ -76,9 +87,22 @@ const Main = (props) => {
   return (
     <>
       {id === "001" || id === "002" ? <SaveBtn /> : <UpdateBtn />}
-
-      {blogIds && <Blogs blogIds={blogIds} />}
-      {productIds && <Products productIds={productIds} />}
+      {loading ? (
+        <center>
+          <BeatLoader
+            color={"#7890A3"}
+            loading={loading}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </center>
+      ) : (
+        <>
+          {blogIds && <Blogs blogIds={blogIds} />}
+          {productIds && <Products productIds={productIds} />}
+        </>
+      )}
 
       <DragDrop
         components={components}

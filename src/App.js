@@ -64,6 +64,7 @@ import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
 import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
 
+import ViewTemplate from "./ViewTemplate";
 const theme = createTheme({
   palette: {
     primary: {
@@ -77,25 +78,17 @@ const theme = createTheme({
 export const UserContext = createContext();
 const App = () => {
   const [contextImage, setContextImage] = React.useState(null);
-  const [templateId, setTemplateId] = React.useState(null);
+ 
   const [user, setUser] = React.useState(null);
-  const [template, setTemplate] = React.useState({
-    type: "",
-    pages: {},
-    data: {},
-  });
 
   return (
     <UserContext.Provider
       value={{
-        templateId,
-        setTemplateId,
-          user,
-          setUser,
-          template,
-          setTemplate,
-          contextImage,
-          setContextImage,
+        user,
+        setUser,
+
+        contextImage,
+        setContextImage,
       }}
     >
       <ThemeProvider theme={theme}>
@@ -103,6 +96,7 @@ const App = () => {
           <UcraftNavbar />
           <Routes>
             <>
+              <Route path="/template" element={<ViewTemplate />} />
               {/* ucraft */}
 
               <Route path="/medicalhomepage" element={<MedicalHomePage />} />
@@ -241,8 +235,8 @@ const App = () => {
               element={
                 <Navbar
                   type="business"
-                  pages={["", "jobs","applications","contact"]}
-                  names={["Home", "Jobs","Applications","Contact Us"]}
+                  pages={["", "jobs", "applications", "contact"]}
+                  names={["Home", "Jobs", "Applications", "Contact Us"]}
                 />
               }
             >
