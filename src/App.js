@@ -63,7 +63,10 @@ import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
 import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
 import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
-import BookAppointmentPage from "./Viewer/medicalWebsite/DocProfile/BookAppointmentPage/BookAppointmentPage";
+import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/BookAppointmentPage";
+import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
+import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
+
 
 const theme = createTheme({
   palette: {
@@ -111,14 +114,11 @@ const App = () => {
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />
               <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
-              <Route
-                path="/viewerdoctorspage"
-                element={<ViewerDoctorsPage />}
-              />
-                            <Route
-                path="/BookAppointmentPage"
-                element={<BookAppointmentPage />}
-              />
+              <Route path="/viewerdoctorspage" element={<ViewerDoctorsPage />}/>
+              <Route path="/BookAppointmentPage" element={<BookAppointmentPage />}/>
+              <Route path="/patientsignuppage" element={<ViewerSignupPage />}/>
+              <Route path="/patientloginpage" element={<ViewerLoginPage />}/>
+
 
               <Route path="/login" element={<Login />} />
 
