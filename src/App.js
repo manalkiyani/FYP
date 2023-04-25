@@ -66,6 +66,7 @@ import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctors
 import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/BookAppointmentPage";
 import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
 import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
+import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointments/ViewerViewAppointments";
 
 
 const theme = createTheme({
@@ -118,6 +119,7 @@ const App = () => {
               <Route path="/BookAppointmentPage" element={<BookAppointmentPage />}/>
               <Route path="/patientsignuppage" element={<ViewerSignupPage />}/>
               <Route path="/patientloginpage" element={<ViewerLoginPage />}/>
+              <Route path="/viewerviewappointments" element={<ViewerViewAppointments></ViewerViewAppointments>}></Route>
 
 
               <Route path="/login" element={<Login />} />
