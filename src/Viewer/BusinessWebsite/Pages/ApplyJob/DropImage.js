@@ -1,17 +1,17 @@
 import { Group, Text, useMantineTheme, rem } from "@mantine/core";
 
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone, DropzoneProps, PDF_MIME_TYPE } from "@mantine/dropzone";
 import IconPhoto from "@mui/icons-material/CollectionsOutlined";
 import IconUpload from "@mui/icons-material/FileUploadOutlined";
 import IconX from "@mui/icons-material/CloseOutlined";
 
-export default function DropImage(props) {
+export default function DropImage({ props }) {
   const theme = useMantineTheme();
   return (
     <Dropzone
       onDrop={(files) => console.log("accepted files", files)}
       onReject={(files) => console.log("rejected files", files)}
-      accept={IMAGE_MIME_TYPE}
+      accept={PDF_MIME_TYPE}
       {...props}
     >
       <Group
@@ -46,7 +46,7 @@ export default function DropImage(props) {
             Drag resume here or click to browse files
           </Text>
           <Text size="sm" color="dimmed" inline mt={7}>
-            Attach your pdf or docx resume here.Each file should not exceed 10mb
+            Attach your pdf resume here.Your file should not exceed 10mb
           </Text>
         </div>
       </Group>

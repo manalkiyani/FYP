@@ -3,12 +3,15 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BeatLoader from "react-spinners/BeatLoader";
 
-
 import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
-import { fetchViewerBlocks,getTemplateData } from "../../../utilityFunctions/axiosFunctions";
+import {
+  fetchViewerBlocks,
+  getTemplateData,
+} from "../../../utilityFunctions/axiosFunctions";
 import Blogs from "../components/Blogs/Blogs";
-import ViewerProducts from '../../EccomerceWebsite/pages/ProductPage/ViewerProductPage';
-
+import ViewerProducts from "../../EccomerceWebsite/pages/ProductPage/ViewerProductPage";
+import { cloneDeep } from "lodash";
+import { mapViewerBlocks } from "../../../utilityFunctions/helperFunctions";
 
 const ViewerMainPage = (props) => {
   const { id } = useParams();
@@ -26,46 +29,47 @@ const ViewerMainPage = (props) => {
     }
   }, [dataToSend]);
 
-  //
-
-
   const loadSavedTemplate = async () => {
     let MainPageBlocks = [];
     let DataIds = [];
     try {
       const Template = await getTemplateData(id);
 
-      switch(props.type){
-        case "blog":{
-                        if (Template.pages?.BlogsPage?.blocks) {
-                          const blocks = await fetchViewerBlocks(Template.pages.BlogsPage.blocks);
-                          MainPageBlocks = blocks;
-                        }
-                        if (Template.data?.blogs) {
-                          DataIds = Template.data.blogs;
-                        }
-                        setBlogIds(DataIds);
-        }
-        break;
-        case "eccomerce" :{
-                         if (Template.pages?.ProductsPage?.blocks) {
-                          const blocks = await fetchViewerBlocks(Template.pages.ProductsPage.blocks);
-                          MainPageBlocks = blocks;
-                        }
-                        if (Template.data?.products) {
-                          DataIds = Template.data.products;
-                        }
-                        setProductIds(DataIds);
+      switch (props.type) {
+        case "blog":
+          {
+            if (Template.pages?.BlogsPage?.blocks) {
+              MainPageBlocks = await fetchViewerBlocks(
+                Template.pages.BlogsPage.blocks
+              );
+              const copy = cloneDeep(MainPageBlocks);
+              MainPageBlocks = await mapViewerBlocks(copy);
+            }
+            if (Template.data?.blogs) {
+              DataIds = Template.data.blogs;
+            }
+            setBlogIds(DataIds);
+          }
+          break;
+        case "eccomerce":
+          {
+            if (Template.pages?.ProductsPage?.blocks) {
+              MainPageBlocks = await fetchViewerBlocks(
+                Template.pages.ProductsPage.blocks
+              );
 
-        }
-        break;
-        }
-     
-     
+              const copy = cloneDeep(MainPageBlocks);
+              MainPageBlocks = await mapViewerBlocks(copy);
+            }
+            if (Template.data?.products) {
+              DataIds = Template.data.products;
+            }
+            setProductIds(DataIds);
+          }
+          break;
+      }
 
-      setDataToSend({blocks:MainPageBlocks});
-    
-    
+      setDataToSend({ blocks: MainPageBlocks });
     } catch (error) {
       console.error(error);
     }
@@ -76,12 +80,12 @@ const ViewerMainPage = (props) => {
 
   return (
     <>
-     {/*display blogs here*/ }
-     {blogIds && <Blogs blogIds={blogIds} />}
-      {/*display products here*/ }
+      {/*display blogs here*/}
+      {blogIds && <Blogs blogIds={blogIds} />}
+      {/*display products here*/}
       {productIds && <ViewerProducts productIds={productIds} />}
-   
-    {/*display blocks here*/}
+
+      {/*display blocks here*/}
       {main ? (
         <DisplayBlocks data={dataToSend} />
       ) : (
@@ -95,8 +99,6 @@ const ViewerMainPage = (props) => {
           />
         </center>
       )}
-
-   
     </>
   );
 };

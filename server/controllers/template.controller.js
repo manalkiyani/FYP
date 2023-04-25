@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 
 //add a template to user's saved Templates
 exports.saveTemplate = (req, res) => {
-  console.log("inside savedTEmplate");
   const username = req.body.username;
 
   Admin.findOne({ username: username }).then((user) => {
@@ -32,7 +31,6 @@ exports.saveTemplate = (req, res) => {
     }
 
     if (totalTemps >= allowedTemps) {
-      console.log(user);
       return res.status(500).json({ message: "Limit Reached" });
     } else {
       let date_ob = new Date();
@@ -69,7 +67,6 @@ exports.saveTemplate = (req, res) => {
               });
             })
             .catch((error) => {
-              console.log(error);
               res.status(500).json({
                 success: false,
                 message: "Server error. Please try again.",
@@ -78,7 +75,6 @@ exports.saveTemplate = (req, res) => {
             });
         })
         .catch((error) => {
-          console.log(error);
           res.status(500).json({
             success: false,
             message: "Server error. Please try again.",
@@ -96,11 +92,9 @@ exports.getTemplates = (req, res) => {
       .select("savedTemplates")
       .populate("savedTemplates")
       .then((data) => {
-        console.log("data At backend", data);
         return res.status(200).json({ data });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(500).json({ message: "error" });
       });
   } catch (err) {
@@ -110,7 +104,7 @@ exports.getTemplates = (req, res) => {
 
 exports.getTemplate = (req, res) => {
   const templateId = req.params.templateId;
-  console.log("templateId", templateId);
+
   Template.findById(templateId)
     .then((data) => {
       return res.status(200).json({ data });

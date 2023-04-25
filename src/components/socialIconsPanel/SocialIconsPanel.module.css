@@ -1,6 +1,6 @@
 
 .container{
-    padding: 10px;
+    padding: 10px
     
 }
 .item{
@@ -21,7 +21,10 @@
     color: #fff;
    
 }
+
+
 .group{
+
     margin-bottom: 10px;
 }
 .icon{

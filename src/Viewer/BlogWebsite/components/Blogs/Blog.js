@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import classes from "../../../../blogWebsite/components/Blog/Blog.module.css";
+import classes from "./Blog.module.css";
 import { FacebookShareButton } from "react-share";
 import { FacebookIcon } from "react-share";
 import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
@@ -57,7 +57,10 @@ export default function Blog({
         </div>
 
         {/* <p className={classes.postDesc}>{desc}</p> */}
-          <div className={classes.postDesc} dangerouslySetInnerHTML={{ __html: desc }}></div>
+        <div
+          className={classes.postDesc}
+          dangerouslySetInnerHTML={{ __html: desc }}
+        ></div>
       </div>
     </div>
   );

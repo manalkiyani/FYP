@@ -1,5 +1,5 @@
 import axios from "axios";
-import { mapAdminBlocks,mapViewerBlocks } from "./helperFunctions";
+import { mapAdminBlocks, mapViewerBlocks } from "./helperFunctions";
 export const getUserData = async (username) => {
   try {
     const res = await axios.post(
@@ -25,16 +25,16 @@ export const getTemplateData = async (templateId) => {
     throw err; // rethrow the error to be caught by the caller
   }
 };
+
 export const fetchAdminBlocks = async (blockIds) => {
   try {
     const res = await axios.post("http://localhost:8800/api/blocks/get", {
       blockIds,
     });
     const fetchedBlocks = res.data.Blocks;
+    console.log("3.in fetchAdminBlocks in axiosFunctions.js", fetchedBlocks);
 
-    const blocks =await mapAdminBlocks(fetchedBlocks);
-    console.log(blocks);
-    return blocks;
+    return fetchedBlocks;
   } catch (error) {
     console.error(error);
     throw error;
@@ -46,78 +46,93 @@ export const fetchViewerBlocks = async (blockIds) => {
       blockIds,
     });
     const fetchedBlocks = res.data.Blocks;
-
-    const blocks =await mapViewerBlocks(fetchedBlocks);
-    console.log(blocks);
-    return blocks;
+    console.log("fetchedBlocks", fetchedBlocks);
+    return fetchedBlocks;
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
-{/* Ecommerce Template */}
+{
+  /* Ecommerce Template */
+}
 export const getListOfProducts = async (productIds) => {
   try {
-    const res = await axios.post("http://localhost:8800/api/products/get",{productIds});
+    const res = await axios.post("http://localhost:8800/api/products/get", {
+      productIds,
+    });
     const fetchedProducts = res.data.Products;
     return fetchedProducts;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
+};
 
-{/* Blog Template */}
+{
+  /* Blog Template */
+}
 export const addBookmark = async (userId, blogId) => {
   try {
-    
-    const response = await axios.post(`http://localhost:8800/api/blogs/bookmark/${blogId}`, { userId });
-  
+    const response = await axios.post(
+      `http://localhost:8800/api/blogs/bookmark/${blogId}`,
+      { userId }
+    );
+
     return response.data;
     // handle success response
   } catch (error) {
-    return error
-    
+    return error;
+
     // handle error
   }
 };
 export const getBookmarkedBlogs = async (userId) => {
   try {
-    
-    const response = await axios.post(`http://localhost:8800/api/blogs/bookmarkedBlogs`,  { userId });
-  
+    const response = await axios.post(
+      `http://localhost:8800/api/blogs/bookmarkedBlogs`,
+      { userId }
+    );
+
     return response.data;
     // handle success response
   } catch (error) {
-    return error
-    
+    return error;
+
     // handle error
   }
 };
 
 export const getBlog = async (blogId) => {
   try {
-    const response = await axios.get(`http://localhost:8800/api/blogs/${blogId}`);
+    const response = await axios.get(
+      `http://localhost:8800/api/blogs/${blogId}`
+    );
     return response.data;
   } catch (error) {
     return error;
   }
-}
+};
 
 export const getBlogsByCategory = async (category) => {
   try {
-    const response = await axios.get(`http://localhost:8800/api/blogs/category/${category}`);
+    const response = await axios.get(
+      `http://localhost:8800/api/blogs/category/${category}`
+    );
     return response.data;
   } catch (error) {
     return error;
   }
-}
+};
 
 export const addReview = async (blogId, name, email, comment) => {
   try {
-    const response = await axios.post(`http://localhost:8800/api/blogs/${blogId}/review`, { name, email, comment });
+    const response = await axios.post(
+      `http://localhost:8800/api/blogs/${blogId}/review`,
+      { name, email, comment }
+    );
     return response.data;
   } catch (error) {
     return error;
   }
-}
+};

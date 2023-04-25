@@ -78,7 +78,7 @@ export default class About1 extends Component {
         )}
         <div className={classes.content}>
           <ContentEditable
-            className={classes.h}
+          
             html={this.props.Data.data.h.text} // innerHTML of the editable div
             disabled={false} // use true to disable editing
             onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change

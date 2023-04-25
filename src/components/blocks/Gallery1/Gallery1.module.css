@@ -13,13 +13,13 @@
    
 }
 .card{
-    width: 40%;
+   
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.13);
     margin-bottom: 40px;
     margin-left: 40px;
     min-width: 200px;
-    height: 450px;
+    max-height: 450px;
     
    position: relative;
  display: flex;
@@ -45,7 +45,7 @@
 .img{
   width:100%;
     display: block;
-   height: 500px;
+   height: 450px;
 
   object-fit: cover;
 }

@@ -16,6 +16,7 @@ import {
   changeBackgroundColor,
   changeBackgroundImage,
   changeCardImage,
+  changeBtnColor,
 } from "../utilityFunctions/helperFunctions";
 
 import DragAndDropPanel from "../components/DragAndDropPanel";
@@ -124,7 +125,7 @@ const DragDrop = ({
       style={{
         maxWidth: "100%",
         overflowX: "hidden",
-        border: dragDisable === false ? "5px solid #AAFF00 " : "none",
+        border: dragDisable === false ? "3px dashed #AAFF00 " : "none",
       }}
     >
       {textEditorDisplayed && textEditor}
@@ -161,7 +162,7 @@ const DragDrop = ({
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {components.map(({ key, Component, Data, type }, index) => {
+                {components?.map(({ key, Component, Data, type }, index) => {
                   return (
                     <Draggable
                       isDragDisabled={dragDisable}
@@ -273,6 +274,16 @@ const DragDrop = ({
                                 )
                               )
                             }
+                            changeBtnColor={(color, idFromComponent) =>
+                              setComponents(
+                                changeBtnColor(
+                                  color,
+                                  idFromComponent,
+                                  components
+                                )
+                              )
+                            }
+
                           />
                         </div>
                       )}

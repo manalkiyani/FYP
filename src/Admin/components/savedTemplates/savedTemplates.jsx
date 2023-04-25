@@ -12,12 +12,15 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import { getUsername,getUser } from '../../../utilityFunctions/authFunctions';
 import { getUserData } from '../../../utilityFunctions/axiosFunctions';
+import { useLocalStorageState } from 'ahooks';
 
 
 export default function SavedTemplates() {
   const [DeleteId, setDeleteId] = React.useState(null);
   const [savedTemplates, setSavedTemplates] = React.useState(null);
-  const { setTemplateId, setTemplate } = useContext(UserContext);
+  const [template,setTemplate] = useLocalStorageState("template","")
+  const [templateId,setTemplateId] = useLocalStorageState("templateId","")
+  // const { setTemplateId, setTemplate } = useContext(UserContext);
   const [updated, setUpdated] = React.useState(false);
   const navigate = useNavigate();
  const[Deletion,setDeletion]=useState(false);
@@ -89,6 +92,11 @@ export default function SavedTemplates() {
   return (
     <>
      <ConfirmDeleteDialog open={Deletion} onClose ={closeDeletion} onConfirm={deleteTemplate} />
+
+     {
+        savedTemplates && savedTemplates.length === 0 &&
+         <div style={{display:'flex',width:'100%',justifyContent:'center',alignItems:'center',height:'20vh',fontSize:'20px',fontWeight:'lighter'}}>Your Websites Will appear here</div>
+     }
       <div style={{display:'flex',width:'70vw',flexWrap:'wrap'}}>
    {savedTemplates && savedTemplates.map((template) => {
   return ( <Card 

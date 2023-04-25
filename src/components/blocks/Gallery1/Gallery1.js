@@ -84,7 +84,7 @@ export default class Gallery1 extends Component {
                     ? "17%"
                     : this.props.Data.layout === 4
                     ? "20%"
-                    : "30%",
+                    : "24%",
               }}
               className={classes.card}
             >

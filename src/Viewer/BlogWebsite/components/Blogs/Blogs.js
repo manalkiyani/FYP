@@ -1,7 +1,7 @@
 import Blog from "./Blog";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
-import classes from "../../../../blogWebsite/components/Blogs/Blogs.module.css";
+import classes from "./Blogs.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
@@ -13,7 +13,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { addBookmark } from "../../../../utilityFunctions/axiosFunctions";
-import Sidebar from "../../../../blogWebsite/components/Sidebar/Sidebar";
+import Sidebar from "../../../../Admin/components/sidebar/Sidebar";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
