@@ -1,28 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+
 const departments = [
-    'Cardiology',
-    'Neurology',
-    'Dermatology',
-    'Orthopedics',
-    'Gastroenterology',
-    'Ophthalmology',
-    'Endocrinology',
-    'Psychiatry',
-    'Oncology',
-    'Rheumatology',
-    'Nephrology',
-    'Urology',
-    'Pulmonology',
-    'Allergy and Immunology',
-    'Infectious Disease',
-    'Hematology',
-    'Physical Medicine and Rehabilitation',
-    'Pediatrics',
-    'Geriatrics',
-    'Emergency Medicine',
-  ];
-  
+  'Cardiology',
+];
+
 const AddDoctorPage = () => {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
@@ -32,15 +14,45 @@ const AddDoctorPage = () => {
   const [experienceInMonths, setExperienceInMonths] = useState('');
   const [address, setAddress] = useState('');
   const [availability, setAvailability] = useState({});
+  const [doctorId, setDoctorId] = useState()
+  const [slots, setSlots] = useState({
+   
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+  });
 
+  const splitTimeRange = (start, end) => {
+    const slots = [];
+    let current = new Date(`2022-01-01T${start}:00`);
+    const endSlot = new Date(`2022-01-01T${end}:00`);
+    while (current < endSlot) {
+      const slotStart = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      current.setMinutes(current.getMinutes() + 30);
+      const slotEnd = current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      slots.push(`${slotStart}-${slotEnd}`);
+    }
+    return slots;
+  };
 
   const handleSubmit = () => {
-    console.log(name+" "+gender+" "+department+" "+latestQualification+" "+ description+" "+experienceInMonths+" "+ address)
-    if (!name || !gender || !department || !latestQualification || !description || !experienceInMonths || !address || Object.keys(availability).length === 0) {
+    if (
+      !name ||
+      !gender ||
+      !department ||
+      !latestQualification ||
+      !description ||
+      !experienceInMonths ||
+      !address ||
+      Object.keys(availability).length === 0 ||
+      Object.values(slots).some((value) => value.length === 0)
+    ) {
       alert('Please fill all fields including availability.');
       return;
     }
-
+  
     const data = {
       name,
       gender,
@@ -49,12 +61,13 @@ const AddDoctorPage = () => {
       description,
       experienceInMonths,
       address,
-      availability
+      availability,
     };
-
-    axios.post("http://localhost:8800/api/doctor/adddoctor", data)
-      .then(response => {
-        console.log(response.data._id);
+  
+    axios.post('http://localhost:8800/api/doctor/adddoctor', data)
+      .then((response) => {
+        setDoctorId(response.data._id);
+        addSlotsToDatabase(response.data._id);
         alert('Doctor added successfully!');
         setName('');
         setGender('');
@@ -64,16 +77,75 @@ const AddDoctorPage = () => {
         setExperienceInMonths('');
         setAddress('');
         setAvailability({});
+        setSlots({
+          monday: [],
+          tuesday: [],
+          wednesday: [],
+          thursday: [],
+          friday: [],
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         alert('Error adding doctor. Please try again later.');
       });
   };
+  
+  const addSlotsToDatabase = async (doctorId) => {
+    try {
+      const days = Object.keys(slots);
+      const slotIds = {};
+      for (let i = 0; i < days.length; i++) {
+        const day = days[i];
+        const daySlots = slots[day];
+        slotIds[day] = [];
+        for (let j = 0; j < daySlots.length; j++) {
+          const slot = daySlots[j];
+          const [startTime, endTime] = slot.split('-');
+          const slotData = {
+            day,
+            startTime,
+            endTime,
+          };
+          const { data } = await axios.post('http://localhost:8800/api/doctor/addslots', slotData);
+          slotIds[day].push(data._id);
+        }
+      }
+      console.log(slotIds);
+  
+      alert('Slots added successfully!');
+  
+      console.log(doctorId + 'this is doc id in hook');
+      axios
+        .put('http://localhost:8800/api/doctor/addslotsidindoctor', { doctorId, slotIds })
+        .then((res) => {
+          alert('Slots in doctor added!');
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Error adding slots in doctor.');
+        });
+  
+      setSlots({
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+      });
+    } catch (error) {
+      console.error(error);
+      alert('Error adding slots. Please try again later.');
+    }
+  };
+  
 
   const handleAvailabilityChange = (day, value) => {
     setAvailability((prevAvailability) => ({ ...prevAvailability, [day]: value }));
-    console.log(JSON.stringify(availability))
+    setSlots((prevSlots) => ({
+      ...prevSlots,
+      [day]: value ? splitTimeRange(value.start, value.end) : [],
+    }));
   };
 
   return (
