@@ -14,7 +14,8 @@
 .container{
     display: flex;
     position: absolute;
-    background-color: #40AFC0;
+    background-color: #fff;
+    border:1px solid #40AFC0;
   
     border-radius: 10px;
     z-index:140;

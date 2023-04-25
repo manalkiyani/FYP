@@ -3,9 +3,10 @@ import classes from "./Navbar.module.css";
 import { UserContext } from "../../../App";
 import { useContext, useState, useEffect } from "react";
 import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
+import { useLocalStorageState } from "ahooks";
 
 export default function ViewerNavbar(props) {
-  const { templateId } = useContext(UserContext);
+  const [templateId] = useLocalStorageState("templateId", "");
 
   const [templateName, setTemplateName] = useState("");
 

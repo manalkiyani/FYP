@@ -74,7 +74,7 @@ export default class Features1 extends Component {
                       ? "20%"
                       : this.props.Data.layout === 3
                       ? "30%"
-                      : "40%",
+                      : "35%",
                 }}
               >
                 <DelCard del={this.delCard} index={index} />

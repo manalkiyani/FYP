@@ -26,10 +26,11 @@ const UploadImage = (props) => {
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div
         style={{
-          padding: "5px",
-          width: "170px",
+          padding: "3px",
+          width: "130px",
           position: "absolute",
           left: props.left,
+          marginTop: "3px",
           top: props.top,
           zIndex: "104",
           backgroundColor: "white",
@@ -45,15 +46,18 @@ const UploadImage = (props) => {
           type="file"
           onChange={(event) => setImage(event)}
         />
-        <label style={{ color: "#40AFC0" }} htmlFor="avatar-image-upload">
-          UPLOAD
+        <label
+          style={{ color: "#40AFC0", marginLeft: "6px" }}
+          htmlFor="avatar-image-upload"
+        >
+          Upload
         </label>
         {
           <Button
             component="span"
             style={{
               color: "#40AFC0",
-
+              textTransform: "none",
               fontFamily: "arial",
               textAlign: "center",
             }}

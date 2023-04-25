@@ -5,27 +5,28 @@ const job = new Schema({
 
   title: { type: String, required: true },
   employmentType: {
+    required: true,
     type: String,
-    default: "fullTime",
-    enum: ["fullTime", "partTime", "temporary", "intern", "contract"],
+    default: "Full-time",
+    enum: ["Full-time", "Part-time", "Temporary", "Intern", "Contract"],
   },
   location: {
     type: String,
-    default: "inOffice",
-    enum: ["inOffice", "remote", "both"],
+    default: "InOffice",
+    enum: ["InOffice", "Remote", "Both"],
   },
-  deadline: { type: String },
+  deadline: { type: String, required: true },
   startDate: { type: String },
 
   minimumQualification: {
     type: String,
-    default: "bachelors",
-    enum: ["associate", "masters", "bachelors", "phd", "pursuingDegree"],
+    default: "Bachelors",
+    enum: ["Associate", "Masters", "Bachelors", "Ph.D", "Pursuing Degree"],
   },
   showPayBy: {
     type: String,
-    default: "range",
-    enum: ["exactAmount", "startingAmount", "range", "maximumAmount"],
+    default: "Range",
+    enum: ["Exact amount", "Starting amount", "Range", "Maximum amount"],
   },
   range: {
     min: { type: Number },
@@ -38,13 +39,7 @@ const job = new Schema({
 
   descriptionFile: { type: String },
 
-  applications:[
-    {type:mongoose.Schema.Types.ObjectId,ref:'application'}
-  ]
-
-
-
+  applications: [{ type: mongoose.Schema.Types.ObjectId, ref: "application" }],
 });
-
 
 module.exports = mongoose.model("job", job);

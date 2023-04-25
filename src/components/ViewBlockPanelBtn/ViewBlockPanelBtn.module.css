@@ -1,8 +1,8 @@
 .circle{
     background-color: #C4151C;
     border-radius: 50%;
-    height: 70px;
-    width:70px;
+    height: 60px;
+    width:60px;
     display: flex;
    cursor: pointer;
     justify-content: center;

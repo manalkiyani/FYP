@@ -209,6 +209,31 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //update the state
   return componentsList;
 };
+
+//change color of btn
+export const changeBtnColor = (color, idFromComponent, components) => {
+   let position = 0;
+  const componentsList = cloneDeep(components);
+
+  //get the cliked components position and component
+  const component = componentsList.find((ele, index) => {
+    position = index;
+
+    return ele.key === idFromComponent;
+  });
+
+  //delete component from components list
+  componentsList.splice(position, 1);
+  //update component data
+  const updatedComponent = cloneDeep(component);
+  updatedComponent.Data.data.btn.bgColor = color;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+}
 //change image of a card
 export const changeCardImage = (
   imageURL,
@@ -280,9 +305,8 @@ export const changeComponentText = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
-
-    console.log('type',type)
-    console.log(newData[index][tag].text)
+    console.log("type", type);
+    console.log(newData[index][tag].text);
     newData[index][tag].text = textFromComponent;
   } else if (type === "faq1") {
     if (tag === "heading") {
@@ -364,9 +388,8 @@ export const updateComponentData = (
     type === "gallery1" ||
     type === "gallery2"
   ) {
-
-    console.log('type',type)   
-     console.log('data',newData[index][tag])    
+    console.log("type", type);
+    console.log("data", newData[index][tag]);
     newData[index][tag] = {
       ...newData[index][tag],
       ...stateFromTextEditor,
@@ -410,7 +433,7 @@ export const dragOverHandler = (event) => {
   return false;
 };
 export const mapAdminBlocks = (Blocks) => {
-  return Blocks.map((block) => {
+  return Blocks?.map((block) => {
     switch (block.Component) {
       case "Header1":
         block.Component = Header1;
@@ -442,6 +465,8 @@ export const mapAdminBlocks = (Blocks) => {
         break;
       case "About1":
         block.Component = About1;
+        break;
+      default:
         break;
     }
     return block;
@@ -480,6 +505,8 @@ export const mapViewerBlocks = (Blocks) => {
       case "About1":
         block.Component = ViewerAbout1;
         break;
+      default:
+        break;
     }
     return block;
   });
@@ -502,8 +529,8 @@ export const unmapBlocks = (Blocks) => {
     return block;
   });
 };
-const saveBlocks = async (blocks) => {
-  const Blocks = unmapBlocks(blocks);
+const saveBlocks = async (Blocks) => {
+  // const Blocks = unmapBlocks(blocks);
 
   try {
     const res = await axios.post(
@@ -515,8 +542,8 @@ const saveBlocks = async (blocks) => {
     console.error(error);
   }
 };
-const updateBlocks = async (blocks) => {
-  const Blocks = unmapBlocks(blocks);
+const updateBlocks = async (Blocks) => {
+  // const Blocks = unmapBlocks(blocks);
 
   try {
     const res = await axios.post(
@@ -528,8 +555,9 @@ const updateBlocks = async (blocks) => {
     console.error(error);
   }
 };
-const saveTemplate = async (
+const saveMyTemplate = async (
   type,
+  homepage,
   homepageBlockIds,
   mainPage,
   mainpageBlockIds,
@@ -547,7 +575,7 @@ const saveTemplate = async (
           name: title,
           type: type,
           pages: {
-            HomePage: {
+            [homepage]: {
               blocks: homepageBlockIds,
             },
             [mainPage]: {
@@ -574,10 +602,10 @@ const saveTemplate = async (
     return { status: "500", msg: err };
   }
 };
-
 const updateTemplate = async (
   id,
   type,
+  homepage,
   homepageBlockIds,
   mainPage,
   mainpageBlockIds,
@@ -592,7 +620,7 @@ const updateTemplate = async (
           id,
           type: type,
           pages: {
-            HomePage: {
+            [homepage]: {
               blocks: homepageBlockIds,
             },
             [mainPage]: {
@@ -616,125 +644,107 @@ const updateTemplate = async (
     return { status: "500" };
   }
 };
-export const SavedTemplate = async (template, title) => {
+// template, "BlogHomePage", "BlogsPage", "blogs", name;
+export const SavedTemplate = async (
+  template,
+  HomePage,
+  MainPage,
+  data,
+  title
+) => {
   //first send blocks of homepage
   //send blocks to backend to save
   let homepageBlockIds = [];
   let mainpageBlockIds = [];
   let mainPageDataIds = [];
 
-  if (template.pages?.HomePage?.blocks.length > 0) {
-    homepageBlockIds = await saveBlocks(template.pages.HomePage.blocks);
+  if (template.pages?.[HomePage]?.blocks.length > 0) {
+    homepageBlockIds = await saveBlocks(template.pages?.[HomePage].blocks);
   }
-  switch (template.type) {
-    case "blog": {
-      if (template.pages.BlogsPage?.blocks.length > 0) {
-        console.log(template.pages.BlogsPage.blocks);
-        mainpageBlockIds = await saveBlocks(template.pages.BlogsPage.blocks);
-      }
-      if (template.data?.blogs) {
-        mainPageDataIds = template.data?.blogs;
-      }
 
-      const response = await saveTemplate(
-        template.type,
-        homepageBlockIds,
-        "BlogsPage",
-        mainpageBlockIds,
-        "blogs",
-        mainPageDataIds,
-        title
-      );
-      console.log(response);
-      return response;
-    }
+  if (template.pages[MainPage]?.blocks.length > 0) {
+    mainpageBlockIds = await saveBlocks(template.pages[MainPage].blocks);
+  }
+  if (template.data?.[data]) {
+    mainPageDataIds = template.data?.[data];
+  }
 
-    case "eccomerce": {
-      if (template.pages.ProductsPage?.blocks.length > 0) {
-        mainpageBlockIds = await saveBlocks(template.pages.ProductsPage.blocks);
-      }
-      if (template.data?.products) {
-        mainPageDataIds = template.data?.products;
-      }
+  const response = await saveMyTemplate(
+    template.type,
+    HomePage,
+    homepageBlockIds,
+    MainPage,
+    mainpageBlockIds,
+    data,
+    mainPageDataIds,
+    title
+  );
+  return response;
+  // return response;
+};
+// template,
+//               "BlogHomePage",
+//               "BlogsPage",
+//               "blogs",
+//               id
+export const UpdateTemplate = async (
+  template,
+  HomePage,
+  MainPage,
+  data,
+  id
+) => {
+  //first send blocks of homepage
+  //send blocks to backend to save
+  let homepageBlockIds = [];
+  let mainpageBlockIds = [];
+  let mainPageDataIds = [];
 
-      const response = await saveTemplate(
-        template.type,
-        homepageBlockIds,
-        "ProductsPage",
-        mainpageBlockIds,
-        "products",
-        mainPageDataIds,
-        title
-      );
-      return response;
-    }
+  if (template.pages?.[HomePage]?.blocks.length > 0) {
+    homepageBlockIds = await updateBlocks(template.pages[HomePage].blocks);
+  }
+
+  if (template.pages[MainPage]?.blocks.length > 0) {
+    mainpageBlockIds = await updateBlocks(template.pages[MainPage].blocks);
+  }
+  if (template.data?.[data]) {
+    mainPageDataIds = template.data?.[data];
+  }
+  const response = await updateTemplate(
+    id,
+    template.type,
+    HomePage,
+    homepageBlockIds,
+    MainPage,
+    mainpageBlockIds,
+    data,
+    mainPageDataIds
+  );
+  console.log("response", response);
+  if (response.status === "201") {
+    console.log("success");
+    return Promise.resolve({ msg: "Updated Successfully" });
+  } else if (response.status === "500") {
+    console.log("error");
+    return Promise.reject({ error: "Server Error" });
+  } else {
+    console.log("error");
+    return Promise.reject({ error: "Server Error" });
   }
 };
 
-export const UpdateTemplate = async (template, id) => {
-  //first send blocks of homepage
-  //send blocks to backend to save
-  let homepageBlockIds = [];
-  let mainpageBlockIds = [];
-  let mainPageDataIds = [];
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
 
-  if (template.pages?.HomePage?.blocks.length > 0) {
-    homepageBlockIds = await updateBlocks(template.pages.HomePage.blocks);
-  }
-  switch (template.type) {
-    case "blog":
-      {
-        if (template.pages.BlogsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(
-            template.pages.BlogsPage.blocks
-          );
-        }
-        if (template.data?.blogs) {
-          mainPageDataIds = template.data?.blogs;
-        }
-        const response = await updateTemplate(
-          id,
-          template.type,
-          homepageBlockIds,
-          "BlogsPage",
-          mainpageBlockIds,
-          "blogs",
-          mainPageDataIds
-        );
-        if (response.status === 201) {
-          return Promise.resolve({ msg: "Updated Successfully" });
-        } else if (response.status === 500) {
-          return Promise.reject({ error: "Server Error" });
-        }
-      }
-      break;
-  }
-  switch (template.type) {
-    case "eccomerce":
-      {
-        if (template.pages.ProductsPage?.blocks.length > 0) {
-          mainpageBlockIds = await updateBlocks(
-            template.pages.ProductsPage.blocks
-          );
-        }
-        if (template.data?.products) {
-          mainPageDataIds = template.data?.products;
-        }
-        const response = await updateTemplate(
-          id,
-          template.type,
-          homepageBlockIds,
-          "ProductsPage",
-          mainpageBlockIds,
-          "products",
-          mainPageDataIds
-        );
-        if (response.status === 201) {
-          return Promise.resolve({ msg: "Updated Successfully" });
-        } else if (response.status === 500) {
-          return Promise.reject({ error: "Server Error" });
-        }
-      }
-      break;
-  }
+  // Get the year, month, and day components of the date
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // add 1 to account for 0-indexed months
+  const day = date.getDate();
+
+  // Format the date as a string in the desired format (e.g. "YYYY-MM-DD")
+  const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day
+    .toString()
+    .padStart(2, "0")}`;
+
+  return formattedDate;
 };

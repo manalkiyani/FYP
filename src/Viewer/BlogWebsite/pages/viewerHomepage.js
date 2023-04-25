@@ -8,57 +8,55 @@ import {
 } from "../../../utilityFunctions/axiosFunctions";
 
 import BeatLoader from "react-spinners/BeatLoader";
-
+import useViewerTemplateData from "../../../customHooks/useViewerTemplateData";
 
 const ViewerHomepage = () => {
-  const { id } = useParams();
+  const { loading, dataToSend } = useViewerTemplateData("BlogHomePage");
+  // const { id } = useParams();
 
-  const [loaded, setLoaded] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [dataToSend, setDataToSend] = React.useState(null);
+  // const [loaded, setLoaded] = React.useState(false);
+  // const [loading, setLoading] = React.useState(true);
+  // const [dataToSend, setDataToSend] = React.useState(null);
 
-  const [main, setMain] = React.useState(false);
+  // const [main, setMain] = React.useState(false);
 
-  useEffect(() => {
-    if (dataToSend) {
-      setMain(true);
-      setLoading(false);
-      setLoaded(true);
-    }
-  }, [dataToSend]);
+  // useEffect(() => {
+  //   if (dataToSend) {
+  //     setMain(true);
+  //     setLoading(false);
+  //     setLoaded(true);
+  //   }
+  // }, [dataToSend]);
 
-  const loadSavedTemplate = async () => {
-    let homePageBlocks = [];
-    try {
-      const Template = await getTemplateData(id);
-      
-      if (Template.pages?.HomePage?.blocks) {
-        const blocks = await fetchViewerBlocks(Template.pages.HomePage.blocks);
-         console.log(blocks);
-        homePageBlocks = blocks;
-      }
+  // const loadSavedTemplate = async () => {
+  //   let homePageBlocks = [];
+  //   try {
+  //     const Template = await getTemplateData(id);
 
-      setDataToSend({
-      blocks:  homePageBlocks,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     if (Template.pages?.HomePage?.blocks) {
+  //       const blocks = await fetchViewerBlocks(Template.pages.HomePage.blocks);
+  //        console.log(blocks);
+  //       homePageBlocks = blocks;
+  //     }
 
-  useEffect(() => {
-    if (!loaded) {
-  
-      loadSavedTemplate();
-    }
-  }, []);
+  //     setDataToSend({
+  //     blocks:  homePageBlocks,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!loaded) {
+
+  //     loadSavedTemplate();
+  //   }
+  // }, []);
 
   return (
     <>
- 
-      {main ? (
-        <DisplayBlocks data={dataToSend} />
-      ) : (
+      {loading ? (
         <center>
           <BeatLoader
             color={"#7890A3"}
@@ -68,6 +66,8 @@ const ViewerHomepage = () => {
             data-testid="loader"
           />
         </center>
+      ) : (
+        <DisplayBlocks data={dataToSend} />
       )}
     </>
   );
