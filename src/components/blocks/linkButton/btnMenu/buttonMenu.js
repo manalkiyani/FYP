@@ -11,7 +11,7 @@ const ButtonMenu = (props) => {
 
   const handleClick=(link)=>{
      setshow(false)
-    props.onClick(link)
+    props.linkButton(link)
    
   }
   return (

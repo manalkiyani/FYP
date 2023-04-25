@@ -7,8 +7,9 @@ import { useParams } from "react-router-dom";
 
 import { useLocalStorageState } from "ahooks";
 const UpdateBtn = () => {
-  const { id } = useParams();
-  const [template] = useLocalStorageState("template", {});
+  // const { id } = useParams();
+  const [id] = useLocalStorageState("templateId", "");
+  const [template] = useLocalStorageState("template", "");
 
   const updateTemplate = async () => {
     console.log(id);
@@ -61,6 +62,7 @@ const UpdateBtn = () => {
           }
           break;
       }
+      console.log(response);
 
       toast.success("Template updated Successfully");
     } catch (error) {

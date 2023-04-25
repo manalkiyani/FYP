@@ -209,6 +209,31 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //update the state
   return componentsList;
 };
+
+//change color of btn
+export const changeBtnColor = (color, idFromComponent, components) => {
+   let position = 0;
+  const componentsList = cloneDeep(components);
+
+  //get the cliked components position and component
+  const component = componentsList.find((ele, index) => {
+    position = index;
+
+    return ele.key === idFromComponent;
+  });
+
+  //delete component from components list
+  componentsList.splice(position, 1);
+  //update component data
+  const updatedComponent = cloneDeep(component);
+  updatedComponent.Data.data.btn.bgColor = color;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+}
 //change image of a card
 export const changeCardImage = (
   imageURL,
@@ -441,6 +466,8 @@ export const mapAdminBlocks = (Blocks) => {
       case "About1":
         block.Component = About1;
         break;
+      default:
+        break;
     }
     return block;
   });
@@ -478,6 +505,8 @@ export const mapViewerBlocks = (Blocks) => {
       case "About1":
         block.Component = ViewerAbout1;
         break;
+      default:
+        break;
     }
     return block;
   });
@@ -500,8 +529,8 @@ export const unmapBlocks = (Blocks) => {
     return block;
   });
 };
-const saveBlocks = async (blocks) => {
-  const Blocks = unmapBlocks(blocks);
+const saveBlocks = async (Blocks) => {
+  // const Blocks = unmapBlocks(blocks);
 
   try {
     const res = await axios.post(
@@ -513,8 +542,8 @@ const saveBlocks = async (blocks) => {
     console.error(error);
   }
 };
-const updateBlocks = async (blocks) => {
-  const Blocks = unmapBlocks(blocks);
+const updateBlocks = async (Blocks) => {
+  // const Blocks = unmapBlocks(blocks);
 
   try {
     const res = await axios.post(
@@ -526,15 +555,7 @@ const updateBlocks = async (blocks) => {
     console.error(error);
   }
 };
-// template.type,
-//   HomePage,
-//   homepageBlockIds,
-//   MainPage,
-//   mainpageBlockIds,
-//   data,
-//   mainPageDataIds,
-//   title
-const saveTemplate = async (
+const saveMyTemplate = async (
   type,
   homepage,
   homepageBlockIds,
@@ -581,15 +602,6 @@ const saveTemplate = async (
     return { status: "500", msg: err };
   }
 };
-//  id,
-//           template.type,
-//           HomePage,
-//           homepageBlockIds,
-//           MainPage,
-//           mainpageBlockIds,
-//           data,
-//           mainPageDataIds
-
 const updateTemplate = async (
   id,
   type,
@@ -657,7 +669,7 @@ export const SavedTemplate = async (
     mainPageDataIds = template.data?.[data];
   }
 
-  const response = await saveTemplate(
+  const response = await saveMyTemplate(
     template.type,
     HomePage,
     homepageBlockIds,
@@ -708,9 +720,31 @@ export const UpdateTemplate = async (
     data,
     mainPageDataIds
   );
-  if (response.status === 201) {
+  console.log("response", response);
+  if (response.status === "201") {
+    console.log("success");
     return Promise.resolve({ msg: "Updated Successfully" });
-  } else if (response.status === 500) {
+  } else if (response.status === "500") {
+    console.log("error");
+    return Promise.reject({ error: "Server Error" });
+  } else {
+    console.log("error");
     return Promise.reject({ error: "Server Error" });
   }
+};
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+
+  // Get the year, month, and day components of the date
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // add 1 to account for 0-indexed months
+  const day = date.getDate();
+
+  // Format the date as a string in the desired format (e.g. "YYYY-MM-DD")
+  const formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day
+    .toString()
+    .padStart(2, "0")}`;
+
+  return formattedDate;
 };

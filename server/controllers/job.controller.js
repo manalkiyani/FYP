@@ -22,7 +22,7 @@ async function addJob(req, res) {
     maximumAmount: req.body?.maximumAmount,
     exactAmount: req.body?.exactAmount,
     description: req.body?.description,
-    detailsFile: req.body?.detailsFile,
+    descriptionFile: req.body?.descriptionFile,
   });
   return job
     .save()
@@ -53,6 +53,7 @@ async function getJob(req, res) {
       });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({
         success: false,
         message: "Server error. Please try again.",
@@ -130,30 +131,30 @@ async function updateJob(req, res) {
 }
 //check if the job with given title already exists
 async function checkJobExists(req, res) {
-    const title = req.body.title;
-    Job.find({ title: title })
+  const title = req.body.title;
+  Job.find({ title: title })
     .then((job) => {
-        if (job.length >= 1) {
-            return res.status(409).json({
-                success: false,
-                message: "Job already exists",
-            });
-        } else {
-            return res.status(200).json({
-                success: true,
-                message: "Job does not exist",
-            });
-        }
+      console.log("job", job);
+      if (job) {
+        return res.status(409).json({
+          success: false,
+          message: "Job already exists",
+        });
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "Job does not exist",
+        });
+      }
     })
     .catch((err) => {
-        res.status(500).json({
-            success: false,
-            message: "Server error. Please try again.",
-            error: err.message,
-        });
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
     });
 }
-
 
 module.exports = {
   addJob,
@@ -162,5 +163,5 @@ module.exports = {
   getListOfJobs,
   deleteJob,
   updateJob,
-    checkJobExists,
+  checkJobExists,
 };

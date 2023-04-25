@@ -11,6 +11,9 @@ import {
   Flex,
 } from "@mantine/core";
 import PersonPinIcon from "@mui/icons-material/PersonPinCircleOutlined";
+import React, { useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { formatDate } from "../../../../utilityFunctions/helperFunctions";
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -53,21 +56,33 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ViewJob = () => {
+const ViewJob = ({ job }) => {
+  const [formattedDate, setFormattedDate] = React.useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    setFormattedDate(formatDate(job?.deadline));
+  }, []);
   const { classes } = useStyles();
 
   return (
-    <Card withBorder radius="md" className={classes.card}>
+    <Card
+      style={{ cursor: "pointer" }}
+      withBorder
+      radius="md"
+      className={classes.card}
+    >
       <Group position="apart" mt="md">
         <div>
-          <Text fw={500}>Job Title</Text>
+          <Text fw={500} onClick={() => navigate(`${job._id}`)}>
+            {job.title}
+          </Text>
 
           <Text fz="xs" c="dimmed">
-            Employment Type , Location
+            {job.employmentType} , {job?.location}
           </Text>
         </div>
         <Badge color="red" size="lg">
-          25-03-2023 -end date
+          {formattedDate} -end date
         </Badge>
       </Group>
 
@@ -78,7 +93,7 @@ const ViewJob = () => {
 
         <Group spacing={8} mb={-8}>
           <Center>
-            <Text size="xs">Bachelors</Text>
+            <Text size="xs">{job?.minimumQualification}</Text>
           </Center>
         </Group>
       </Card.Section>
@@ -86,15 +101,35 @@ const ViewJob = () => {
       <Card.Section className={classes.section}>
         <Flex justify="space-between">
           <div>
-            <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-              $168.00
-            </Text>
+            {job?.minimumAmount && (
+              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+                {job.minimumAmount}$
+              </Text>
+            )}
+            {job?.exactAmount && (
+              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+                {job.exactAmount}$
+              </Text>
+            )}
+            {job?.startingAmount && (
+              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+                {job.startingAmount}$
+              </Text>
+            )}
+            {job?.range && (
+              <Text fz="xl" fw={600} sx={{ lineHeight: 1 }}>
+                {job.range.min}$ - {job.range.max}$
+              </Text>
+            )}
+
             <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
-              per day
+              per month
             </Text>
           </div>
 
-          <Button color="cyan" size="sm" radius="xl">
+          <Button 
+            onClick={() => navigate(`${job._id}/apply`)}
+          color="cyan" size="sm" radius="xl">
             Apply Now
           </Button>
         </Flex>

@@ -5,6 +5,8 @@ import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
 import BgColor from "../../BackgroundColor/BgColor";
+import UploadImage from "../../uploadImage/uploadImage";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 
 export default class Header2 extends Component {
   state = {
@@ -12,6 +14,7 @@ export default class Header2 extends Component {
     ref: null,
     displayHandleBlock: false,
     openColorPicker: false,
+    image: null,
   };
   //  textFromComponent,
   //   index,
@@ -35,6 +38,18 @@ export default class Header2 extends Component {
 
     console.log(link);
   };
+  handleImageChange = async (event) => {
+    this.setState({
+      image: event.target.files[0],
+    });
+    try {
+      const link = await uploadImage(event.target.files[0]);
+      console.log(link);
+      this.props.changeBackgroundImage(link, this.props.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   disableHandleBlock = () => {
     this.setState({
@@ -52,15 +67,14 @@ export default class Header2 extends Component {
   handleClose = () => {
     this.setState({ openColorPicker: false });
   };
-changeBackgroundColor = (color) => {
+  changeBackgroundColor = (color) => {
     this.props.changeBackgroundColor(color.hex, this.props.id);
   };
   render() {
     return (
       <div
-    
         style={{
-            backgroundColor: this.props.Data.data.bgColor,
+          backgroundColor: this.props.Data.data.bgColor,
           boxShadow:
             this.props.dragDisable === false
               ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
@@ -70,12 +84,25 @@ changeBackgroundColor = (color) => {
         onMouseOut={this.disableHandleBlock}
         className={classes.header}
       >
-        <BgColor handleClose={this.handleClose} updateColor={this.changeBackgroundColor} open={this.state.openColorPicker}/>
+        <BgColor
+          handleClose={this.handleClose}
+          updateColor={this.changeBackgroundColor}
+          open={this.state.openColorPicker}
+        />
         {this.state.displayHandleBlock && (
           <HandleBlock
             del={() => this.props.deleteBlock(this.props.id)}
             enableDrag={this.props.enableDrag}
-            openColorPicker={()=>this.setState({openColorPicker: true})}
+            openColorPicker={() => this.setState({ openColorPicker: true })}
+              linkButton={this.linkButton}
+          />
+        )}
+        {this.state.displayHandleBlock && (
+          <UploadImage
+            top={55}
+            left={10}
+            handleImageChange={this.handleImageChange}
+            image={this.state.image}
           />
         )}
         <div className={classes.content}>
@@ -127,10 +154,7 @@ changeBackgroundColor = (color) => {
             }}
           />
 
-          {this.state.showMenu ? (
-            <ButtonMenu onClick={this.linkButton} />
-          ) : null}
-
+         
           <ContentEditable
             className={classes.btn}
             html={this.props.Data.data.btn.text}
@@ -157,7 +181,7 @@ changeBackgroundColor = (color) => {
             }}
           />
         </div>
-        <img src={this.props.Data.data.img} />
+        <img className={classes.img} src={this.props.Data.data.img} />
       </div>
     );
   }

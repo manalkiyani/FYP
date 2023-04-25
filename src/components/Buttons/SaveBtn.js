@@ -13,6 +13,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { useLocalStorageState } from "ahooks";
+import { deepClone } from "@mui/x-data-grid/utils/utils";
 
 const SaveBtn = () => {
   const [open, setOpen] = React.useState(false);
@@ -25,90 +26,77 @@ const SaveBtn = () => {
   };
 
   const saveTemplate = async (name) => {
-    let template = localStorage.getItem("template");
+    // let template = localStorage.getItem("template");
 
-    template = await JSON.parse(template);
+    let template = JSON.parse(localStorage.getItem("template"));
     console.log("template here: ", template);
-    Object.getOwnPropertyNames(template?.pages).forEach((page) =>
-      template.pages.map((page) =>
-      page?.blocks?.map((block) => {
-        const str = block?.type;
-        const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
-
-        return (block.Component = capitalized);
-      })
-    ))
 
     setOpen(false);
     console.log(template);
-    let response;
+
+    const templates = {
+      blog: {
+        homePage: "BlogHomePage",
+        contentPage: "BlogsPage",
+        contentSlug: "blogs",
+      },
+      ecommerce: {
+        homePage: "EccomerceHomePage",
+        contentPage: "ProductsPage",
+        contentSlug: "products",
+      },
+      business: {
+        homePage: "BusinessHomePage",
+        contentPage: "JobsPage",
+        contentSlug: "jobs",
+      },
+      medical: {
+        homePage: "MedicalHomePage",
+        contentPage: "DoctorsPage",
+        contentSlug: "doctors",
+      },
+    };
+
     try {
-      switch (template.type) {
-        case "blog":
-          {
-            response = await SavedTemplate(
-              template,
-              "BlogHomePage",
-              "BlogsPage",
-              "blogs",
-              name
-            );
-          }
-          break;
-        case "eccomerce":
-          {
-            response = await SavedTemplate(
-              template,
-              "EccomerceHomePage",
-              "ProductsPage",
-              "products",
-              name
-            );
-          }
-          break;
-        case "business":
-          {
-            response = await SavedTemplate(
-              template,
-              "BusinessHomePage",
-              "JobsPage",
-              "jobs",
-              name
-            );
-          }
-          break;
-        case "medical":
-          {
-            response = await SavedTemplate(
-              template,
-              "MedicalHomePage",
-              "DoctorsPage",
-              "doctors",
-              name
-            );
-          }
-          break;
+      const { type } = template;
+      if (!(type in templates)) {
+        throw new Error("Invalid template type");
       }
+
+      const { homePage, contentPage, contentSlug } = templates[type];
+      const response = await SavedTemplate(
+        template,
+        homePage,
+        contentPage,
+        contentSlug,
+        name
+      );
+
       console.log(response);
       if (response?.status === "201") {
-        toast.success("Template Saved Successfully");
+        toast.success("Template saved successfully");
       } else {
-        toast.error("Oops! Please Upgrade Your Plan to create new Websites");
+        toast.error("Oops! Please upgrade your plan to create new websites");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Oops! An error occured. Please try again later");
+      console.error(error);
+      toast.error("Oops! An error occurred. Please try again later");
     }
   };
-
   return (
     <>
       <FormDialog open={open} onSave={saveTemplate} onClose={handleClose} />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Button
         onClick={handleClickOpen}
-        style={{ position: "absolute", right: 10, top: 15, zIndex: 100000 }}
-        size="medium"
+        style={{
+          position: "absolute",
+          right: 10,
+          top: 8,
+          zIndex: 100000,
+          color: "#fff",
+        }}
+        size="small"
         color="primary"
         startIcon={<SaveIcon />}
         variant="contained"

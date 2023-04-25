@@ -28,7 +28,12 @@ const application = new Schema ({
         grade:{type:String},
     
     }],
-    web:{type:Array}, //array of link objects {name : "facebook", link : "www.facebook.com"}
+  
+
+    facebook:{type:String},
+    linkedIn:{type:String},
+    twitter:{type:String},
+    website:{type:String},
 
     //message
     message : {type : String, },

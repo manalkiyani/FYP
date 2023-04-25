@@ -10,6 +10,7 @@ async function postBlock(req, res) {
     Component: req.body.Component,
     Data: req.body.Data,
   });
+  console.log("block", block);
   return block
     .save()
     .then((newBlock) => {
@@ -64,7 +65,7 @@ async function postBlocks(req, res) {
         Data: block.Data,
       });
     });
-
+    console.log("Blocks", Blocks);
     const savedBlocks = await Block.insertMany(Blocks).catch((error) => {
       console.log(error);
     });
@@ -76,33 +77,65 @@ async function postBlocks(req, res) {
   }
 }
 
+// async function updateBlocks(req, res) {
+//   const updatedBlocks = req.body.blocks;
+//   console.log("updatedBlocks", updatedBlocks);
+
+//   try {
+//     const updatedBlockKeys = [];
+//     const newBlocks = [];
+
+//     for (const block of updatedBlocks) {
+//       console.log("block", block)
+//       const foundBlock = await Block.findOneAndUpdate(
+//         { key: block.key },
+//         { $set: block }
+//       );
+      
+//       if (foundBlock) {
+//         updatedBlockKeys.push(foundBlock.key);
+//          console.log("foundBlock", foundBlock);
+//       } else {
+//         const newBlock = new Block({
+//           _id: mongoose.Types.ObjectId(),
+//           key: block.key,
+//           type: block.type,
+//           img: block.img,
+//           Component: block.Component,
+//           Data: block.Data,
+//         });
+//         const savedBlock = await newBlock.save();
+//         updatedBlockKeys.push(savedBlock.key);
+//         newBlocks.push(savedBlock);
+//       }
+//     }
+//     console.log("updatedBlockKeys", updatedBlockKeys);
+
+//     res.json({ updatedBlockKeys, newBlocks });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: error.message });
+//   }
+// }
+
 async function updateBlocks(req, res) {
   const updatedBlocks = req.body.blocks;
+  console.log("updatedBlocks", updatedBlocks);
 
   try {
     const updatedBlockKeys = [];
     const newBlocks = [];
 
     for (const block of updatedBlocks) {
+      console.log("block", block)
       const foundBlock = await Block.findOneAndUpdate(
         { key: block.key },
-        { $set: block }
+        { $set: block },
+        { new: true, upsert: true } // add options to create new blocks if not found
       );
-      if (foundBlock) {
-        updatedBlockKeys.push(foundBlock.key);
-      } else {
-        const newBlock = new Block({
-          _id: mongoose.Types.ObjectId(),
-          key: block.key,
-          type: block.type,
-          img: block.img,
-          Component: block.Component,
-          Data: block.Data,
-        });
-        const savedBlock = await newBlock.save();
-        updatedBlockKeys.push(savedBlock.key);
-        newBlocks.push(savedBlock);
-      }
+      
+      updatedBlockKeys.push(foundBlock.key);
+      newBlocks.push(foundBlock); // push updated or new block to newBlocks array
     }
     console.log("updatedBlockKeys", updatedBlockKeys);
 
@@ -112,6 +145,7 @@ async function updateBlocks(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
 
 async function deleteBlocks(req, res) {
   const { keepKeys } = req.body;

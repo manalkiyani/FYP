@@ -5,6 +5,7 @@ const job = new Schema({
 
   title: { type: String, required: true },
   employmentType: {
+    required: true,
     type: String,
     default: "Full-time",
     enum: ["Full-time", "Part-time", "Temporary", "Intern", "Contract"],
@@ -14,7 +15,7 @@ const job = new Schema({
     default: "InOffice",
     enum: ["InOffice", "Remote", "Both"],
   },
-  deadline: { type: String },
+  deadline: { type: String, required: true },
   startDate: { type: String },
 
   minimumQualification: {
