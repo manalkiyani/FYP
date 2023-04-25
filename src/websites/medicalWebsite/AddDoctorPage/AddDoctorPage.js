@@ -1,11 +1,69 @@
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import styles from "./AddDoctorPage.module.css";
+import axios from "axios";
 
-const departments = [
-  'Cardiology',
-];
 
+import {
+  Text,
+  createStyles,
+  rem,
+  Select,
+  TextInput,
+  SegmentedControl,
+  Button,
+  FileInput,
+  Stepper,
+  Group,
+} from "@mantine/core";
+import ReactQuill from "react-quill";
+import { DatePickerInput } from "@mantine/dates";
+import { add } from "lodash";
+
+const inputStyles = createStyles((theme) => ({
+  root: {
+    position: "relative",
+  },
+
+  input: {
+    height: rem(50),
+    paddingTop: rem(18),
+  },
+
+  label: {
+    position: "absolute",
+    pointerEvents: "none",
+    fontSize: theme.fontSizes.xs,
+    paddingLeft: theme.spacing.sm,
+    paddingTop: `calc(${theme.spacing.sm} / 2)`,
+    zIndex: 1,
+  },
+  text: {
+    fontSize: theme.fontSizes.xs,
+    paddingLeft: theme.spacing.sm,
+    paddingTop: `calc(${theme.spacing.sm} / 2)`,
+    zIndex: 1,
+    fontWeight: 500,
+  },
+}));
+const modules = {
+  toolbar: {
+    container: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+
+      [{ list: "ordered" }, { list: "bullet" }],
+      // text direction
+
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+    ],
+  },
+};
 const AddDoctorPage = () => {
+  //save data
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const [department, setDepartment] = useState('');
@@ -49,9 +107,18 @@ const AddDoctorPage = () => {
       Object.keys(availability).length === 0 ||
       Object.values(slots).some((value) => value.length === 0)
     ) {
+      console.log(      name,
+        gender,
+        department,
+        latestQualification,
+        description,
+        experienceInMonths,
+        address,
+        availability,)
       alert('Please fill all fields including availability.');
       return;
     }
+
   
     const data = {
       name,
@@ -148,33 +215,111 @@ const AddDoctorPage = () => {
     }));
   };
 
+
+
+  const quillRef = React.useRef(null);
+
+
+  const { classes } = inputStyles();
+
+  const [active, setActive] = useState(0);
+  const nextStep = () =>
+    setActive((current) => (current < 3 ? current + 1 : current));
+  const prevStep = () =>
+    setActive((current) => (current > 0 ? current - 1 : current));
+
+  const saveInformation = () => {
+    nextStep();
+  
+
+  };
   return (
-    <div>
-      <input placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
-      <select value={gender} onChange={(e) => setGender(e.target.value)}>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="custom">Custom</option>
-      </select>
-      <select value={department} onChange={(e) => setDepartment(e.target.value)}>
-        <option value="">Select Department</option>
-        {departments.map((department) => (
-          <option key={department} value={department}>
-            {department}
-          </option>
-        ))}
-      </select>
-      <input
-        placeholder="latest qualification"
-        value={latestQualification}
-        onChange={(e) => setLatestQualification(e.target.value)}
-      />
-      <input
-        placeholder="description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <select
+    <div className={styles.container}>
+      <Stepper
+        color="cyan"
+        mt={20}
+        active={active}
+        onStepClick={setActive}
+        breakpoint="sm"
+      >
+        <Stepper.Step
+          label="First step"
+          description="Provide basic information"
+        >
+          <div className={styles.titleContainer}>
+            <h5 className={styles.title}>Provide basic information</h5>
+            {/* <img className={styles.headerImage} src={job1} alt="girlOnLaptop" /> */}
+          </div>
+          <div className={styles.contentContainer}>
+            <TextInput
+              label="Doctor Name"
+              placeholder="Dr. Jeffrey"
+              classNames={classes}
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <Select
+              mt="md"
+              mb={15}
+              withinPortal
+              data={[
+                'Cardiology',
+                'Neurology',
+                'Dermatology',
+                'Orthopedics',
+                'Gastroenterology',
+                'Ophthalmology',
+                'Endocrinology',
+                'Psychiatry',
+                'Oncology',
+                'Rheumatology',
+                'Nephrology',
+                'Urology',
+                'Pulmonology',
+                'Allergy and Immunology',
+                'Infectious Disease',
+                'Hematology',
+                'Physical Medicine and Rehabilitation',
+                'Pediatrics',
+                'Geriatrics',
+                'Emergency Medicine',
+              ]}
+              value={department}
+              onChange={setDepartment}
+              placeholder="Pick one"
+              label="Department"
+              classNames={classes}
+              required
+            />
+            <TextInput
+              label="Address"
+              placeholder="Office 245, 2nd Floor, Cardiac Block"
+              classNames={classes}
+              required
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+
+<Select
+              mt="md"
+              mb={15}
+              withinPortal
+              data={[
+                'Male',
+                'Female',
+                'Custom'
+              ]}
+              value={gender}
+              onChange={setGender}
+              placeholder="Pick one"
+              label="Gender"
+              classNames={classes}
+              required
+            />
+
+<select
         value={experienceInMonths}
         onChange={(e) => setExperienceInMonths(e.target.value)}
       >
@@ -185,8 +330,48 @@ const AddDoctorPage = () => {
           </option>
         ))}
       </select>
-      <input placeholder="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-      <div>
+
+
+ 
+    
+            <Text className={classes.text} mt="sm" mb={10}>
+              Highest Qualification
+            </Text>
+            <SegmentedControl
+              radius="xl"
+              size="md"
+              data={[
+                "Associate",
+                "Masters",
+                "Bachelors",
+                "Ph.D",
+                "Pursuing Degree",
+              ]}
+              onChange={setLatestQualification}
+              value={latestQualification}
+
+            />
+          </div>
+          <Group position="center" mt="xl">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button onClick={nextStep} color="cyan">
+              Next Step
+            </Button>
+          </Group>
+        </Stepper.Step>
+        <Stepper.Step label="Second step" description="Add Availability">
+          <div className={styles.titleContainer}>
+            <h5 className={styles.title}>Add Compensation</h5>
+            {/* <img className={styles.headerImage} src={job1} alt="girlOnLaptop" /> */}
+          </div>
+
+          <div className={styles.contentContainer}>
+            <Text className={classes.text} mb={10}>
+              Available Time Slots
+            </Text>
+            <div>
         {['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].map((day) => (
           <div key={day}>
             {day.charAt(0).toUpperCase() + day.slice(1)}:{' '}
@@ -214,7 +399,57 @@ const AddDoctorPage = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit}>Submit</button>
+          </div>
+          <Group position="center" mt="xl">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button onClick={nextStep} color="cyan">
+              Next Step
+            </Button>
+          </Group>
+        </Stepper.Step>
+        <Stepper.Step label="Final step" description="Describe the job">
+          <div className={styles.titleContainer}>
+            <h5 className={styles.title}>Describe the job</h5>
+            {/* <img className={styles.headerImage} src={job1} alt="girlOnLaptop" /> */}
+          </div>
+          <div className={styles.contentContainer}>
+            <Text className={classes.text} withAsterisk mt="sm" mb={10}>
+              Doctor Description
+            </Text>
+
+            <div style={{ height: "50vh" }}>
+              <ReactQuill
+                ref={quillRef}
+                placeholder={
+                  "Describe the responsibilities of this Doctor, work experience,skills, or education"
+                }
+                style={{ height: "90%" }}
+                theme="snow"
+                value={description}
+                onChange={setDescription}
+                modules={modules}
+              />
+            </div>
+          </div>
+          <Group position="center" mt="xl">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button color="cyan" onClick={handleSubmit}>
+              Submit Now
+            </Button>
+          </Group>
+        </Stepper.Step>
+        <Stepper.Completed>
+          <div className={styles.titleContainer}>
+            <h5>Doctor has been posted Successfully </h5>
+          </div>
+        </Stepper.Completed>
+      </Stepper>
+
+      {/* basic information */}
     </div>
   );
 };

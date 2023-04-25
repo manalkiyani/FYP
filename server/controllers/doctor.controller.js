@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const Doctor=require("../models/Doctor")
 const Slot = require("../models/slotSchema");
 const Appointment = require("../models/Appointment");
+const Template = require("../models/Template");
 
 const addDoctor = async (req, res)=>{
     try {
         const { name, gender, department, latestQualification, description, experienceInMonths, address, availability, slots } = req.body;
-        console.log(slots)
+   
+
         const doctor = new Doctor({
         _id: mongoose.Types.ObjectId(),
           name,
@@ -165,7 +167,7 @@ const addDoctor = async (req, res)=>{
         })).filter(slot => slot.day === dayOfWeek && !slot.isBooked); // Filter by dayOfWeek parameter and isBooked status
     
         res.send(slotData);
-        console.log(slotData)
+   
       } catch (error) {
         console.log(error);
         res.status(500).send({ message: 'Server error' });
@@ -218,5 +220,44 @@ const addDoctor = async (req, res)=>{
         }
 
     }
+
+    const AppointmentsIDtoTemplate = async (req, res) => {
+      try {
+        const appointmentId = req.body.appointmentId;
+        const templateId = req.body.templateId;
+
+        const template = await Template.findById(templateId);
+        if (!template) {
+          throw new Error("Template not found");
+        }
+        const updatedData = {
+          ...template.data,
+          appointments: [...(template.data.appointments || []), appointmentId],
+        };
+        await Template.findByIdAndUpdate(
+          templateId,
+          { data: updatedData },
+          { new: true }
+        );
+        res.send({ message: "Template updated successfully" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    };
+
+    const getAppointmentsToViewer = async (req, res) => {
+      try {
+        const patientId = req.body.patientId;
+        console.log(patientId)
+        const appointments = await Appointment.find({ patientid: patientId }).exec();
+        res.send(appointments);
+        console.log(appointments)
+      } catch (error) {
+        console.log(error);
+        res.status(500).send('Could not retrieve appointments');
+      }
+    };
     
-    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment}
+    
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer}

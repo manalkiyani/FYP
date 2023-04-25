@@ -13,6 +13,8 @@ function BookAppointmentPage() {
   const slotid = searchParams.get("slotid");
   const date = new Date(selectedDay);
 
+  const TEMPLATEID = '64466439e08c4f5f864bceac'
+
   const formattedDate = date.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
@@ -25,25 +27,44 @@ function BookAppointmentPage() {
   const handleConfirmAppointment = async () => {
     try {
       // Update the slot to be booked
-      const res = await axios.patch(`http://localhost:8800/api/doctor/changeisbookedstatus/${slotid}`, {
-        isBooked: true,
-      });
+      const res = await axios.patch(
+        `http://localhost:8800/api/doctor/changeisbookedstatus/${slotid}`,
+        {
+          isBooked: true,
+        }
+      );
       setIsBooked(true);
-  
+
       // Save the appointment details
-      const appointmentRes = await axios.post(`http://localhost:8800/api/doctor/bookappointment`, {
-        doctorid: doctor._id,
-        patientid: patient._id,
-        slot: slotid,
-        Day: dayofAppointment,
-        Time: selectedTime,
-      });
-      console.log(appointmentRes.data);
+      const appointmentRes = await axios
+        .post(`http://localhost:8800/api/doctor/bookappointment`, {
+          doctorid: doctor._id,
+          patientid: patient._id,
+          slot: slotid,
+          Day: dayofAppointment,
+          Time: selectedTime,
+        })
+        .then(async (appointmentRes) => {
+          let appointmentId = appointmentRes.data._id;
+          console.log("this is appointment id" + appointmentId);
+          try {
+            const response = await axios.put(
+              "http://localhost:8800/api/doctor/appointmentidtotemplate",
+              { appointmentId, templateId: TEMPLATEID }
+            );
+            console.log("this is response +" + response.data);
+          } catch (error) {
+            console.log(error);
+          }
+
+          console.log("appointment received");
+        });
+
     } catch (err) {
       console.log(err);
     }
   };
-  
+
   return (
     <div>
       <h1>Book an appointment with Dr. {doctor.name}</h1>

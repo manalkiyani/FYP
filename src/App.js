@@ -69,6 +69,7 @@ import BusinessJobsPage from "./websites/businessWebsite/utilityPages/BusinessJo
 import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/BookAppointmentPage";
 import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
 import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
+import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointments/ViewerViewAppointments";
 
 const theme = createTheme({
   palette: {
@@ -108,6 +109,7 @@ const App = () => {
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />
               <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
+
               <Route
                 path="/viewerdoctorspage"
                 element={<ViewerDoctorsPage />}
@@ -118,6 +120,10 @@ const App = () => {
               />
               <Route path="/patientsignuppage" element={<ViewerSignupPage />} />
               <Route path="/patientloginpage" element={<ViewerLoginPage />} />
+              <Route
+                path="/viewerviewappointments"
+                element={<ViewerViewAppointments></ViewerViewAppointments>}
+              ></Route>
 
               <Route path="/login" element={<Login />} />
 
