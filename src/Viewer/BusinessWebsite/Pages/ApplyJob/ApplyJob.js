@@ -19,12 +19,14 @@ import React, { useState } from "react";
 import DropImage from "./DropImage";
 import { DatePickerInput } from "@mantine/dates";
 import AddIcon from "@mui/icons-material/AddOutlined";
+
 import Icon from "@mui/icons-material/AccountBalance";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { uploadImage } from "../../../../utilityFunctions/imageUpload";
 import toast, { Toaster } from "react-hot-toast";
+
 const inputStyles = createStyles((theme) => ({
   icon: {
     color: theme.colors.gray[7],
@@ -353,7 +355,6 @@ const ApplyJob = () => {
               setGrade={setGrade}
               addEducation={addEducation}
             />
-          
           </Container>
           <Divider my="sm" />
           {/* web */}
@@ -529,8 +530,8 @@ const Experience = ({
   );
 };
 
-const Education = (
-  {institute,
+const Education = ({
+  institute,
   setInstitute,
   degree,
   setDegree,
@@ -544,8 +545,8 @@ const Education = (
   ssetDescription,
   grade,
   setGrade,
-  addEducation}
-) => {
+  addEducation,
+}) => {
   console.log(typeof setInstitute);
   const [studyHere, setStudyHere] = React.useState(false);
   const { classes } = inputStyles();
@@ -572,7 +573,7 @@ const Education = (
         classNames={classes}
         required
       />
-     
+
       <Group position="center" spacing="md" grow>
         <TextInput
           value={major}

@@ -62,8 +62,13 @@ import Navbar from "./websites/CommonComponnets/Navbar/Navbar";
 import ViewerNavbar from "./Viewer/Components/Navbar/viewerNavbar";
 import ViewerHomepage from "./Viewer/BlogWebsite/pages/viewerHomepage";
 import ViewerMainPage from "./Viewer/BlogWebsite/pages/viewerMainPage";
+
 import BusinessHomePage from "./websites/businessWebsite/utilityPages/BusinessHomePage";
 import BusinessJobsPage from "./websites/businessWebsite/utilityPages/BusinessJobsPage";
+
+import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/BookAppointmentPage";
+import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
+import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
 
 const theme = createTheme({
   palette: {
@@ -107,6 +112,12 @@ const App = () => {
                 path="/viewerdoctorspage"
                 element={<ViewerDoctorsPage />}
               />
+              <Route
+                path="/BookAppointmentPage"
+                element={<BookAppointmentPage />}
+              />
+              <Route path="/patientsignuppage" element={<ViewerSignupPage />} />
+              <Route path="/patientloginpage" element={<ViewerLoginPage />} />
 
               <Route path="/login" element={<Login />} />
 

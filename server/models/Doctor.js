@@ -15,8 +15,13 @@ const doctor = new mongoose.Schema(
     avgRating: {type: Number},
     experience:{type: String}, /////years
     address:{type: String},
-    bookedSlots: [{ type: Schema.Types.ObjectId, ref: "appointment" }],
-    availability:{type: Object}// this will have key value pairs like: Mon: 9-16, tue: 12-14
+    bookedSlots: { type: Object },
+    availableSlots: {type: Object},
+    availability:{type: Object},// this will have key value pairs like: Mon: 9-16, tue: 12-14
+    slots: 
+     {type: Object},
+      //required: true
+    
     //availableSlots: [{type: String, match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/}], // <-- array field for available time slots  
 
 }
