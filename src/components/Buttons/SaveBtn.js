@@ -4,8 +4,6 @@ import { Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import SaveIcon from "@mui/icons-material/Save";
 import { SavedTemplate } from "../../utilityFunctions/helperFunctions";
-import { useContext } from "react";
-import { UserContext } from "../../App";
 
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -13,9 +11,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-const SaveBtn = () => {
-  const { template, setTemplate } = useContext(UserContext);
 
+import { useLocalStorageState } from "ahooks";
+import { deepClone } from "@mui/x-data-grid/utils/utils";
+
+const SaveBtn = () => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,30 +26,77 @@ const SaveBtn = () => {
   };
 
   const saveTemplate = async (name) => {
-    console.log(name);
+    // let template = localStorage.getItem("template");
+
+    let template = JSON.parse(localStorage.getItem("template"));
+    console.log("template here: ", template);
+
     setOpen(false);
+    console.log(template);
+
+    const templates = {
+      blog: {
+        homePage: "BlogHomePage",
+        contentPage: "BlogsPage",
+        contentSlug: "blogs",
+      },
+      ecommerce: {
+        homePage: "EccomerceHomePage",
+        contentPage: "ProductsPage",
+        contentSlug: "products",
+      },
+      business: {
+        homePage: "BusinessHomePage",
+        contentPage: "JobsPage",
+        contentSlug: "jobs",
+      },
+      medical: {
+        homePage: "MedicalHomePage",
+        contentPage: "DoctorsPage",
+        contentSlug: "doctors",
+      },
+    };
+
     try {
-      const response = await SavedTemplate(template, name);
+      const { type } = template;
+      if (!(type in templates)) {
+        throw new Error("Invalid template type");
+      }
+
+      const { homePage, contentPage, contentSlug } = templates[type];
+      const response = await SavedTemplate(
+        template,
+        homePage,
+        contentPage,
+        contentSlug,
+        name
+      );
+
       console.log(response);
       if (response?.status === "201") {
-        toast.success("Template Saved Successfully");
+        toast.success("Template saved successfully");
       } else {
-        toast.error("Oops! Please Upgrade Your Plan to create new Websites");
+        toast.error("Oops! Please upgrade your plan to create new websites");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Oops! An error occured. Please try again later");
+      console.error(error);
+      toast.error("Oops! An error occurred. Please try again later");
     }
   };
-
   return (
     <>
       <FormDialog open={open} onSave={saveTemplate} onClose={handleClose} />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Button
         onClick={handleClickOpen}
-        style={{ position: "absolute", right: 10, top: 15, zIndex: 100000 }}
-        size="medium"
+        style={{
+          position: "absolute",
+          right: 10,
+          top: 8,
+          zIndex: 100000,
+          color: "#fff",
+        }}
+        size="small"
         color="primary"
         startIcon={<SaveIcon />}
         variant="contained"

@@ -18,52 +18,57 @@ import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
 import Messages from "./Admin/Messages/Messages";
 import Payments from "./Admin/Payments/Payments";
 
-import Appointments from "./Admin/Appointments/Appointments";
-import JobApplications from "./Admin/JobApplications/JobApplications";
-
 import Dashboard from "./pages/Dashboard/dashboard";
 import HomePage from "./pages/HomePage/HomePage";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/SignUp/SignUp";
 
 // ecommerce Website
-import ProductsPage from "./eccomerceWebsite/pages/ProductsPage";
-import CartPage from "./eccomerceWebsite/pages/CartPage";
-import EcomHomePage from "./eccomerceWebsite/pages/ecomHomePage/ecomHomePage";
-import EcomProductsPage from "./eccomerceWebsite/pages/ecomProductsPage/ecomProductPage";
-
+import CartPage from "./websites/eccomerceWebsite/pages/CartPage";
+import EcomHomePage from "./websites/eccomerceWebsite/pages/ecomHomePage/ecomHomePage";
+import EcomProductsPage from "./websites/eccomerceWebsite/pages/ecomProductsPage/ecomProductPage";
 //blog Website
-import BlogHomePage from "./blogWebsite/HomePage/BlogHomePage";
-import BlogssPage from "./blogWebsite/BlogsPage/BlogssPage";
-import Write from "./blogWebsite/WritePage/Write";
+import BlogHomePage from "./websites/blogWebsite/HomePage/BlogHomePage";
+import BlogssPage from "./websites/blogWebsite/BlogsPage/BlogssPage";
+import Write from "./websites/blogWebsite/WritePage/Write";
+import BlogDetail from "../src/websites/blogWebsite/BlogDetail/BlogDetail";
+
+//business Website
+import AddJob from "../src/websites/businessWebsite/Pages/addJob/AddJob";
+import ViewJobs from "../src/Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
+import ApplyJob from "../src/Viewer/BusinessWebsite/Pages/ApplyJob/ApplyJob";
+import ApplicationDetail from "../src/websites/businessWebsite/Pages/Applications/ApplicationDetail";
+import JobDetail from "../src/websites/businessWebsite/Pages/JobDetail/JobDetail";
+
+import JobApplications from "./Admin/JobApplications/JobApplications";
+
+//medical Website
+import MedicalHomePage from "../src/websites/medicalWebsite/MedicalHomePage/MedicalHomePage";
+import DoctorsPage from "../src/websites/medicalWebsite/DoctorsPage/DoctorsPage";
+import AddDoctorPage from "../src/websites/medicalWebsite/AddDoctorPage/AddDoctorPage";
+import DocProfile from "../src/websites/medicalWebsite/DocProfile/DocProfile";
+import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
+import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
+
+import Appointments from "./Admin/Appointments/Appointments";
 
 //common components
 import ViewerContactForm from "./Viewer/ContactUsPage/ContactUs";
+import Navbar from "./websites/CommonComponnets/Navbar/Navbar";
+
 //admin
-import Navbar from "./CommonComponnets/Navbar/Navbar";
 
 //viewer
 import ViewerNavbar from "./Viewer/Components/Navbar/viewerNavbar";
 import ViewerHomepage from "./Viewer/BlogWebsite/pages/viewerHomepage";
 import ViewerMainPage from "./Viewer/BlogWebsite/pages/viewerMainPage";
 
-import BlogDetail from "../src/blogWebsite/BlogDetail/BlogDetail";
+import BusinessHomePage from "./websites/businessWebsite/utilityPages/BusinessHomePage";
+import BusinessJobsPage from "./websites/businessWebsite/utilityPages/BusinessJobsPage";
 
-import Test from "./Test";
-
-import AddJob from "./businessWebsite/Pages/addJob/AddJob";
-import ViewJobs from "../src/Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
-import ApplyJob from "../src/Viewer/BusinessWebsite/Pages/ApplyJob/ApplyJob";
-import ApplicationDetail from "./businessWebsite/Pages/Applications/ApplicationDetail";
-import JobDetail from "./businessWebsite/Pages/JobDetail/JobDetail";
-
-import MedicalHomePage from "./medicalWebsite/MedicalHomePage/MedicalHomePage";
-import DoctorsPage from "./medicalWebsite/DoctorsPage/DoctorsPage";
-import AddDoctorPage from "./medicalWebsite/AddDoctorPage/AddDoctorPage";
-import DocProfile from "./medicalWebsite/DocProfile/DocProfile";
-import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
-import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
-import BookAppointmentPage from "./Viewer/medicalWebsite/DocProfile/BookAppointmentPage/BookAppointmentPage";
+import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/BookAppointmentPage";
+import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
+import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
 
 const theme = createTheme({
   palette: {
@@ -78,23 +83,15 @@ const theme = createTheme({
 export const UserContext = createContext();
 const App = () => {
   const [contextImage, setContextImage] = React.useState(null);
-  const [templateId, setTemplateId] = React.useState(null);
+
   const [user, setUser] = React.useState(null);
-  const [template, setTemplate] = React.useState({
-    type: "",
-    pages: {},
-    data: {},
-  });
 
   return (
     <UserContext.Provider
       value={{
-        templateId,
-        setTemplateId,
         user,
         setUser,
-        template,
-        setTemplate,
+
         contextImage,
         setContextImage,
       }}
@@ -115,21 +112,15 @@ const App = () => {
                 path="/viewerdoctorspage"
                 element={<ViewerDoctorsPage />}
               />
-                            <Route
+              <Route
                 path="/BookAppointmentPage"
                 element={<BookAppointmentPage />}
               />
+              <Route path="/patientsignuppage" element={<ViewerSignupPage />} />
+              <Route path="/patientloginpage" element={<ViewerLoginPage />} />
 
               <Route path="/login" element={<Login />} />
 
-              <Route path="/addJob" element={<AddJob />} />
-              <Route path="/viewJob" element={<ViewJobs />} />
-              <Route path="/applyJob" element={<ApplyJob />} />
-              <Route
-                path="/applicationDetail"
-                element={<ApplicationDetail />}
-              />
-              <Route path="/jobDetail" element={<JobDetail />} />
               {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/blogDetail" element={<BlogDetail />} />
               <Route path="/signup" element={<Signup />} />
@@ -238,6 +229,37 @@ const App = () => {
               <Route path="cart" element={<CartPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
+
+            {/* business Website Admin */}
+            <Route
+              exact
+              path="/business/template/:id"
+              element={
+                <Navbar
+                  type="business"
+                  pages={["", "jobs", "applications", "contact"]}
+                  names={["Home", "Jobs", "Applications", "Contact Us"]}
+                />
+              }
+            >
+              <Route path="" element={<BusinessHomePage />} />
+              <Route path="jobs" element={<BusinessJobsPage />} />
+              <Route path="jobs/:jobId" element={<JobDetail />} />
+              <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
+
+              {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
+              {/* <Route path="products" element={<BussinessContactUsPage />} />*/}
+            </Route>
+
+            <Route path="/addJob" element={<AddJob />} />
+            <Route path="/viewJob" element={<ViewJobs />} />
+            <Route path="/applyJob" element={<ApplyJob />} />
+            <Route path="/applicationDetail" element={<ApplicationDetail />} />
+            <Route path="/jobDetail" element={<JobDetail />} />
+            {/* business Website Viewer */}
+
+            {/*medical Website Admin */}
+            {/* medical Website Viewer */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -89,7 +89,8 @@ export default class Header3 extends Component {
           <HandleBlock
             del={() => this.props.deleteBlock(this.props.id)}
             enableDrag={this.props.enableDrag}
-             openColorPicker={()=>this.setState({openColorPicker: true})}
+            openColorPicker={() => this.setState({ openColorPicker: true })}
+            linkButton={this.linkButton}
           />
         )}
         {this.state.displayHandleBlock && (
@@ -100,10 +101,7 @@ export default class Header3 extends Component {
             image={this.state.image}
           />
         )}
-        <img
-          style={{ zIndex: "100", height: "500px" }}
-          src={this.props.Data.data.img}
-        />
+        <img className={classes.img} src={this.props.Data.data.img} />
 
         <div className={classes.content}>
           <ContentEditable
@@ -176,10 +174,6 @@ export default class Header3 extends Component {
               textAlign: this.props.Data.data.s.align,
             }}
           />
-
-          {this.state.showMenu ? (
-            <ButtonMenu onClick={this.linkButton} />
-          ) : null}
 
           <ContentEditable
             className={classes.btn}

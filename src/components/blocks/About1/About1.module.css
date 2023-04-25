@@ -2,7 +2,7 @@
 .header{
     
     width: 100%;
-    height: 50vh;
+    height: 44vh;
    
     position: relative;
     display: flex;
@@ -34,7 +34,7 @@ color:#fff ;
 width:fit-content;
 background-color: #084B47 ;
 
-height: 40px;
+
 box-sizing: border-box;
 padding: 10px;
 margin: 20px 0px;

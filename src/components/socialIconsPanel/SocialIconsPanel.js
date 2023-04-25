@@ -121,62 +121,63 @@ const SocialIconsPanel = ({
     setSocialIconsCopy([...socialIconsCopy, newObject]);
   };
   return (
-    <div>
-      <SideDrawer show={show} width="23%">
-        <div className={classes.heading}>
-          <p style={{ fontSize: "20px", margin: 0 }}> Social Media Links</p>
-          <ClearOutlinedIcon onClick={closePanel} />
-        </div>
-        <div className={classes.container}>
-          <div className={classes.box}>
-            {socialIconsCopy &&
-              socialIconsCopy.map(({ icon, url, link }) => {
-                filteredIcons.push(icon);
-                return (
-                  <div key={icon} className={classes.group}>
-                    <img className={classes.item} alt="" src={url} />
-                    <TextField
-                      onChange={(e) => updateLink(e, icon)}
-                      defaultValue={link}
-                      id="outlined-basic"
-                      label={icon}
-                      variant="outlined"
-                      size="small"
-                    />
-                    <img
-                      className={classes.item}
-                      alt="delete"
-                      src={del}
-                      onClick={() => deleteIcon(icon)}
-                    />
-                  </div>
-                );
-              })}
-            <button className={classes.btn} onClick={sendUpdatedSocialIcons}>
-              Link
-            </button>
-          </div>
-
-          {icons
-            .filter((val) => {
-              return !filteredIcons.includes(val.icon);
-            })
-            .map(({ icon, url }) => {
+    <SideDrawer show={show} width="23%">
+      <>
+       <div className={classes.heading}>
+        <p style={{ fontSize: "20px", margin: 0 }}> Social Media Links</p>
+        <ClearOutlinedIcon onClick={closePanel} />
+      </div>
+      <div className={classes.container}>
+        <div className={classes.box}>
+          {socialIconsCopy &&
+            socialIconsCopy.map(({ icon, url, link }) => {
+              filteredIcons.push(icon);
               return (
-                <img
-                  key={icon}
-                  onClick={() => handleAddIcon(icon)}
-                  onMouseEnter={() => applyhoverEffect(icon)}
-                  onMouseLeave={() => removehoverEffect(icon)}
-                  className={classes.icon}
-                  alt=""
-                  src={url}
-                />
+                <div key={icon} className={classes.group}>
+                  <img className={classes.item} alt="" src={url} />
+                  <TextField
+                    onChange={(e) => updateLink(e, icon)}
+                    defaultValue={link}
+                    id="outlined-basic"
+                    label={icon}
+                    variant="outlined"
+                    size="small"
+                  />
+                  <img
+                    className={classes.item}
+                    alt="delete"
+                    src={del}
+                    onClick={() => deleteIcon(icon)}
+                  />
+                </div>
               );
             })}
+          <button className={classes.btn} onClick={sendUpdatedSocialIcons}>
+            Link
+          </button>
         </div>
-      </SideDrawer>
-    </div>
+
+        {icons
+          .filter((val) => {
+            return !filteredIcons.includes(val.icon);
+          })
+          .map(({ icon, url }) => {
+            return (
+              <img
+                key={icon}
+                onClick={() => handleAddIcon(icon)}
+                onMouseEnter={() => applyhoverEffect(icon)}
+                onMouseLeave={() => removehoverEffect(icon)}
+                className={classes.icon}
+                alt=""
+                src={url}
+              />
+            );
+          })}
+      </div>
+      </>
+     
+    </SideDrawer>
   );
 };
 

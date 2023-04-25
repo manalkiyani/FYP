@@ -7,6 +7,7 @@ import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
 import SocialIcons from "../socialIcons/socialIcons";
 import {uploadImage} from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
+import BgColor from "../../BackgroundColor/BgColor";
 
 export default class Header1 extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class Header1 extends Component {
     ref: null,
     displayHandleBlock: false,
      image: null,
+      openColorPicker: false,
   };
   //  textFromComponent,
   //   index,
@@ -41,6 +43,7 @@ export default class Header1 extends Component {
     this.props.onClick(this.props.id, "btn", null, "header1");
     this.setState({
       showMenu: true,
+
     });
   };
   linkButton = (link) => {
@@ -62,7 +65,12 @@ export default class Header1 extends Component {
   handleSocialIcons = (socialIcons) => {
     this.props.handleSocialIcons(socialIcons, this.props.id);
   };
-
+ handleClose = () => {
+    this.setState({ openColorPicker: false });
+  };
+  changeBtnColor = (color) => {
+    this.props.changeBtnColor(color.hex, this.props.id);
+  };
   render() {
     return (
       <div
@@ -76,10 +84,16 @@ export default class Header1 extends Component {
         onMouseOut={this.disableHandleBlock}
         className={classes.header}
       >
+         <BgColor
+          handleClose={this.handleClose}
+          updateColor={this.changeBtnColor}
+          open={this.state.openColorPicker}
+        />
         {this.state.displayHandleBlock && (
           <HandleBlock
             del={() => this.props.deleteBlock(this.props.id)}
             enableDrag={this.props.enableDrag}
+            linkButton={this.linkButton}
           />
         )}
       { this.state.displayHandleBlock &&  <UploadImage top={55} left={10} handleImageChange={this.handleImageChange} image={this.state.image} />}
@@ -133,9 +147,7 @@ export default class Header1 extends Component {
             }}
           />
 
-          {this.state.showMenu ? (
-            <ButtonMenu onClick={this.linkButton} />
-          ) : null}
+         
 
           <ContentEditable
             className={classes.btn}
@@ -143,11 +155,9 @@ export default class Header1 extends Component {
             disabled={false}
             onClick={this.handleClick}
             onChange={(e) => this.handleTextChange(e, "btn")}
-            // onClick ={(e)=>{
-            //   e.preventDefault();
-            //   window.open('');
-            // }}
+           
             style={{
+              backgroundColor: this.props.Data.data.btn.bgColor,
               fontSize: this.props.Data.data.btn.size,
               fontFamily: this.props.Data.data.btn.family,
               color: this.props.Data.data.btn.color,
