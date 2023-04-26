@@ -26,49 +26,97 @@ async function addApplication(req, res) {
     message: req.body.message,
     resume: req.body.resume,
   });
-  return application
-    .save()
-    .then((newApplication) => {
-      //add this application to the job
-      Job.findByIdAndUpdate(req.body.jobId, {
-        $push: { applications: newApplication._id },
-      });
 
-      return res.status(201).json({
-        success: true,
-        message: "New application created successfully",
-        applicationId: newApplication._id,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        success: false,
-        message: "Server error. Please try again.",
-        error: error.message,
-      });
+  try {
+    const newApplication = await application.save();
+
+    // add this application to the job
+    await Job.findByIdAndUpdate(
+      { _id: req.body.jobId },
+      { $push: { applications: newApplication._id } }
+    );
+
+    return res.status(201).json({
+      success: true,
+      message: "New application created successfully",
+      applicationId: newApplication._id,
     });
+  } catch (error) {
+    console.log("error", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error. Please try again.",
+      error: error.message,
+    });
+  }
 }
 
 async function getApplications(req, res) {
-    await Job.findById(req.params.jobId).populate("applications").exec((err, job) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        if (!job) {
-            return res
+  await Job.findById(req.params.jobId)
+    .populate("applications")
+    .exec((err, job) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      if (!job) {
+        return res
 
-                .status(404)
+          .status(404)
 
-                .json({ success: false, error: `Job not found` })
-        }
-        return res.status(200).json({ success: true, data: job.applications })
-    }).catch(err => console.log(err))
+          .json({ success: false, error: `Job not found` });
+      }
+      return res.status(200).json({ success: true, data: job.applications });
+    })
+    .catch((err) => console.log(err));
 }
+
+async function getListOfApplications(req, res) {
+  Job.find({ _id: { $in: req.body.jobIds } })
+    .populate("applications")
+    .exec((err, jobs) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      if (!jobs) {
+        return res
+
+          .status(404)
+
+          .json({ success: false, error: `Jobs not found` });
+      }
+
+     
+
+      return res.status(200).json({ success: true, jobs: jobs });
+    });
+}
+
+async function updateApplication(req,res){
+  const {applicationId} = req.params;
+  const{status,recruiterRemarks} = req.body;
+
+ 
+  
+  const application = await Application.findById(applicationId);
+  const updatedApplication = {
+    ...application,
+    status,recruiterRemarks};
+  await Application.findByIdAndUpdate(applicationId,updatedApplication,{new:true});
+  res.status(200).json({
+    success:true,
+    updatedApplication});
+}
+
+
+
+
 
 
 
 
 module.exports = {
   addApplication,
-    getApplications,
+  getApplications,
+  getListOfApplications,
+  updateApplication
 };

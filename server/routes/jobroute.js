@@ -10,7 +10,7 @@ const {
 } = require("../controllers/job.controller");
 const router = express.Router();
 
-const {addApplication} = require("../controllers/applications.controller");
+const {addApplication, getListOfApplications,updateApplication} = require("../controllers/applications.controller");
 
 router.post("/", addJob);
 router.get("/", getJobs);
@@ -20,5 +20,8 @@ router.get("/:jobId", getJob);
 router.patch("/:jobId", updateJob);
 router.delete("/:jobId", deleteJob);
 router.post("/apply", addApplication);
+router.post("/list",getListOfApplications)
+
+router.post("/application/:applicationId", updateApplication);
 
 module.exports = router;

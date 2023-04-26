@@ -5,11 +5,11 @@ import IconPhoto from "@mui/icons-material/CollectionsOutlined";
 import IconUpload from "@mui/icons-material/FileUploadOutlined";
 import IconX from "@mui/icons-material/CloseOutlined";
 
-export default function DropImage({ props }) {
+export default function DropImage(props ) {
   const theme = useMantineTheme();
   return (
     <Dropzone
-      onDrop={(files) => console.log("accepted files", files)}
+      onDrop={(files) => props.setResume(files[0])}
       onReject={(files) => console.log("rejected files", files)}
       accept={PDF_MIME_TYPE}
       {...props}

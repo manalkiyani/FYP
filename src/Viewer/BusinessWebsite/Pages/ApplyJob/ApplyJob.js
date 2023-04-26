@@ -15,7 +15,7 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { v4 as uuid } from "uuid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropImage from "./DropImage";
 import { DatePickerInput } from "@mantine/dates";
 import AddIcon from "@mui/icons-material/AddOutlined";
@@ -26,8 +26,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { uploadImage } from "../../../../utilityFunctions/imageUpload";
 import toast, { Toaster } from "react-hot-toast";
-
-import { useState } from "react";
 
 const inputStyles = createStyles((theme) => ({
   icon: {
@@ -104,11 +102,11 @@ const ApplyJob = () => {
   const [resume, setResume] = useState("");
 
   //education
-  const [institute, setInstitute] = useState();
+  const [institute, setInstitute] = useState("");
   const [degree, setDegree] = useState("");
   const [major, setMajor] = useState("");
-  const [sstartDate, ssetStartDate] = useState("");
-  const [eendDate, ssetEndDate] = useState("");
+  const [sstartDate, ssetStartDate] = useState();
+  const [eendDate, ssetEndDate] = useState();
   const [ddescription, ssetDescription] = useState("");
   const [grade, setGrade] = useState("");
 
@@ -133,13 +131,23 @@ const ApplyJob = () => {
       experience.length === 0 ||
       resume === ""
     ) {
+      console.log(
+        firstName,
+        lastName,
+        email,
+        phone,
+        address,
+        education,
+        experience,
+        resume
+      );
       toast.error("Please fill all the required fields");
       return;
     }
 
     const link = await uploadImage(resume);
 
-    const response = await axios.post("http://localhost:5000/api/jobs/apply", {
+    const response = await axios.post("http://localhost:8800/api/jobs/apply", {
       firstName,
       lastName,
       email,
@@ -161,6 +169,7 @@ const ApplyJob = () => {
   };
 
   const addEducation = () => {
+    console.log(institute);
     setEducation([
       ...education,
       {
@@ -199,6 +208,10 @@ const ApplyJob = () => {
     const newExperience = experience.filter((item) => item.key !== key);
     setExperience(newExperience);
   };
+
+  useEffect(() => {
+    console.log("resume", resume);
+  }, [resume]);
 
   return (
     <>
@@ -403,9 +416,12 @@ const ApplyJob = () => {
             </Title>
             <Space h="md" />
             <Textarea
-              onChange={setMessage}
+              // onChange={setMessage}
+              onChange={(e) => setMessage(e.target.value)}
               value={message}
               description="Let the company know about your interest working there"
+              autosize
+              minRows={4}
             />
           </Container>
           <Divider my="sm" />
@@ -440,7 +456,7 @@ const Experience = ({
   addExperience,
 }) => {
   const [workHere, setWorkHere] = React.useState(false);
-  // console.log(typeof setCompany);
+
   const settingEndDate = () => {
     if (!workHere) {
       setEndDate(null);
@@ -639,7 +655,7 @@ const Education = ({
           >
             Cancel
           </Button>
-          <Button onChange={addEducation} size="xs" color="cyan">
+          <Button onClick={addEducation} size="xs" color="cyan">
             Save
           </Button>
         </Group>
