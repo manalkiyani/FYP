@@ -259,9 +259,10 @@ const addDoctor = async (req, res)=>{
       }
     };
 
-    const getAppointmentstoAdmin = async (req, res) =>{
-      const  templateId  = req.body.TEMPLATEID;
 
+    const getAppointmentstoAdmin = async (req, res) => {
+      const templateId = req.body.TEMPLATEID;
+    
       try {
         const template = await Template.findById(templateId);
         const { appointments } = template.data;
@@ -269,15 +270,24 @@ const addDoctor = async (req, res)=>{
         const incompleteAppointments = [];
     
         for (const appointmentId of appointments) {
-          const appointment = await Appointment.findById(appointmentId);
+          const appointment = await Appointment.findById(appointmentId)
+            .populate('doctorid', 'name department')
+            .populate('patientid', 'name contact_info');
           if (!appointment.isComplete) {
             incompleteAppointments.push(appointment);
           }
         }
     
         const appointmentInfo = incompleteAppointments.map((appointment) => {
-          const { Day, Time } = appointment;
-          return { Day, Time };
+          const { Day, Time, doctorid, patientid } = appointment;
+          return {
+            Day,
+            Time,
+            DoctorName: doctorid.name,
+            Department: doctorid.department,
+            PatientName: patientid.name,
+            ContactInfo: patientid.contact_info,
+          };
         });
     
         res.json(appointmentInfo);
@@ -285,7 +295,8 @@ const addDoctor = async (req, res)=>{
         console.error(error);
         res.status(500).json({ message: 'Server error' });
       }
-    }
+    };
+    
     
     
     module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin}

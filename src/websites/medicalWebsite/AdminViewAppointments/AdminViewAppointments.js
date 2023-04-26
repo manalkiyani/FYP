@@ -35,6 +35,11 @@ const AdminViewAppointments = () => {
           <ul>
             {appointmentData.map((appointment, index) => (
               <li key={index}>
+                <p> Doctor: {appointment.DoctorName}</p>
+                <p> Doctor Department: {appointment.Department}</p>
+
+                <p> Patient: {appointment.PatientName}</p>
+                <p> Patient Contact: {appointment.ContactInfo}</p>
                 <p>Day: {appointment.Day}</p>
                 <p>Time: {appointment.Time}</p>
               </li>
