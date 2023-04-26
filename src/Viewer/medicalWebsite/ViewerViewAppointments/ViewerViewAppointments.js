@@ -54,6 +54,7 @@ const ViewerViewAppointments = () => {
               <div className="card-body">
                 <p>Date: {appointment.Day}</p>
                 <p>Time: {appointment.Time}</p>
+                <p>Status: {appointment.status}</p>
               </div>
             </div>
           ))}

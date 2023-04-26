@@ -7,11 +7,15 @@ const appointmentSchema = new mongoose.Schema(
     doctorid: { type: Schema.Types.ObjectId, ref: "doctor" },
     Day:{type: String},
     Time: {type: String},
-    patientid: { type: Schema.Types.ObjectId, ref: "patient" },
+    patientid: { type: Schema.Types.ObjectId, ref: "Patient" },
     slot: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Slot',
       //required: true
+    },
+    status: {
+      type: String,
+      default: 'pending'
     },
     isComplete: {
       type: Boolean,
@@ -37,6 +41,7 @@ appointmentSchema.statics.markExpiredAppointmentsAsComplete = function() {
 
       expiredAppointments.forEach(appointment => {
         appointment.isComplete = true;
+        appointment.status = 'cancelled'; // set the status to cancelled
         appointment.save();
       });
     })
