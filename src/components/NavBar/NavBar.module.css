@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color:rgba(255, 255, 255, 0.5);;
-  height: 64px;
+  background-color:rgba(255, 255, 255);;
+  height: 60px;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
  
   transition: all 0.3s ease;

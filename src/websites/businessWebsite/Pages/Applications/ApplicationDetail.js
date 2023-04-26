@@ -16,13 +16,22 @@ import {
   SegmentedControl,
   Textarea,
   ScrollArea,
+  Accordion,
+  TextInput,
+  Button,
 } from "@mantine/core";
 
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import PinIcon from "@mui/icons-material/PersonPinCircleOutlined";
 import PhoneIcon from "@mui/icons-material/LocalPhoneOutlined";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import Application from "./Application";
+import { getTemplateData } from "../../../../utilityFunctions/axiosFunctions";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { businessTemplate } from "../../../../TemplatesData/businessTemplate";
+import { formatDate } from "../../../../utilityFunctions/helperFunctions";
 
 const inputStyles = createStyles((theme) => ({
   innerContainer: {
@@ -48,7 +57,6 @@ const inputStyles = createStyles((theme) => ({
   applicationContainer: {
     padding: "30px",
     paddingTop: "100px",
-    borderRight: "1px solid #E5E5E5",
   },
   Item: {
     padding: 0,
@@ -74,7 +82,68 @@ const inputStyles = createStyles((theme) => ({
 }));
 
 const ApplicationDetail = () => {
+  const { id } = useParams();
   const { classes } = inputStyles();
+  const [jobs, setJobs] = useState([]);
+  const [jobsCopy, setJobsCopy] = useState([]);
+  const [jobIds, setJobIds] = useState([]);
+  const [application, setApplication] = useState({});
+
+  const [status, setStatus] = useState("pending");
+  const [recruiterRemarks, setRecruiterRemarks] = useState("");
+
+  const getJobIds = async () => {
+    console.log("id", id);
+
+    if (id === "004") {
+      console.log("here");
+      setJobIds(businessTemplate.data.jobs);
+      getApplications(businessTemplate.data.jobs);
+    } else {
+      const Template = await getTemplateData(id);
+      if (Template.data?.jobs) {
+        setJobIds(Template.data.jobs);
+
+        getApplications(Template.data.jobs);
+      }
+    }
+  };
+  const getApplications = async (jobIds) => {
+    const response = await axios.post("http://localhost:8800/api/jobs/list", {
+      jobIds,
+    });
+    console.log("response", response);
+    if (response.status === 200) {
+      console.log("response.data", response.data);
+      setJobs(response.data.jobs);
+      setJobsCopy(response.data.jobs);
+      setApplication(response.data.jobs[0].applications[0]);
+    }
+  };
+
+  const updateApplication = async () => {
+    const response = await axios.post(
+      `http://localhost:8800/api/jobs/application/${application._id}`,
+      {
+        status,
+        recruiterRemarks,
+      }
+    );
+    console.log("response", response);
+  };
+
+  useEffect(() => {
+    getJobIds();
+  }, []);
+
+  const filterApplications = (value) => {
+    // const value = e.target.value;
+    const filteredJobs = jobsCopy.filter((job) => {
+      console.log(job);
+      return job.title.toLowerCase().includes(value.toLowerCase());
+    });
+    setJobs(filteredJobs);
+  };
   return (
     <Container
       style={{ overflow: "hidden" }}
@@ -96,29 +165,36 @@ const ApplicationDetail = () => {
               className={classes.applicationContainer}
               bg="#fff"
             >
-              <Container>
-                <ContactDetails
-                  title="Email"
-                  desc="manalkiyani687@gmail"
-                  Icon={EmailIcon}
-                />
-
-                <ContactDetails
-                  title="Email"
-                  desc="manalkiyani687@gmail"
-                  Icon={EmailIcon}
-                />
-
-                <ContactDetails
-                  title="Email"
-                  desc="manalkiyani687@gmail"
-                  Icon={EmailIcon}
-                />
-                <ContactDetails
-                  title="Email"
-                  desc="manalkiyani687@gmail"
-                  Icon={EmailIcon}
-                />
+              <Container
+                style={{
+                  marginTop: "2rem",
+                }}
+              >
+                <Accordion style={{ marginBottom: "2rem" }} variant="separated">
+                  <Accordion.Item value="credit-card">
+                    <Accordion.Control>
+                      Search for Applications & Jobs
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                      <TextInput
+                        placeholder="Software Engineer, Web Developer"
+                        required
+                        onChange={(e) => filterApplications(e.target.value)}
+                      />
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+                {jobs.map((job) =>
+                  job.applications.map((application) => {
+                    return (
+                      <Application
+                        setApplication={setApplication}
+                        jobTitle={job.title}
+                        application={application}
+                      />
+                    );
+                  })
+                )}
               </Container>
             </Container>
           </ScrollArea>
@@ -130,7 +206,7 @@ const ApplicationDetail = () => {
               <Container
                 style={{
                   minHeight: "730px",
-                  width: "40%",
+                  width: "35%",
                   boxSizing: "border-box",
                 }}
                 px="xl"
@@ -148,11 +224,11 @@ const ApplicationDetail = () => {
                   <Avatar
                     radius="50px"
                     size="6rem"
-                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1680546172/qzabhaixwlgsodp7x8p0.jpg"
+                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1682526249/user-icon-person-icon-client-symbol-profile-icon-vector_qmugnc.webp"
                     alt="it's me"
                   />
                   <Title fw={600} className={classes.title} order={3}>
-                    Leopard Camphill
+                    {application?.firstName} {application?.lastName}
                   </Title>
                 </Flex>
 
@@ -166,6 +242,7 @@ const ApplicationDetail = () => {
                   size="xs"
                   data={[
                     { label: "Hire", value: "hired" },
+                    { label: "Pending", value: "pending" },
                     { label: "Interview", value: "interview" },
 
                     { label: "accept", value: "accepted" },
@@ -174,32 +251,44 @@ const ApplicationDetail = () => {
                     { label: "Not a Fit", value: "notFit" },
                     { label: "Reject", value: "rejected" },
                   ]}
+                  value={status}
+                  onChange={setStatus}
                 />
 
                 <Text fw={500} mb="md" mt="lg" order={6}>
                   Leave a Note
                 </Text>
                 <Textarea
+                  value={recruiterRemarks}
+                  onChange={(e) => setRecruiterRemarks(e.target.value)}
                   autosize
-                  description="Write notes here about the candidate and their application."
+                  description="Write notes here about the candidate and their application"
                 />
+                <Button
+                  onClick={updateApplication}
+                  color="cyan"
+                  radius="xl"
+                  size="xs"
+                >
+                  update
+                </Button>
                 <Space h="md" />
                 <Text fw={500} mb="md" mt="lg" order={6}>
                   Contact Details
                 </Text>
                 <ContactDetails
                   title="Email"
-                  desc="manalkiyani687@gmail"
+                  desc={application?.email}
                   Icon={EmailIcon}
                 />
                 <ContactDetails
                   title="Phone"
-                  desc="0333-509-2759"
+                  desc={application?.phone}
                   Icon={PhoneIcon}
                 />
                 <ContactDetails
                   title="Address"
-                  desc="Islamabad I-8/4"
+                  desc={application?.address}
                   Icon={PinIcon}
                 />
               </Container>
@@ -207,7 +296,7 @@ const ApplicationDetail = () => {
               <Container
                 style={{
                   minHeight: "900px",
-                  width: "60%",
+                  width: "65%",
                   boxSizing: "border-box",
                 }}
                 px="xl"
@@ -232,7 +321,7 @@ const ApplicationDetail = () => {
                   </Tabs.List>
 
                   <Tabs.Panel value="resume" pt="sm">
-                    <ResumeViewer resumeUrl="https://www.africau.edu/images/default/sample.pdf" />
+                    <ResumeViewer resumeUrl={application?.resume} />
                   </Tabs.Panel>
 
                   <Tabs.Panel value="experience" pt="sm">
@@ -241,43 +330,49 @@ const ApplicationDetail = () => {
                       <Text fw={500} mb="md" mt="lg" order={4}>
                         Experience
                       </Text>
-                      <Experience
-                        dates={[
-                          { title: "Start Date", value: "2019-01-01" },
-                          { title: "End Date", value: "2019-01-01" },
-                        ]}
-                        title="Software Engineer"
-                        company="Google"
-                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                        location="Mountain View, CA"
-                      />
-                      <Experience
-                        dates={[
-                          { title: "Start Date", value: "2019-01-01" },
-                          { title: "End Date", value: "2019-01-01" },
-                        ]}
-                        title="Software Engineer"
-                        company="Google"
-                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                        location="Mountain View, CA"
-                      />
+                      {application?.experience?.map((experience) => {
+                        return (
+                          <Experience
+                            key={experience._id}
+                            dates={[
+                              {
+                                title: "Start Date",
+                                value: experience.startDate,
+                              },
+                              { title: "End Date", value: experience.endDate },
+                            ]}
+                            title={experience.title}
+                            company={experience.company}
+                            description={experience.description}
+                            location={experience.location}
+                          />
+                        );
+                      })}
 
                       <Space h="xl" />
-
                       {/*Education */}
                       <Text fw={500} mb="md" mt="lg" order={4}>
                         Education
                       </Text>
-                      <Education
-                        Institute="Leopard Camphill"
-                        Major="Computer Science"
-                        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                        location="Islamabad I-8/4"
-                        dates={[
-                          { title: "Start Date", value: "2019-01-01" },
-                          { title: "End Date", value: "2019-01-01" },
-                        ]}
-                      />
+
+                      {application?.education?.map((education) => {
+                        return (
+                          <Education
+                            key={education._id}
+                            Institute={education.institute}
+                            Major={education.major}
+                            description={education.description}
+                            location="Islamabad I-8/4"
+                            dates={[
+                              {
+                                title: "Start Date",
+                                value: education.startDate,
+                              },
+                              { title: "End Date", value: education.endDate },
+                            ]}
+                          />
+                        );
+                      })}
                     </ScrollArea>
                   </Tabs.Panel>
 
@@ -285,11 +380,10 @@ const ApplicationDetail = () => {
                     <Space h="xl" />
                     <WebLinks
                       links={[
-                        { title: "Github", link: "https://github.com/" },
-                        { title: "LinkedIn", link: "https://LinkedIn.com/" },
-                        { title: "Facebook", link: "https://Facebook.com/" },
-                        { title: "Twitter", link: "https://Twitter.com/" },
-                        { title: "Website", link: "https://Website.com/" },
+                        { title: "LinkedIn", link: application?.linkedIn },
+                        { title: "Facebook", link: application?.facebook },
+                        { title: "Twitter", link: application?.twitter },
+                        { title: "Website", link: application?.website },
                       ]}
                     />
 
@@ -297,12 +391,7 @@ const ApplicationDetail = () => {
                     <Text fw={500} mb="md" mt="lg" order={4}>
                       Optional Message
                     </Text>
-                    <Text fz="sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </Text>
+                    <Text fz="sm">{application?.message}</Text>
                   </Tabs.Panel>
                 </Tabs>
               </Container>
@@ -340,9 +429,7 @@ function ContactDetails({ title, desc, Icon }) {
 }
 //upload on server and give link
 function ResumeViewer({ resumeUrl }) {
-  const docs = [
-    { uri: require("../../../../resumes/myCV.pdf") }, // Local File
-  ];
+  const docs = [{ uri: resumeUrl }]; // Modified this line
 
   return (
     <DocViewer
@@ -362,16 +449,20 @@ function ResumeViewer({ resumeUrl }) {
 function Education({ Institute, Major, description, grade = "0", dates = [] }) {
   const { classes } = inputStyles();
 
-  const items = dates.map((date) => (
-    <div key={date.title}>
-      <Text size="xs" color="dimmed">
-        {date.title}
-      </Text>
-      <Text weight={500} size="sm">
-        {date.value}
-      </Text>
-    </div>
-  ));
+  const items = dates.map((date) => {
+    const newDate = formatDate(date.value);
+
+    return (
+      <div key={date.title}>
+        <Text size="xs" color="dimmed">
+          {date.title}
+        </Text>
+        <Text weight={500} size="sm">
+          {newDate}
+        </Text>
+      </div>
+    );
+  });
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
@@ -409,16 +500,20 @@ function Education({ Institute, Major, description, grade = "0", dates = [] }) {
 function Experience({ title, company, description, location, dates = [] }) {
   const { classes } = inputStyles();
 
-  const items = dates.map((date) => (
-    <div key={date.title}>
-      <Text size="xs" color="dimmed">
-        {date.title}
-      </Text>
-      <Text weight={500} size="sm">
-        {date.value}
-      </Text>
-    </div>
-  ));
+  const items = dates.map((date) => {
+    const newDate = formatDate(date.value);
+
+    return (
+      <div key={date.title}>
+        <Text size="xs" color="dimmed">
+          {date.title}
+        </Text>
+        <Text weight={500} size="sm">
+          {newDate}
+        </Text>
+      </div>
+    );
+  });
 
   return (
     <Card withBorder padding="lg" className={classes.card}>
