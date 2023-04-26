@@ -258,6 +258,34 @@ const addDoctor = async (req, res)=>{
         res.status(500).send('Could not retrieve appointments');
       }
     };
+
+    const getAppointmentstoAdmin = async (req, res) =>{
+      const  templateId  = req.body.TEMPLATEID;
+
+      try {
+        const template = await Template.findById(templateId);
+        const { appointments } = template.data;
+    
+        const incompleteAppointments = [];
+    
+        for (const appointmentId of appointments) {
+          const appointment = await Appointment.findById(appointmentId);
+          if (!appointment.isComplete) {
+            incompleteAppointments.push(appointment);
+          }
+        }
+    
+        const appointmentInfo = incompleteAppointments.map((appointment) => {
+          const { Day, Time } = appointment;
+          return { Day, Time };
+        });
+    
+        res.json(appointmentInfo);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    }
     
     
-    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer}
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin}

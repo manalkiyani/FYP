@@ -12,7 +12,7 @@ import {
   } from "@mantine/core";
 import { Link } from "react-router-dom";
   import PersonPinIcon from "@mui/icons-material/PersonPinCircleOutlined";
-import DoctorsPage from "../../../medicalWebsite/DoctorsPage/DoctorsPage";
+
 import { useState } from "react";
 import { Accordion, AccordionDetails, AccordionSummary, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
