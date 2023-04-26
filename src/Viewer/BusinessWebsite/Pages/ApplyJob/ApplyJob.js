@@ -27,7 +27,7 @@ import axios from "axios";
 import { uploadImage } from "../../../../utilityFunctions/imageUpload";
 import toast, { Toaster } from "react-hot-toast";
 
-import { useState } from "react";
+
 
 const inputStyles = createStyles((theme) => ({
   icon: {

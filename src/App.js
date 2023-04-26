@@ -43,14 +43,14 @@ import JobDetail from "../src/websites/businessWebsite/Pages/JobDetail/JobDetail
 import JobApplications from "./Admin/JobApplications/JobApplications";
 
 //medical Website
-import MedicalHomePage from "../src/websites/medicalWebsite/MedicalHomePage/MedicalHomePage";
+import MedicalAdminHomePage from "./websites/medicalWebsite/MedicalAdminHomePage/MedicalAdminHomePage";
 import DoctorsPage from "../src/websites/medicalWebsite/DoctorsPage/DoctorsPage";
 import AddDoctorPage from "../src/websites/medicalWebsite/AddDoctorPage/AddDoctorPage";
 import DocProfile from "../src/websites/medicalWebsite/DocProfile/DocProfile";
 import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
-
 import Appointments from "./Admin/Appointments/Appointments";
+
 
 //common components
 import ViewerContactForm from "./Viewer/ContactUsPage/ContactUs";
@@ -70,6 +70,7 @@ import BookAppointmentPage from "./Viewer/medicalWebsite/BookAppointmentPage/Boo
 import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSignupPage";
 import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
 import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointments/ViewerViewAppointments";
+import AdminViewAppointments from "./websites/medicalWebsite/AdminViewAppointments/AdminViewAppointments";
 
 const theme = createTheme({
   palette: {
@@ -104,7 +105,7 @@ const App = () => {
             <>
               {/* ucraft */}
 
-              <Route path="/medicalhomepage" element={<MedicalHomePage />} />
+              <Route path="/MedicalAdminHomePage" element={<MedicalAdminHomePage />} />
               <Route path="/doctorspage" element={<DoctorsPage />} />
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />
@@ -125,6 +126,10 @@ const App = () => {
                 element={<ViewerViewAppointments></ViewerViewAppointments>}
               ></Route>
 
+              <Route
+                path="/adminviewappointments"
+                element={<AdminViewAppointments></AdminViewAppointments>}
+              ></Route>
               <Route path="/login" element={<Login />} />
 
               {/* <Route path="/test" element={<Test />} /> */}
