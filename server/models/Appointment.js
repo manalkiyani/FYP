@@ -13,6 +13,10 @@ const appointmentSchema = new mongoose.Schema(
       ref: 'Slot',
       //required: true
     },
+    status: {
+      type: String,
+      default: 'pending'
+    },
     isComplete: {
       type: Boolean,
       default: false
@@ -37,6 +41,7 @@ appointmentSchema.statics.markExpiredAppointmentsAsComplete = function() {
 
       expiredAppointments.forEach(appointment => {
         appointment.isComplete = true;
+        appointment.status = 'cancelled'; // set the status to cancelled
         appointment.save();
       });
     })

@@ -279,8 +279,10 @@ const addDoctor = async (req, res)=>{
         }
     
         const appointmentInfo = incompleteAppointments.map((appointment) => {
-          const { Day, Time, doctorid, patientid } = appointment;
+          const { _id, Day, Time, doctorid, patientid, status } = appointment;
           return {
+            _id,
+            status,
             Day,
             Time,
             DoctorName: doctorid.name,
@@ -296,7 +298,24 @@ const addDoctor = async (req, res)=>{
         res.status(500).json({ message: 'Server error' });
       }
     };
+
+    const doctorCompletesAppointment =  async(req, res)=>{
+      try {
+        const appointment = await Appointment.findByIdAndUpdate(
+          req.body.appointmentid,
+          {
+            $set: {
+              status: 'completed',
+              isComplete: true,
+            },
+          },
+          { new: true }
+        );
+        res.json(appointment);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
     
-    
-    
-    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin}
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin, doctorCompletesAppointment}

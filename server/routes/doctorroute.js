@@ -1,5 +1,5 @@
 const express = require('express');
-const {addDoctor, getAllDoctors, delDoctor, editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin} =require('../controllers/doctor.controller');
+const {addDoctor, getAllDoctors, delDoctor, editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin, doctorCompletesAppointment} =require('../controllers/doctor.controller');
 
 const router = express.Router();
 
@@ -17,6 +17,8 @@ router.put("/appointmentidtotemplate", AppointmentsIDtoTemplate)
 router.put("/appointmentidtotemplate", AppointmentsIDtoTemplate)
 router.post("/getappointmentstoviewer", getAppointmentsToViewer)
 router.post("/getappointmentstoadmin", getAppointmentstoAdmin)
+router.put("/doctorcompletesappointment", doctorCompletesAppointment)
+
 
 
 
