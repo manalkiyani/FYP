@@ -88,6 +88,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
             <Text fz="xs" c="dimmed">
             {doctor.description}
             </Text>
+              
+            <Text fz="xs" c="dimmed">
+            {doctor.department}
+            </Text>
           </div>
           <Badge color="red" size="lg">
             {doctor.gender}
