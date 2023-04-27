@@ -6,6 +6,10 @@ import toast, { Toaster } from "react-hot-toast";
 import EditDoctorForm from "../EditDoctorForm/EditDoctorForm";
 
 const DoctorsPage = () => {
+
+  const TEMPLATEID = '64466439e08c4f5f864bceac'
+
+
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [open, setOpen] = useState(false);
@@ -38,6 +42,14 @@ const DoctorsPage = () => {
       .delete(`http://localhost:8800/api/doctor/deldoctor/${docID}`)
       .then((res) => {
         console.log(res.data + "This is doctors data");
+
+
+        axios.put("http://localhost:8800/api/doctor/deldoctoridfromtemplate",{TEMPLATEID, doctorid: docID})
+        .then((res) => {
+          console.log(res.data + "This is doctors data");
+          fetchDoctors();
+        })
+
         fetchDoctors();
       })
       .then(function (response) {

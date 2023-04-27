@@ -317,5 +317,72 @@ const addDoctor = async (req, res)=>{
         res.status(500).send('Server Error');
       }
     }
+
+    const DoctorIDtoTemplate = async (req, res) => {
+      try {
+        const doctorid = req.body.doctorId;
+        const templateId = req.body.templateId;
+        console.log(doctorid+" this is it doctorid")
+
+        const template = await Template.findById(templateId);
+        if (!template) {
+          throw new Error("Template not found");
+        }
+        const updatedData = {
+          ...template.data,
+          doctors: [...(template.data.doctors || []), doctorid],
+        };
+        await Template.findByIdAndUpdate(
+          templateId,
+          { data: updatedData },
+          { new: true }
+        );
+        console.log("Template updated successfully")
+        res.send({ message: "Template updated successfully" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    };
+    const delDoctorIdFromTemplate = async (req, res)=>{
+
+      try {
+        const { TEMPLATEID, doctorid } = req.body;
+        console.log("this is template id "+TEMPLATEID)
+        console.log("this is doctor id "+doctorid)
     
-    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin, doctorCompletesAppointment}
+        // Find the template by matching id with req.body.TEMPLATEID
+        const template = await Template.findById(TEMPLATEID);
+        if (!template) {
+          console.log('Template not found')
+          return res.status(404).json({ error: 'Template not found' });
+        }
+    
+        // Delete the doctorid from the doctors array in the template's data object
+        const doctors = template.data.doctors;
+        const updatedDoctors = doctors.filter((id) => id !== doctorid);
+        if (doctors.length === updatedDoctors.length) {
+          console.log('Doctor not found in template')
+          return res.status(404).json({ error: 'Doctor not found in template' });
+        }
+        console.log(template.data.doctors)
+        template.data.doctors = updatedDoctors;
+    
+        console.log(template.data.doctors);
+        // Save the updated template
+        try {
+          await template.save();
+          console.log('Doctor Remove Succesfully')
+          res.status(200).json({ message: 'Doctor removed successfully' });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Server error' });
+        }
+    
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+      }
+    }
+    
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin, doctorCompletesAppointment,DoctorIDtoTemplate,delDoctorIdFromTemplate}

@@ -32,11 +32,11 @@ appointmentSchema.statics.markExpiredAppointmentsAsComplete = function() {
   Appointment.find({ isComplete: false })
     .populate({
       path: 'slot',
-      select: 'endTime'
+      select: 'endDate'
     })
     .then(appointments => {
       const expiredAppointments = appointments.filter(appointment => {
-        return appointment.slot.endTime <= Date.now();
+        return appointment.slot.endDate <= Date.now();
       });
 
       expiredAppointments.forEach(appointment => {

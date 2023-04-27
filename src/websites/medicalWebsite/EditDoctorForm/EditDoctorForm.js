@@ -213,7 +213,7 @@ const EditDoctorForm = ({setOpen, doctor}) => {
       <textarea
             name="description"
             placeholder="Description"
-
+            value={description}
             onChange={handleDescriptionChange}
             style={{ ...styles.input, height: '100px' }}
           />
