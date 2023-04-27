@@ -63,6 +63,10 @@ const modules = {
   },
 };
 const AddDoctorPage = () => {
+
+  const TEMPLATEID = '64466439e08c4f5f864bceac'
+
+
   //save data
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
@@ -132,30 +136,40 @@ const AddDoctorPage = () => {
     };
   
     axios.post('http://localhost:8800/api/doctor/adddoctor', data)
-      .then((response) => {
-        setDoctorId(response.data._id);
-        addSlotsToDatabase(response.data._id);
-        alert('Doctor added successfully!');
-        setName('');
-        setGender('');
-        setDepartment('');
-        setLatestQualification('');
-        setDescription('');
-        setExperienceInMonths('');
-        setAddress('');
-        setAvailability({});
-        setSlots({
-          monday: [],
-          tuesday: [],
-          wednesday: [],
-          thursday: [],
-          friday: [],
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('Error adding doctor. Please try again later.');
+    .then((response) => {
+      setDoctorId(response.data._id);
+      addSlotsToDatabase(response.data._id);
+  
+      alert('Doctor added successfully!');
+      setName('');
+      setGender('');
+      setDepartment('');
+      setLatestQualification('');
+      setDescription('');
+      setExperienceInMonths('');
+      setAddress('');
+      setAvailability({});
+      setSlots({
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
       });
+      return response.data._id; // Return the doctorId for the next then block
+    })
+    .then((doctorId) => {
+      console.log(doctorId)
+      axios.put(
+        "http://localhost:8800/api/doctor/doctoridtotemplate",
+        { doctorId, templateId: TEMPLATEID }
+      );
+    })
+    .catch((error) => {
+      console.error(error);
+      alert('Error adding doctor. Please try again later.');
+    });
+  
   };
   
   const addSlotsToDatabase = async (doctorId) => {
