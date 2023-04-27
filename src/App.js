@@ -44,6 +44,7 @@ import JobApplications from "./Admin/JobApplications/JobApplications";
 
 //medical Website
 import MedicalAdminHomePage from "./websites/medicalWebsite/MedicalAdminHomePage/MedicalAdminHomePage";
+import MedicalViewerHomePage from "./Viewer/medicalWebsite/ MedicalViewerHomePage/MedicalViewerHomePage";
 import DoctorsPage from "../src/websites/medicalWebsite/DoctorsPage/DoctorsPage";
 import AddDoctorPage from "../src/websites/medicalWebsite/AddDoctorPage/AddDoctorPage";
 import DocProfile from "../src/websites/medicalWebsite/DocProfile/DocProfile";
@@ -106,6 +107,7 @@ const App = () => {
               {/* ucraft */}
 
               <Route path="/MedicalAdminHomePage" element={<MedicalAdminHomePage />} />
+              <Route path="/medicalviewerhomepage" element={<MedicalViewerHomePage></MedicalViewerHomePage>} />
               <Route path="/doctorspage" element={<DoctorsPage />} />
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />

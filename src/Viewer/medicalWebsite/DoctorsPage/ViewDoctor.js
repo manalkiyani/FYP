@@ -89,8 +89,72 @@ const ViewDoctor = ({ doctor, patient }) => {
   return (
     <>
       <div>
+
+      <Card withBorder radius="md" className={classes.card}>
+        <Group position="apart" mt="md">
+          
+          <div>
+            <Text fw={500}>{doctor.name}</Text>
+
+  
+            <Text fz="xs" c="dimmed">
+            {doctor.description}
+            </Text>
+              
+            <Text fz="xs" c="dimmed">
+            {doctor.department}
+            </Text>
+          </div>
+          <Badge color="red" size="lg">
+            {doctor.gender}
+          </Badge>
+        </Group>
+
+        <Accordion expanded={expanded[doctor._id]} onChange={() => handleAvailabilityClick(doctor._id)}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="availability-content" id="availability-header">
+                  <Typography>Availability</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <FormControl fullWidth>
+          
+                    <Select labelId="day-select-label" id="day-select" value={selectedDay} onChange={handleDayChange}>
+                      <MenuItem value="monday">Monday</MenuItem>
+                      <MenuItem value="tuesday">Tuesday</MenuItem>
+                      <MenuItem value="wednesday">Wednesday</MenuItem>
+                      <MenuItem value="thursday">Thursday</MenuItem>
+                      <MenuItem value="friday">Friday</MenuItem>
+
+                    </Select>
+                  </FormControl>
+                  {selectedDay && (
+                    <ul>
+                      <li>
+                        {selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1)}: {doctor.availability[selectedDay].start} -{" "}
+                        {doctor.availability[selectedDay].end}
+                      </li>
+                    </ul>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+  
+        <Card.Section className={classes.section} mt="md">
+          <Text fz="sm" c="dimmed" className={classes.label}>
+            Latest Quanlification
+          </Text>
+  
+          <Group spacing={8} mb={-8}>
+            <Center>
+              <Text size="xs">{doctor.latestQualification}</Text>
+            </Center>
+          </Group>
+        </Card.Section>
+  
+        <Card.Section className={classes.section}>
+          <Flex justify="space-between">
+
         <Card withBorder radius="md" className={classes.card}>
           <Group position="apart" mt="md">
+
             <div>
               <Text fw={500}>{doctor.name}</Text>
 
