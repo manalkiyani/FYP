@@ -259,6 +259,7 @@ const App = () => {
               <Route path="jobs" element={<BusinessJobsPage />} />
               <Route path="jobs/:jobId" element={<JobDetail />} />
               <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
+                <Route path="applications" element={<ApplicationDetail />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
               {/* <Route path="products" element={<BussinessContactUsPage />} />*/}

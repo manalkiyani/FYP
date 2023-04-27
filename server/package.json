@@ -24,6 +24,8 @@
     "safe-buffer": "^5.2.1",
     "semver": "^7.4.0",
     "serialize-javascript": "^6.0.1",
+   
+
     "stripe": "^11.13.0",
 
 
