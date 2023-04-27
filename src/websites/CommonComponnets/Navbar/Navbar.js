@@ -1,13 +1,19 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import classes from "./Navbar.module.css";
 
 import { useLocalStorageState } from "ahooks";
 import SaveBtn from "../../../components/Buttons/SaveBtn";
 import UpdateBtn from "../../../components/Buttons/UpdateBtn";
-
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { Group } from "@mantine/core";
 export default function Navbar(props) {
   const { id } = useParams();
   const [templateId] = useLocalStorageState("templateId", "");
+  const navigate = useNavigate();
+
+  function handleGoBack() {
+    navigate(-1);
+  }
 
   //get the templateId from the context and use it to fetch the template from the database
 
@@ -15,7 +21,11 @@ export default function Navbar(props) {
     <div style={{ position: "relative" }}>
       <div className={classes.top}>
         <div className={classes.right}>
+          <Group>
+
+          <ArrowBackIosIcon onClick={handleGoBack} />
           <h5 className={classes.logo}>{props.type} Template</h5>
+          </Group>
         </div>
 
         <div className={classes.left}>
