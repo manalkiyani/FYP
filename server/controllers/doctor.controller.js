@@ -258,6 +258,64 @@ const addDoctor = async (req, res)=>{
         res.status(500).send('Could not retrieve appointments');
       }
     };
+
+
+    const getAppointmentstoAdmin = async (req, res) => {
+      const templateId = req.body.TEMPLATEID;
     
+      try {
+        const template = await Template.findById(templateId);
+        const { appointments } = template.data;
     
-    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer}
+        const incompleteAppointments = [];
+    
+        for (const appointmentId of appointments) {
+          const appointment = await Appointment.findById(appointmentId)
+            .populate('doctorid', 'name department')
+            .populate('patientid', 'name contact_info');
+          if (!appointment.isComplete) {
+            incompleteAppointments.push(appointment);
+          }
+        }
+    
+        const appointmentInfo = incompleteAppointments.map((appointment) => {
+          const { _id, Day, Time, doctorid, patientid, status } = appointment;
+          return {
+            _id,
+            status,
+            Day,
+            Time,
+            DoctorName: doctorid.name,
+            Department: doctorid.department,
+            PatientName: patientid.name,
+            ContactInfo: patientid.contact_info,
+          };
+        });
+    
+        res.json(appointmentInfo);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    };
+
+    const doctorCompletesAppointment =  async(req, res)=>{
+      try {
+        const appointment = await Appointment.findByIdAndUpdate(
+          req.body.appointmentid,
+          {
+            $set: {
+              status: 'completed',
+              isComplete: true,
+            },
+          },
+          { new: true }
+        );
+        res.json(appointment);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
+    
+    module.exports = {addDoctor,getAllDoctors,delDoctor,editDoctor, changeIsBookedStatus, addSlots, addSlotsIDinDoctor, getSlots, bookAppointment, AppointmentsIDtoTemplate, getAppointmentsToViewer, getAppointmentstoAdmin, doctorCompletesAppointment}
