@@ -16,6 +16,7 @@ const useViewerTemplateData = (homePage) => {
   const [dataToSend, setDataToSend] = React.useState(null);
 
   useEffect(() => {
+    console.log("in viewer", dataToSend);
     if (dataToSend) {
       setLoading(false);
     }

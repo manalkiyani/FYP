@@ -61,7 +61,6 @@ const BlogMain = (props) => {
     });
   };
   const alterBlocks = async () => {
-    
     const copy = cloneDeep(props.data.blocks);
     const alteredBlocks = await mapAdminBlocks(copy);
 
@@ -71,7 +70,7 @@ const BlogMain = (props) => {
     //     key: uuid(),
     //   };
     // });
-   
+
     setComponents(alteredBlocks);
     if (props.data.type === "blog") {
       setLoading(false);
@@ -100,11 +99,6 @@ const BlogMain = (props) => {
 
   return (
     <>
-      {id === "001" || id === "002" || id === "003" || id === "004" ? (
-        <SaveBtn />
-      ) : (
-        <UpdateBtn />
-      )}
       {loading ? (
         <center>
           <BeatLoader

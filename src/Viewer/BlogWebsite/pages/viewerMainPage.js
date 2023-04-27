@@ -12,11 +12,15 @@ import Blogs from "../components/Blogs/Blogs";
 import ViewerProducts from "../../EccomerceWebsite/pages/ProductPage/ViewerProductPage";
 import { cloneDeep } from "lodash";
 import { mapViewerBlocks } from "../../../utilityFunctions/helperFunctions";
+import ViewJobs from "../../BusinessWebsite/Pages/ViewJobs/ViewJobs";
 
 const ViewerMainPage = (props) => {
   const { id } = useParams();
   const [blogIds, setBlogIds] = React.useState(null);
   const [productIds, setProductIds] = React.useState(null);
+  const [jobIds, setJobIds] = React.useState(null);
+  const [doctorIds, setDoctorIds] = React.useState(null);
+
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
 
@@ -67,6 +71,38 @@ const ViewerMainPage = (props) => {
             setProductIds(DataIds);
           }
           break;
+        case "business":
+          {
+            if (Template.pages?.JobsPage?.blocks) {
+              MainPageBlocks = await fetchViewerBlocks(
+                Template.pages.JobsPage.blocks
+              );
+
+              const copy = cloneDeep(MainPageBlocks);
+              MainPageBlocks = await mapViewerBlocks(copy);
+            }
+            if (Template.data?.jobs) {
+              DataIds = Template.data.jobs;
+            }
+            setJobIds(DataIds);
+          }
+          break;
+        case "medical":
+          {
+            if (Template.pages?.DoctorsPage?.blocks) {
+              MainPageBlocks = await fetchViewerBlocks(
+                Template.pages.DoctorsPage.blocks
+              );
+
+              const copy = cloneDeep(MainPageBlocks);
+              MainPageBlocks = await mapViewerBlocks(copy);
+            }
+            if (Template.data?.doctors) {
+              DataIds = Template.data.doctors;
+            }
+            setProductIds(DataIds);
+          }
+          break;
       }
 
       setDataToSend({ blocks: MainPageBlocks });
@@ -84,6 +120,8 @@ const ViewerMainPage = (props) => {
       {blogIds && <Blogs blogIds={blogIds} />}
       {/*display products here*/}
       {productIds && <ViewerProducts productIds={productIds} />}
+
+      {jobIds && <ViewJobs jobIds={jobIds} />}
 
       {/*display blocks here*/}
       {main ? (

@@ -85,38 +85,35 @@ async function getListOfApplications(req, res) {
           .json({ success: false, error: `Jobs not found` });
       }
 
-     
-
       return res.status(200).json({ success: true, jobs: jobs });
     });
 }
 
-async function updateApplication(req,res){
-  const {applicationId} = req.params;
-  const{status,recruiterRemarks} = req.body;
+async function updateApplication(req, res) {
+  const { applicationId } = req.params;
+  const { status, recruiterRemarks } = req.body;
 
- 
-  
   const application = await Application.findById(applicationId);
-  const updatedApplication = {
-    ...application,
-    status,recruiterRemarks};
-  await Application.findByIdAndUpdate(applicationId,updatedApplication,{new:true});
+  if (!application) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Application not found" });
+  }
+
+  application.status = status;
+  application.recruiterRemarks = recruiterRemarks;
+
+  const updatedApplication = await application.save();
+
   res.status(200).json({
-    success:true,
-    updatedApplication});
+    success: true,
+    updatedApplication,
+  });
 }
-
-
-
-
-
-
-
 
 module.exports = {
   addApplication,
   getApplications,
   getListOfApplications,
-  updateApplication
+  updateApplication,
 };

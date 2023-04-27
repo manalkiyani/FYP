@@ -16,9 +16,10 @@ import Box from "@mui/material/Box";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Person } from "@mui/icons-material";
 import { useLocalStorageState } from "ahooks";
+import QuillEditor from "./QuillEditor";
 
 export default function Write() {
-  const quillRef = React.useRef(null);
+
   const [title, setTitle] = useState(null);
   const [tagline, setTagline] = useState("");
   const [tags, setTags] = useState([]);
@@ -31,81 +32,13 @@ export default function Write() {
     "https://res.cloudinary.com/djlewzcd5/image/upload/v1680437430/Freelancing_Promotion_Facebook_Cover_Photo_rk3krj.png"
   );
   // const { template, setTemplate } = useContext(UserContext);
-  const [template,setTemplate ] = useLocalStorageState("template","");
+  const [template, setTemplate] = useLocalStorageState("template", "");
 
   const [open, setOpen] = useState(false);
   const [tag, setTag] = useState("");
   const [category, setCategory] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const modules = {
-    toolbar: {
-      container: [
-        ["bold", "italic", "underline", "strike"], // toggled buttons
-        ["blockquote", "code-block"],
-
-        [{ list: "ordered" }, { list: "bullet" }],
-        // text direction
-
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-        [{ font: [] }],
-        [{ align: [] }],
-
-        ["link", "image", "video"], // link, image, and video
-      ],
-      handlers: {
-        image: () => {
-          const input = document.createElement("input");
-          input.setAttribute("type", "file");
-          input.setAttribute("accept", "image/*");
-          input.click();
-          input.onchange = async () => {
-            const file = input.files[0];
-            try {
-              const link = await uploadImage(file);
-              console.log(link);
-              let quillObj = quillRef.current.getEditor();
-              const range = quillObj.getSelection();
-              let position = range ? range.index : 0;
-              console.log(range);
-              quillObj.insertEmbed(position, "image", link);
-              quillObj.setSelection(position + 1);
-              // quillObj.editor.insertEmbed(range.index, "image", link);
-            } catch (err) {
-              console.log(err);
-            }
-          };
-        },
-        //     const file = input.files[0];
-        //     const formData = new FormData();
-        //     formData.append("image", file);
-        //     // Replace the URL below with your backend endpoint that handles image uploads
-        //     const response = await fetch(
-        //       "https://my-backend.com/upload-image",
-        //       {
-        //         method: "POST",
-        //         body: formData,
-        //       }
-        //     );
-        //     const data = await response.json();
-        //     const range = quillRef.current.getEditor().getSelection(true);
-        //     quillRef.current
-        //       .getEditor()
-        //       .insertEmbed(range.index, "image", data.imageUrl);
-        //   };
-        // },
-        // video: () => {
-        //   const url = prompt("Enter the video URL");
-        //   const range = quillRef.current.getEditor().getSelection(true);
-        //   quillRef.current
-        //     .getEditor()
-        //     .insertEmbed(range.index, "video", url, "user");
-        // },
-      },
-    },
-  };
+ 
 
   const fileChange = (e) => {
     const newImage = e.target.files[0];
@@ -118,11 +51,11 @@ export default function Write() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !image || !desc) {
+    if (!title || !image || !desc || !category || !time) {
       toast.error("Please fill all the required fields");
+      console.log(title, image, desc, category, time)
       return;
     }
-    setLoading(true);
 
     let link = "";
     try {
@@ -152,9 +85,7 @@ export default function Write() {
     })
       .then((res) => res.json())
       .then((response) => {
-        setLoading(false);
-
-        toast.success("Blog Added Successfully");
+        toast.success("Blog Published Successfully");
 
         console.log(response);
         setTemplate({
@@ -165,7 +96,6 @@ export default function Write() {
         });
       })
       .catch((err) => {
-        setLoading(false);
         toast.error("Something went wrong");
         console.log(err);
       });
@@ -188,11 +118,13 @@ export default function Write() {
     setCategory(category);
   };
 
+  const handleChangeDescription = (desc) => {
+    console.log(desc);
+  };
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      {loading && toast.loading("Publishing Your Blog...")}
-      {!loading && toast.dismiss()}
+
       <div className="write">
         <form className="writeForm">
           <img className="writeImg" src={displayImage} alt="First slide" />
@@ -339,15 +271,7 @@ export default function Write() {
 
           <div className="writeFormGroup">
             <div className="writeQuill">
-              <ReactQuill
-                ref={quillRef}
-                placeholder={"Write something awesome..."}
-                style={{ height: "100%" }}
-                theme="snow"
-                //  value={desc}
-                onChange={(desc)=>setdesc(desc)}
-                modules={modules}
-              />
+             <QuillEditor desc={desc} handleChangeDescription={handleChangeDescription}/>
             </div>
           </div>
 

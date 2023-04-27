@@ -71,7 +71,7 @@ const ViewJob = ({ job }) => {
       radius="md"
       className={classes.card}
     >
-      <Group position="apart" mt="md">
+      <Group onClick={() => navigate(`${job._id}`)} position="apart" mt="md">
         <div>
           <Text fw={500} onClick={() => navigate(`${job._id}`)}>
             {job.title}
@@ -86,7 +86,11 @@ const ViewJob = ({ job }) => {
         </Badge>
       </Group>
 
-      <Card.Section className={classes.section} mt="md">
+      <Card.Section
+        onClick={() => navigate(`${job._id}`)}
+        className={classes.section}
+        mt="md"
+      >
         <Text fz="sm" c="dimmed" className={classes.label}>
           Basic Requirements
         </Text>
@@ -127,9 +131,13 @@ const ViewJob = ({ job }) => {
             </Text>
           </div>
 
-          <Button 
+          <Button
+            variant="default"
             onClick={() => navigate(`${job._id}/apply`)}
-          color="cyan" size="sm" radius="xl">
+            color="cyan"
+            size="sm"
+            radius="xl"
+          >
             Apply Now
           </Button>
         </Flex>

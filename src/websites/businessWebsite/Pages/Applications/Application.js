@@ -75,20 +75,28 @@ const Application = ({ application, jobTitle, setApplication }) => {
           {application.firstName} {application.lastName}
         </Text>
         <Center>
-          <Text dimmed size="xs">
+          <Text color="dimmed" size="xs">
             AS {jobTitle}
           </Text>
         </Center>
       </Group>
-
+      <Text color="dimmed" size="xs">
+        <b> Your remarks </b> {application?.recruiterRemarks}
+      </Text>
       <Card.Section mt={20} className={classes.section}>
         <Flex justify="space-between">
           {/* <Text fz="xl" fw={600} sx={{ lineHeight: 1 }}>
            
           </Text> */}
-          <Badge color="red" size="lg">
-            {application.status}
-          </Badge>
+          {application.status === "accepted" ? (
+            <Badge color="green" size="lg">
+              {application.status}
+            </Badge>
+          ) : (
+            <Badge color="red" size="lg">
+              {application.status}
+            </Badge>
+          )}
 
           <Button
             onClick={() => setApplication(application)}

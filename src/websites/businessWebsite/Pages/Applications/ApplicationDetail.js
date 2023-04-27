@@ -136,14 +136,33 @@ const ApplicationDetail = () => {
     getJobIds();
   }, []);
 
+  // const filterApplications = (value) => {
+  //   // const value = e.target.value;
+  //   const filteredJobs = jobsCopy.filter((job) => {
+  //     console.log(job);
+  //     return (
+  //       job.title.toLowerCase().includes(value.toLowerCase()) ||
+  //       jobs.map((job) =>
+  //         job.applications.map(
+  //           (application) =>
+  //             application.firstName
+  //               .toLowerCase()
+  //               .includes(value.toLowerCase()) ||
+  //             application.lastName.toLowerCase().includes(value.toLowerCase())
+  //         )
+  //       )
+  //     );
+  //   });
+
+  // };
   const filterApplications = (value) => {
-    // const value = e.target.value;
     const filteredJobs = jobsCopy.filter((job) => {
-      console.log(job);
       return job.title.toLowerCase().includes(value.toLowerCase());
     });
+    console.log(filteredJobs);
     setJobs(filteredJobs);
   };
+
   return (
     <Container
       style={{ overflow: "hidden" }}
@@ -188,6 +207,7 @@ const ApplicationDetail = () => {
                   job.applications.map((application) => {
                     return (
                       <Application
+                        key={application._id}
                         setApplication={setApplication}
                         jobTitle={job.title}
                         application={application}
@@ -269,6 +289,7 @@ const ApplicationDetail = () => {
                   color="cyan"
                   radius="xl"
                   size="xs"
+                  mt="md"
                 >
                   update
                 </Button>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./Blog.module.css";
 import { FacebookShareButton } from "react-share";
 import { FacebookIcon } from "react-share";
@@ -15,6 +15,10 @@ export default function Blog({
   tags,
   bookmarkBlog,
 }) {
+  const navigate = useNavigate();
+  const viewBlogDetail = () => {
+    navigate(`${bid}`);
+  };
   return (
     <div className={classes.post}>
       <div
@@ -24,7 +28,9 @@ export default function Blog({
           marginBottom: "5px",
         }}
       >
-        <span className={classes.postTitle}>{title}</span>
+        <span onClick={viewBlogDetail} className={classes.postTitle}>
+          {title}
+        </span>
 
         <BookmarkAdd
           className={classes.bookmark}
