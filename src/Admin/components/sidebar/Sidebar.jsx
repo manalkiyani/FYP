@@ -21,7 +21,7 @@ const Sidebar = () => {
     <div style={{backgroundColor:'#40AFC0'}} className="sidebar">
 
       <hr />
-      <div style={{marginLeft:'-115px'}} className="center">
+      <div  className="center">
         <ul>
         <Divider flexItem sx={{marginBottom:'5px',  backgroundColor:'white' }} />
 

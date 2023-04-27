@@ -212,7 +212,7 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
 
 //change color of btn
 export const changeBtnColor = (color, idFromComponent, components) => {
-   let position = 0;
+  let position = 0;
   const componentsList = cloneDeep(components);
 
   //get the cliked components position and component
@@ -233,7 +233,7 @@ export const changeBtnColor = (color, idFromComponent, components) => {
 
   //update the state
   return componentsList;
-}
+};
 //change image of a card
 export const changeCardImage = (
   imageURL,
@@ -544,12 +544,15 @@ const saveBlocks = async (Blocks) => {
 };
 const updateBlocks = async (Blocks) => {
   // const Blocks = unmapBlocks(blocks);
+  console.log("Blocks in update Blocks", Blocks);
 
   try {
     const res = await axios.post(
       "http://localhost:8800/api/blocks/updateBlocks",
       { blocks: Blocks }
     );
+    console.log("res in update Blocks", res);
+    const keys = res.data.updatedBlockKeys;
     return res.data.updatedBlockKeys;
   } catch (error) {
     console.error(error);
@@ -633,13 +636,8 @@ const updateTemplate = async (
         },
       }
     );
-    if (res.status === 201) {
-      const response = { status: "201" };
-      return response;
-    } else if (res.status === 500) {
-      const response = { status: "500" };
-      return response;
-    }
+    console.log("res in updateTemplate", res);
+    return res;
   } catch (err) {
     return { status: "500" };
   }
@@ -700,15 +698,19 @@ export const UpdateTemplate = async (
   let mainpageBlockIds = [];
   let mainPageDataIds = [];
 
+  console.log("template", template);
   if (template.pages?.[HomePage]?.blocks.length > 0) {
     homepageBlockIds = await updateBlocks(template.pages[HomePage].blocks);
+    console.log("homepageBlockIds", homepageBlockIds);
   }
 
   if (template.pages[MainPage]?.blocks.length > 0) {
     mainpageBlockIds = await updateBlocks(template.pages[MainPage].blocks);
+    console.log("mainpageBlockIds", mainpageBlockIds);
   }
   if (template.data?.[data]) {
     mainPageDataIds = template.data?.[data];
+    console.log("mainPageDataIds", mainPageDataIds);
   }
   const response = await updateTemplate(
     id,
@@ -721,10 +723,10 @@ export const UpdateTemplate = async (
     mainPageDataIds
   );
   console.log("response", response);
-  if (response.status === "201") {
+  if (response.status === 201) {
     console.log("success");
     return Promise.resolve({ msg: "Updated Successfully" });
-  } else if (response.status === "500") {
+  } else if (response.status === 500) {
     console.log("error");
     return Promise.reject({ error: "Server Error" });
   } else {

@@ -1,14 +1,17 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import classes from "./Navbar.module.css";
-import { UserContext } from "../../../App";
-import { useContext, useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
 import { useLocalStorageState } from "ahooks";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
+import { Group } from "@mantine/core";
 
 export default function ViewerNavbar(props) {
   const [templateId] = useLocalStorageState("templateId", "");
 
   const [templateName, setTemplateName] = useState("");
+  const navigate = useNavigate();
 
   const getTemplateName = async () => {
     const response = await getTemplateData(templateId);
@@ -18,12 +21,22 @@ export default function ViewerNavbar(props) {
   useEffect(() => {
     getTemplateName();
   }, []);
+  function handleGoBack() {
+    navigate(-1);
+  }
 
   return (
     <>
       <div className={classes.top}>
         <div className={classes.right}>
-          <h4 className={classes.logo}> {templateName || ""}</h4>
+          <Group
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <ArrowBackIosIcon onClick={handleGoBack} />
+            <h4 className={classes.logo}> {templateName || ""}</h4>
+          </Group>
         </div>
 
         <div className={classes.left}>

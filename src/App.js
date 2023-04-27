@@ -204,6 +204,7 @@ const App = () => {
               <Route path="" element={<ViewerHomepage />} />
               <Route path="blogs" element={<ViewerMainPage type="blog" />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
+              <Route path="blogs/:blogId" element={<BlogDetail />} />
             </Route>
 
             {/* eccomerce Website Admin */}
@@ -220,6 +221,7 @@ const App = () => {
             >
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
+              <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
 
             {/* eccomerce Website Viewer */}
@@ -250,7 +252,7 @@ const App = () => {
               element={
                 <Navbar
                   type="business"
-                  pages={["", "jobs", "applications", "contact"]}
+                  pages={["", "jobs", "applications", "contactUs"]}
                   names={["Home", "Jobs", "Applications", "Contact Us"]}
                 />
               }
@@ -259,7 +261,8 @@ const App = () => {
               <Route path="jobs" element={<BusinessJobsPage />} />
               <Route path="jobs/:jobId" element={<JobDetail />} />
               <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
-                <Route path="applications" element={<ApplicationDetail />} />
+              <Route path="applications" element={<ApplicationDetail />} />
+              <Route path="contactUs" element={<ViewerContactForm />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
               {/* <Route path="products" element={<BussinessContactUsPage />} />*/}
@@ -271,7 +274,22 @@ const App = () => {
             <Route path="/applicationDetail" element={<ApplicationDetail />} />
             <Route path="/jobDetail" element={<JobDetail />} />
             {/* business Website Viewer */}
+            <Route
+              exact
+              path="view/business/template/:id"
+              element={
+                <ViewerNavbar
+                  type="business"
+                  pages={["", "jobs", "contactUs"]}
+                  names={["Home", "Jobs", "Contact Us"]}
+                />
+              }
+            >
+              <Route path="" element={<ViewerHomepage />} />
+              <Route path="jobs" element={<ViewerMainPage type="business" />} />
 
+              <Route path="contactUs" element={<ViewerContactForm />} />
+            </Route>
             {/*medical Website Admin */}
 
             <Route

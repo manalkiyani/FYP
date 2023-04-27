@@ -6,7 +6,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./BlogDetail.css";
-
+import {
+  createStyles,
+  Text,
+  Avatar,
+  Group,
+  TypographyStylesProvider,
+  Paper,
+  rem,
+} from "@mantine/core";
 import {
   Box,
   Button,
@@ -91,6 +99,7 @@ const BlogDetail = () => {
     try {
       const data = await addReview(blogId, name, email, comment);
       console.log("Review added successfully");
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -282,3 +291,43 @@ function Blog({ title, tagline, image, blogId }) {
     </Card>
   );
 }
+const useStyles = createStyles((theme) => ({
+  comment: {
+    padding: `${theme.spacing.lg} ${theme.spacing.xl}`,
+  },
+
+  body: {
+    paddingLeft: rem(54),
+    paddingTop: theme.spacing.sm,
+    fontSize: theme.fontSizes.sm,
+  },
+
+  content: {
+    "& > p:last-child": {
+      marginBottom: 0,
+    },
+  },
+}));
+
+// function ViewComments({ author }) {
+//   const { classes } = useStyles();
+//   return (
+//     <Paper withBorder radius="md" className={classes.comment}>
+//       <Group>
+//         <Avatar src={author.image} alt={author.name} radius="xl" />
+//         <div>
+//           <Text fz="sm">{author.name}</Text>
+//           <Text fz="xs" c="dimmed">
+//             {postedAt}
+//           </Text>
+//         </div>
+//       </Group>
+//       <TypographyStylesProvider className={classes.body}>
+//         <div
+//           className={classes.content}
+//           dangerouslySetInnerHTML={{ __html: body }}
+//         />
+//       </TypographyStylesProvider>
+//     </Paper>
+//   );
+// }

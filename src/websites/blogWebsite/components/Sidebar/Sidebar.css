@@ -12,6 +12,7 @@
   position: sticky;
   padding-top: 20px;
  
+ 
   top: 20px;
    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -32,7 +33,6 @@
   padding: 10px;
     width: 100%;
 }
-
 
 .sidebarTitle {
   margin: 10px;
@@ -68,9 +68,13 @@
 }
 
 .sidebarListItem {
-  display: flex;
+  display: flex; padding: 10px;
 
   margin-top: 15px;
   cursor: pointer;
+}
+.sidebarListItem:hover{
+  background-color: #e7e7e7;
+  border-radius: 10px;
 }
 

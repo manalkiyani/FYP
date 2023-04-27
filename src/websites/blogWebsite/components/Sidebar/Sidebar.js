@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import "./Sidebar.css";
-import { getBookmarkedBlogs } from "../../../utilityFunctions/axiosFunctions";
+import { getBookmarkedBlogs } from "../../../../utilityFunctions/axiosFunctions";
+import { useNavigate } from "react-router-dom";
+
 
 const testUserId="63e8df1974cc16f2b7ecacb6";
 export default function Sidebar({changed}) {
@@ -13,8 +15,10 @@ export default function Sidebar({changed}) {
       setBookmarkedBlogs(res.blogs);
     });
   }, [changed]);
- 
-
+   const navigate = useNavigate();
+const viewBlogDetail = (bid) => {
+    navigate(`${bid}`);
+  };
   return (
     <div className="sidebar">
    
@@ -24,6 +28,7 @@ export default function Sidebar({changed}) {
         <ul className="sidebarList">
            {bookmarkedBlogs.map((blog) => (
             <li
+            onClick={()=>viewBlogDetail(blog._id)}
             key={blog._id}
              className="sidebarListItem">
               <img

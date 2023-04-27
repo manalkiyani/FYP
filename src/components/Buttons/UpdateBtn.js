@@ -9,10 +9,11 @@ import { useLocalStorageState } from "ahooks";
 const UpdateBtn = () => {
   // const { id } = useParams();
   const [id] = useLocalStorageState("templateId", "");
-  const [template] = useLocalStorageState("template", "");
+  // const [template] = useLocalStorageState("template", "");
 
   const updateTemplate = async () => {
-    console.log(id);
+    let template = JSON.parse(localStorage.getItem("template"));
+   console.log("template", template);
 
     let response;
     try {

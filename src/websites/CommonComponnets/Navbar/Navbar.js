@@ -21,10 +21,13 @@ export default function Navbar(props) {
     <div style={{ position: "relative" }}>
       <div className={classes.top}>
         <div className={classes.right}>
-          <Group>
-
-          <ArrowBackIosIcon onClick={handleGoBack} />
-          <h5 className={classes.logo}>{props.type} Template</h5>
+          <Group
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <ArrowBackIosIcon onClick={handleGoBack} />
+            <h5 className={classes.logo}>{props.type} Template</h5>
           </Group>
         </div>
 
