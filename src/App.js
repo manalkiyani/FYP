@@ -273,6 +273,30 @@ const App = () => {
             {/* business Website Viewer */}
 
             {/*medical Website Admin */}
+
+            <Route
+                exact
+                path="/medical/template/:id"
+                element={
+                  <Navbar
+                    type="medical"
+                    pages={["", "doctors", "appointments"]}
+                    names={["Home", "Doctors", "Appointments"]}
+                  />
+                }
+              >
+                <Route path="" element={<MedicalAdminHomePage />} />
+                <Route path="doctors" element={<DoctorsPage />} />
+                {/* <Route path="doctors/:doctorId" element={<medicalDetail />} /> */}
+                <Route path="appointments" element={<AdminViewAppointments />} />
+              </Route>
+
+
+
+
+
+
+
             {/* medical Website Viewer */}
           </Routes>
         </BrowserRouter>
