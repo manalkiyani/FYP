@@ -11,6 +11,7 @@ const doctor = new mongoose.Schema(
     latestQualification: { type: String },
     description:{ type: String},
     rating: [{type: Number }],
+    age:{type:Number},
     review: [{type: String}],
     avgRating: {type: Number},
     experience:{type: String}, /////years

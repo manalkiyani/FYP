@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import { CardContent, Typography,  } from '@mui/material';
+import { CheckCircleOutline, Security, WorkspacePremium } from '@mui/icons-material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 
 
 import {
@@ -21,6 +26,7 @@ import {
   Center,
   Button,
 } from "@mantine/core";
+import { FiberManualRecord } from "@mui/icons-material";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -127,43 +133,71 @@ const ViewerDocProfile = () => {
   
 
   return (
-    <Container
-      bg="#FBFBFB"
-      className={classes.Container}
-      size="300rem"
-      padding="xl"
-      mih="100vh"
-    >
-      <Flex justify="flex-start" direction="column">
-        <Card mih="100vh" withBorder radius="md" className={classes.card}>
-          <Group position="apart" mb="xl" mt="md">
-            <div>
-              <Text fw={500}>{doctor.name}</Text>
+  <div style={{marginTop:'-120px', marginLeft:'60px'}}>
 
-              <Text fz="xs" c="dimmed">
-              {doctor.gender } , 
-                {doctor.department  } , 
-                Location comes here 
-                {/* {doctor.location} */}
-              </Text>
-            </div>
+<div style={{ display: 'flex', width: '100%', height: '100vh', alignItems:'center' }}>
+<div label="left" style={{ borderBottomLeftRadius: '100px', borderBottomRightRadius: '100px', width: '65%' }}>
 
-          </Group>
+  <div label = "left-content" style={{display:'flex'}}>
+<Avatar style={{width:'150px', height: '200px'}} radius='20px' src={doctor.image} alt="it's me" />
 
-          <Card.Section className={classes.section}>
-            <Flex justify="space-between">
-              <div>
-                <Text fz="sm" c="dimmed" className={classes.label}>
-                  Available Appointments
-                </Text>
+<div style={{marginLeft:'20px', marginTop:'-25px'}} label="content">
+<Text style={{fontSize:'65px'}} fw={600}>{doctor.name}</Text>
+<Text style={{marginTop:'-10px', fontSize:'16px'}} fw={800} fz="sm" >
+<MedicalInformationIcon style={{width:'20px', marginTop:'-6px'}} />
+<span style={{marginLeft:'6px'}}>{doctor.department}</span>
+&nbsp;&nbsp; - &nbsp;&nbsp;
+{/* <span>Age {doctor.age}</span> */}
+<span>Age 33</span>
+&nbsp;&nbsp; - &nbsp;&nbsp;
+<span>{doctor.gender}</span>
+</Text> 
 
-                <Group spacing={8} mb={-8}>
-      
 
-                    <ul>
+
+{/* <Text style={{fontSize:'16px'}} >{doctor.description}</Text> */}
+<Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
+  <LocationOnIcon sx={{ color: 'red', marginRight: '5px' }}  />
+  {/* {doctor.address} */}
+  Oak Street Health Canarsie
+8923 Flatlands Ave
+Brooklyn, NY 11236
+</Text>
+<Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
+ <WorkspacePremiumOutlinedIcon style={{marginRight: '5px'}}></WorkspacePremiumOutlinedIcon> Qualification: {doctor.latestQualification}
+
+</Text>
+
+
+
+</div>
+
+
+</div>
+
+</div>
+
+<div style={{ height: '60vh', width: '20vw', display: 'flex' }}>
+  <div label="right" style={{ border:'1px solid black', width: '100%', display: 'flex', justifyContent: 'center'}}>
+    <Card sx={{ backgroundColor: '#fff' }}>
+      <CardContent>
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <CheckCircleOutline sx={{ color: 'green', marginRight: '8px' }} /> Accepting new patients
+        </Typography>
+        <Divider sx={{ width: '100%', margin: '16px 0' }} />
+
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <Security sx={{ color: 'blue', marginRight: '8px' }} /> Call us to securely 
+        </Typography>
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        book an appointment
+        </Typography>
+        <Divider sx={{ width: '100%', margin: '16px 0' }} />
+        <Badge color='green' sx={{ display: 'flex', alignItems: 'center', justifyContent:'center', fontSize:'15px', marginBottom:'5px' }} fw={800}>Make an appointment</Badge>
+        <ul>
                       {daysToShow.map((day) => (
                       <li key={day.toDateString()} onClick={() => handleDayClick(day)}>
-                      {day.toLocaleDateString('en-US', { weekday: 'long' })}: {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.start} - {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.end}
+                      <Text>{day.toLocaleDateString('en-US', { weekday: 'long' })}: {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.start} - {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.end}</Text>
                       </li>
                       ))}
                       </ul>
@@ -183,22 +217,25 @@ const ViewerDocProfile = () => {
                 })}
                 </ul>
               )}
-                </Group>
-              </div>
+      </CardContent>
+    </Card>
+    
+  </div>
+</div>
+</div>
 
-              <div>
-                <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-                  $168.00
-                </Text>
-                <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
-                  per appointment
-                </Text>
-              </div>
-            </Flex>
-          </Card.Section>
-        </Card>
-      </Flex>
-    </Container>
+<div style={{ marginTop:'-200px', width:'50%'}} >
+<Text style={{fontSize:'16px'}} fw={600} >Dr. Karen McLeod-Deleaney, MD is an internal medicine specialist in Brooklyn, NY and has over 28 years of experience in the medical field. They graduated from STATE UNIVERSITY OF NEW YORK / HEALTH SCIENCE CENTER AT STONY BROOK in 1994. Their office accepts new patients.</Text>
+</div>
+
+</div>
+
+
+  
+
+
+
+
   );
 };
 
