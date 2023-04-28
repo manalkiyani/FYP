@@ -71,6 +71,7 @@ import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSig
 import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
 import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointments/ViewerViewAppointments";
 import AdminViewAppointments from "./websites/medicalWebsite/AdminViewAppointments/AdminViewAppointments";
+import ManageWebsite from "./websites/businessWebsite/ManageWebsite/ManageWebsite";
 
 const theme = createTheme({
   palette: {
@@ -103,7 +104,6 @@ const App = () => {
           <Routes>
             <>
               {/* ucraft */}
-              
 
               <Route exact path="/" element={<UcraftNavbar />}>
                 <Route path="" element={<HomePage />} />
@@ -262,8 +262,8 @@ const App = () => {
               element={
                 <Navbar
                   type="business"
-                  pages={["", "jobs", "applications", "contactUs"]}
-                  names={["Home", "Jobs", "Applications", "Contact Us"]}
+                  pages={["", "jobs", "contactUs"]}
+                  names={["Home", "Jobs", "Contact Us"]}
                 />
               }
             >
@@ -271,8 +271,9 @@ const App = () => {
               <Route path="jobs" element={<BusinessJobsPage />} />
               <Route path="jobs/:jobId" element={<JobDetail />} />
               <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
-              <Route path="applications" element={<ApplicationDetail />} />
+
               <Route path="contactUs" element={<ViewerContactForm />} />
+              <Route path="manage" element={<ManageWebsite />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
               {/* <Route path="products" element={<BussinessContactUsPage />} />*/}

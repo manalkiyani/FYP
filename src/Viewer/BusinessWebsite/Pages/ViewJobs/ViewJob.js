@@ -105,27 +105,7 @@ const ViewJob = ({ job }) => {
       <Card.Section className={classes.section}>
         <Flex justify="space-between">
           <div>
-            {job?.minimumAmount && (
-              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-                {job.minimumAmount}$
-              </Text>
-            )}
-            {job?.exactAmount && (
-              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-                {job.exactAmount}$
-              </Text>
-            )}
-            {job?.startingAmount && (
-              <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-                {job.startingAmount}$
-              </Text>
-            )}
-            {job?.range && (
-              <Text fz="xl" fw={600} sx={{ lineHeight: 1 }}>
-                {job.range.min}$ - {job.range.max}$
-              </Text>
-            )}
-
+            <Salary showPayBy={job?.showPayBy} job={job} />
             <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
               per month
             </Text>
@@ -146,3 +126,45 @@ const ViewJob = ({ job }) => {
   );
 };
 export default ViewJob;
+
+export const Salary = ({ showPayBy, job }) => {
+  switch (showPayBy) {
+    case "Range": {
+      return (
+        <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+          {job.range.min}$ - {job.range.max}$
+        </Text>
+      );
+    }
+
+    case "Starting amount": {
+      return (
+        <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+          Starting {job.startingAmount}$
+        </Text>
+      );
+    }
+
+    case "Exact amount": {
+      return (
+        <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+          {job.exactAmount}$
+        </Text>
+      );
+    }
+
+    case "Maximum amount": {
+      return (
+        <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
+          Maximum {job.maximumAmount}$
+        </Text>
+      );
+    }
+
+    default:
+      {
+        return <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}></Text>;
+      }
+      break;
+  }
+};

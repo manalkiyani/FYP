@@ -37,20 +37,21 @@ const inputStyles = createStyles((theme) => ({
   innerContainer: {
     paddingTop: "2rem",
     marginBottom: "2rem",
-    width: "100%",
+    maxWidth: "100rem",
+
     borderRadius: "20px",
     minHeight: "90vh",
     border: "1px solid #E5E5E5",
+    marginTop: "1rem",
+    marginLeft: "-300px",
+
+    width: "1250px",
+    boxSizing: "border-box",
   },
   Container: {
     padding: "2rem 3rem 2rem 3rem",
+  },
 
-    maxWidth: "100rem",
-  },
-  mainContainer: {
-    padding: 0,
-    overflowX: "hidden",
-  },
   noPadding: {
     padding: 0,
   },
@@ -164,263 +165,244 @@ const ApplicationDetail = () => {
   };
 
   return (
-    <Container
-      style={{ overflow: "hidden" }}
-      className={classes.mainContainer}
-      size="100vw"
-      bg="#E7E9EB"
-    >
-      <Grid columns={16}>
-        <Grid.Col sm={4} className={classes.noPadding}>
-          <ScrollArea h={670}>
+    <Grid bg="#E7E9EB">
+      <Grid.Col span={3} className={classes.noPadding}>
+        <ScrollArea h={670}>
+          <Container
+            style={{
+              width: "25%",
+              position: "fixed",
+              left: 0,
+              bottom: 0,
+              top: 0,
+            }}
+            className={classes.applicationContainer}
+            bg="#fff"
+          >
             <Container
               style={{
-                width: "25%",
-                position: "fixed",
-                left: 0,
-                bottom: 0,
-                top: 0,
+                marginTop: "2rem",
               }}
-              className={classes.applicationContainer}
-              bg="#fff"
             >
-              <Container
-                style={{
-                  marginTop: "2rem",
-                }}
+              <Accordion style={{ marginBottom: "2rem" }} variant="separated">
+                <Accordion.Item value="credit-card">
+                  <Accordion.Control>
+                    Search for Applications & Jobs
+                  </Accordion.Control>
+                  <Accordion.Panel>
+                    <TextInput
+                      placeholder="Software Engineer, Web Developer"
+                      required
+                      onChange={(e) => filterApplications(e.target.value)}
+                    />
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
+              {jobs.map((job) =>
+                job.applications.map((application) => {
+                  return (
+                    <Application
+                      key={application._id}
+                      setApplication={setApplication}
+                      jobTitle={job.title}
+                      application={application}
+                    />
+                  );
+                })
+              )}
+            </Container>
+          </Container>
+        </ScrollArea>
+      </Grid.Col>
+
+      <Grid.Col className={classes.noPadding} span={6}>
+        <Container
+          px="md"
+          bg="#fff"
+          className={classes.innerContainer}
+          radius="xl"
+        >
+          <Flex>
+            <div
+              style={{
+                paddingRight: "5rem",
+                paddingLeft: "3rem",
+              }}
+            >
+              <Flex
+                mih={60}
+                gap="md"
+                align="center"
+                direction="column"
+                wrap="wrap"
               >
-                <Accordion style={{ marginBottom: "2rem" }} variant="separated">
-                  <Accordion.Item value="credit-card">
-                    <Accordion.Control>
-                      Search for Applications & Jobs
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                      <TextInput
-                        placeholder="Software Engineer, Web Developer"
-                        required
-                        onChange={(e) => filterApplications(e.target.value)}
-                      />
-                    </Accordion.Panel>
-                  </Accordion.Item>
-                </Accordion>
-                {jobs.map((job) =>
-                  job.applications.map((application) => {
+                <Avatar
+                  radius="50px"
+                  size="4rem"
+                  src="https://res.cloudinary.com/djlewzcd5/image/upload/v1682526249/user-icon-person-icon-client-symbol-profile-icon-vector_qmugnc.webp"
+                  alt="it's me"
+                />
+                <Title fw={600} className={classes.title} order={3}>
+                  {application?.firstName} {application?.lastName}
+                </Title>
+              </Flex>
+
+              <Space h="md" />
+              <Divider my="sm" />
+              <Text fw={500} mb="lg" mt="lg" order={6}>
+                Review Resume
+              </Text>
+
+              <SegmentedControl
+                size="xs"
+                data={[
+                  { label: "Hire", value: "hired" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Interview", value: "interview" },
+
+                  { label: "accept", value: "accepted" },
+
+                  { label: "Further Review", value: "further" },
+                  { label: "Not a Fit", value: "notFit" },
+                  { label: "Reject", value: "rejected" },
+                ]}
+                value={status}
+                onChange={setStatus}
+              />
+
+              <Text fw={500} mb="md" mt="lg" order={6}>
+                Leave a Note
+              </Text>
+              <Textarea
+                value={recruiterRemarks}
+                onChange={(e) => setRecruiterRemarks(e.target.value)}
+                autosize
+                description="Write notes here about the candidate and their application"
+              />
+              <Button
+                onClick={updateApplication}
+                color="cyan"
+                radius="xl"
+                size="xs"
+                mt="md"
+              >
+                update
+              </Button>
+              <Space h="md" />
+              <Text fw={500} mb="md" mt="lg" order={6}>
+                Contact Details
+              </Text>
+              <ContactDetails
+                title="Email"
+                desc={application?.email}
+                Icon={EmailIcon}
+              />
+              <ContactDetails
+                title="Phone"
+                desc={application?.phone}
+                Icon={PhoneIcon}
+              />
+              <ContactDetails
+                title="Address"
+                desc={application?.address}
+                Icon={PinIcon}
+              />
+            </div>
+
+            <Tabs
+              color="cyan"
+              variant="outline"
+              radius="md"
+              defaultValue="resume"
+            >
+              {/* Tabs  */}
+              <Tabs.List>
+                <Tabs.Tab value="resume">Resume</Tabs.Tab>
+                <Tabs.Tab value="experience">
+                  {" "}
+                  Education and Experience
+                </Tabs.Tab>
+                <Tabs.Tab value="web">On the Web</Tabs.Tab>
+              </Tabs.List>
+
+              <Tabs.Panel value="resume" pt="sm">
+                <ResumeViewer resumeUrl={application?.resume} />
+              </Tabs.Panel>
+
+              <Tabs.Panel value="experience" pt="sm">
+                <ScrollArea h={800}>
+                  {/*Experience */}
+                  <Text fw={500} mb="md" mt="lg" order={4}>
+                    Experience
+                  </Text>
+                  {application?.experience?.map((experience) => {
                     return (
-                      <Application
-                        key={application._id}
-                        setApplication={setApplication}
-                        jobTitle={job.title}
-                        application={application}
+                      <Experience
+                        key={experience._id}
+                        dates={[
+                          {
+                            title: "Start Date",
+                            value: experience.startDate,
+                          },
+                          { title: "End Date", value: experience.endDate },
+                        ]}
+                        title={experience.title}
+                        company={experience.company}
+                        description={experience.description}
+                        location={experience.location}
                       />
                     );
-                  })
-                )}
-              </Container>
-            </Container>
-          </ScrollArea>
-        </Grid.Col>
+                  })}
 
-        <Grid.Col className={classes.noPadding} sm={12}>
-          <Container className={classes.Container}>
-            <Flex>
-              <Container
-                style={{
-                  minHeight: "730px",
-                  width: "35%",
-                  boxSizing: "border-box",
-                }}
-                px="xl"
-                bg="#fff"
-                className={classes.innerContainer}
-                radius="xl"
-              >
-                <Flex
-                  mih={60}
-                  gap="md"
-                  align="center"
-                  direction="column"
-                  wrap="wrap"
-                >
-                  <Avatar
-                    radius="50px"
-                    size="6rem"
-                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1682526249/user-icon-person-icon-client-symbol-profile-icon-vector_qmugnc.webp"
-                    alt="it's me"
-                  />
-                  <Title fw={600} className={classes.title} order={3}>
-                    {application?.firstName} {application?.lastName}
-                  </Title>
-                </Flex>
+                  <Space h="xl" />
+                  {/*Education */}
+                  <Text fw={500} mb="md" mt="lg" order={4}>
+                    Education
+                  </Text>
 
-                <Space h="md" />
-                <Divider my="sm" />
-                <Text fw={500} mb="lg" mt="lg" order={6}>
-                  Review Resume
-                </Text>
+                  {application?.education?.map((education) => {
+                    return (
+                      <Education
+                        key={education._id}
+                        Institute={education.institute}
+                        Major={education.major}
+                        description={education.description}
+                        location="Islamabad I-8/4"
+                        dates={[
+                          {
+                            title: "Start Date",
+                            value: education.startDate,
+                          },
+                          { title: "End Date", value: education.endDate },
+                        ]}
+                      />
+                    );
+                  })}
+                </ScrollArea>
+              </Tabs.Panel>
 
-                <SegmentedControl
-                  size="xs"
-                  data={[
-                    { label: "Hire", value: "hired" },
-                    { label: "Pending", value: "pending" },
-                    { label: "Interview", value: "interview" },
-
-                    { label: "accept", value: "accepted" },
-
-                    { label: "Further Review", value: "further" },
-                    { label: "Not a Fit", value: "notFit" },
-                    { label: "Reject", value: "rejected" },
+              <Tabs.Panel value="web" pt="sm">
+                <Space h="xl" />
+                <WebLinks
+                  links={[
+                    { title: "LinkedIn", link: application?.linkedIn },
+                    { title: "Facebook", link: application?.facebook },
+                    { title: "Twitter", link: application?.twitter },
+                    { title: "Website", link: application?.website },
                   ]}
-                  value={status}
-                  onChange={setStatus}
                 />
 
-                <Text fw={500} mb="md" mt="lg" order={6}>
-                  Leave a Note
+                <Space h="xl" />
+                <Text fw={500} mb="md" mt="lg" order={4}>
+                  Optional Message
                 </Text>
-                <Textarea
-                  value={recruiterRemarks}
-                  onChange={(e) => setRecruiterRemarks(e.target.value)}
-                  autosize
-                  description="Write notes here about the candidate and their application"
-                />
-                <Button
-                  onClick={updateApplication}
-                  color="cyan"
-                  radius="xl"
-                  size="xs"
-                  mt="md"
-                >
-                  update
-                </Button>
-                <Space h="md" />
-                <Text fw={500} mb="md" mt="lg" order={6}>
-                  Contact Details
-                </Text>
-                <ContactDetails
-                  title="Email"
-                  desc={application?.email}
-                  Icon={EmailIcon}
-                />
-                <ContactDetails
-                  title="Phone"
-                  desc={application?.phone}
-                  Icon={PhoneIcon}
-                />
-                <ContactDetails
-                  title="Address"
-                  desc={application?.address}
-                  Icon={PinIcon}
-                />
-              </Container>
-
-              <Container
-                style={{
-                  minHeight: "900px",
-                  width: "65%",
-                  boxSizing: "border-box",
-                }}
-                px="xl"
-                bg="#fff"
-                className={classes.innerContainer}
-                radius="xl"
-              >
-                <Tabs
-                  color="cyan"
-                  variant="outline"
-                  radius="md"
-                  defaultValue="resume"
-                >
-                  {/* Tabs  */}
-                  <Tabs.List>
-                    <Tabs.Tab value="resume">Resume</Tabs.Tab>
-                    <Tabs.Tab value="experience">
-                      {" "}
-                      Education and Experience
-                    </Tabs.Tab>
-                    <Tabs.Tab value="web">On the Web</Tabs.Tab>
-                  </Tabs.List>
-
-                  <Tabs.Panel value="resume" pt="sm">
-                    <ResumeViewer resumeUrl={application?.resume} />
-                  </Tabs.Panel>
-
-                  <Tabs.Panel value="experience" pt="sm">
-                    <ScrollArea h={800}>
-                      {/*Experience */}
-                      <Text fw={500} mb="md" mt="lg" order={4}>
-                        Experience
-                      </Text>
-                      {application?.experience?.map((experience) => {
-                        return (
-                          <Experience
-                            key={experience._id}
-                            dates={[
-                              {
-                                title: "Start Date",
-                                value: experience.startDate,
-                              },
-                              { title: "End Date", value: experience.endDate },
-                            ]}
-                            title={experience.title}
-                            company={experience.company}
-                            description={experience.description}
-                            location={experience.location}
-                          />
-                        );
-                      })}
-
-                      <Space h="xl" />
-                      {/*Education */}
-                      <Text fw={500} mb="md" mt="lg" order={4}>
-                        Education
-                      </Text>
-
-                      {application?.education?.map((education) => {
-                        return (
-                          <Education
-                            key={education._id}
-                            Institute={education.institute}
-                            Major={education.major}
-                            description={education.description}
-                            location="Islamabad I-8/4"
-                            dates={[
-                              {
-                                title: "Start Date",
-                                value: education.startDate,
-                              },
-                              { title: "End Date", value: education.endDate },
-                            ]}
-                          />
-                        );
-                      })}
-                    </ScrollArea>
-                  </Tabs.Panel>
-
-                  <Tabs.Panel value="web" pt="sm">
-                    <Space h="xl" />
-                    <WebLinks
-                      links={[
-                        { title: "LinkedIn", link: application?.linkedIn },
-                        { title: "Facebook", link: application?.facebook },
-                        { title: "Twitter", link: application?.twitter },
-                        { title: "Website", link: application?.website },
-                      ]}
-                    />
-
-                    <Space h="xl" />
-                    <Text fw={500} mb="md" mt="lg" order={4}>
-                      Optional Message
-                    </Text>
-                    <Text fz="sm">{application?.message}</Text>
-                  </Tabs.Panel>
-                </Tabs>
-              </Container>
-            </Flex>
-          </Container>
-        </Grid.Col>
-      </Grid>
-    </Container>
+                <Text fz="sm">{application?.message}</Text>
+              </Tabs.Panel>
+            </Tabs>
+          </Flex>
+        </Container>
+      </Grid.Col>
+    </Grid>
   );
 };
 
@@ -486,7 +468,12 @@ function Education({ Institute, Major, description, grade = "0", dates = [] }) {
   });
 
   return (
-    <Card withBorder padding="lg" className={classes.card}>
+    <Card
+      style={{ width: "600px" }}
+      withBorder
+      padding="lg"
+      className={classes.card}
+    >
       <Group position="apart" mt="md">
         <Text fz="sm" fw={700} className={classes.title}>
           {Institute}
