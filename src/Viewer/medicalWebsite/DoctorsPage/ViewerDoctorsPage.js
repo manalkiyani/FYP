@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import {AccordionDetails, AccordionSummary, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+
 import React from "react";
 import {
   Container,
@@ -19,12 +20,13 @@ import {
   Checkbox,
   Grid,
   Text,
-  Divider,
+
 } from "@mantine/core";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 
 import ViewDoctor from "./ViewDoctor";
+import { Divider } from "@material-ui/core";
 
 const ViewerDoctorsPage = () => {
 
@@ -52,11 +54,13 @@ const ViewerDoctorsPage = () => {
   ];
 
 
-
   const useStyles = createStyles((theme) => ({
     wrapper: {
       minHeight: 600,
-      padding: 0,
+      padding: 50,
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent:'center'
     },
     mainContainer: {
       padding: `calc(${theme.spacing.xl} * 2)`,
@@ -68,12 +72,18 @@ const ViewerDoctorsPage = () => {
     },
 
     item: {
-      borderRadius: theme.radius.md,
+
+      marginRight: theme.spacing.lg,
+
     },
     gridItem: {
       position: "static",
-    },
+      margin: `${theme.spacing.sm} 20px ${theme.spacing.sm} ${theme.spacing.sm}`,
+    }
+    
   }));
+
+  
 
 
   const { classes } = useStyles();
@@ -153,17 +163,15 @@ const filteredDoctors = doctors.filter((doctor) =>
 </Link>
 
 
-
-
-    <Grid className={classes.container} justify="space-around">
+    <Grid  >
       <Grid.Col
-        className={classes.gridItem}
-        position="static"
-        padding={0}
-        span={3}
+
+
+
       >
-        <Container size="sm" className={classes.wrapper}>
-        <Accordion variant="separated">
+        <Container size="sm" >
+
+        <Accordion style={{display:'flex'}} >
   <Accordion.Item className={classes.item} value="credit-card">
     <Accordion.Control>
       <SearchOutlinedIcon />
@@ -202,19 +210,35 @@ const filteredDoctors = doctors.filter((doctor) =>
       </FormControl>
     </Accordion.Panel>
   </Accordion.Item>
-</Accordion>
+</Accordion> 
+          
+
 
         </Container>
       </Grid.Col>
-      <Grid.Col span={7}>
-        <Flex direction="column">
-        {filteredDoctors.map((doctor) => (
-  <ViewDoctor doctor={doctor} patient={patient} />
-))}
 
-        
-        </Flex>
-      </Grid.Col>
+
+      <Grid className={classes.wrapper}>
+
+
+  {filteredDoctors.map((doctor) => (
+    
+    <div style={{ width: '80%', padding: '10px' }}>
+
+      <ViewDoctor
+        key={doctor._id}
+        doctor={doctor}
+        patient={patient}
+        handleAvailabilityClick={handleAvailabilityClick}
+        expanded={expanded[doctor._id]}
+        selectedDay={selectedDay}
+        handleDayChange={handleDayChange}
+      />
+    </div>
+  ))}
+</Grid>
+
+
     </Grid>
     </>
   );

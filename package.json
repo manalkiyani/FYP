@@ -63,6 +63,7 @@
     "react-toastify": "^9.1.1",
     "recharts": "^2.4.3",
     "sass": "^1.59.2",
+    "semver": "^7.5.0",
     "slick-carousel": "^1.8.1",
     "stripe": "^11.13.0",
     "uuid": "^9.0.0",

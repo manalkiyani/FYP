@@ -7,7 +7,7 @@ const doctor = new mongoose.Schema(
     name: { type: String},
     gender: { type: String },
     department: { type: String },
-    profilePic: { type: String, default: "" },
+    image: { type: String, default: "" },
     latestQualification: { type: String },
     description:{ type: String},
     rating: [{type: Number }],
