@@ -3,6 +3,8 @@ import styles from "./AddDoctorPage.module.css";
 import axios from "axios";
 
 
+
+
 import {
   Text,
   createStyles,
@@ -14,10 +16,12 @@ import {
   FileInput,
   Stepper,
   Group,
+  Avatar,
 } from "@mantine/core";
 import ReactQuill from "react-quill";
 import { DatePickerInput } from "@mantine/dates";
 import { add } from "lodash";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 
 const inputStyles = createStyles((theme) => ({
   root: {
@@ -99,7 +103,8 @@ const AddDoctorPage = () => {
     return slots;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
     if (
       !name ||
       !gender ||
@@ -111,7 +116,8 @@ const AddDoctorPage = () => {
       Object.keys(availability).length === 0 ||
       Object.values(slots).some((value) => value.length === 0)
     ) {
-      console.log(      name,
+      console.log(     
+         name,
         gender,
         department,
         latestQualification,
@@ -123,8 +129,17 @@ const AddDoctorPage = () => {
       return;
     }
 
+    let link="";
+    try {
+      link = await uploadImage(image);
+      console.log(link);
+    } catch (err) {
+      console.log(err);
+    }
+
   
     const data = {
+      image : link,
       name,
       gender,
       department,
@@ -134,7 +149,7 @@ const AddDoctorPage = () => {
       address,
       availability,
     };
-  
+
     axios.post('http://localhost:8800/api/doctor/adddoctor', data)
     .then((response) => {
       setDoctorId(response.data._id);
@@ -247,6 +262,18 @@ const AddDoctorPage = () => {
   
 
   };
+  const [image, setImage] = useState(null);
+  const [displayImage, setDisplayImage] = useState(null);
+
+  const fileChange = (e) => {
+    const newImage = e.target.files[0];
+
+    if (newImage) {
+      setImage(newImage);
+      setDisplayImage(URL.createObjectURL(newImage));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Stepper
@@ -265,6 +292,35 @@ const AddDoctorPage = () => {
             {/* <img className={styles.headerImage} src={job1} alt="girlOnLaptop" /> */}
           </div>
           <div className={styles.contentContainer}>
+
+<Group>
+          <Avatar style={{width:'150px', height:'150px', marginBottom:'10px'}} radius="xl" src={displayImage} alt="it's me" />
+
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <img
+              style={{ marginRight: "10px", width: "20px", height: "20px" }}
+              className="writeIcon"
+              alt=""
+              src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670250225/plus_2_qak15o.png"
+            />{" "}
+            Add Image
+            <input
+              multiple
+              className="input"
+              type="file"
+              name="file"
+              onChange={fileChange}
+            ></input>
+          </label>
+          </Group>
+
+
             <TextInput
               label="Doctor Name"
               placeholder="Dr. Jeffrey"
@@ -469,4 +525,3 @@ const AddDoctorPage = () => {
 };
 
 export default AddDoctorPage;
-
