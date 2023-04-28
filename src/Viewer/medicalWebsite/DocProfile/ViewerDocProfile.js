@@ -177,7 +177,7 @@ Brooklyn, NY 11236
 
 </div>
 
-<div style={{ height: '60vh', width: '20vw', display: 'flex' }}>
+<div style={{ height: `${Math.max(30 * slots.length, 50)}vh`, width: '20vw', display: 'flex' }}>
   <div label="right" style={{ border:'1px solid black', width: '100%', display: 'flex', justifyContent: 'center'}}>
     <Card sx={{ backgroundColor: '#fff' }}>
       <CardContent>
@@ -197,7 +197,7 @@ Brooklyn, NY 11236
         <ul>
                       {daysToShow.map((day) => (
                       <li key={day.toDateString()} onClick={() => handleDayClick(day)}>
-                      <Text>{day.toLocaleDateString('en-US', { weekday: 'long' })}: {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.start} - {doctor.availability[day.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()]?.end}</Text>
+                      <Text>{day.toLocaleDateString('en-US', { weekday: 'long' })}</Text>
                       </li>
                       ))}
                       </ul>
@@ -206,9 +206,9 @@ Brooklyn, NY 11236
                   {slots.map((slot) => {
                   const { start, end } = slot;
                     return (
-                  <li key={`${selectedDay}-${slot}`}>
+                  <li style={{borderColor:'transparent', marginTop:'5px'}} key={`${selectedDay}-${slot}`}>
                   <button onClick={() => handleSlotClick(slot)}>
-                  <Badge color="red" size="lg">
+                  <Badge color="green" size="lg" sx={{ borderColor: 'transparent' }}>
                   {start} - {end}
                   </Badge>
                 </button>
