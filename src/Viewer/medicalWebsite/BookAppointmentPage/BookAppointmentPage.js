@@ -1,6 +1,34 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import { Button, CardContent, Typography,  } from '@mui/material';
+import { CheckCircleOutline, Security, WorkspacePremium } from '@mui/icons-material';
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+
+
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import axios from "axios";
+import {
+  Avatar,
+  Container,
+  Divider,
+  Grid,
+  Space,
+  Title,
+  createStyles,
+  Tabs,
+  Flex,
+  Card,
+  Text,
+  Group,
+  rem,
+  Badge,
+  Center,
+
+} from "@mantine/core";
+import { ButtonBase } from "@material-ui/core";
 
 function BookAppointmentPage() {
   const location = useLocation();
@@ -66,14 +94,94 @@ function BookAppointmentPage() {
   };
 
   return (
-    <div>
-      <h1>Book an appointment with Dr. {doctor.name}</h1>
+    
+    <>
 
-      <p>{doctor.description}</p>
-      <p>Department: {doctor.department}</p>
-      <p>Gender: {doctor.gender}</p>
-      <p>Date: {formattedDate}</p>
-      <h2>Patient name: {patient.name}</h2>
+<div style={{ display: 'flex', width: '100%', height: '100vh', alignItems:'center', justifyContent:'center', marginTop:'-120px' }}>
+
+<Avatar style={{width:'150px', height: '200px'}} radius='20px' src={doctor.image} alt="it's me" />
+
+      <div label='left'>
+      <div label="left" style={{ marginTop:'-30px', borderBottomLeftRadius: '100px', borderBottomRightRadius: '100px', width: '65%' }}>
+
+<div label = "left-content" style={{display:'flex'}}>
+
+
+<div style={{marginLeft:'20px', marginTop:'25px'}} label="content">
+<Text style={{fontSize:'35px'}} fw={600}>{doctor.name}</Text>
+<Text style={{ fontSize:'16px'}} fw={800} fz="sm" >
+<MedicalInformationIcon style={{width:'20px', marginTop:'-6px'}} />
+<span style={{marginLeft:'6px'}}>{doctor.department}</span>
+&nbsp;&nbsp; - &nbsp;&nbsp;
+{/* <span>Age {doctor.age}</span> */}
+<span>Age 33</span>
+&nbsp;&nbsp; - &nbsp;&nbsp;
+<span>{doctor.gender}</span>
+</Text> 
+
+
+
+{/* <Text style={{fontSize:'16px'}} >{doctor.description}</Text> */}
+<Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
+<LocationOnIcon sx={{ color: 'red', marginRight: '5px' }}  />
+{/* {doctor.address} */}
+Oak Street Health Canarsie
+8923 Flatlands Ave
+Brooklyn, NY 11236
+</Text>
+<Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
+<WorkspacePremiumOutlinedIcon style={{marginRight: '5px'}}></WorkspacePremiumOutlinedIcon> Qualification: {doctor.latestQualification}
+
+</Text>
+<Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
+{/* <CalendarMonthOutlinedIcon style={{marginRight: '5px'}}></CalendarMonthOutlinedIcon> {formattedDate} */}
+
+</Text>
+
+
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+      </div>
+
+      <div label="right" style={{ border:'1px solid black', display: 'flex', justifyContent: 'center'}}>
+      <Card sx={{ backgroundColor: '#fff' }}>
+      <CardContent >
+  
+        <Text fw={600}  variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', fontSize:'20px'  }}>
+          <CheckCircleOutline sx={{ color: 'green', marginRight: '8px', }} /> Details
+        </Text>
+        <Divider sx={{ width: '100%', margin: '16px 0' }} />
+
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <CalendarMonthOutlinedIcon sx={{ color: 'blue', marginRight: '8px' }} /> {dayofAppointment}
+        </Typography>
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        {selectedTime}
+        </Typography>
+        <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        {formattedDate}
+        </Typography>
+        <Divider sx={{ width: '100%', margin: '16px 0' }} />
+        <Button style={{color:'white'}} onClick={handleConfirmAppointment} variant="contained">Confirm Appointment</Button>
+
+      
+      </CardContent>
+    </Card>
+
+
+
+</div>
+
+
+      {/* <h2>Patient name: {patient.name}</h2>
 
       <p>Appointment Day: {dayofAppointment}</p>
       <p>Time Slot: {selectedTime}</p>
@@ -83,8 +191,9 @@ function BookAppointmentPage() {
         <p>Appointment confirmed!</p>
       ) : (
         <button onClick={handleConfirmAppointment}>Confirm Appointment</button>
-      )}
+      )} */}
     </div>
+    </>
   );
 }
 
