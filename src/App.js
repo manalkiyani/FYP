@@ -52,7 +52,6 @@ import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfil
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
 import Appointments from "./Admin/Appointments/Appointments";
 
-
 //common components
 import ViewerContactForm from "./Viewer/ContactUsPage/ContactUs";
 import Navbar from "./websites/CommonComponnets/Navbar/Navbar";
@@ -101,13 +100,36 @@ const App = () => {
     >
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <UcraftNavbar />
           <Routes>
             <>
               {/* ucraft */}
+              
 
-              <Route path="/MedicalAdminHomePage" element={<MedicalAdminHomePage />} />
-              <Route path="/medicalviewerhomepage" element={<MedicalViewerHomePage></MedicalViewerHomePage>} />
+              <Route exact path="/" element={<UcraftNavbar />}>
+                <Route path="" element={<HomePage />} />
+                <Route path="contact" element={<ContactForm />}></Route>
+                <Route path="pricing" element={<Plan />}></Route>
+                <Route
+                  path="dashboard"
+                  element={
+                    <AuthorizeUser>
+                      {" "}
+                      <Home />{" "}
+                    </AuthorizeUser>
+                  }
+                />
+              </Route>
+
+              {/* //////////////// */}
+
+              <Route
+                path="/MedicalAdminHomePage"
+                element={<MedicalAdminHomePage />}
+              />
+              <Route
+                path="/medicalviewerhomepage"
+                element={<MedicalViewerHomePage></MedicalViewerHomePage>}
+              />
               <Route path="/doctorspage" element={<DoctorsPage />} />
               <Route path="/adddoctor" element={<AddDoctorPage />} />
               <Route path="/docprofile" element={<DocProfile />} />
@@ -140,18 +162,6 @@ const App = () => {
               <Route path="/recovery" element={<Otp />} />
               <Route path="/reset" element={<ResetPassword />} />
               <Route path="/username" element={<Username />} />
-              <Route path="/" element={<HomePage />} />
-              <Route path="/contact" element={<ContactForm />}></Route>
-              <Route path="/pricing" element={<Plan />}></Route>
-              <Route
-                path="/dashboard"
-                element={
-                  <AuthorizeUser>
-                    {" "}
-                    <Home />{" "}
-                  </AuthorizeUser>
-                }
-              />
 
               {/* Admin */}
               <Route path="/admindashboard" element={<Home />}></Route>
@@ -293,29 +303,43 @@ const App = () => {
             {/*medical Website Admin */}
 
             <Route
-                exact
-                path="/medical/template/:id"
-                element={
-                  <Navbar
-                    type="medical"
-                    pages={["", "doctors", "appointments"]}
-                    names={["Home", "Doctors", "Appointments"]}
-                  />
-                }
-              >
-                <Route path="" element={<MedicalAdminHomePage />} />
-                <Route path="doctors" element={<DoctorsPage />} />
-                {/* <Route path="doctors/:doctorId" element={<medicalDetail />} /> */}
-                <Route path="appointments" element={<AdminViewAppointments />} />
-              </Route>
-
-
-
-
-
-
+              exact
+              path="/medical/template/:id"
+              element={
+                <Navbar
+                  type="medical"
+                  pages={["", "doctors", "appointments"]}
+                  names={["Home", "Doctors", "Appointments"]}
+                />
+              }
+            >
+              <Route path="" element={<MedicalAdminHomePage />} />
+              <Route path="doctors" element={<DoctorsPage />} />
+              {/* <Route path="doctors/:doctorId" element={<medicalDetail />} /> */}
+              <Route path="appointments" element={<AdminViewAppointments />} />
+            </Route>
 
             {/* medical Website Viewer */}
+
+            <Route
+              exact
+              path="view/medical/template/:id"
+              element={
+                <ViewerNavbar
+                  type="medical"
+                  pages={["", "doctors", "appointments", "contactUs"]}
+                  names={["Home", "Doctors", "Appointments", "Contact Us"]}
+                />
+              }
+            >
+              <Route path="" element={<ViewerHomepage />} />
+              <Route
+                path="doctors"
+                element={<ViewerMainPage type="medical" />}
+              />
+              <Route path="contactUs" element={<ViewerContactForm />} />
+              <Route path="doctors/:doctorId" element={<BlogDetail />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

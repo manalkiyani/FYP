@@ -142,6 +142,7 @@ const ProductCard = ({ productIds }) => {
 
         {open1 && (
           <DialogueForm
+            productIds={productIds}
             product={currentProduct}
             products={products}
             setProducts={setProducts}
