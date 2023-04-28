@@ -6,13 +6,22 @@ import SaveBtn from "../../../components/Buttons/SaveBtn";
 import UpdateBtn from "../../../components/Buttons/UpdateBtn";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Group } from "@mantine/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
+// Create a custom theme with Google Sans font
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ["Google Sans", "sans-serif"].join(","),
+  },
+});
+
 export default function Navbar(props) {
   const { id } = useParams();
   const [templateId] = useLocalStorageState("templateId", "");
   const navigate = useNavigate();
 
   function handleGoBack() {
-    navigate(-1);
+    navigate("/dashboard");
   }
 
   //get the templateId from the context and use it to fetch the template from the database
@@ -27,7 +36,9 @@ export default function Navbar(props) {
             }}
           >
             <ArrowBackIosIcon onClick={handleGoBack} />
-            <h5 className={classes.logo}>{props.type} Template</h5>
+            <ThemeProvider theme={theme}>
+              <h4 className={classes.logo}>Untitled Site</h4>
+            </ThemeProvider>
           </Group>
         </div>
 

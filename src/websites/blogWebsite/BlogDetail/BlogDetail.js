@@ -38,6 +38,7 @@ import {
   getBlogsByCategory,
   addReview,
 } from "../../../utilityFunctions/axiosFunctions";
+import { formatDate } from "../../../utilityFunctions/helperFunctions";
 
 const bull = (
   <Box
@@ -200,6 +201,12 @@ const BlogDetail = () => {
           </div>
         </div>
       </center>
+
+      <div style={{ width: "30%" }}>
+        {blog &&
+          blog.reviews.map((review) => <ViewComments comment={review} />)}
+      </div>
+
       <div className={classes.container}>
         <h4
           style={{
@@ -308,26 +315,31 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
+function ViewComments({ comment }) {
+  const { classes } = useStyles();
 
-// function ViewComments({ author }) {
-//   const { classes } = useStyles();
-//   return (
-//     <Paper withBorder radius="md" className={classes.comment}>
-//       <Group>
-//         <Avatar src={author.image} alt={author.name} radius="xl" />
-//         <div>
-//           <Text fz="sm">{author.name}</Text>
-//           <Text fz="xs" c="dimmed">
-//             {postedAt}
-//           </Text>
-//         </div>
-//       </Group>
-//       <TypographyStylesProvider className={classes.body}>
-//         <div
-//           className={classes.content}
-//           dangerouslySetInnerHTML={{ __html: body }}
-//         />
-//       </TypographyStylesProvider>
-//     </Paper>
-//   );
-// }
+  return (
+    <Paper withBorder radius="md" className={classes.comment}>
+      <Group>
+        <Avatar
+          style={{ width: "60px", height: "60px" }}
+          src={comment.image}
+          alt={comment.name}
+          radius="xl"
+        />
+        <div>
+          <Text fz="lg">{comment.name}</Text>
+          <Text fz="sm" c="dimmed">
+            Posted At {formatDate(comment.date)}
+          </Text>
+        </div>
+      </Group>
+      <TypographyStylesProvider className={classes.body}>
+        <div
+          className={classes.content}
+          dangerouslySetInnerHTML={{ __html: comment.comment }}
+        />
+      </TypographyStylesProvider>
+    </Paper>
+  );
+}
