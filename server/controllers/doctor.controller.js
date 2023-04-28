@@ -7,11 +7,12 @@ const Template = require("../models/Template");
 
 const addDoctor = async (req, res)=>{
     try {
-        const { name, gender, department, latestQualification, description, experienceInMonths, address, availability, slots } = req.body;
+        const { image, name, gender, department, latestQualification, description, experienceInMonths, address, availability, slots } = req.body;
    
 
         const doctor = new Doctor({
         _id: mongoose.Types.ObjectId(),
+        image,
           name,
           gender,
           department,
