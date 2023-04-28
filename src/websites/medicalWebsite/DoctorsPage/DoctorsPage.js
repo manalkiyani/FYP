@@ -187,22 +187,24 @@ const filteredDoctors = doctors.filter((doctor) =>
 
   return (
     <>
-          <div>
-        <Link to="/adddoctor">
-          <button>add doctor</button>
-        </Link>
-      </div>
+
 
 {console.log(JSON.stringify(doctors))}
 
 <Link to={{
-  pathname: '/viewerviewappointments',
+  pathname: '/adminviewappointments',
  
 }}>
+  <Button>View appointments</Button>
 
 </Link>
 
+<div style={{marginTop:' 10px'}}>
+        <Link to="/adddoctor">
+        <Button>Add Doctor</Button>
 
+        </Link>
+      </div>
     <Grid  >
       <Grid.Col
 
