@@ -1,58 +1,13 @@
 import React from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+
 import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
-import {
-  getTemplateData,
-  fetchViewerBlocks,
-} from "../../../utilityFunctions/axiosFunctions";
 
 import BeatLoader from "react-spinners/BeatLoader";
 import useViewerTemplateData from "../../../customHooks/useViewerTemplateData";
 
 const ViewerHomepage = () => {
   const { loading, dataToSend } = useViewerTemplateData("BlogHomePage");
-  // const { id } = useParams();
-
-  // const [loaded, setLoaded] = React.useState(false);
-  // const [loading, setLoading] = React.useState(true);
-  // const [dataToSend, setDataToSend] = React.useState(null);
-
-  // const [main, setMain] = React.useState(false);
-
-  // useEffect(() => {
-  //   if (dataToSend) {
-  //     setMain(true);
-  //     setLoading(false);
-  //     setLoaded(true);
-  //   }
-  // }, [dataToSend]);
-
-  // const loadSavedTemplate = async () => {
-  //   let homePageBlocks = [];
-  //   try {
-  //     const Template = await getTemplateData(id);
-
-  //     if (Template.pages?.HomePage?.blocks) {
-  //       const blocks = await fetchViewerBlocks(Template.pages.HomePage.blocks);
-  //        console.log(blocks);
-  //       homePageBlocks = blocks;
-  //     }
-
-  //     setDataToSend({
-  //     blocks:  homePageBlocks,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!loaded) {
-
-  //     loadSavedTemplate();
-  //   }
-  // }, []);
+;
 
   return (
     <>

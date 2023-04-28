@@ -5,15 +5,11 @@ import { useLocalStorageState } from "ahooks";
 import SaveBtn from "../../../components/Buttons/SaveBtn";
 import UpdateBtn from "../../../components/Buttons/UpdateBtn";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Group } from "@mantine/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { Button, Group } from "@mantine/core";
+
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 // Create a custom theme with Google Sans font
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: ["Google Sans", "sans-serif"].join(","),
-  },
-});
 
 export default function Navbar(props) {
   const { id } = useParams();
@@ -36,9 +32,8 @@ export default function Navbar(props) {
             }}
           >
             <ArrowBackIosIcon onClick={handleGoBack} />
-            <ThemeProvider theme={theme}>
-              <h4 className={classes.logo}>Untitled Site</h4>
-            </ThemeProvider>
+
+            <h4 className={classes.logo}>Untitled Site</h4>
           </Group>
         </div>
 
@@ -68,11 +63,19 @@ export default function Navbar(props) {
           >
             {props.names[3]}
           </Link>
-          {id === "001" || id === "002" || id === "003" || id === "004" ? (
+          {/* {id === "001" || id === "002" || id === "003" || id === "004" ? (
             <SaveBtn />
           ) : (
             <UpdateBtn />
-          )}
+          )} */}
+          <Button
+            className={classes.link}
+            variant="default"
+            leftIcon={<SettingsOutlinedIcon size="1rem" />}
+            onClick={() => navigate("manage")}
+          >
+            Manage Website
+          </Button>
         </div>
       </div>
       <Outlet />
