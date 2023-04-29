@@ -272,7 +272,7 @@ const addDoctor = async (req, res)=>{
     
         for (const appointmentId of appointments) {
           const appointment = await Appointment.findById(appointmentId)
-            .populate('doctorid', 'name department')
+            .populate('doctorid', 'name department gender address latestQualification')
             .populate('patientid', 'name contact_info');
           if (!appointment.isComplete) {
             incompleteAppointments.push(appointment);
@@ -287,6 +287,9 @@ const addDoctor = async (req, res)=>{
             Day,
             Time,
             DoctorName: doctorid.name,
+            DoctorGender:doctorid.gender,
+            DoctorQualification:doctorid.latestQualification,
+            DoctorAddress:doctorid.address,
             Department: doctorid.department,
             PatientName: patientid.name,
             ContactInfo: patientid.contact_info,
