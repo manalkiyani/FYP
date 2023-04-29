@@ -79,8 +79,12 @@ const AdminViewAppointments = () => {
 <div style={{ display: 'flex', width: '100%', height: '100vh', justifyContent:'center', marginBottom:'-250px' }}>
 
 
-      <div label="left" style={{ borderBottomLeftRadius: '100px', borderBottomRightRadius: '100px', width: '65%' }}>
-
+      <div label="left" style={{  marginTop:'15px', borderBottomLeftRadius: '100px', borderBottomRightRadius: '100px', width: '65%' }}>
+      <Divider sx={{ 
+          width: '100%', 
+          margin: '16px 0', 
+          borderBottom: '1px  black'
+        }} />
 <div label = "left-content" style={{display:'flex'}}>
 
 
@@ -116,6 +120,11 @@ Brooklyn, NY 11236
 </Text>
 </div>
 </div>
+<Divider sx={{ 
+          width: '100%', 
+          margin: '16px 0', 
+          borderBottom: '1px  black'
+        }} />
 </div>
     
 
@@ -124,7 +133,7 @@ Brooklyn, NY 11236
       <CardContent sx={{ marginTop:'-25px'}}>
   
         <Text fw={600}  variant="body1" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', fontSize:'20px' }}>
-           {appointment.PatientName}
+           Details
         </Text>
         <Divider sx={{ width: '100%', margin: '16px 0' }} />
 
@@ -157,7 +166,11 @@ Brooklyn, NY 11236
     </div>
     ))}
     
+
+
+
     </>
+    
     
       );
     };
