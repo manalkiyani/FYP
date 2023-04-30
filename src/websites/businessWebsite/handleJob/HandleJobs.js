@@ -59,22 +59,7 @@ const HandleJobs = () => {
     getJobs(template.data.jobs);
   }, [addJob]);
 
-  // "Full-time",
-  //               "Part-time",
-  //               "Temporary",
-  //               "Intern",
-  //               "Contract",
-  //               "InOffice", "Remote"
-
-  //                 "Associate",
-  //               "Masters",
-  //               "Bachelors",
-  //               "Ph.D",
-  //               "Pursuing Degree"
-
-  // const handleDegreeSearch = (value) => {
-  //   console.log(value);
-  // };
+ 
 
   return (
     <>

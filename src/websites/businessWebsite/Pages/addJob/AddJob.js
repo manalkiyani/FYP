@@ -150,7 +150,7 @@ const AddJob = ({ setAddJob }) => {
           color="cyan"
           mt={20}
           active={active}
-          onStepClick={mmitsetActive}
+          onStepClick={setActive}
           breakpoint="sm"
         >
           <Stepper.Step
