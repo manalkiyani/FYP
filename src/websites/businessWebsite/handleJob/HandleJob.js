@@ -60,20 +60,17 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const HandleJob = ({ job,DeleteJob }) => {
+const HandleJob = ({ job, DeleteJob, handleEditJob }) => {
   const [formattedDate, setFormattedDate] = React.useState("");
   const navigate = useNavigate();
   useEffect(() => {
     setFormattedDate(formatDate(job?.deadline));
   }, []);
 
-
-
   const { classes } = useStyles();
 
   return (
     <>
-      
       <Card
         style={{ cursor: "pointer" }}
         withBorder
@@ -114,7 +111,7 @@ const HandleJob = ({ job,DeleteJob }) => {
         <Card.Section className={classes.section}>
           <Flex justify="space-between">
             <div>
-                <Salary showPayBy={job?.showPayBy} job={job} />
+              <Salary showPayBy={job?.showPayBy} job={job} />
               <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
                 per month
               </Text>
@@ -122,7 +119,7 @@ const HandleJob = ({ job,DeleteJob }) => {
             <Group>
               <Button
                 variant="default"
-                onClick={() => navigate(`${job._id}/apply`)}
+                onClick={() => handleEditJob(job)}
                 style={{ width: "5rem" }}
                 color="cyan"
                 size="sm"

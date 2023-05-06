@@ -71,7 +71,8 @@ import ViewerSignupPage from "./Viewer/medicalWebsite/ViewerSignupPage/ViewerSig
 import ViewerLoginPage from "./Viewer/medicalWebsite/ViewerLoginPage/ViewerLoginPage";
 import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointments/ViewerViewAppointments";
 import AdminViewAppointments from "./websites/medicalWebsite/AdminViewAppointments/AdminViewAppointments";
-import ManageWebsite from "./websites/businessWebsite/ManageWebsite/ManageWebsite";
+import ManageBusinessWebsite from "./websites/businessWebsite/ManageWebsite/ManageWebsite";
+import ManageEcommerceWebsite from "./websites/eccomerceWebsite/ManageWebsite/ManageWebsite";
 
 const theme = createTheme({
   palette: {
@@ -232,6 +233,7 @@ const App = () => {
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
+              <Route path="manage" element={<ManageEcommerceWebsite />} />
             </Route>
 
             {/* eccomerce Website Viewer */}
@@ -273,17 +275,13 @@ const App = () => {
               <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
 
               <Route path="contactUs" element={<ViewerContactForm />} />
-              <Route path="manage" element={<ManageWebsite />} />
+              <Route path="manage" element={<ManageBusinessWebsite />} />
+              <Route path="manage/:jobId" element={<JobDetail />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
               {/* <Route path="products" element={<BussinessContactUsPage />} />*/}
             </Route>
 
-            <Route path="/addJob" element={<AddJob />} />
-            <Route path="/viewJob" element={<ViewJobs />} />
-            <Route path="/applyJob" element={<ApplyJob />} />
-            <Route path="/applicationDetail" element={<ApplicationDetail />} />
-            <Route path="/jobDetail" element={<JobDetail />} />
             {/* business Website Viewer */}
             <Route
               exact

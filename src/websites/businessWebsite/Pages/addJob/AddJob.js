@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddJob.module.css";
 import axios from "axios";
 import SalaryChoice from "./SalaryChoice";
@@ -20,6 +20,7 @@ import { DatePickerInput } from "@mantine/dates";
 import { uploadImage } from "../../../../utilityFunctions/imageUpload";
 import { Toaster, toast } from "react-hot-toast";
 import { useLocalStorageState } from "ahooks";
+
 const inputStyles = createStyles((theme) => ({
   root: {
     position: "relative",
@@ -63,14 +64,15 @@ const modules = {
     ],
   },
 };
-const AddJob = ({ setAddJob }) => {
+const AddJob = ({ setDisplayAdd, setDisplayEdit, job, show }) => {
   //save data
+  const [jobId, setJobId] = useState("");
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [location, setLocation] = useState("");
   const [qualification, setQualification] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [deadline, setDeadline] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
   const [description, setDescription] = useState("");
   const [showPayBy, setShowPayBy] = React.useState("Range");
   // const [range, setRange] = useState({ min: "", max: "" });
@@ -91,6 +93,27 @@ const AddJob = ({ setAddJob }) => {
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
+
+  useEffect(() => {
+    console.log(job);
+    if (job) {
+      setJobId(job._id);
+      setTitle(job.title);
+      setType(job.employmentType);
+      setLocation(job.location);
+      setQualification(job.minimumQualification);
+
+      setDescription(job.description);
+      setShowPayBy(job.showPayBy);
+      setMinRange(job.range?.min);
+      setMaxRange(job.range?.max);
+
+      setStartingAmount(job?.startingAmount);
+      setMaximumAmount(job?.maximumAmount);
+      setExactAmount(job?.exactAmount);
+      setFile(job.descriptionFile);
+    }
+  }, [job]);
 
   const addJob = async () => {
     if (
@@ -135,13 +158,53 @@ const AddJob = ({ setAddJob }) => {
       });
       toast.success("Job added successfully");
 
-      setAddJob(false);
+      setDisplayAdd(false);
       nextStep();
     } else {
       toast.error("Please fill all the required fields");
-      setAddJob(false);
     }
   };
+
+  const EditJob = async () => {
+    if (
+      title === "" ||
+      location === "" ||
+      qualification === "" ||
+      deadline === "" ||
+      description === "" ||
+      showPayBy === "" ||
+      file === ""
+    ) {
+      toast.error("Please fill all the required fields");
+      return;
+    }
+    const fileLink = await uploadImage(file);
+    console.log(fileLink);
+
+    let response = await axios.post(`http://localhost:8800/api/jobs/${jobId}`, {
+      title,
+      employmentType: type,
+      location,
+      deadline,
+      startDate,
+      minimumQualification: qualification,
+      showPayBy,
+      range: { min: minRange, max: maxRange, period: salaryPeriod },
+      startingAmount,
+      maximumAmount,
+      exactAmount,
+      description,
+      descriptionFile: fileLink,
+    });
+    if (response.status === 201) {
+      toast.success("Job updated successfully");
+
+      setDisplayEdit(false);
+    } else {
+      toast.error("Please fill all the required fields");
+    }
+  };
+
   return (
     <>
       <Toaster />
@@ -150,7 +213,7 @@ const AddJob = ({ setAddJob }) => {
           color="cyan"
           mt={20}
           active={active}
-          onStepClick={mmitsetActive}
+          onStepClick={setActive}
           breakpoint="sm"
         >
           <Stepper.Step
@@ -272,11 +335,16 @@ const AddJob = ({ setAddJob }) => {
               />
 
               <SalaryChoice
+                exactAmount={exactAmount}
                 setExactAmount={setExactAmount}
+                startingAmount={startingAmount}
                 setMaximumAmount={setMaximumAmount}
+                maximumAmount={maximumAmount}
                 setStartingAmount={setStartingAmount}
+                minRange={minRange}
                 // setRange={setRange}
                 setMinRange={setMinRange}
+                maxRange={maxRange}
                 setMaxRange={setMaxRange}
                 setSalaryPeriod={setSalaryPeriod}
                 classes={classes}
@@ -328,9 +396,15 @@ const AddJob = ({ setAddJob }) => {
               <Button variant="default" onClick={prevStep}>
                 Back
               </Button>
-              <Button color="cyan" onClick={addJob}>
-                Submit Now
-              </Button>
+              {show === "add" ? (
+                <Button color="cyan" onClick={addJob}>
+                  Submit Now
+                </Button>
+              ) : (
+                <Button color="cyan" onClick={EditJob}>
+                  Update Now
+                </Button>
+              )}
             </Group>
           </Stepper.Step>
           <Stepper.Completed>

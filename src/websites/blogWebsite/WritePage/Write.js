@@ -110,7 +110,7 @@ export default function Write() {
   const handleeDeleteTags = (selectedTag) => {
     setTags(tags.filter((tag) => tag !== selectedTag));
   };
-  const handlePopperState = (event) => {
+  const handlePopperState = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 

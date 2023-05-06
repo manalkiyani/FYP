@@ -3,11 +3,17 @@ import { NumberInput, Flex, Select } from "@mantine/core";
 const SalaryChoice = ({
   option,
   classes,
+  startingAmount,
   setStartingAmount,
+  exactAmount,
   setExactAmount,
+  maximumAmount,
   setMaximumAmount,
+  minRange,
   setMinRange,
+  maxRange,
   setMaxRange,
+
   setSalaryPeriod,
 }) => {
   switch (option) {
@@ -15,6 +21,7 @@ const SalaryChoice = ({
       return (
         <Flex justify="center">
           <NumberInput
+            value={minRange}
             style={{ width: "500px" }}
             mt="md"
             classNames={classes}
@@ -22,7 +29,9 @@ const SalaryChoice = ({
             step={1000}
             onChange={setMinRange}
           />
+
           <NumberInput
+            value={maxRange}
             style={{ width: "500px" }}
             mt="md"
             classNames={classes}
@@ -44,6 +53,7 @@ const SalaryChoice = ({
     case "Starting amount":
       return (
         <NumberInput
+          value={startingAmount}
           style={{ width: "500px" }}
           mt="md"
           classNames={classes}
@@ -55,6 +65,7 @@ const SalaryChoice = ({
     case "Maximum amount":
       return (
         <NumberInput
+          value={maximumAmount}
           style={{ width: "500px" }}
           mt="md"
           classNames={classes}
@@ -66,6 +77,7 @@ const SalaryChoice = ({
     case "Exact amount":
       return (
         <NumberInput
+          value={exactAmount}
           style={{ width: "500px" }}
           mt="md"
           classNames={classes}

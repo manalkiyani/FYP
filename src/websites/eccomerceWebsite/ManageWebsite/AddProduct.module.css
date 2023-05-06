@@ -1,0 +1,19 @@
+.contentContainer{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  margin-bottom: 1rem;
+    padding: 2rem;
+    border-radius: 20px;
+}
+.titleContainer{
+     background-color: #ffffffc4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   padding:1rem;
+   border-radius: 20px;
+  
+}

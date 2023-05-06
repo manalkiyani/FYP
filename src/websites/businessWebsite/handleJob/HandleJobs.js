@@ -31,6 +31,10 @@ const HandleJobs = () => {
   const [jobs, setJobs] = React.useState([]);
   const [addJob, setAddJob] = React.useState(false);
   const [template, setTemplate] = useLocalStorageState("template", "");
+  const [displayEdit, setDisplayEdit] = React.useState(false);
+  const [displayAdd, setDisplayAdd] = React.useState(false);
+
+  const [job, setJob] = React.useState({}); //this is the job that is being edited
 
   const { id } = useParams();
 
@@ -55,35 +59,23 @@ const HandleJobs = () => {
     }
     console.log(response);
   };
+
+  const handleEditJob = (job) => {
+    setJob(job);
+    setDisplayEdit(true);
+  };
   useEffect(() => {
     getJobs(template.data.jobs);
-  }, [addJob]);
-
-  // "Full-time",
-  //               "Part-time",
-  //               "Temporary",
-  //               "Intern",
-  //               "Contract",
-  //               "InOffice", "Remote"
-
-  //                 "Associate",
-  //               "Masters",
-  //               "Bachelors",
-  //               "Ph.D",
-  //               "Pursuing Degree"
-
-  // const handleDegreeSearch = (value) => {
-  //   console.log(value);
-  // };
+  }, [displayAdd]);
 
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-      {!addJob && (
+      {!displayAdd && (
         <Flex justify="flex-end">
           <Button
-            onClick={() => setAddJob(true)}
+            onClick={() => setDisplayAdd(true)}
             variant="default"
             leftIcon={<Add size="1rem" />}
           >
@@ -92,7 +84,10 @@ const HandleJobs = () => {
         </Flex>
       )}
 
-      {addJob && <AddJob setAddJob={setAddJob} />}
+      {displayAdd && <AddJob show="add" setDisplayAdd={setDisplayAdd} />}
+      {displayEdit && job && (
+        <AddJob job={job} show="edit" setDisplayEdit={setDisplayEdit} />
+      )}
       <Space h="lg" />
       <Flex
         mih={50}
@@ -106,7 +101,12 @@ const HandleJobs = () => {
       <Space h="lg" />
       <Flex direction="column">
         {jobs.map((job) => (
-          <HandleJob DeleteJob={DeleteJob} key={job._id} job={job} />
+          <HandleJob
+            handleEditJob={handleEditJob}
+            DeleteJob={DeleteJob}
+            key={job._id}
+            job={job}
+          />
         ))}
       </Flex>
     </>

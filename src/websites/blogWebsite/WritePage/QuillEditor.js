@@ -1,6 +1,7 @@
 import React from "react";
-import ReactQuill from "react-quill";
+
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
+import ReactQuill from "react-quill-fixed";
 
 const QuillEditor = ({ handleChangeDescription }) => {
   const quillRef = React.useRef(null);

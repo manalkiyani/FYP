@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
 
 const Product = require("../models/Product");
+const Category = require("../models/Category");
 const User = require("../models/User");
 
 const addProduct = async (req, res) => {
@@ -315,6 +316,89 @@ const addReview = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+//categories management
+const addCategory = async (req, res) => {
+  const { name,description,image } = req.body;
+  try {
+    const category = new Category({
+      name,
+      description,
+      image
+    });
+    await category.save();
+    res.status(201).json({ category });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const deleteCategory = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    await category.remove();
+    res.status(200).json({ message: "Category deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateCategory = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    const { name,description,image } = req.body;
+    category.name = name;
+    category.description = description;
+    category.image = image;
+    await category.save();
+    res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getListOfCategories = async (req, res) => {
+   console.log("Req.body", req.body.categoryIds);
+
+  //find blogs which have ids in the array
+  Product.find({ id: { $in: req.body.categoryIds } })
+
+    .then((allCategories) => {
+      return res.status(200).json({
+        success: true,
+        message: "A list of all categories",
+        Categories: allCategories,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
 
 module.exports = {
   addProduct,
