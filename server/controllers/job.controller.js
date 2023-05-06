@@ -117,7 +117,7 @@ async function updateJob(req, res) {
   const id = req.params.jobId;
   Job.updateOne({ _id: id }, { $set: req.body })
     .then((result) => {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "Job updated successfully",
       });

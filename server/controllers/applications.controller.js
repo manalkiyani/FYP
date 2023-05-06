@@ -71,22 +71,26 @@ async function getApplications(req, res) {
 }
 
 async function getListOfApplications(req, res) {
-  Job.find({ _id: { $in: req.body.jobIds } })
-    .populate("applications")
-    .exec((err, jobs) => {
-      if (err) {
-        return res.status(400).json({ success: false, error: err });
-      }
-      if (!jobs) {
-        return res
+  try {
+    Job.find({ _id: { $in: req.body.jobIds } })
+      .populate("applications")
+      .exec((err, jobs) => {
+        if (err) {
+          return res.status(400).json({ success: false, error: err });
+        }
+        if (!jobs) {
+          return res
 
-          .status(404)
+            .status(404)
 
-          .json({ success: false, error: `Jobs not found` });
-      }
+            .json({ success: false, error: `Jobs not found` });
+        }
 
-      return res.status(200).json({ success: true, jobs: jobs });
-    });
+        return res.status(200).json({ success: true, jobs: jobs });
+      });
+  } catch (error) {
+    console.log("error", error);
+  }
 }
 
 async function updateApplication(req, res) {

@@ -3,8 +3,6 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
 
-
-
 const blogRoutes = require("./routes/blogroute");
 const productRoutes = require("./routes/productroute");
 const orderRoutes = require("./routes/orderroute");
@@ -12,12 +10,13 @@ const authRoutes = require("./routes/authroute");
 const uploadRoutes = require("./routes/uploadroute");
 const blockRoutes = require("./routes/blockroute");
 const templateRoutes = require("./routes/templateroute");
-const adminRoutes = require("./routes/adminroute")
-const doctorRoutes = require("./routes/doctorroute")
+const adminRoutes = require("./routes/adminroute");
+const doctorRoutes = require("./routes/doctorroute");
 
-const jobRoutes = require("./routes/jobroute")
+const jobRoutes = require("./routes/jobroute");
 
-const patientRoutes = require("./routes/patientroute")
+const patientRoutes = require("./routes/patientroute");
+const categoryRoutes = require("./routes/categoryroute");
 
 const cors = require("cors");
 
@@ -43,8 +42,9 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/blocks", blockRoutes);
 app.use("/api/templates", templateRoutes);
 app.use("/api/images/", uploadRoutes);
-app.use("/api/admin", adminRoutes)
+app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/doctor", doctorRoutes);
 

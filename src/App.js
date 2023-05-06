@@ -233,7 +233,7 @@ const App = () => {
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
-                <Route path="manage" element={<ManageEcommerceWebsite />} />
+              <Route path="manage" element={<ManageEcommerceWebsite />} />
             </Route>
 
             {/* eccomerce Website Viewer */}
@@ -276,12 +276,12 @@ const App = () => {
 
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageBusinessWebsite />} />
+              <Route path="manage/:jobId" element={<JobDetail />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
               {/* <Route path="products" element={<BussinessContactUsPage />} />*/}
             </Route>
 
-         
             {/* business Website Viewer */}
             <Route
               exact

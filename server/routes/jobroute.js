@@ -17,7 +17,7 @@ router.get("/", getJobs);
 router.post("/get", getListOfJobs);
 router.get("/:jobId", getJob);
 // router.post("/check", checkJobExists);
-router.patch("/:jobId", updateJob);
+router.post("/:jobId", updateJob);
 router.delete("/:jobId", deleteJob);
 router.post("/apply", addApplication);
 router.post("/list",getListOfApplications)

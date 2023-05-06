@@ -16,6 +16,7 @@ import {
 
 import React, { useState } from "react";
 import styles from "./AddProduct.module.css";
+import axios from "axios";
 
 import UploadIcon from "@mui/icons-material/FileUploadOutlined";
 
@@ -55,6 +56,8 @@ const CategoriesManagement = (props) => {
 
   const [operation, setOperation] = useState("add");
 
+  const [categories, setCategories] = useState([]);
+
   const { classes } = inputStyles();
 
   //handle Edit logic inside this function, do not delete what is already there
@@ -62,9 +65,40 @@ const CategoriesManagement = (props) => {
   const handleEdit = (id) => {
     setOperation("edit");
   };
-  const handleDelete = (id) => {
-    console.log("delete");
+  const handleDelete = async (id) => {
+    const response = await axios.delete(
+      `http://localhost:8800/api/categories/${id}`
+    );
+    console.log(response);
+    getCategories();
   };
+
+  const addCategory = async () => {
+    const imageUrl = await uploadImage(image);
+    console.log(imageUrl);
+    const response = await axios.post("http://localhost:8800/api/categories", {
+      name,
+      description,
+      image: imageUrl,
+    });
+
+    console.log(response);
+    setName("");
+    setImage("");
+    setDescription("");
+    setOperation("add");
+    getCategories();
+  };
+
+  const getCategories = async () => {
+    const response = await axios.get("http://localhost:8800/api/categories");
+    setCategories(response.data.categories);
+    console.log(response);
+  };
+
+  React.useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <>
@@ -93,7 +127,7 @@ const CategoriesManagement = (props) => {
         <Space h="lg" />
         <Textarea
           label="Description"
-          autoSize
+          autosize
           minRows={3}
           placeholder="Latest Collection "
           required
@@ -104,7 +138,7 @@ const CategoriesManagement = (props) => {
         <Space h="lg" />
         <Group mt={20} position="center">
           {operation === "add" ? (
-            <Button variant="outline" color="green">
+            <Button onClick={addCategory} variant="outline" color="green">
               Add
             </Button>
           ) : (
@@ -121,7 +155,19 @@ const CategoriesManagement = (props) => {
 
       {/*VIEW CATEGORIES */}
       <Flex wrap="wrap">
-        <ViewCategory
+        {categories.map((category) => (
+          <ViewCategory
+            key={category._id}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            id={category._id}
+            name={category.name}
+            image={category.image}
+            description={category.description}
+          />
+        ))}
+
+        {/* <ViewCategory
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           id={1}
@@ -136,7 +182,7 @@ const CategoriesManagement = (props) => {
           name="Mens Collection"
           image="https://res.cloudinary.com/djlewzcd5/image/upload/v1682715743/ruqwigg3flbsy5vhly8g.jpg"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptates."
-        />
+        /> */}
       </Flex>
     </>
   );
@@ -167,6 +213,7 @@ const UploadImage = ({ image, setImage }) => {
 };
 
 const ViewCategory = ({
+  id,
   name,
   image,
   description,
@@ -190,10 +237,10 @@ const ViewCategory = ({
         </Flex>
       </Group>
       <Group mt={20} position="center">
-        <Button onClick={handleEdit} variant="default" color="dark">
+        <Button onClick={() => handleEdit(id)} variant="default" color="dark">
           Edit
         </Button>
-        <Button onClick={handleDelete} variant="subtle" color="red">
+        <Button onClick={() => handleDelete(id)} variant="subtle" color="red">
           Delete
         </Button>
       </Group>
