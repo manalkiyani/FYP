@@ -6,7 +6,7 @@ const Category = require("../models/Category");
 const User = require("../models/User");
 
 const addProduct = async (req, res) => {
-  const { name, price, description, image } = req.body;
+  const { name, price, description, images,colors,sizes,category } = req.body;
   console.log(req.body);
 
   try {
@@ -14,11 +14,16 @@ const addProduct = async (req, res) => {
       name,
       price,
       description,
-      image,
+      images,
+      category,
+      colors,
+      sizes
+
     });
-    res.send({ status: "success", product });
+    res.status(200).json({ status: "success", product });
   } catch (error) {
-    res.send({ status: "error" });
+    console.log(error)
+    res.status(500).json({ status: "error" });
   }
 };
 
@@ -43,7 +48,7 @@ async function getListOfProducts(req, res) {
   console.log("Req.body", req.body.productIds);
 
   //find blogs which have ids in the array
-  Product.find({ id: { $in: req.body.productIds } })
+  Product.find({ _id: { $in: req.body.productIds } })
 
     .then((allProds) => {
       return res.status(200).json({
@@ -163,7 +168,7 @@ const getproduct = async (req, res) => {
       if (!product) {
         return res.status(404).json({ msg: "Product not found" });
       }
-      res.json(product);
+      res.status(200).json(product);
     })
     .catch((err) => res.status(500).json({ error: err.message }));
 };
@@ -318,73 +323,8 @@ const addReview = async (req, res) => {
 };
 
 
-//categories management
-const addCategory = async (req, res) => {
-  const { name,description,image } = req.body;
-  try {
-    const category = new Category({
-      name,
-      description,
-      image
-    });
-    await category.save();
-    res.status(201).json({ category });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
 
-const deleteCategory = async (req, res) => {
-  try {
-    const category = await Category.findById(req.params.id);
-    if (!category) {
-      return res.status(404).json({ error: "Category not found" });
-    }
-    await category.remove();
-    res.status(200).json({ message: "Category deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
-const updateCategory = async (req, res) => {
-  try {
-    const category = await Category.findById(req.params.id);
-    if (!category) {
-      return res.status(404).json({ error: "Category not found" });
-    }
-    const { name,description,image } = req.body;
-    category.name = name;
-    category.description = description;
-    category.image = image;
-    await category.save();
-    res.status(200).json({ category });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-const getListOfCategories = async (req, res) => {
-   console.log("Req.body", req.body.categoryIds);
-
-  //find blogs which have ids in the array
-  Product.find({ id: { $in: req.body.categoryIds } })
-
-    .then((allCategories) => {
-      return res.status(200).json({
-        success: true,
-        message: "A list of all categories",
-        Categories: allCategories,
-      });
-    })
-    .catch((err) => {
-      return res.status(500).json({
-        success: false,
-        message: "Server error. Please try again.",
-        error: err.message,
-      });
-    });
-  }
 
 
 

@@ -21,6 +21,8 @@ import axios from "axios";
 import UploadIcon from "@mui/icons-material/FileUploadOutlined";
 
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
+import ConfirmDeleteDialog from "../../../components/ConfirmDeleteDialog";
+import { Toaster, toast } from "react-hot-toast";
 
 const inputStyles = createStyles((theme) => ({
   root: {
@@ -57,23 +59,59 @@ const CategoriesManagement = (props) => {
   const [operation, setOperation] = useState("add");
 
   const [categories, setCategories] = useState([]);
+  const [Deletion, setDeletion] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [editId, setEditId] = useState(null);
 
   const { classes } = inputStyles();
 
   //handle Edit logic inside this function, do not delete what is already there
 
-  const handleEdit = (id) => {
+  const handleEdit = (id, name, image, description) => {
     setOperation("edit");
+    setEditId(id);
+    setName(name);
+    setImage(image);
+    console.log(image);
+    setDescription(description);
   };
-  const handleDelete = async (id) => {
+  const editCategory = async () => {
+    if (name === "" || description === "" || image === "") {
+      toast.error("Please fill all the fields");
+      return;
+    }
+    const imageUrl = await uploadImage(image);
+    console.log(imageUrl);
+    const response = await axios.patch(
+      `http://localhost:8800/api/categories/${editId}`,
+      {
+        name,
+        description,
+        image: imageUrl,
+      }
+    );
+
+    console.log(response);
+    setName("");
+    setImage("");
+    setDescription("");
+    setOperation("add");
+    getCategories();
+  };
+
+  const handleDeleteCategory = async () => {
     const response = await axios.delete(
-      `http://localhost:8800/api/categories/${id}`
+      `http://localhost:8800/api/categories/${deleteId}`
     );
     console.log(response);
     getCategories();
   };
 
   const addCategory = async () => {
+    if (name === "" || description === "" || image === "") {
+      toast.error("Please fill all the fields");
+      return;
+    }
     const imageUrl = await uploadImage(image);
     console.log(imageUrl);
     const response = await axios.post("http://localhost:8800/api/categories", {
@@ -100,8 +138,29 @@ const CategoriesManagement = (props) => {
     getCategories();
   }, []);
 
+  const openDeletion = (id) => {
+    console.log(id);
+    setDeleteId(id);
+    setDeletion(true);
+  };
+  const closeDeletion = () => {
+    setDeletion(false);
+  };
+
+  const handlSetImage = (file) => {
+    setImage(file);
+    setOperation("add");
+  };
+
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <ConfirmDeleteDialog
+        text="category"
+        open={Deletion}
+        onClose={closeDeletion}
+        onConfirm={handleDeleteCategory}
+      />
       {/*ADD CATEGORY */}
       <Flex
         mih={50}
@@ -113,7 +172,11 @@ const CategoriesManagement = (props) => {
         </Text>
       </Flex>
       <div className={styles.contentContainer}>
-        <UploadImage image={image} setImage={setImage} />
+        <UploadImage
+          image={image}
+          setImage={handlSetImage}
+          operation={operation}
+        />
         <Space h="lg" />
         {/* Product Name */}
         <TextInput
@@ -142,8 +205,8 @@ const CategoriesManagement = (props) => {
               Add
             </Button>
           ) : (
-            <Button variant="outline" color="green">
-              Edit
+            <Button onClick={editCategory} variant="outline" color="green">
+              Update
             </Button>
           )}
 
@@ -159,39 +222,27 @@ const CategoriesManagement = (props) => {
           <ViewCategory
             key={category._id}
             handleEdit={handleEdit}
-            handleDelete={handleDelete}
+            handleDelete={openDeletion}
             id={category._id}
             name={category.name}
             image={category.image}
             description={category.description}
           />
         ))}
-
-        {/* <ViewCategory
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          id={1}
-          name="Latest Collection"
-          image="https://res.cloudinary.com/djlewzcd5/image/upload/v1682715743/ruqwigg3flbsy5vhly8g.jpg"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptates."
-        />{" "}
-        <ViewCategory
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          id={2}
-          name="Mens Collection"
-          image="https://res.cloudinary.com/djlewzcd5/image/upload/v1682715743/ruqwigg3flbsy5vhly8g.jpg"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptates."
-        /> */}
       </Flex>
     </>
   );
 };
 
-const UploadImage = ({ image, setImage }) => {
+const UploadImage = ({ image, setImage, operation }) => {
   return (
     <>
-      {image && <Image maw={240} src={URL.createObjectURL(image)} />}
+      {operation === "add" && image ? (
+        <Image maw={240} src={URL.createObjectURL(image)} />
+      ) : (
+        <Image maw={240} src={image} />
+      )}
+
       <Space h="lg" />
 
       <Group position="left">
@@ -221,12 +272,13 @@ const ViewCategory = ({
   handleDelete,
 }) => {
   return (
-    <Card mb={10} mr={20} style={{ width: "620px" }} withBorder padding="lg">
-      <Group>
+    <Flex direction="row">
+      <Card mb={10} mr={2} style={{ width: "200px" }} padding="lg">
         <Card.Section>
-          <Image src={image} alt={name} height={100} />
+          <Image src={image} alt={name} height="170" />
         </Card.Section>
-
+      </Card>
+      <Card mb={10} mr={20} style={{ width: "400px" }} withBorder padding="sm">
         <Flex ml={10} direction="column" mt="xl">
           <Text fz="sm" fw={700}>
             {name}
@@ -235,16 +287,21 @@ const ViewCategory = ({
             {description}
           </Text>
         </Flex>
-      </Group>
-      <Group mt={20} position="center">
-        <Button onClick={() => handleEdit(id)} variant="default" color="dark">
-          Edit
-        </Button>
-        <Button onClick={() => handleDelete(id)} variant="subtle" color="red">
-          Delete
-        </Button>
-      </Group>
-    </Card>
+
+        <Group mt={20} position="center">
+          <Button
+            onClick={() => handleEdit(id, name, image, description)}
+            variant="default"
+            color="dark"
+          >
+            Edit
+          </Button>
+          <Button onClick={() => handleDelete(id)} variant="subtle" color="red">
+            Delete
+          </Button>
+        </Group>
+      </Card>
+    </Flex>
   );
 };
 export default CategoriesManagement;

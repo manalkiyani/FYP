@@ -2,7 +2,7 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import axios from 'axios';
-import {Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {CardMedia, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { useContext,useState,useEffect } from 'react';
@@ -87,7 +87,21 @@ export default function SavedTemplates() {
   });
   
   }
-
+const images = [
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469821/pexels-antoni-shkraba-4348404_estoi2.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469821/pexels-marcelo-chagas-2183773_viqmun.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469816/pexels-ketut-subiyanto-4126724_iwqzw6.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469810/pexels-picjumbocom-196655_zaquiv.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469810/pexels-pixabay-35550_rqrxk6.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469816/pexels-cottonbro-studio-5082579_go4zvq.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470618/pexels-negative-space-177557_i2eqgf.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470614/pexels-burst-374016_zy540g.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470611/pexels-cottonbro-studio-3584931_jeq1ks.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470598/pexels-kaboompics-com-6168_i3zd5p.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470595/pexels-pixabay-265667_jtfquj.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683470592/pexels-startup-stock-photos-7356_yo3msx.jpg",
+  "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469816/pexels-ketut-subiyanto-4126724_iwqzw6.jpg"
+]
 
   return (
     <>
@@ -99,11 +113,21 @@ export default function SavedTemplates() {
      }
       <div style={{display:'flex',width:'70vw',flexWrap:'wrap'}}>
    {savedTemplates && savedTemplates.map((template) => {
+              const randomImageIndex = Math.floor(Math.random() * images.length);
+
+              const randomImage = images[randomImageIndex];
+
   return ( <Card 
   key={template._id}
   
-  sx={{ maxWidth: 280,minWidth:280,marginRight:'20px' ,marginBottom:'20px'}}>
+  sx={{ maxWidth: 300,minWidth:300,marginRight:'20px' ,marginBottom:'20px'}}>
       <CardActionArea>
+          <CardMedia
+        component="img"
+        height="150"
+        image={images[savedTemplates.indexOf(template)]}
+        alt="Your Template"
+      />
         
         <CardContent>
           <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>

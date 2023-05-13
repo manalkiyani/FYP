@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import classes from "./Navbar.module.css";
 import { useEffect, useState } from "react";
 import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
@@ -9,6 +9,7 @@ import { Group } from "@mantine/core";
 
 export default function ViewerNavbar(props) {
   const [templateId] = useLocalStorageState("templateId", "");
+  const [isloggedIn, setIsLoggedIn] = useState(true);
 
   const [templateName, setTemplateName] = useState("");
   const navigate = useNavigate();
@@ -24,6 +25,21 @@ export default function ViewerNavbar(props) {
   function handleGoBack() {
     navigate("/dashboard");
   }
+
+  function handleLogout() {
+    //logout the user
+    setIsLoggedIn(false);
+    localStorage.removeItem("viewerTemplateId");
+    window.location.reload();
+  }
+  const viewerTemplateId = JSON.parse(localStorage.getItem("viewerTemplateId"));
+  const { id } = useParams();
+  useEffect(() => {
+    if (id !== viewerTemplateId) {
+      console.log("not equal");
+      setIsLoggedIn(false);
+    }
+  });
 
   return (
     <>
@@ -51,6 +67,12 @@ export default function ViewerNavbar(props) {
               </Link>
             );
           })}
+
+          {isloggedIn ? (
+            <div>
+              <button onClick={() => handleLogout()}>Logout</button>
+            </div>
+          ) : null}
         </div>
       </div>
       <Outlet />

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import Blogs from "../blogWebsite/components/Blogs/Blogs";
-import Products from "../eccomerceWebsite/pages/ProductsPage";
 
 import { cloneDeep } from "lodash";
 import { BeatLoader } from "react-spinners";
@@ -16,6 +15,8 @@ import {
 } from "../../utilityFunctions/helperFunctions";
 import DragDrop from "../../DragDrop/DragDrop";
 import ViewJobs from "../../Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
+import AdminProducts from "../eccomerceWebsite/components/adminProducts/AdminProducts";
+import DoctorsPage from "../medicalWebsite/newMedicalWebsite/DoctorsPage";
 
 //Blog Home Page
 const BlogMain = (props) => {
@@ -112,8 +113,9 @@ const BlogMain = (props) => {
       ) : (
         <>
           {blogIds && <Blogs blogIds={blogIds} />}
-          {productIds && <Products productIds={productIds} />}
+          {productIds && <AdminProducts view="none" productIds={productIds} />}
           {jobIds && <ViewJobs jobIds={jobIds} />}
+          {doctorIds && <DoctorsPage doctorIds = {doctorIds}/>}
         </>
       )}
 

@@ -24,7 +24,9 @@ class TextEditor extends Component {
         underline: this.props.data.underline,
         italic: this.props.data.italic,
         align: this.props.data.align,
-        family: this.props.data.family
+        family: this.props.data.family,
+        spacing: this.props.data.spacing,
+        height: this.props.data.height,
     }
     componentDidUpdate(prevProps) {
         console.log('in text editor');
@@ -40,13 +42,23 @@ class TextEditor extends Component {
                 underline: this.props.data.underline,
                 italic: this.props.data.italic,
                 align: this.props.data.align,
-                family: this.props.data.family
+                family: this.props.data.family,
+                spacing: this.props.data.spacing,
+                height: this.props.data.height,
             })
 
         }
     }
 
 
+    updateHeight = (height) => {
+        this.setState({
+            height: height
+        }, () => {
+            this.props.onUpdate(this.state)
+        })
+        
+    }
  
     updateSize = (Size) => {
         this.setState({
@@ -55,9 +67,14 @@ class TextEditor extends Component {
             this.props.onUpdate(this.state)
         })
         
-
-
-
+    }
+     updateSpacing = (spacing) => {
+        this.setState({
+            spacing: spacing
+        }, () => {
+            this.props.onUpdate(this.state)
+        })
+        
     }
     updateColor = (Color) => {
 
@@ -179,6 +196,110 @@ class TextEditor extends Component {
                                 src={underline}/>
                         </div>
                     </div>
+
+                    <div>
+                        <p className={
+                            classes.para
+                        }>Letter Spacing</p>
+                         <Dropdown>
+                        <Dropdown.Toggle
+                         className={
+                            [classes.round, classes.end].join(' ')
+                        } variant="outline" id="dropdown-basic">
+                           {this.state.spacing}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item style={{ fontFamily: "1px" }} onClick={() => this.updateSpacing("1px")}>1px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "2px" }} onClick={() => this.updateSpacing("2px")} >2px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "3px" }} onClick={() => this.updateSpacing("3px")}>3px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "4px" }} onClick={() => this.updateSpacing("4px")}>4px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "5px" }} onClick={() => this.updateSpacing("5px")} >5px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "6px" }} onClick={() => this.updateSpacing("6px")}>6px</Dropdown.Item>
+                             <Dropdown.Item style={{ fontFamily: "10px" }} onClick={() => this.updateSpacing("10px")}>10px</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "-1px" }} onClick={() => this.updateSpacing("-1px")}>-1px</Dropdown.Item>
+                             <Dropdown.Item style={{ fontFamily: "-2px" }} onClick={() => this.updateSpacing("-2px")}>-2px</Dropdown.Item>
+                              <Dropdown.Item style={{ fontFamily: "-3px" }} onClick={() => this.updateSpacing("-3px")}>-3px</Dropdown.Item>
+
+
+                               
+                        </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
+
+                    {/*Font family */}
+                     <div>
+                        <p className={
+                            classes.para
+                        }>Font family</p>
+                         <Dropdown>
+                        <Dropdown.Toggle
+                         className={
+                            [classes.round, classes.end].join(' ')
+                        } variant="outline" id="dropdown-basic">
+                           {this.state.family}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item style={{ fontFamily: "Monospace" }} onClick={() => this.updateFamily("Monospace")}>Monospace</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Sans-serif" }} onClick={() => this.updateFamily("Sans-serif")} >Sans-serif</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Serif" }} onClick={() => this.updateFamily("Serif")}>Serif</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Cursive" }} onClick={() => this.updateFamily("Cursive")}>Cursive</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Fantasy" }} onClick={() => this.updateFamily("Fantasy")} >Fantasy</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Josefin Sans" }} onClick={() => this.updateFamily("Josefin Sans")}>Josefin Sans</Dropdown.Item>
+                             <Dropdown.Item style={{ fontFamily: "Open Sans" }} onClick={() => this.updateFamily("Open Sans")}>Open Sans</Dropdown.Item>
+                            <Dropdown.Item style={{ fontFamily: "Poppins" }} onClick={() => this.updateFamily("Poppins")}>Poppins</Dropdown.Item>
+                             <Dropdown.Item style={{ fontFamily: "Roboto" }} onClick={() => this.updateFamily("Roboto")}>Roboto</Dropdown.Item>
+                              <Dropdown.Item style={{ fontFamily: "Montserrat" }} onClick={() => this.updateFamily("Montserrat")}>Montserrat</Dropdown.Item>
+
+
+                                <Dropdown.Item style={{ fontFamily: "Kadwa" }} onClick={() => this.updateFamily("Kadwa")}>Kadwa</Dropdown.Item>
+                                  <Dropdown.Item style={{ fontFamily: "Inter" }} onClick={() => this.updateFamily("Inter")}>Inter</Dropdown.Item>
+                                    <Dropdown.Item style={{ fontFamily: "Ubuntu" }} onClick={() => this.updateFamily("Ubuntu")}>Ubuntu</Dropdown.Item>
+                                      <Dropdown.Item style={{ fontFamily: "Comme" }} onClick={() => this.updateFamily("Comme")}>Comme</Dropdown.Item>
+                        </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
+{/*Line height */}
+ <div>
+                        <p className={
+                            classes.para
+                        }>Line Height </p>
+                         <Dropdown>
+                        <Dropdown.Toggle
+                         className={
+                            [classes.round, classes.end].join(' ')
+                        } variant="outline" id="dropdown-basic">
+                           {this.state.height}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => this.updateHeight("10px")}>10px</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.updateHeight("20px")} >20px</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.updateHeight("30px")}>30px</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.updateHeight("40px")}>40px</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.updateHeight("50px")} >50px</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.updateHeight("60px")}>60px</Dropdown.Item>
+                             <Dropdown.Item  onClick={() => this.updateHeight("70px")}>70px</Dropdown.Item>
+                            <Dropdown.Item  onClick={() => this.updateHeight("80px")}>80px</Dropdown.Item>
+                             <Dropdown.Item  onClick={() => this.updateHeight("90px")}>90px</Dropdown.Item>
+                              <Dropdown.Item  onClick={() => this.updateHeight("100px")}>100px</Dropdown.Item>
+
+
+                               
+                        </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
+
+
+
+
+
+
+
                     <div>
                         <p className={
                             classes.para
@@ -229,38 +350,24 @@ class TextEditor extends Component {
 
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={()=>this.updateSize("12px")}>12px</Dropdown.Item>
+                              <Dropdown.Item onClick={()=>this.updateSize("14px")}>14px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("16px")}>16px</Dropdown.Item>
+                             <Dropdown.Item onClick={()=>this.updateSize("18px")}>18px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("20px")}>20px</Dropdown.Item>
+                             <Dropdown.Item onClick={()=>this.updateSize("22px")}>22px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("24px")}>24px</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>this.updateSize("28px")}>28px</Dropdown.Item>
+                             <Dropdown.Item onClick={()=>this.updateSize("30px")}>30px</Dropdown.Item>
+                              <Dropdown.Item onClick={()=>this.updateSize("32px")}>32px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("36px")}>36px</Dropdown.Item>
+                             <Dropdown.Item onClick={()=>this.updateSize("40px")}>40px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("48px")}>48px</Dropdown.Item>
+                             <Dropdown.Item onClick={()=>this.updateSize("60px")}>60px</Dropdown.Item>
                             <Dropdown.Item onClick={()=>this.updateSize("72px")}>72px</Dropdown.Item>
                          </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <div>
-                        <p className={
-                            classes.para
-                        }>Font Family</p>
-                         <Dropdown>
-                        <Dropdown.Toggle
-                         className={
-                            [classes.round, classes.end].join(' ')
-                        } variant="outline" id="dropdown-basic">
-                           {this.state.family}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item style={{ fontFamily: "Monospace" }} onClick={() => this.updateFamily("Monospace")}>Monospace</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Sans-serif" }} onClick={() => this.updateFamily("Sans-serif")} >Sans-serif</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Serif" }} onClick={() => this.updateFamily("Serif")}>Serif</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Cursive" }} onClick={() => this.updateFamily("Cursive")}>Cursive</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Fantasy" }} onClick={() => this.updateFamily("Fantasy")} >Fantasy</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Josefin Sans" }} onClick={() => this.updateFamily("Josefin Sans")}>Josefin Sans</Dropdown.Item>
-                            <Dropdown.Item style={{ fontFamily: "Poppins" }} onClick={() => this.updateFamily("Poppins")}>Poppins</Dropdown.Item>
-                        </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
+                    
                     <div>
                         <p className={
                             classes.para

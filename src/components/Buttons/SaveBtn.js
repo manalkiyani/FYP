@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import SaveIcon from "@mui/icons-material/Save";
 import { SavedTemplate } from "../../utilityFunctions/helperFunctions";
@@ -14,6 +13,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { useLocalStorageState } from "ahooks";
 import { deepClone } from "@mui/x-data-grid/utils/utils";
+import { Button } from "@mantine/core";
 
 const SaveBtn = () => {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +40,7 @@ const SaveBtn = () => {
         contentPage: "BlogsPage",
         contentSlug: "blogs",
       },
-      ecommerce: {
+      eccomerce: {
         homePage: "EccomerceHomePage",
         contentPage: "ProductsPage",
         contentSlug: "products",
@@ -88,20 +88,12 @@ const SaveBtn = () => {
       <FormDialog open={open} onSave={saveTemplate} onClose={handleClose} />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Button
+        variant="subtle"
+        color="gray"
         onClick={handleClickOpen}
-        style={{
-          position: "absolute",
-          right: 10,
-          top: 8,
-          zIndex: 100000,
-          color: "#fff",
-        }}
-        size="small"
-        color="primary"
-        startIcon={<SaveIcon />}
-        variant="contained"
+        leftIcon={<SaveIcon size="1rem" />}
       >
-        <span>Save Changes</span>
+        Save Changes
       </Button>
     </>
   );
@@ -109,7 +101,7 @@ const SaveBtn = () => {
 
 export default SaveBtn;
 
-function FormDialog({ open, onSave, onClose }) {
+export function FormDialog({ open, onSave, onClose }) {
   const [name, setName] = React.useState("");
 
   return (
