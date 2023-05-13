@@ -5,8 +5,8 @@ import { useLocalStorageState } from "ahooks";
 import SaveBtn from "../../../components/Buttons/SaveBtn";
 import UpdateBtn from "../../../components/Buttons/UpdateBtn";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Button, Group } from "@mantine/core";
-
+import { ActionIcon, Button, Group, Menu } from "@mantine/core";
+import IconDots from "@mui/icons-material/MoreHorizOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 // Create a custom theme with Google Sans font
@@ -63,19 +63,29 @@ export default function Navbar(props) {
           >
             {props.names[3]}
           </Link>
-          {/* {id === "001" || id === "002" || id === "003" || id === "004" ? (
+
+          <Menu withinPortal position="bottom-end" shadow="sm">
+            <Menu.Target>
+              <ActionIcon>
+                <IconDots size="1rem" />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item
+                color="gray"
+                onClick={() => navigate("manage")}
+                icon={<SettingsOutlinedIcon size="1rem" />}
+              >
+                Manage Website
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          {id === "001" || id === "002" || id === "003" || id === "004" ? (
             <SaveBtn />
           ) : (
             <UpdateBtn />
-          )} */}
-          <Button
-            className={classes.link}
-            variant="default"
-            leftIcon={<SettingsOutlinedIcon size="1rem" />}
-            onClick={() => navigate("manage")}
-          >
-            Manage Website
-          </Button>
+          )}
         </div>
       </div>
       <Outlet />

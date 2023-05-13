@@ -43,10 +43,9 @@ import JobDetail from "../src/websites/businessWebsite/Pages/JobDetail/JobDetail
 import JobApplications from "./Admin/JobApplications/JobApplications";
 
 //medical Website
-import MedicalAdminHomePage from "./websites/medicalWebsite/MedicalAdminHomePage/MedicalAdminHomePage";
 import MedicalViewerHomePage from "./Viewer/medicalWebsite/ MedicalViewerHomePage/MedicalViewerHomePage";
 import DoctorsPage from "../src/websites/medicalWebsite/DoctorsPage/DoctorsPage";
-import AddDoctorPage from "../src/websites/medicalWebsite/AddDoctorPage/AddDoctorPage";
+ 
 import DocProfile from "../src/websites/medicalWebsite/DocProfile/DocProfile";
 import ViewerDocProfile from "./Viewer/medicalWebsite/DocProfile/ViewerDocProfile";
 import ViewerDoctorsPage from "./Viewer/medicalWebsite/DoctorsPage/ViewerDoctorsPage";
@@ -73,6 +72,18 @@ import ViewerViewAppointments from "./Viewer/medicalWebsite/ViewerViewAppointmen
 import AdminViewAppointments from "./websites/medicalWebsite/AdminViewAppointments/AdminViewAppointments";
 import ManageBusinessWebsite from "./websites/businessWebsite/ManageWebsite/ManageWebsite";
 import ManageEcommerceWebsite from "./websites/eccomerceWebsite/ManageWebsite/ManageWebsite";
+
+import { ViewerLogin } from "./Viewer/medicalWebsite/ViewerLoginPage/LoginPage";
+import NotFound from "./pages/NotFound/NotFound";
+import { ViewerSignup } from "./Viewer/medicalWebsite/ViewerSignupPage/SignUpPage";
+import { AuthorizeViewer } from "./middleware/AuthorizeViewer";
+import { DoctorCard } from "./websites/medicalWebsite/newMedicalWebsite/DoctorCard";
+import MedicalHomePage from "./websites/medicalWebsite/newMedicalWebsite/MedicalHomePage";
+import MedicalDoctorPage from "./websites/medicalWebsite/newMedicalWebsite/MedicalDoctorPage";
+import { DoctorDetail } from "./websites/medicalWebsite/newMedicalWebsite/DoctorDetail";
+import ManageMedicalWebsite from "./websites/medicalWebsite/newMedicalWebsite/ManageWebsite/ManageWebsite";
+import BookAppointment from "./Viewer/medicalWebsite/newMedicalWebsite/BookAppointment";
+import { ViewAppointment } from "./websites/medicalWebsite/newMedicalWebsite/ManageWebsite/ViewAppointment";
 
 const theme = createTheme({
   palette: {
@@ -104,6 +115,52 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <>
+              {/*to be removed */}
+
+              <Route path="/adminDoc" element={<DoctorCard />} />
+               <Route path="/detail" element={<DoctorDetail />} />
+               <Route path="/book" element ={<BookAppointment/>} />
+               <Route path="/view" element ={<ViewAppointment/>} />
+
+
+
+              
+
+              {/* //////////////// */}
+
+              <Route
+                path="/medicalviewerhomepage"
+                element={<MedicalViewerHomePage></MedicalViewerHomePage>}
+              />
+              <Route path="/doctorspage" element={<DoctorsPage />} />
+             
+              <Route path="/docprofile" element={<DocProfile />} />
+              <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
+
+              <Route
+                path="/viewerdoctorspage"
+                element={<ViewerDoctorsPage />}
+              />
+              <Route
+                path="/BookAppointmentPage"
+                element={<BookAppointmentPage />}
+              />
+
+              <Route path="/loginpage" element={<ViewerLogin />} />
+              <Route path="/signuppage" element={<ViewerSignup />} />
+              <Route
+                path="/viewerviewappointments"
+                element={<ViewerViewAppointments></ViewerViewAppointments>}
+              ></Route>
+
+              <Route
+                path="/adminviewappointments"
+                element={<AdminViewAppointments></AdminViewAppointments>}
+              ></Route>
+
+
+
+              
               {/* ucraft */}
 
               <Route exact path="/" element={<UcraftNavbar />}>
@@ -120,45 +177,9 @@ const App = () => {
                   }
                 />
               </Route>
-
-              {/* //////////////// */}
-
-              <Route
-                path="/MedicalAdminHomePage"
-                element={<MedicalAdminHomePage />}
-              />
-              <Route
-                path="/medicalviewerhomepage"
-                element={<MedicalViewerHomePage></MedicalViewerHomePage>}
-              />
-              <Route path="/doctorspage" element={<DoctorsPage />} />
-              <Route path="/adddoctor" element={<AddDoctorPage />} />
-              <Route path="/docprofile" element={<DocProfile />} />
-              <Route path="/viewerdocprofile" element={<ViewerDocProfile />} />
-
-              <Route
-                path="/viewerdoctorspage"
-                element={<ViewerDoctorsPage />}
-              />
-              <Route
-                path="/BookAppointmentPage"
-                element={<BookAppointmentPage />}
-              />
-              <Route path="/patientsignuppage" element={<ViewerSignupPage />} />
-              <Route path="/patientloginpage" element={<ViewerLoginPage />} />
-              <Route
-                path="/viewerviewappointments"
-                element={<ViewerViewAppointments></ViewerViewAppointments>}
-              ></Route>
-
-              <Route
-                path="/adminviewappointments"
-                element={<AdminViewAppointments></AdminViewAppointments>}
-              ></Route>
               <Route path="/login" element={<Login />} />
 
-              {/* <Route path="/test" element={<Test />} /> */}
-              <Route path="/blogDetail" element={<BlogDetail />} />
+             
               <Route path="/signup" element={<Signup />} />
               <Route path="/recovery" element={<Otp />} />
               <Route path="/reset" element={<ResetPassword />} />
@@ -213,7 +234,17 @@ const App = () => {
               }
             >
               <Route path="" element={<ViewerHomepage />} />
-              <Route path="blogs" element={<ViewerMainPage type="blog" />} />
+
+              <Route
+                path="blogs"
+                element={
+                  <AuthorizeViewer>
+                    <ViewerMainPage type="blog" />
+                  </AuthorizeViewer>
+                }
+              />
+              <Route path="viewerLogin" element={<ViewerLogin />} />
+              <Route path="viewerSignup" element={<ViewerSignup />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="blogs/:blogId" element={<BlogDetail />} />
             </Route>
@@ -248,12 +279,25 @@ const App = () => {
                 />
               }
             >
+              <Route path="viewerLogin" element={<ViewerLogin />} />
+              <Route path="viewerSignup" element={<ViewerSignup />} />
               <Route path="" element={<ViewerHomepage />} />
               <Route
                 path="products"
-                element={<ViewerMainPage type="eccomerce" />}
+                element={
+                  <AuthorizeViewer>
+                    <ViewerMainPage type="eccomerce" />
+                  </AuthorizeViewer>
+                }
               />
-              <Route path="cart" element={<CartPage />} />
+              <Route
+                path="cart"
+                element={
+                  <AuthorizeViewer>
+                    <CartPage />
+                  </AuthorizeViewer>
+                }
+              />
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
 
@@ -294,8 +338,17 @@ const App = () => {
                 />
               }
             >
+              <Route path="viewerLogin" element={<ViewerLogin />} />
+              <Route path="viewerSignup" element={<ViewerSignup />} />
               <Route path="" element={<ViewerHomepage />} />
-              <Route path="jobs" element={<ViewerMainPage type="business" />} />
+              <Route
+                path="jobs"
+                element={
+                  <AuthorizeViewer>
+                    <ViewerMainPage type="business" />
+                  </AuthorizeViewer>
+                }
+              />
 
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
@@ -312,8 +365,13 @@ const App = () => {
                 />
               }
             >
-              <Route path="" element={<MedicalAdminHomePage />} />
-              <Route path="doctors" element={<DoctorsPage />} />
+              <Route path="" element={<MedicalHomePage />} />
+              {/* <Route path="doctors" element={<DoctorsPage />} /> */}
+               <Route path="doctors" element={<MedicalDoctorPage />} />
+                <Route path="doctors/:doctorId" element={<DoctorDetail  view="none"   />} />
+                <Route path="manage" element ={<ManageMedicalWebsite/>} />
+             
+
               {/* <Route path="doctors/:doctorId" element={<medicalDetail />} /> */}
               <Route path="appointments" element={<AdminViewAppointments />} />
             </Route>
@@ -331,14 +389,22 @@ const App = () => {
                 />
               }
             >
+              <Route path="viewerLogin" element={<ViewerLogin />} />
+              <Route path="viewerSignup" element={<ViewerSignup />} />
               <Route path="" element={<ViewerHomepage />} />
               <Route
                 path="doctors"
-                element={<ViewerMainPage type="medical" />}
+                element={
+                  <AuthorizeViewer>
+                    <ViewerMainPage type="medical" />
+                  </AuthorizeViewer>
+                }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="doctors/:doctorId" element={<BlogDetail />} />
             </Route>
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

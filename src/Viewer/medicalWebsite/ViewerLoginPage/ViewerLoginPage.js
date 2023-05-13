@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Input, useMantineTheme } from "@mantine/core";
+import { Button, Card, Flex, Input, useMantineTheme } from "@mantine/core";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { TextField } from "@material-ui/core";
 
@@ -9,24 +9,32 @@ function ViewerLoginPage() {
   const theme = useMantineTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  
 
   const handleSubmit = async (e) => {
+   
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8800/api/patient/loginpatient', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8800/api/templates/login",
+        {
+          email,
+          password,
+          username,
+        }
+      );
       console.log("successfully logged in");
-      navigate("/viewerdoctorspage", { state: response.data.patient });
-
+      navigate("/viewerdoctorspage", { state: response.data.user });
     } catch (error) {
-        console.error(`Request failed with status code ${error.response.status}: ${error.response.data}`);
-        console.log('abc')
-        console.error(error.response.data.message);
-        setErrorMessage(error.response.data.message);
+      console.error(
+        `Request failed with status code ${error.response.status}: ${error.response.data}`
+      );
+      console.log("abc");
+      console.error(error.response.data.message);
+      setErrorMessage(error.response.data.message);
     }
   };
 
@@ -37,18 +45,22 @@ function ViewerLoginPage() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        background: `linear-gradient(to right bottom, ${theme.colors.green[5]}, ${theme.colors.blue[5]})`,
+        background: `linear-gradient(to right bottom, ${theme.colors.blue[1]}, ${theme.colors.blue[3]})`,
       }}
     >
       <Card
         shadow="lg"
-        style={{ maxWidth: 400, width: "100%", padding: theme.spacing.md }}
+        style={{
+          maxWidth: 600,
+          height: 400,
+          width: "100%",
+          padding: theme.spacing.md,
+        }}
       >
         <h2 style={{ textAlign: "center", marginBottom: theme.spacing.md }}>
           Login
         </h2>
         <form onSubmit={handleSubmit}>
-          
           <Input
             required
             label="Email"
@@ -79,6 +91,7 @@ function ViewerLoginPage() {
           )}
           <Button
             type="submit"
+            color="#40AFC0"
             fullWidth
             style={{ marginTop: theme.spacing.md }}
           >
@@ -94,28 +107,20 @@ function ViewerLoginPage() {
           }}
         >
           <div>
-            <FaGoogle
-              size={theme.fontSizes.lg}
-              style={{ marginRight: theme.spacing.md, cursor: "pointer" }}
-            />
-            <FaFacebook
-              size={theme.fontSizes.lg}
-              style={{ cursor: "pointer" }}
-            />
-          </div>
-          <div>
-            <Button
-              variant="link"
-              onClick={() => navigate("/viewerregisterpage")}
-            >
-              Not registered? Sign up
-            </Button>
-            <Button
-              variant="link"
-              onClick={() => navigate("/viewerforgotpasswordpage")}
-            >
-              Forgot password?
-            </Button>
+            <Flex>
+              <Button
+                variant="link"
+                onClick={() => navigate("/viewerregisterpage")}
+              >
+                Not registered? Sign up
+              </Button>
+              <Button
+                variant="link"
+                onClick={() => navigate("/viewerforgotpasswordpage")}
+              >
+                Forgot password?
+              </Button>
+            </Flex>
           </div>
         </div>
       </Card>

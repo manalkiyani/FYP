@@ -144,7 +144,7 @@ const ViewerDocProfile = () => {
 <div style={{marginLeft:'20px', marginTop:'-25px'}} label="content">
 <Text style={{fontSize:'65px'}} fw={600}>{doctor.name}</Text>
 <Text style={{marginTop:'-10px', fontSize:'16px'}} fw={800} fz="sm" >
-<MedicalInformationIcon style={{width:'20px', marginTop:'-6px'}} />
+<MedicalInformationIcon style={{width:'20px', marginTop:'-6px', color:'gray'}} />
 <span style={{marginLeft:'6px'}}>{doctor.department}</span>
 &nbsp;&nbsp; - &nbsp;&nbsp;
 {/* <span>Age {doctor.age}</span> */}
@@ -157,14 +157,14 @@ const ViewerDocProfile = () => {
 
 {/* <Text style={{fontSize:'16px'}} >{doctor.description}</Text> */}
 <Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
-  <LocationOnIcon sx={{ color: 'red', marginRight: '5px' }}  />
+  <LocationOnIcon sx={{ color: 'gray', marginRight: '5px' }}  />
   {/* {doctor.address} */}
   Oak Street Health Canarsie
 8923 Flatlands Ave
 Brooklyn, NY 11236
 </Text>
 <Text variant="body1" sx={{ display: 'flex', alignItems: 'center',marginTop:'20px'}} fw={600} >
- <WorkspacePremiumOutlinedIcon style={{marginRight: '5px'}}></WorkspacePremiumOutlinedIcon> Qualification: {doctor.latestQualification}
+ <WorkspacePremiumOutlinedIcon style={{color: 'gray',marginRight: '5px'}}></WorkspacePremiumOutlinedIcon> Qualification: {doctor.latestQualification}
 
 </Text>
 

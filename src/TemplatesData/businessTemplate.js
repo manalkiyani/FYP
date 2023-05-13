@@ -20,15 +20,15 @@ export const businessTemplate = {
   },
   data: {
     jobs: [
-      "64425f15f827b23ec8eb4d07",
-      
-      "644c12b535a5aad9ff327ad6",
-      "644c0ce335a5aad9ff327a67",
-      "644c0cd035a5aad9ff327a65",
-      "644c0c4a35a5aad9ff327a5c"
-
+     
     ],
   },
 };
 //admin = home jobs applications contact
 //viewer= home jobs contact
+//  "64425f15f827b23ec8eb4d07",
+      
+//       "644c12b535a5aad9ff327ad6",
+//       "644c0ce335a5aad9ff327a67",
+//       "644c0cd035a5aad9ff327a65",
+//       "644c0c4a35a5aad9ff327a5c"

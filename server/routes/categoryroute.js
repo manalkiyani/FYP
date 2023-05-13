@@ -12,6 +12,7 @@ router.post("/", addCategory);
 router.get("/", getCategories);
 
 router.patch("/:categoryId", updateCategory);
+
 router.delete("/:categoryId", deleteCategory);
 
 module.exports = router;

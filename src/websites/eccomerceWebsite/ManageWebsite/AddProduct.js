@@ -14,7 +14,7 @@ import {
   Image,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AddProduct.module.css";
 import ReactQuill from "react-quill-fixed";
 import { Box, TextField } from "@mui/material";
@@ -24,6 +24,10 @@ import { SliderPicker } from "react-color";
 import UploadIcon from "@mui/icons-material/FileUploadOutlined";
 import { Carousel } from "@mantine/carousel";
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
+import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
+
+import { useLocalStorageState } from "ahooks";
 
 const inputStyles = createStyles((theme) => ({
   root: {
@@ -55,19 +59,20 @@ const AddProduct = (props) => {
   const [name, setName] = useState("");
   const [color, setColor] = useState("#fff");
   const [files, setFiles] = useState(null);
-
+  const [filesCopy, setCopyFiles] = useState(null);
+  const [operation, setOperation] = useState(props.operation);
   const [colors, setColors] = useState(["#ff7373", "#e0b8c0"]);
 
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const [displayImage, setDisplayImage] = useState(null);
+
   const [launchedDate, setLaunchedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
   const [sizes, setSizes] = useState(["lg", "md", "sm"]);
   const [size, setSize] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const { classes } = inputStyles();
 
@@ -104,21 +109,113 @@ const AddProduct = (props) => {
     }
     return links;
   };
-
+  const [template, setTemplate] = useLocalStorageState("template", "");
   //WRITE ADD PRODUCT LOGIC IN THIS FUNCTION
   const handleAddProduct = async () => {
-    props.setAddProduct(false);
     const links = await uploadImages();
     console.log(links);
+    toast.loading("Adding your product")
 
     //ADD PRODUCT LOGIC HERE
+    const response = await axios.post(
+      "http://localhost:8800/api/products/addproduct",
+      {
+        name,
+        price,
+        description,
+        colors,
+        sizes,
+        images: links,
+        category,
+      }
+    );
+  
+    console.log(response);
+    if (response.status === 200) {
+      setTemplate({
+        ...template,
+        data: {
+          products: [...template.data.products, response.data.product._id],
+        },
+      });
+
+      toast.success("Product added successfully");
+      props.setAddProduct(false);
+    } else {
+      toast.error("An error occurred");
+    }
   };
+
   const handleCancelProduct = () => {
     props.setAddProduct(false);
   };
 
+  const getCategories = async () => {
+    const response = await axios.get("http://localhost:8800/api/categories");
+
+    setCategories(response.data.categories.map((category) => category.name));
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const handleEditProduct = async () => {
+    let links = [];
+    if (files !== filesCopy) {
+      links = await uploadImages();
+    } else {
+      links = files;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8800/api/products/editproduct/${props.editId}`,
+        {
+          name,
+          price,
+          description,
+          colors,
+          sizes,
+          images: links,
+          category,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getProduct = async () => {
+    const productId = props.editId;
+    const response = await axios.get(
+      `http://localhost:8800/api/products/getproduct/${productId}`
+    );
+    const product = response.data;
+    setName(product.name);
+    setPrice(product.price);
+    setDescription(product.description);
+    setColors(product.colors);
+    setSizes(product.sizes);
+    setFiles(product.images);
+    setCopyFiles(product.images);
+    setCategory(product.category);
+
+    console.log(response);
+  };
+  useEffect(() => {
+    if (operation === "edit") {
+      getProduct();
+    }
+  }, []);
+
+  const settingFiles = (files) => {
+    setFiles(files);
+    setOperation("add");
+  };
+
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <Flex
         mih={50}
         style={{ padding: "20px", borderRadius: "20px" }}
@@ -132,7 +229,11 @@ const AddProduct = (props) => {
         <Text fw={400} fz="sm">
           Product Images
         </Text>
-        <UploadImage files={files} setFiles={setFiles} />
+        <UploadImage
+          operation={operation}
+          files={files}
+          setFiles={settingFiles}
+        />
         <Space h="lg" />
         {/* Product Name */}
         <TextInput
@@ -176,13 +277,7 @@ const AddProduct = (props) => {
         <Select
           mt="md"
           mb={15}
-          data={[
-            "Category1",
-            "Category2",
-            "Category3",
-            "Category4",
-            "Category5",
-          ]}
+          data={categories}
           value={category}
           onChange={setCategory}
           placeholder="Pick one"
@@ -309,9 +404,16 @@ const AddProduct = (props) => {
         </div>
 
         <Group mt={20} position="center">
-          <Button color="green" onClick={handleAddProduct}>
-            Submit
-          </Button>
+          {props.operation === "add" ? (
+            <Button color="green" onClick={handleAddProduct}>
+              Submit
+            </Button>
+          ) : (
+            <Button color="green" onClick={handleEditProduct}>
+              Update
+            </Button>
+          )}
+
           <Button variant="outline" color="red" onClick={handleCancelProduct}>
             Cancel
           </Button>
@@ -394,7 +496,7 @@ const Color = ({ color, handleDeleteColor }) => {
   );
 };
 
-const UploadImage = ({ files, setFiles }) => {
+const UploadImage = ({ files, setFiles, operation }) => {
   return (
     <>
       {files && (
@@ -408,14 +510,22 @@ const UploadImage = ({ files, setFiles }) => {
         >
           {files.map((file, index) => (
             <Carousel.Slide key={index}>
-              <Image src={URL.createObjectURL(file)} />
+              {operation === "add" ? (
+                <Image src={URL.createObjectURL(file)} />
+              ) : (
+                <Image src={file} />
+              )}
             </Carousel.Slide>
           ))}
         </Carousel>
       )}
       <Space h="lg" />
       <Group position="left">
-        <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
+        <FileButton
+          onChange={(files) => setFiles(files)}
+          accept="image/png,image/jpeg"
+          multiple
+        >
           {(props) => (
             <Button
               variant="outline"

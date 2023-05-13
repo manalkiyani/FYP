@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 const Template = require("../models/Template");
 const Admin = require("../models/Admin");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 
 //add a template to user's saved Templates
@@ -114,8 +115,29 @@ exports.getTemplate = (req, res) => {
       return res.status(500).json({ message: "error" });
     });
 };
+exports. getListOfTemplates = async (req, res)=> {
+  console.log("Req.body", req.body.templateIds);
 
-exports.addTemplate = (req, res, next) => {
+  //find blogs which have ids in the array
+  Template.find({ _id: { $in: req.body.templateIds } })
+
+    .then((Templates) => {
+      return res.status(200).json({
+        success: true,
+
+        Templates: Templates,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: err.message,
+      });
+    });
+}
+exports.addTemplate = async (req, res) => {
   let template = new Template({
     _id: mongoose.Types.ObjectId(),
     type: "blog",
@@ -204,4 +226,98 @@ exports.deleteTemplate = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
+};
+
+exports.login = (req, res) => {
+  const { username, password, templateId } = req.body;
+  Template.findById(templateId)
+    .populate("users")
+    .exec((err, template) => {
+      if (err) {
+        return res.status(500).json({
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
+      }
+      if (!template) {
+        return res.status(404).json({
+          message: "Template not found",
+          error: "Template not found",
+        });
+      }
+      const user = template.users.find((user) => user.username === username);
+      if (!user) {
+        return res.status(401).json({
+          message: "Invalid username or password",
+          error: "Invalid username or password",
+        });
+      }
+      if (user.password !== password) {
+        return res.status(401).json({
+          message: "Invalid username or password",
+          error: "Invalid username or password",
+        });
+      }
+      return res.status(200).json({
+        message: "success",
+        user: user,
+      });
+    });
+};
+
+exports.register = (req, res) => {
+  console.log("req.body", req.body);
+  const { username, password, email, age, contact_info, gender, templateId } =
+    req.body;
+  Template.findById(templateId)
+    .populate("users")
+    .exec((err, template) => {
+      console.log("err", err);
+      if (err) {
+        return res.status(500).json({
+          message: "Server error. Please try again.",
+          error: err.message,
+        });
+      }
+      const users = template.users;
+      console.log("users", users);
+
+      const userWithSameUsername = users.find(
+        (user) => user.username === username
+      );
+      if (userWithSameUsername) {
+        return res.status(401).json({
+          message: "Username already exists",
+          error: "Username already exists",
+        });
+      }
+
+      const newUser = new User({
+        _id: new mongoose.Types.ObjectId(),
+        username,
+        password,
+        email,
+        age,
+        contact_info,
+        gender,
+      });
+
+      newUser
+        .save()
+        .then((user) => {
+          template.users.push(user);
+          template.save();
+          return res.status(201).json({
+            message: "success",
+            user: user,
+          });
+        })
+        .catch((error) => {
+          console.log("error", error);
+          res.status(500).json({
+            message: "Server error. Please try again.",
+            error: error.message,
+          });
+        });
+    });
 };

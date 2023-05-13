@@ -24,6 +24,8 @@ import AddProduct from "./AddProduct";
 
 const HandleProducts = () => {
   const [addProduct, setAddProduct] = React.useState(false);
+  const [editId, setEditId] = React.useState(null);
+  const [operation, setOperation] = React.useState("add");
   const [productIds, setProductIds] = React.useState([]);
   const [template] = useLocalStorageState("template", "");
 
@@ -33,13 +35,27 @@ const HandleProducts = () => {
     setProductIds(template?.data?.products);
   }, []);
 
+  const handleEditProduct = (id) => {
+    console.log(id, "handleEdtiProduct");
+    setAddProduct(true);
+    setOperation("edit");
+    setEditId(id);
+  };
+
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-      {addProduct && <AddProduct setAddProduct={setAddProduct} />}
+      {addProduct && (
+        <AddProduct
+          operation={operation}
+          editId={editId}
+          setAddProduct={setAddProduct}
+        />
+      )}
       <Space h="lg" />
       <Flex
+        justify="space-between"
         mih={50}
         style={{ padding: "20px", borderRadius: "20px" }}
         bg="#FBF8F1"
@@ -47,11 +63,7 @@ const HandleProducts = () => {
         <Text fw={400} fz="xl">
           Manage Products
         </Text>
-      </Flex>
-
-      <Space h="lg" />
-      {!addProduct && (
-        <Flex justify="flex-end">
+        {!addProduct && (
           <Button
             onClick={() => setAddProduct(true)}
             variant="default"
@@ -59,10 +71,15 @@ const HandleProducts = () => {
           >
             ADD NEW
           </Button>
-        </Flex>
-      )}
+        )}
+      </Flex>
+
+      <Space h="xl" />
       <Flex direction="column">
-        <Products productIds={productIds} />
+        <Products
+          handleEditProduct={handleEditProduct}
+          productIds={productIds}
+        />
       </Flex>
     </>
   );

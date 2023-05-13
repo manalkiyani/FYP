@@ -8,6 +8,7 @@ import BgColor from "../../BackgroundColor/BgColor";
 
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
+import { Group } from "@mantine/core";
 
 export default class Header3 extends Component {
   state = {
@@ -101,7 +102,8 @@ export default class Header3 extends Component {
             image={this.state.image}
           />
         )}
-        <img className={classes.img} src={this.props.Data.data.img} />
+        <Group grow   >
+           <img className={classes.img} src={this.props.Data.data.img} />
 
         <div className={classes.content}>
           <ContentEditable
@@ -201,6 +203,9 @@ export default class Header3 extends Component {
             }}
           />
         </div>
+
+        </Group>
+       
       </div>
     );
   }

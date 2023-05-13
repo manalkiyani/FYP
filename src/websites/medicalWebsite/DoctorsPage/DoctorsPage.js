@@ -36,28 +36,7 @@ const DoctorsPage = () => {
 
   const TEMPLATEID = '64466439e08c4f5f864bceac'
 
-  const departments = [
-    'Cardiology',
-    'Neurology',
-    'Dermatology',
-    'Orthopedics',
-    'Gastroenterology',
-    'Ophthalmology',
-    'Endocrinology',
-    'Psychiatry',
-    'Oncology',
-    'Rheumatology',
-    'Nephrology',
-    'Urology',
-    'Pulmonology',
-    'Allergy and Immunology',
-    'Infectious Disease',
-    'Hematology',
-    'Physical Medicine and Rehabilitation',
-    'Pediatrics',
-    'Geriatrics',
-    'Emergency Medicine',
-  ];
+ 
 
 
   const useStyles = createStyles((theme) => ({

@@ -13,7 +13,7 @@ const UpdateBtn = () => {
 
   const updateTemplate = async () => {
     let template = JSON.parse(localStorage.getItem("template"));
-   console.log("template", template);
+    console.log("template", template);
 
     let response;
     try {
@@ -75,15 +75,14 @@ const UpdateBtn = () => {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
+
       <Button
+        variant="subtle"
+        color="gray"
         onClick={updateTemplate}
-        style={{ position: "sticky", top: 0, zIndex: 1000 }}
-        size="medium"
-        color="primary"
-        startIcon={<UpdateIcon />}
-        variant="contained"
+        leftIcon={<UpdateIcon size="1rem" />}
       >
-        <span>Update Template</span>
+        Update Template
       </Button>
     </>
   );

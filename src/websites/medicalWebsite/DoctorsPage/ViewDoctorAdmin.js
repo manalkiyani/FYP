@@ -118,29 +118,7 @@ const ViewDoctor = ({doctor, handleEdit, handleDelete}) => {
         </Text>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginTop: '15px' }}>
 
-        <table>
-  <tr>
-    <td>Monday:</td>
-    <td>{doctor.availability.monday.start} - {doctor.availability.monday.end}</td>
-  </tr>
-  <tr>
-    <td>Tuesday:</td>
-    <td>{doctor.availability.tuesday.start} - {doctor.availability.tuesday.end}</td>
-  </tr>
-  <tr>
-    <td>Wednesday:</td>
-    <td>{doctor.availability.wednesday.start} - {doctor.availability.wednesday.end}</td>
-  </tr>
-  <tr>
-    <td>Thursday:</td>
-    <td>{doctor.availability.thursday.start} - {doctor.availability.thursday.end}</td>
-  </tr>
-  <tr>
-    <td>Friday:</td>
-    <td>{doctor.availability.friday.start} - {doctor.availability.friday.end}</td>
-  </tr>
-</table>
-
+        
 
 
 
