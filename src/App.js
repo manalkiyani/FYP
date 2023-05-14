@@ -84,6 +84,7 @@ import { DoctorDetail } from "./websites/medicalWebsite/newMedicalWebsite/Doctor
 import ManageMedicalWebsite from "./websites/medicalWebsite/newMedicalWebsite/ManageWebsite/ManageWebsite";
 import BookAppointment from "./Viewer/medicalWebsite/newMedicalWebsite/BookAppointment";
 import { ViewAppointment } from "./websites/medicalWebsite/newMedicalWebsite/ManageWebsite/ViewAppointment";
+import { CheckAppointment } from "./Viewer/medicalWebsite/newMedicalWebsite/ViewAppointment";
 
 const theme = createTheme({
   palette: {
@@ -119,8 +120,10 @@ const App = () => {
 
               <Route path="/adminDoc" element={<DoctorCard />} />
                <Route path="/detail" element={<DoctorDetail />} />
+               
                <Route path="/book" element ={<BookAppointment/>} />
                <Route path="/view" element ={<ViewAppointment/>} />
+               <Route path="/check" element={<CheckAppointment/>} />
 
 
 

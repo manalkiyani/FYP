@@ -60,7 +60,7 @@ const useStyles = createStyles((theme) => ({
   card: {
     position: 'relative',
     height: rem(280),
-    width:rem(340),
+    width:rem(320),
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
 
     [`&:hover .${getStylesRef('image')}`]: {
