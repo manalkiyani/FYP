@@ -18,8 +18,8 @@ input[type="file"] {
 .writeForm {
   position: relative;
    
-  width: 70vw;
- padding: 10px 20px 10px  100px;
+  width: 90vw;
+ padding: 10px 20px 10px  10px;
 }
 
 .writeFormGroup {

@@ -5,25 +5,26 @@ import Add from "@mui/icons-material/ControlPointOutlined";
 import { Toaster, toast } from "react-hot-toast";
 
 import { useLocalStorageState } from "ahooks";
-import Products from "../pages/ProductsPage";
-import AddProduct from "./AddProduct";
+import Write from "../WritePage/Write";
+import Blogs from "../components/Blogs/Blogs";
 
-const HandleProducts = () => {
-  const [addProduct, setAddProduct] = React.useState(false);
+
+const HandleBlogs = () => {
+  const [addBlog, setAddBlog] = React.useState(false);
   const [editId, setEditId] = React.useState(null);
   const [operation, setOperation] = React.useState("add");
-  const [productIds, setProductIds] = React.useState([]);
+  const [blogIds, setBlogIds] = React.useState([]);
   const [template] = useLocalStorageState("template", "");
 
   React.useEffect(() => {
     console.log("in effect");
     console.log(template);
-    setProductIds(template?.data?.products);
+    setBlogIds(template?.data?.blogs);
   }, []);
 
-  const handleEditProduct = (id) => {
+  const handleEditBlog = (id) => {
     console.log(id, "handleEdtiProduct");
-    setAddProduct(true);
+    setAddBlog(true);
     setOperation("edit");
     setEditId(id);
   };
@@ -32,11 +33,11 @@ const HandleProducts = () => {
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-      {addProduct && (
-        <AddProduct
+      {addBlog && (
+        <Write
           operation={operation}
           editId={editId}
-          setAddProduct={setAddProduct}
+          setAddBlog={setAddBlog}
         />
       )}
       <Space h="lg" />
@@ -47,11 +48,11 @@ const HandleProducts = () => {
         bg="#FBF8F1"
       >
         <Text fw={400} fz="xl">
-          Manage Products
+          Manage Blogs
         </Text>
-        {!addProduct && (
+        {!addBlog && (
           <Button
-            onClick={() => setAddProduct(true)}
+            onClick={() => setAddBlog(true)}
             variant="default"
             leftIcon={<Add size="1rem" />}
           >
@@ -62,13 +63,13 @@ const HandleProducts = () => {
 
       <Space h="xl" />
       <Flex direction="column">
-        <Products
-          handleEditProduct={handleEditProduct}
-          productIds={productIds}
+        <Blogs
+          handleEditBlog={handleEditBlog}
+          blogIds={blogIds}
         />
       </Flex>
     </>
   );
 };
 
-export default HandleProducts;
+export default HandleBlogs;

@@ -50,6 +50,7 @@ const Categories = (props) => {
       {categories.map((category) =>
         category === selectedCategory ? (
           <Button
+          key={category}
             variant="outlined"
             style={{
               borderRadius: "20px",

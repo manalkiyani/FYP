@@ -18,7 +18,7 @@ import Divider from '@mui/material/Divider';
 const Sidebar = () => {
 
   return (
-    <div style={{backgroundColor:'#40AFC0'}} className="sidebar">
+    <div style={{backgroundColor:'#008B8B'}} className="sidebar">
 
       <hr />
       <div  className="center">
