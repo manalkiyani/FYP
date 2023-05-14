@@ -112,7 +112,7 @@ const BlogMain = (props) => {
         </center>
       ) : (
         <>
-          {blogIds && <Blogs blogIds={blogIds} />}
+          {blogIds && <Blogs view="none"blogIds={blogIds} />}
           {productIds && <AdminProducts view="none" productIds={productIds} />}
           {jobIds && <ViewJobs jobIds={jobIds} />}
           {doctorIds && <DoctorsPage doctorIds = {doctorIds}/>}

@@ -1,5 +1,5 @@
 import "./Write.css";
-import React, { useCallback } from "react";
+import React, { useEffect } from "react";
 import { Carousel } from "react-bootstrap";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -11,22 +11,25 @@ import "react-quill/dist/quill.snow.css";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import Categories from "../components/Categories/Categories";
+import axios from "axios";
 
 import Box from "@mui/material/Box";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Person } from "@mui/icons-material";
 import { useLocalStorageState } from "ahooks";
-import QuillEditor from "./QuillEditor";
-
-export default function Write() {
-
-  const [title, setTitle] = useState(null);
+// import QuillEditor from "./QuillEditor";
+import { Group } from "@mantine/core";
+import { EditorState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+export default function Write({ setAddBlog, operation, editId }) {
+  const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
   const [tags, setTags] = useState([]);
   const [writer, setWriter] = useState("");
   const [time, setTime] = useState("");
-  const [desc, setdesc] = useState(null);
-  const [image, setImage] = useState(null);
+  const [desc, setdesc] = useState("");
+  const [image, setImage] = useState("");
   const [images, setImages] = useState([]);
   const [displayImage, setDisplayImage] = useState(
     "https://res.cloudinary.com/djlewzcd5/image/upload/v1680437430/Freelancing_Promotion_Facebook_Cover_Photo_rk3krj.png"
@@ -37,10 +40,36 @@ export default function Write() {
   const [open, setOpen] = useState(false);
   const [tag, setTag] = useState("");
   const [category, setCategory] = useState("");
+  const [imageChanged, setImageChanged] = useState(false);
 
- 
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [isMediaUploaded, setIsMediaUploaded] = useState(false);
 
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+  };
+  const handleMediaUpload = async (file) => {
+    console.log("handling media upload");
+    try {
+      const fileType = file.type.split("/")[0];
+      console.log("fileType", fileType);
+      const mediaUrl = await uploadImage(file); // Call your Cloudinary file upload function
+      console.log(mediaUrl);
+
+      if (fileType === "image") {
+        return { data: { link: mediaUrl } };
+      } else if (fileType === "video") {
+        console.log("in video");
+        return { data: { link: mediaUrl } };
+      }
+
+      // Handle other file types if needed
+    } catch (error) {
+      console.error("Error uploading media:", error);
+    }
+  };
   const fileChange = (e) => {
+    setImageChanged(true);
     const newImage = e.target.files[0];
 
     if (newImage) {
@@ -53,7 +82,7 @@ export default function Write() {
     e.preventDefault();
     if (!title || !image || !desc || !category || !time) {
       toast.error("Please fill all the required fields");
-      console.log(title, image, desc, category, time)
+      console.log(title, image, desc, category, time);
       return;
     }
 
@@ -121,6 +150,73 @@ export default function Write() {
   const handleChangeDescription = (desc) => {
     console.log(desc);
   };
+
+  const handleCancel = () => {
+    setAddBlog(false);
+  };
+  const editBlog = async () => {
+    toast.loading("Updating your blog");
+
+    let link = null;
+    if (imageChanged) {
+      try {
+        link = await uploadImage(image);
+        console.log(link);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    console.log("image", image);
+    await fetch(`http://localhost:8800/api/blogs/${editId}`, {
+      method: "PATCH",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        title,
+        tagline,
+        image: link || image,
+        tags,
+        writer,
+        readingTime: time,
+        description: desc,
+
+        category,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Blog Updated Successfully");
+        console.log(data, "daata");
+      });
+  };
+  const getBlog = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8800/api/blogs/${editId}`
+      );
+      const blog = response.data.blog;
+      console.log(blog);
+      setCategory(blog.category);
+      setTagline(blog.tagline);
+      setDisplayImage(blog.image);
+      setTags(blog.tags);
+      setTitle(blog.title);
+      setTime(blog.readingTime);
+      setWriter(blog.writer);
+      setdesc(blog.description);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (editId) {
+      getBlog();
+    }
+  }, [editId]);
   return (
     <>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -147,15 +243,38 @@ export default function Write() {
             </label>
 
             <input id="fileInput" type="file" style={{ display: "none" }} />
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              className="writeSubmit"
-              type="submit"
-              size="large"
-            >
-              Publish
-            </Button>
+            <Group position="center">
+              <Button
+                onClick={handleCancel}
+                variant="outlined"
+                className="writeSubmit"
+                size="medium"
+              >
+                Cancel
+              </Button>
+
+              {operation === "edit" ? (
+                <Button
+                  onClick={editBlog}
+                  variant="contained"
+                  className="writeSubmit"
+                  type="submit"
+                  size="medium"
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  className="writeSubmit"
+                  type="submit"
+                  size="medium"
+                >
+                  Publish
+                </Button>
+              )}
+            </Group>
           </div>
           <div className="writeFormGroup">
             <input
@@ -163,6 +282,7 @@ export default function Write() {
               type="text"
               placeholder="Enter Title..."
               className="blogInputTitle"
+              value={title}
             />
           </div>
 
@@ -172,6 +292,7 @@ export default function Write() {
               type="text"
               placeholder="Enter Subtitle..."
               className="blogInputTagline"
+              value={tagline}
             />
           </div>
 
@@ -255,6 +376,7 @@ export default function Write() {
                 placeholder="Reading Time..."
                 className="blogInputTagline"
                 style={{ fontSize: "15px" }}
+                value={time}
               />
             </div>
             <div>
@@ -265,14 +387,49 @@ export default function Write() {
                 placeholder="Writer's Name..."
                 className="blogInputTagline"
                 style={{ fontSize: "15px" }}
+                value={writer}
               />
             </div>
           </div>
 
           <div className="writeFormGroup">
-            <div className="writeQuill">
-             <QuillEditor desc={desc} handleChangeDescription={handleChangeDescription}/>
-            </div>
+            {/* <div className="writeQuill">
+              <QuillEditor
+                desc={desc}
+                handleChangeDescription={handleChangeDescription}
+              />
+            </div> */}
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={handleEditorChange}
+              toolbar={{
+                options: [
+                  "inline",
+                  "blockType",
+                  "fontSize",
+                  "list",
+                  "textAlign",
+                  "link",
+                  "image",
+                  "history",
+                ],
+                image: {
+                  uploadCallback: handleMediaUpload,
+                  alt: { present: true, mandatory: true },
+                },
+                // video: {
+                //   uploadCallback: handleMediaUpload,
+                //   alt: { present: true, mandatory: true },
+                // },
+                
+                embedded: {
+                  defaultSize: {
+                    height: "300",
+                    width: "300",
+                  },
+                },
+              }}
+            />
           </div>
 
           {/* <div dangerouslySetInnerHTML={{ __html: desc }}></div> */}

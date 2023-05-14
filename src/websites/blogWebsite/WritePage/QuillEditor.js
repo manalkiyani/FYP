@@ -3,7 +3,7 @@ import React from "react";
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import ReactQuill from "react-quill-fixed";
 
-const QuillEditor = ({ handleChangeDescription }) => {
+const QuillEditor = ({ handleChangeDescription, desc }) => {
   const quillRef = React.useRef(null);
   const modules = {
     toolbar: {
@@ -62,7 +62,6 @@ const QuillEditor = ({ handleChangeDescription }) => {
       placeholder={"Write something awesome..."}
       style={{ height: "100%" }}
       theme="snow"
-      //  value={desc}
       onChange={handleChangeDescription}
       modules={modules}
     />

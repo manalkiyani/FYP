@@ -15,7 +15,12 @@ import Box from "@mui/material/Box";
 import { uploadImage } from "../../../../utilityFunctions/imageUpload";
 
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import {Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { useLocalStorageState } from "ahooks";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -42,18 +47,16 @@ const ConfirmDeleteDialog = ({ open, onClose, onConfirm }) => {
           Cancel
         </Button>
         <Button disabled={loading} onClick={handleConfirm} color="error">
-          {loading ? 'Deleting...' : 'Delete'}
+          {loading ? "Deleting..." : "Delete"}
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-
-
-export default function Blogs({ blogIds }) {
+export default function Blogs({handleEditBlog, blogIds,view }) {
   const [blogs, setBlogs] = useState(null);
-  const[blogDeletion,setBlogDeletion]=useState(false);
+  const [blogDeletion, setBlogDeletion] = useState(false);
   const [edit, setEdit] = React.useState(false);
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
@@ -62,9 +65,9 @@ export default function Blogs({ blogIds }) {
   const [time, setTime] = useState("");
   const [desc, setdesc] = useState("");
   const [blogId, setBlogId] = useState("");
-  const [template,setTemplate] = useLocalStorageState("template", "")
-  
- const [image, setImage] = useState(null);
+  const [template, setTemplate] = useLocalStorageState("template", "");
+  console.log("in BLOGS", blogIds);
+  const [image, setImage] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
   const [imageChanged, setImageChanged] = useState(false);
   const [blogDeleteId, setBlogDeleteId] = useState(null);
@@ -81,16 +84,15 @@ export default function Blogs({ blogIds }) {
   };
   useEffect(() => {
     getBlogs();
-  }, []);
+  }, [blogIds]);
 
- 
   const openBlogDeletion = (id) => {
     setBlogDeleteId(id);
     setBlogDeletion(true);
-  }
+  };
   const closeBlogDeletion = () => {
     setBlogDeletion(false);
-  }
+  };
   const delBlog = () => {
     axios
       .delete(`http://localhost:8800/api/blogs/${blogDeleteId}`)
@@ -111,8 +113,17 @@ export default function Blogs({ blogIds }) {
       });
   };
 
-  const handleOpenEdit = (id, title, tagline, tags, desc, writer, time,image) => {
-    console.log(id, title, tagline, tags, desc, writer, time,image);
+  const handleOpenEdit = (
+    id,
+    title,
+    tagline,
+    tags,
+    desc,
+    writer,
+    time,
+    image
+  ) => {
+    console.log(id, title, tagline, tags, desc, writer, time, image);
     setTitle(title);
     setTagline(tagline);
     setTags(tags);
@@ -130,21 +141,18 @@ export default function Blogs({ blogIds }) {
   };
 
   const editBlog = async () => {
-         toast.success("Updating your blog");
+    toast.success("Updating your blog");
 
-     let link = null;
+    let link = null;
     if (imageChanged) {
-      
-     
       try {
         link = await uploadImage(image);
-        console.log(link)
-     
+        console.log(link);
       } catch (err) {
         console.log(err);
       }
     }
-    console.log('image',image)
+    console.log("image", image);
     await fetch(`http://localhost:8800/api/blogs/${blogId}`, {
       method: "PATCH",
       crossDomain: true,
@@ -156,7 +164,7 @@ export default function Blogs({ blogIds }) {
       body: JSON.stringify({
         title,
         tagline,
-        image:link || image,
+        image: link || image,
         tags,
         writer,
         readingTime: time,
@@ -166,7 +174,7 @@ export default function Blogs({ blogIds }) {
       .then((res) => res.json())
       .then((data) => {
         toast.success("Blog Updated Successfully");
-        console.log(data,'daata')
+        console.log(data, "daata");
         setBlogs(blogs.map((blog) => (blog._id === blogId ? data.Blog : blog)));
         console.log(data.Blog);
       });
@@ -211,17 +219,17 @@ export default function Blogs({ blogIds }) {
                           style={{ marginBottom: "20px", marginTop: "20px" }}
                         >
                           (
-                            <img
-                              style={{
-                                borderRadius: "30px",
-                                objectFit: "cover",
-                                width: "300px",
-                                height: "300px",
-                              }}
-                              src={displayImage}
-                              alt="productImage"
-                            />
-                          )       
+                          <img
+                            style={{
+                              borderRadius: "30px",
+                              objectFit: "cover",
+                              width: "300px",
+                              height: "300px",
+                            }}
+                            src={displayImage}
+                            alt="productImage"
+                          />
+                          )
                         </div>
                       </center>
 
@@ -319,12 +327,16 @@ export default function Blogs({ blogIds }) {
               </Dialog>
             }
           </div>
-         <ConfirmDeleteDialog open={blogDeletion} onClose ={closeBlogDeletion} onConfirm={delBlog} />
+          <ConfirmDeleteDialog
+            open={blogDeletion}
+            onClose={closeBlogDeletion}
+            onConfirm={delBlog}
+          />
           {blogs &&
             blogs.map((blog) => {
               return (
                 <Blog
-                  
+                view={view}
                   key={blog._id}
                   bid={blog._id}
                   img={blog.image}
@@ -336,6 +348,7 @@ export default function Blogs({ blogIds }) {
                   tags={blog.tags}
                   deleted={openBlogDeletion}
                   edit={handleOpenEdit}
+                  handleEditBlog ={handleEditBlog}
                 />
               );
             })}
