@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function ViewAppointment({ doctor, day, status, slot, patientName }) {
+export function CheckAppointment({ doctor, day, status, slot, patientName }) {
   const { classes, theme } = useStyles();
 
   return (
