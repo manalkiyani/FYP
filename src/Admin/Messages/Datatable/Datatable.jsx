@@ -15,7 +15,7 @@ const Datatable = ({id}) => {
   const [open, setOpen]= useState(false)
   const handleReply = async (params) => {
 
-    await setEmail(params.row.email)
+     setEmail(params.row.email)
     
    console.log(params.row.email); // log the email of the selected row
    setOpen(true);

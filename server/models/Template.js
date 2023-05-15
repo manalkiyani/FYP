@@ -11,7 +11,7 @@ const template = new Schema({
   createdAt: { type: String },
 
   data: { type: Object }, //may contain list of blogs,orders,appointments,applications
-  message: [{ type: Object }], //messagesSent by the user
+  messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "message" }], //messagesSent by the user
   rating: { type: Number }, // rating of the template
 
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], //users who have signed up for this admins website

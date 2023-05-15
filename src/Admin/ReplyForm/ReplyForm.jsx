@@ -94,6 +94,7 @@ const ReplyForm = ({email, open, setOpen}) => {
     console.log("this is message+ "+ messages)
     axios.post("http://localhost:8800/api/admin/maileradminmessages",{email, subject, messages } )
     .then((response) => {
+      setOpen(false)
  
       console.log(response.data + "this is mailer response");
     })

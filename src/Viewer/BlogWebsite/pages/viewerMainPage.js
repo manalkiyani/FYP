@@ -100,7 +100,7 @@ const ViewerMainPage = (props) => {
             if (Template.data?.doctors) {
               DataIds = Template.data.doctors;
             }
-            setProductIds(DataIds);
+            setDoctorIds(DataIds);
           }
           break;
       }
@@ -122,6 +122,9 @@ const ViewerMainPage = (props) => {
       {productIds && <ViewerProducts productIds={productIds} />}
 
       {jobIds && <ViewJobs jobIds={jobIds} />}
+
+
+      {/* {doctorIds && <ViewDoctor doctorIds={doctorIds} />} */}
 
       {/*display blocks here*/}
       {main ? (
