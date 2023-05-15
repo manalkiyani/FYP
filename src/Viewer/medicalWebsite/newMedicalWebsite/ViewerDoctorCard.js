@@ -11,10 +11,7 @@ import {
   Flex,
   Button,
 } from "@mantine/core";
-import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import EditIcon from "@mui/icons-material/EditOutlined";
-import IconDots from "@mui/icons-material/MoreHorizOutlined";
-import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+
 import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -53,6 +50,9 @@ export function ViewerDoctorCard({
 }) {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const BookAppointment = () => {
+    navigate(`${id}/appointment`);
+  };
 
   return (
     <Card
@@ -71,7 +71,9 @@ export function ViewerDoctorCard({
         />
         <div className={classes.body}>
           <Flex justify="flex-end">
-            <Button variant="default">BookAppointment</Button>
+            <Button variant="default" onClick={BookAppointment}>
+              BookAppointment
+            </Button>
           </Flex>
 
           <Text

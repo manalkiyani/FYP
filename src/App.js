@@ -372,9 +372,6 @@ const App = () => {
                 element={<DoctorDetail view="none" />}
               />
               <Route path="manage" element={<ManageMedicalWebsite />} />
-
-              <Route path="doctors/:doctorId" element={<medicalDetail />} />
-              <Route path="appointments" element={<AdminViewAppointments />} />
             </Route>
 
             {/* medical Website Viewer */}
@@ -402,6 +399,10 @@ const App = () => {
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />
+              <Route
+                path="doctors/:doctorId/appointment"
+                element={<BookAppointment />}
+              />
               <Route
                 path="doctors/:doctorId"
                 element={<ViewerDoctorDetail />}
