@@ -59,8 +59,8 @@ const { classes, theme } = useStyles();
 const useStyles = createStyles((theme) => ({
   card: {
     position: 'relative',
-    height: rem(280),
-    width:rem(320),
+    height: rem(250),
+    width:rem(300),
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
 
     [`&:hover .${getStylesRef('image')}`]: {

@@ -9,8 +9,11 @@ const ViewerDoctorPage = ({ doctorIds }) => {
 
   const getDoctors = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8800/api/doctor/get/${doctorIds}`
+      const response = await axios.post(
+        `http://localhost:8800/api/doctor/get`,
+        {
+          doctorIds,
+        }
       );
       console.log(response);
       setDoctors(response.data.Doctors);

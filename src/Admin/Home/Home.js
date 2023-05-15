@@ -17,10 +17,9 @@ const Home = () => {
         </div>
         <div>
           <div>
-            <Space h="xl" />
             <Flex
-              mt="xl"
-              mb="md"
+              mt="sm"
+              mb="sm"
               justify="space-between"
               mih={50}
               style={{ padding: "20px", borderRadius: "20px" }}
@@ -70,10 +69,9 @@ const Home = () => {
         </div>
 
         <div>
-          <Space h="xl" />
           <Flex
-            mt="xl"
-            mb="md"
+            mt="sm"
+            mb="sm"
             justify="space-between"
             mih={50}
             style={{ padding: "20px", borderRadius: "20px" }}
@@ -83,14 +81,12 @@ const Home = () => {
               Blank Templates
             </Title>
           </Flex>
-
           <div className="charts">
             <BlankTemplates />
           </div>
         </div>
 
         <div>
-          <Space h="xl" />
           <Flex
             mt="xl"
             mb="md"

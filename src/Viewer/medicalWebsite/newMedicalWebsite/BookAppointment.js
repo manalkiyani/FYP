@@ -61,6 +61,8 @@ const BookAppointment = () => {
   const [description, setDescription] = useState("");
   const [day, setDay] = useState("");
   const { doctorId } = useParams();
+
+ 
   console.log("doctorId", doctorId);
   const [slots, setSlots] = useState([
     "2:30 AM - 3:00 AM",

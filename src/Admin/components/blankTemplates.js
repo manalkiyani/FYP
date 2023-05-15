@@ -27,7 +27,12 @@ export default function BlankTemplates() {
       const response = await axios.post(
         "http://localhost:8800/api/templates/getList",
         {
-          templateIds: ["645f98ad96c120c7214f9154", "645fa888efc31bb14ca8c791","645faec0efc31bb14ca8c89e","645bc518ac0771a5e8686e51"],
+          templateIds: [
+            "645f98ad96c120c7214f9154",
+            "645fa888efc31bb14ca8c791",
+            "645faec0efc31bb14ca8c89e",
+            "645bc518ac0771a5e8686e51",
+          ],
         }
       );
 
@@ -93,8 +98,8 @@ export default function BlankTemplates() {
 const useStyles = createStyles((theme) => ({
   card: {
     position: "relative",
-    width: rem(330),
-    height: rem(280),
+    width: rem(300),
+    height: rem(250),
     marginRight: rem(20),
     border: "1px solid #ccc",
     cursor: "pointer",
