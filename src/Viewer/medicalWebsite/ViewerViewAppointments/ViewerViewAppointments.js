@@ -200,25 +200,6 @@ Brooklyn, NY 11236
 
 
 
-
-
-      <div>
-        <h2>Appointments</h2>
-        <div className="appointments-container">
-          {appointments.map(appointment => (
-            <div className="appointment-card" key={appointment._id}>
-              <div className="card-header">
-                Appointment with Doctor {getDoctorName(appointment.doctorid)}
-              </div>
-              <div className="card-body">
-                <p>Date: {appointment.Day}</p>
-                <p>Time: {appointment.Time}</p>
-                <p>Status: {appointment.status}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
       </>
     );
 };
