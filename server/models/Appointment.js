@@ -20,6 +20,24 @@ const appointmentSchema = new mongoose.Schema(
     isComplete: {
       type: Boolean,
       default: false
+    },
+    name:{
+      type: String
+    }
+    ,sessionType:{
+      type: String,
+    },
+    email:{
+      type:String
+    },
+    gender:{
+      type:String
+    },
+    age:{
+      type:Number
+    },
+    description:{
+      type: String
     }
   }
 );

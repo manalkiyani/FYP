@@ -388,6 +388,7 @@ const App = () => {
                   <AuthorizeViewer>
                     <ViewerMainPage type="medical" />
                   </AuthorizeViewer>
+
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />
@@ -399,7 +400,12 @@ const App = () => {
                 path="doctors/:doctorId"
                 element={<ViewerDoctorDetail />}
               />
+              <Route
+                path="appointments"
+                element={<CheckAppointment />}
+              />
             </Route>
+            
 
             <Route path="*" element={<NotFound />} />
           </Routes>
