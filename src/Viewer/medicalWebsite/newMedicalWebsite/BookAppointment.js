@@ -15,6 +15,7 @@ import {
   rem,
 } from "@mantine/core";
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 const inputStyles = createStyles((theme) => ({
   container: {
     width: rem(350),
@@ -59,6 +60,8 @@ const BookAppointment = () => {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [day, setDay] = useState("");
+  const { doctorId } = useParams();
+  console.log("doctorId", doctorId);
   const [slots, setSlots] = useState([
     "2:30 AM - 3:00 AM",
     "3:00 AM - 3:30 AM",
@@ -67,11 +70,10 @@ const BookAppointment = () => {
   const { classes } = inputStyles();
   return (
     <Container size="80rem">
-
-         <Divider my="sm" />
-           <Title order={3}>Book An Appointment</Title>
-          <Divider my="sm" />
-          <Space h="xl"/>
+      <Divider my="sm" />
+      <Title order={3}>Book An Appointment</Title>
+      <Divider my="sm" />
+      <Space h="xl" />
       <div>
         <Group spacing="xs" grow>
           <TextInput

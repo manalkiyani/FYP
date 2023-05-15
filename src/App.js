@@ -15,7 +15,7 @@ import ContactSuperAdmin from "./pages/ContactSuperAdmin/ContactSuperAdmin";
 import ContactForm from "./pages/ContactUs/ContactUs";
 import Home from "./Admin/Home/Home";
 import PublishedWebsites from "./Admin/PublishedWebsites/PublishedWebsites";
-import Messages from "./Admin/Messages/Messages";
+
 import Payments from "./Admin/Payments/Payments";
 
 import Dashboard from "./pages/Dashboard/dashboard";
@@ -87,6 +87,7 @@ import { CheckAppointment } from "./Viewer/medicalWebsite/newMedicalWebsite/View
 import ManageBlogWebsite from "./websites/blogWebsite/ManageWebsite/ManageBlogWebsite";
 import AdminBlogDetail from "./websites/blogWebsite/BlogDetail/AdminBlogDetail";
 import BlogDetail from "./Viewer/BlogWebsite/BlogDetail/BlogDetail";
+import { ViewerDoctorDetail } from "./Viewer/medicalWebsite/newMedicalWebsite/ViewerDoctorDetail";
 
 const theme = createTheme({
   palette: {
@@ -188,7 +189,7 @@ const App = () => {
                 path="/publishedwebsites"
                 element={<PublishedWebsites />}
               ></Route>
-              <Route path="/adminmessages" element={<Messages />}></Route>
+
               <Route path="/adminpayments" element={<Payments />}></Route>
               <Route
                 path="/adminappointments"
@@ -371,9 +372,6 @@ const App = () => {
                 element={<DoctorDetail view="none" />}
               />
               <Route path="manage" element={<ManageMedicalWebsite />} />
-
-              {/* <Route path="doctors/:doctorId" element={<medicalDetail />} /> */}
-              <Route path="appointments" element={<AdminViewAppointments />} />
             </Route>
 
             {/* medical Website Viewer */}
@@ -401,7 +399,14 @@ const App = () => {
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />
-              {/* <Route path="doctors/:doctorId" element={<BlogDetail />} /> */}
+              <Route
+                path="doctors/:doctorId/appointment"
+                element={<BookAppointment />}
+              />
+              <Route
+                path="doctors/:doctorId"
+                element={<ViewerDoctorDetail />}
+              />
             </Route>
 
             <Route path="*" element={<NotFound />} />
