@@ -9,6 +9,9 @@ import {
   Flex,
 } from "@mantine/core";
 
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -31,7 +34,53 @@ const useStyles = createStyles((theme) => ({
 export function ViewAppointment({ doctor, day, status, slot, patientName }) {
   const { classes, theme } = useStyles();
 
+  const TEMPLATEID = '64466439e08c4f5f864bceac'
+
+  const [appointmentData, setAppointmentData] = useState([]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
+          TEMPLATEID
+        });
+        setAppointmentData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAppointments();
+  }, [appointmentData]);
+
+  const handleCompleted = async (appointmentid) => {
+    try {
+      const response = await axios.put('http://localhost:8800/api/doctor/doctorcompletesappointment',{appointmentid});
+      const updatedAppointment = response.data;
+      const updatedAppointments = appointmentData.map((appointment) => {
+        if (appointment._id === updatedAppointment._id) {
+          return updatedAppointment;
+        } else {
+          return appointment;
+        }
+      });
+      setAppointmentData(updatedAppointments);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
+
+
+
+
   return (
+    <>
+
+    {appointmentData.map((appointment, index) => (
+
     <Card
       style={{ width: "650px" }}
       withBorder
@@ -46,9 +95,9 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
             radius="sm"
           />
           <div>
-            <Text fw={500}>Dr. Elsa Gardelnowl</Text>
+            <Text fw={500}>Dr. {appointment.DoctorName}</Text>
             <Text fz="xs" c="dimmed">
-           Monday -  7:30 AM to 8:30AM
+            {appointment.Day} -  {appointment.Time}
             </Text>
           </div>
         </Group>
@@ -75,7 +124,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
         <Group spacing="xl" mt="lg">
          
           <div>
-            <Text fw={500}>Churchil Gardelnowl</Text>
+            <Text fw={500}>{appointment.PatientName}</Text>
             <Text fz="xs" c="dimmed">
             18 years - female
             </Text>
@@ -90,5 +139,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
        
       </Card.Section>
     </Card>
+        ))}
+         </>
   );
 }

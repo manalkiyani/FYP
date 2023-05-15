@@ -100,7 +100,7 @@ const ViewerMainPage = (props) => {
             if (Template.data?.doctors) {
               DataIds = Template.data.doctors;
             }
-            setProductIds(DataIds);
+            setDoctorIds(DataIds);
           }
           break;
       }
