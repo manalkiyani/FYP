@@ -393,9 +393,10 @@ const App = () => {
               <Route
                 path="doctors"
                 element={
-                  <AuthorizeViewer>
-                    <ViewerMainPage type="medical" />
-                  </AuthorizeViewer>
+                  // <AuthorizeViewer>
+                  //   <ViewerMainPage type="medical" />
+                  // </AuthorizeViewer>
+                  <ViewerMainPage type="medical" />
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />

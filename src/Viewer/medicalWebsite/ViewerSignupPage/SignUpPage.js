@@ -44,18 +44,12 @@ export function ViewerSignup() {
   const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [contactInfo, setContactInfo] = useState("");
+
   const navigate = useNavigate();
   const { id } = useParams();
   const { classes } = useStyles();
   const handleSubmit = async (e) => {
-    if (
-      username === "" ||
-      email === "" ||
-      password === "" ||
-      age === "" ||
-      contactInfo === ""
-    ) {
+    if (username === "" || email === "" || password === "" || age === "") {
       toast.error("Please fill all the fields");
       return;
     }
@@ -69,7 +63,7 @@ export function ViewerSignup() {
           username,
           age,
           email,
-          contact_info: contactInfo,
+
           gender,
           password,
         }
@@ -129,14 +123,6 @@ export function ViewerSignup() {
             type="number"
             placeholder="18"
             label="Age"
-          />
-          <TextInput
-            required
-            value={contactInfo}
-            onChange={(e) => setContactInfo(e.target.value)}
-            type="number"
-            placeholder="0333-833-8333"
-            label="Contact Number"
           />
 
           <PasswordInput

@@ -83,10 +83,10 @@ function delDoctor(req, res) {
 }
 
 async function getListOfDoctors(req, res) {
-  console.log("Req.body", typeof req.params.doctorIds);
+  console.log("Req.body", typeof req.body.doctorIds);
 
   //find blogs which have ids in the array
-  Doctor.find({ _id: { $in: req.params.doctorIds } })
+  Doctor.find({ _id: { $in: req.body.doctorIds } })
 
     .then((allDoctors) => {
       return res.status(200).json({
