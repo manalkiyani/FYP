@@ -72,7 +72,7 @@ export function ViewerDoctorCard({
         <div className={classes.body}>
           <Flex justify="flex-end">
             <Button variant="default" onClick={BookAppointment}>
-              BookAppointment
+              Book Appointment
             </Button>
           </Flex>
 
@@ -83,7 +83,7 @@ export function ViewerDoctorCard({
             mt="xs"
             mb="md"
           >
-            {/* {title} */} DR. Richard Steward
+            {/* {title} */} DR. {title}
           </Text>
 
           <Card.Section style={{ width: "500px" }} className={classes.footer}>

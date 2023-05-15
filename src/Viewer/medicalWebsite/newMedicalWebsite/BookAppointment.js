@@ -14,7 +14,9 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
+import { useLocalStorageState } from "ahooks";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 const inputStyles = createStyles((theme) => ({
   container: {
@@ -57,18 +59,141 @@ const BookAppointment = () => {
   const [sessionType, setSessionType] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState(0);
+  const [slotid, setSlotId] = useState("")
   const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [day, setDay] = useState("");
   const { doctorId } = useParams();
 
+  const [combinedTime, setCombinedTime]=useState('')
+  const viewer = localStorage.getItem('viewer')
+  const viewerObj = JSON.parse(viewer);
+const viewerId = viewerObj._id;
+const [templateId,setTemplateId] = useLocalStorageState("templateId","")
+
+const handleDescriptionChange = (event) => {
+  setDescription(event.target.value);
+};
+
+  /***************************
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * *****************************
+   */
+
+
+  const handleConfirmAppointment = async () => {
+    try {
+      // Update the slot to be booked
+      const res = await axios.patch(
+        `http://localhost:8800/api/doctor/changeisbookedstatus/${slotid}`,
+        {
+          isBooked: true,
+        }
+      );
+  
+      // Save the appointment details
+      console.log("This is data: "+doctorId+" "+ viewerId+ " "+  slotid+" "+ day+" " +combinedTime )
+      const appointmentRes = await axios
+        .post(`http://localhost:8800/api/doctor/bookappointment`, {
+          doctorid: doctorId,
+          patientid: viewerId,
+          slot: slotid,
+          Day: day,
+          Time: combinedTime,
+          name,
+          sessionType,
+          email,
+          gender,
+          description,
+          age
+        })
+        .then(async (appointmentRes) => {
+          let appointmentId = appointmentRes.data._id;
+          console.log("this is appointment id" + appointmentId);
+          try {
+            const response = await axios.put(
+              "http://localhost:8800/api/doctor/appointmentidtotemplate",
+              { appointmentId, templateId: templateId }
+            );
+            console.log("this is response +" + response.data);
+          } catch (error) {
+            console.log(error);
+          }
+
+          console.log("appointment received");
+        });
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
+  const [slots, setSlots] = useState([]);
+  
+
+  const handleDayClick = (selectedDay) => {
+setDay(selectedDay);
+    const dayOfWeek = selectedDay.toLowerCase();
+    console.log("this is viewername : "+ viewerId)
+
+    console.log("this is day of week"+ dayOfWeek)
+  
+    // Check if slots for the selected day are already fetched
+    if (slots.length > 0) {
+      setSlots([]);
+      console.log(slots)
+    }
+
+    // Make an Axios request to the backend to get the slots data
+    axios.get(`http://localhost:8800/api/doctor/getslots/${doctorId}/${dayOfWeek}`)
+      .then(response => {
+        setSlots(response.data);
+        console.log(response.data);
+        console.log("slots data above");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+
+
+  const handleSlotClick = (slot) => {
+    console.log(slot);
+    console.log('this is slot above')
+    const {id, start, end , day } = slot;
+    setSlotId(id);
+    const combinedTimeStartAndEnd = `${start}-${end}`;
+    setCombinedTime(combinedTimeStartAndEnd);
+
+  };
+
+
+    /***************************
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * *****************************
+   */
+
+
+
+
  
   console.log("doctorId", doctorId);
-  const [slots, setSlots] = useState([
-    "2:30 AM - 3:00 AM",
-    "3:00 AM - 3:30 AM",
-    "3:30 AM - 4:00 AM",
-  ]);
+ 
   const { classes } = inputStyles();
   return (
     <Container size="80rem">
@@ -132,7 +257,7 @@ const BookAppointment = () => {
             withAsterisk
             minRows={4}
             value={description}
-            onChange={setDescription}
+            onChange={handleDescriptionChange}
           />
           <NumberInput
             defaultValue={18}
@@ -145,27 +270,36 @@ const BookAppointment = () => {
         </Group>
       </div>
       <Select
-        mt="md"
-        mb={15}
-        withinPortal
-        data={["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]}
-        value={day}
-        onChange={setDay}
-        placeholder="Pick one"
-        label="Day"
-        classNames={classes}
-        required
-      />
+  mt="md"
+  mb={15}
+  withinPortal
+  data={["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]}
+  value={day}
+  onChange={(selectedDay) => handleDayClick(selectedDay)}
+  placeholder="Pick one"
+  label="Day"
+  classNames={classes}
+  required
+/>
+
       <Text mb="sm" withAsterisk fz="sm">
         {" "}
         Choose a Slot
       </Text>
 
       <Flex wra="wrap">
+
+
+
+
+
+
+
         {slots.map((slot) => {
+                            const { start, end } = slot;
           return (
-            <Button mr="sm" radius="xl" variant="default">
-              {slot}
+            <Button onClick={() => handleSlotClick(slot)} mr="sm" radius="xl" variant="default">
+                                {start} - {end}
             </Button>
           );
         })}
@@ -173,7 +307,7 @@ const BookAppointment = () => {
       <Space h="xl" />
       <Group position="center" mt="xl">
         <Button variant="default">Cancel</Button>
-        <Button color="cyan">Book Now</Button>
+        <Button onClick={handleConfirmAppointment} color="cyan">Book Now</Button>
       </Group>
     </Container>
   );
