@@ -228,7 +228,7 @@ const changeIsBookedStatus = async (req, res) => {
 };
 
 const bookAppointment = async (req, res) => {
-  const { doctorid, patientid, slot, Day, Time } = req.body;
+  const { doctorid, patientid, slot, Day, Time,name, sessionType, email, gender, description, age } = req.body;
 
   try {
     // Save the appointment details to the database
@@ -239,6 +239,12 @@ const bookAppointment = async (req, res) => {
       slot,
       Day,
       Time,
+      name,
+      sessionType,
+      email,
+      gender,
+      description,
+      age
     });
     const savedAppointment = await newAppointment.save();
     res.json(savedAppointment);
