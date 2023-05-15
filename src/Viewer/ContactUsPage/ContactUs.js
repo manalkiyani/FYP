@@ -34,6 +34,7 @@ const ViewerContactForm = () => {
       );
 
       console.log(response);
+      toast.success("Message Sent Successfully");
     } catch (error) {
       console.log(error);
     }

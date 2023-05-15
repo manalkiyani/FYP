@@ -26,10 +26,7 @@ const User = new mongoose.Schema({
     enum: ["Male", "Female"],
     required: true,
   },
-  contact_info: {
-    type: String,
-    required: true,
-  },
+
   password: {
     type: String,
     required: true,

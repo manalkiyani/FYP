@@ -32,40 +32,16 @@ const Sidebar = () => {
             <span className="semiboldfont">Dashboard</span>
           </li>
           <Divider flexItem sx={{ marginTop:'5px', backgroundColor:'white' }} />
-          <p className="title">LISTS</p>
-          <Link to="/adminmessages" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span >Messages</span>
-            </li>
-          </Link>
-
-          <Link to="/adminpayments" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span style={{marginTop:'10px'}} >Orders</span>
-            </li>
-          </Link>
-          <Link to="/adminappointments" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span style={{marginTop:'10px'}} >Appointments</span>
-            </li>
-          </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span style={{marginTop:'10px'}} >Job Applications</span>
-          </li>
-          <Divider flexItem sx={{ marginTop:'10px', backgroundColor:'white' }} />
-
+         
+         
 
           <p className="title">USER</p>
-          <Link to="/admindashboard" style={{ textDecoration: "none" }}>
+         
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span >Profile</span>
           </li>
-          </Link>
+          
           <li>
             <ExitToAppIcon className="icon" />
             <span style={{marginTop:'10px'}} >Logout</span>

@@ -30,6 +30,7 @@ const ViewerDoctorPage = ({ doctorIds }) => {
     <Container size="90vw">
       {doctors &&
         doctors.map((doctor) => {
+          console.log(doctor);
           return (
             <ViewerDoctorCard
               id={doctor._id}

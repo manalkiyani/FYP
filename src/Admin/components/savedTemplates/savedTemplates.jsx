@@ -4,15 +4,16 @@ import CardContent from '@mui/material/CardContent';
 import axios from 'axios';
 import {CardMedia, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import {  CardActionArea, CardActions } from '@mui/material';
 import { useContext,useState,useEffect } from 'react';
-import { UserContext } from '../../../App';
+
 import { useNavigate } from 'react-router-dom';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import { getUsername,getUser } from '../../../utilityFunctions/authFunctions';
 import { getUserData } from '../../../utilityFunctions/axiosFunctions';
 import { useLocalStorageState } from 'ahooks';
+import { Button, Group, Text } from '@mantine/core';
 
 
 export default function SavedTemplates() {
@@ -137,25 +138,25 @@ const images = [
             <DeleteOutlineIcon onClick={()=>openDeletion(template._id)} color="error"/>
 
           </div>
-         <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
+        
 
-           <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
-          <b>Type </b>
-          </Typography>
-           <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
-          <i> {template.type}</i>
-          </Typography>
-         </div>
-           <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
-
-           <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
+         <Group position="apart">
+          <Text color="dimmed" fz="sm" weight={300}>
+            Type
+          </Text>
+          <Text color="dimmed" fz="sm" weight={300}>
+           Created On
+          </Text>
+        </Group>
+        <Group position="apart">
          
-          <b> Created At  </b>
-          </Typography>
-           <Typography gutterBottom variant="body2" style={{color:'grey'}} component="div">
-          <i> {template.createdAt} </i>
-          </Typography>
-         </div>
+          <Text fz="md" weight={400}>
+            {template.type}
+          </Text>
+          <Text fz="md" weight={400}>
+           {template.createdAt} 
+          </Text>
+        </Group>
           
          
         </CardContent>
@@ -163,11 +164,11 @@ const images = [
       <CardActions>
         <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
 
-          <Button onClick={() => openAsViewer(template._id, template.type)} size="small" color="primary">
-          View As Test User
+          <Button variant="light" onClick={() => openAsViewer(template._id, template.type)}   style={{color:'#008B8B'}}>
+      Test As User
         </Button>
-          <Button onClick={() => openAsAdmin(template._id, template.type)} size="small" color="primary">
-          Update
+          <Button variant="light" onClick={() => openAsAdmin(template._id, template.type)}  style={{color:'#008B8B'}}>
+          Manage
         </Button>
         </div>
         

@@ -88,6 +88,7 @@ import ManageBlogWebsite from "./websites/blogWebsite/ManageWebsite/ManageBlogWe
 import AdminBlogDetail from "./websites/blogWebsite/BlogDetail/AdminBlogDetail";
 import BlogDetail from "./Viewer/BlogWebsite/BlogDetail/BlogDetail";
 import { ViewerDoctorDetail } from "./Viewer/medicalWebsite/newMedicalWebsite/ViewerDoctorDetail";
+import ProductDetail from "./websites/eccomerceWebsite/components/ProductDetail/ProductDetail";
 
 const theme = createTheme({
   palette: {
@@ -122,11 +123,11 @@ const App = () => {
               {/*to be removed */}
 
               <Route path="/adminDoc" element={<DoctorCard />} />
-              <Route path="/detail" element={<DoctorDetail />} />
 
               <Route path="/book" element={<BookAppointment />} />
               <Route path="/view" element={<ViewAppointment />} />
               <Route path="/check" element={<CheckAppointment />} />
+              <Route path="/detail" element={<ProductDetail />} />
 
               {/* //////////////// */}
 
@@ -184,20 +185,10 @@ const App = () => {
               <Route path="/username" element={<Username />} />
 
               {/* Admin */}
-              <Route path="/admindashboard" element={<Home />}></Route>
+
               <Route
                 path="/publishedwebsites"
                 element={<PublishedWebsites />}
-              ></Route>
-
-              <Route path="/adminpayments" element={<Payments />}></Route>
-              <Route
-                path="/adminappointments"
-                element={<Appointments />}
-              ></Route>
-              <Route
-                path="/adminjobapplications"
-                element={<JobApplications />}
               ></Route>
 
               {/* blog Website Admin */}
@@ -289,6 +280,7 @@ const App = () => {
                   </AuthorizeViewer>
                 }
               />
+              <Route path="products/:productId" element={<ProductDetail />} />
               <Route
                 path="cart"
                 element={
@@ -393,10 +385,9 @@ const App = () => {
               <Route
                 path="doctors"
                 element={
-                  // <AuthorizeViewer>
-                  //   <ViewerMainPage type="medical" />
-                  // </AuthorizeViewer>
-                  <ViewerMainPage type="medical" />
+                  <AuthorizeViewer>
+                    <ViewerMainPage type="medical" />
+                  </AuthorizeViewer>
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />

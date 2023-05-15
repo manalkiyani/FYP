@@ -1,345 +1,155 @@
-import axios from "axios";
-import React, { useContext, useState } from "react";
-import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./BlogDetail.css";
 import {
+  Flex,
   createStyles,
-  Text,
+  Card,
+  Image,
   Avatar,
+  Text,
   Group,
-  TypographyStylesProvider,
-  Paper,
-  rem,
-} from "@mantine/core";
-import {
-  Box,
   Button,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import classes from "./BlogDetail.module.css";
-import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-
-import BeatLoader from "react-spinners/BeatLoader";
+  SimpleGrid,
+  Container,
+  Title,
+} from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { Carousel } from "@mantine/carousel";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { useLocalStorageState } from "ahooks";
-import {
-  getBlog,
-  getBlogsByCategory,
-  addReview,
-} from "../../../utilityFunctions/axiosFunctions";
-import { formatDate } from "../../../utilityFunctions/helperFunctions";
-
-const bull = (
-  <Box
-    component="h5"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  initialSlide: 0,
-};
-const BlogDetail = () => {
-  //comment
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [comment, setComment] = useState("");
-
-  //blog
-  const [blog, setBlog] = React.useState(null);
-  //get blog id from url
-  const { blogId } = useParams();
-
-  //related blogs list
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
-
-  const getRelatedBlogs = async (category) => {
-    try {
-      const data = await getBlogsByCategory(category);
-      console.log(data);
-      if (data?.status === 404) {
-        console.log("No related blogs found");
-      }
-      setRelatedBlogs(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getBlogData = async () => {
-    try {
-      const data = await getBlog(blogId);
-      if (data?.success) {
-        setBlog(data.blog);
-        getRelatedBlogs(data.blog.category);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleAddReview = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await addReview(blogId, name, email, comment);
-      console.log("Review added successfully");
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getBlogData();
-  }, [blogId]);
-
-  return (
-    <>
-      <div className={classes.container}>
-        {blog ? (
-          <>
-            <h1 style={{ fontWeight: "bold" }}>{blog.title}</h1>
-            <div>
-              <h5>{blog.tagline}</h5>
-            </div>
-
-            <div className={classes.flex}>
-              <Typography
-                sx={{ mt: 3, mb: 1 }}
-                color="text.secondary"
-                variant="body1"
-                component="div"
-              >
-                {blog.publishedDate} {bull} {blog.readingTime} read {bull}{" "}
-                {blog.writer}
-              </Typography>
-              <div style={{ cursor: "pointer" }}>
-                <BookmarkAddOutlinedIcon />
-                <ShareOutlinedIcon />
-              </div>
-            </div>
-
-            <img className={classes.blogImage} src={blog.image} />
-
-            <div dangerouslySetInnerHTML={{ __html: blog.description }} />
-
-            <div style={{ display: "flex" }}>
-              {blog.tags.map((tag) => (
-                <Button
-                  style={{
-                    borderRadius: "20px",
-                    borderColor: "#9F9F9F",
-                    color: "#fff",
-                    backgroundColor: "#2C7A86",
-                    textTransform: "capitalize",
-                    marginBottom: "10px",
-                    marginRight: "10px",
-                  }}
-                >
-                  {tag}
-                </Button>
-              ))}
-            </div>
-          </>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "70vh",
-            }}
-          >
-            <BeatLoader color="#40AFCE" loading={true} size={20} />
-          </div>
-        )}
-      </div>
-      <div className={classes.container}>
-        <h4
-          style={{
-            alignSelf: "start",
-            family: "poppins",
-            marginTop: "20px",
-            fontWeight: "400",
-          }}
-        >
-          More from {blog?.category}
-        </h4>
-      </div>
-      <center>
-        <div className={classes.relatedBlogs} style={{ width: "70%" }}>
-          <div>
-            <Slider {...settings}>
-              {relatedBlogs.map((blog) => (
-                <Blog
-                  key={blog._id}
-                  title={blog.title}
-                  tagline={blog.tagline}
-                  image={blog.image}
-                  blogId={blog._id}
-                />
-                // <div>{blog.title}</div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-      </center>
-
-      <div style={{ width: "30%" }}>
-        {blog &&
-          blog.reviews.map((review) => <ViewComments comment={review} />)}
-      </div>
-
-      <div className={classes.container}>
-        <h4
-          style={{
-            textAlign: "left",
-            family: "poppins",
-
-            fontWeight: "400",
-          }}
-        >
-          Write a Comment
-        </h4>
-      </div>
-
-      <center>
-        <div className={classes.contactForm}>
-          <form
-            className={classes.Form}
-            onSubmit={handleAddReview}
-            autoComplete="off"
-          >
-            <div className={classes.inputContainer}>
-              <p>Comment</p>
-              <textarea
-                onChange={(e) => setComment(e.target.value)}
-                name="comment"
-                className={classes.input}
-              ></textarea>
-            </div>
-            <div className={classes.inputContainer}>
-              <p>Email (required)</p>
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                name="email"
-                className={classes.input}
-              />
-            </div>
-
-            <div className={classes.inputContainer}>
-              <p>Name (required)</p>
-              <input
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                name="name"
-                className={classes.input}
-              />
-            </div>
-
-            <input type="submit" value="Submit" className={classes.btn} />
-          </form>
-        </div>
-      </center>
-    </>
-  );
-};
-
-export default BlogDetail;
-
-function Blog({ title, tagline, image, blogId }) {
-  const navigate = useNavigate();
-
-  const [templateId] = useLocalStorageState("templateId", "");
-  const openBlogDetail = () => {
-    navigate(`/blog/template/${templateId}/blogs/${blogId}`);
-  };
-  return (
-    <Card sx={{ maxWidth: 345, textAlign: "left" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {tagline}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button onClick={() => openBlogDetail()} size="small" color="primary">
-          Read Now
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
 const useStyles = createStyles((theme) => ({
-  comment: {
-    padding: `${theme.spacing.lg} ${theme.spacing.xl}`,
+  card: {
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+  },
+
+  title: {
+    fontWeight: 600,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    lineHeight: 1.8,
   },
 
   body: {
-    paddingLeft: rem(54),
-    paddingTop: theme.spacing.sm,
-    fontSize: theme.fontSizes.sm,
-  },
-
-  content: {
-    "& > p:last-child": {
-      marginBottom: 0,
-    },
+    padding: theme.spacing.md,
   },
 }));
-function ViewComments({ comment }) {
+const ProductDetail = () => {
   const { classes } = useStyles();
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
+ 
+
+  useEffect(() => {
+    getProduct();
+  }, [productId]);
+
+  const getProduct = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8800/api/products/getproduct/${productId}`
+      );
+      setProduct(response.data.product);
+      console.log(response.data.product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Paper withBorder radius="md" className={classes.comment}>
-      <Group>
-        <Avatar
-          style={{ width: "60px", height: "60px" }}
-          src={comment.image}
-          alt={comment.name}
-          radius="xl"
-        />
-        <div>
-          <Text fz="lg">{comment.name}</Text>
-          <Text fz="sm" c="dimmed">
-            Posted At {formatDate(comment.date)}
+    <Container mt="xl" mb="xl" px="xl" size="80rem">
+      <Flex
+        gap="md"
+        justify="space-around"
+        align="center"
+        direction="row"
+        wrap="wrap"
+      >
+        <Images images={product?.images} />
+
+        <Flex ml="sm" direction="column">
+          <div>
+            <Text transform="uppercase" color="dimmed" weight={700} size="xs">
+              {product?.category}
+            </Text>
+            <Title order={1} className={classes.title} mt="xs" mb="md">
+              {product?.name}
+            </Title>
+          </div>
+          <Text className={classes.title} mt="xs" mb="md">
+            COLORS
           </Text>
-        </div>
-      </Group>
-      <TypographyStylesProvider className={classes.body}>
-        <div
-          className={classes.content}
-          dangerouslySetInnerHTML={{ __html: comment.comment }}
-        />
-      </TypographyStylesProvider>
-    </Paper>
+          <div>
+            {product?.colors.map((color) => (
+              <Button
+                mr="sm"
+                radius="xl"
+                style={{ color: color, width: "30px", height: "30px" }}
+              ></Button>
+            ))}
+          </div>
+          <Text className={classes.title} mt="xs" mb="md">
+            SIZES
+          </Text>
+          <div>
+            {product?.sizes.map((size) => (
+              <Button
+                mr="sm"
+                style={{ width: "60px", height: "35px" }}
+                radius="lg"
+                variant="default"
+              >
+                {size}
+              </Button>
+            ))}
+          </div>
+          <Button mt="xl" variant="default">
+            BUY NOW
+          </Button>
+        </Flex>
+      </Flex>
+      <div
+        style={{ fontSize: "18px" }}
+        dangerouslySetInnerHTML={{ __html: product?.description }}
+      />
+    </Container>
+  );
+};
+
+export default ProductDetail;
+function Images({ images }) {
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
+  return (
+    <>
+      <SimpleGrid>
+        <Flex direction="column">
+          {images?.map((image) => (
+            <Image
+              mb="sm"
+              width={150}
+              height={135}
+              src={image}
+              key={image}
+              radius="sm"
+            />
+          ))}
+        </Flex>
+      </SimpleGrid>
+      <Carousel
+        maw={500}
+        mx="auto"
+        withIndicators
+        height={600}
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.reset}
+      >
+        {images?.map((image) => (
+          <Carousel.Slide key={image}>
+            <Image src={image} />
+          </Carousel.Slide>
+        ))}
+      </Carousel>
+    </>
   );
 }

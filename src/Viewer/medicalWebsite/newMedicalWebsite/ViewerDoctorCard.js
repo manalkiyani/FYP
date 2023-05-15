@@ -83,7 +83,7 @@ export function ViewerDoctorCard({
             mt="xs"
             mb="md"
           >
-            {/* {title} */} DR. Richard Steward
+            {title}
           </Text>
 
           <Card.Section style={{ width: "500px" }} className={classes.footer}>

@@ -3,7 +3,7 @@ const {addInMessageSentToAdmin,addMessageIdinAdmin, registeredAdmins ,
  getEmailAndUsernameOfAdmins, buyPlan, stripePayment, addPaymentIdinAdmin,
   addInMessageSentToSuperAdmin,addMessageIdinSuperAdmin, addpaymentidinsuperadmin,
  getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard,
-  getPaymentsOnAdminDashboard, getOrdersOnAdminDashboard, getAppointmentsOnAdminDashboard,
+  getPaymentsOnAdminDashboard, getOrders, getAppointmentsOnAdminDashboard,
    getJobApplicationsOnAdminDashboard,
    getMessages} =require('../controllers/admin.controller');
 const { mailerAdminMessages }= require("./../controllers/maileradminmessages");
@@ -14,6 +14,12 @@ const router = express.Router();
 router.get('/registeredadmins', registeredAdmins);
 router.get('/getadminsdata', getEmailAndUsernameOfAdmins);
 router.get('/getMessages/:templateId',getMessages)
+router.get('/getOrders/:templateId', getOrders )
+
+
+
+
+
 router.post('/buyplan', buyPlan);
 router.post("/stripe/charge", stripePayment ) 
 router.put('/addpaymentidinadmin', addPaymentIdinAdmin)
@@ -25,7 +31,7 @@ router.post('/getadmindata', getAdminData);
 router.put('/updateactiveplan', updateActivePlan);
 router.post('/getmessagesonadmindashboard', getMessagesOnAdminDashboard)
 router.post('/getpaymentsonadmindashboard', getPaymentsOnAdminDashboard)
-router.post('/getordersonadmindashboard', getOrdersOnAdminDashboard )
+
 router.post('/maileradminmessages',mailerAdminMessages)
 router.post('/getpaymentsonadmindashboard', getPaymentsOnAdminDashboard)
 router.post('/getappointmentsonadmindashboard',getAppointmentsOnAdminDashboard)
