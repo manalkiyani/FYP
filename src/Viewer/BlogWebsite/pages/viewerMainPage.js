@@ -123,6 +123,9 @@ const ViewerMainPage = (props) => {
 
       {jobIds && <ViewJobs jobIds={jobIds} />}
 
+
+      {/* {doctorIds && <ViewDoctor doctorIds={doctorIds} />} */}
+
       {/*display blocks here*/}
       {main ? (
         <DisplayBlocks data={dataToSend} />

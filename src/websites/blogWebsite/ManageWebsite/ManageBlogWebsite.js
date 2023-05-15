@@ -1,6 +1,7 @@
 import { Container, Space, Tabs, Text } from "@mantine/core";
 import React from "react";
 import HandleBlogs from "./HandleBlogs";
+import { Messages } from "../../CommonComponnets/Messages";
 
 const ManageBlogWebsite = () => {
   return (
@@ -36,11 +37,11 @@ const ManageBlogWebsite = () => {
         <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
 
-          <Space h="xl" />
           <Text fw={500} mb="md" mt="lg" order={4}>
-            Optional
+            Messages Received
           </Text>
-          <Text fz="sm">message</Text>
+          <Space h="xl" />
+          <Messages />
         </Tabs.Panel>
       </Tabs>
     </Container>

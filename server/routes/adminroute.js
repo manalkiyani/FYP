@@ -4,7 +4,8 @@ const {addInMessageSentToAdmin,addMessageIdinAdmin, registeredAdmins ,
   addInMessageSentToSuperAdmin,addMessageIdinSuperAdmin, addpaymentidinsuperadmin,
  getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard,
   getPaymentsOnAdminDashboard, getOrdersOnAdminDashboard, getAppointmentsOnAdminDashboard,
-   getJobApplicationsOnAdminDashboard} =require('../controllers/admin.controller');
+   getJobApplicationsOnAdminDashboard,
+   getMessages} =require('../controllers/admin.controller');
 const { mailerAdminMessages }= require("./../controllers/maileradminmessages");
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.get('/registeredadmins', registeredAdmins);
 router.get('/getadminsdata', getEmailAndUsernameOfAdmins);
+router.get('/getMessages/:templateId',getMessages)
 router.post('/buyplan', buyPlan);
 router.post("/stripe/charge", stripePayment ) 
 router.put('/addpaymentidinadmin', addPaymentIdinAdmin)
