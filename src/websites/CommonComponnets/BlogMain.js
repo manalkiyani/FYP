@@ -65,13 +65,6 @@ const BlogMain = (props) => {
     const copy = cloneDeep(props.data.blocks);
     const alteredBlocks = await mapAdminBlocks(copy);
 
-    // const alteredBlocks = blocks.map((block) => {
-    //   return {
-    //     ...block,
-    //     key: uuid(),
-    //   };
-    // });
-
     setComponents(alteredBlocks);
     if (props.data.type === "blog") {
       setLoading(false);

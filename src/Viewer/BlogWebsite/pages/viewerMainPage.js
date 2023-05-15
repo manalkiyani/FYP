@@ -13,6 +13,7 @@ import ViewerProducts from "../../EccomerceWebsite/pages/ProductPage/ViewerProdu
 import { cloneDeep } from "lodash";
 import { mapViewerBlocks } from "../../../utilityFunctions/helperFunctions";
 import ViewJobs from "../../BusinessWebsite/Pages/ViewJobs/ViewJobs";
+import ViewerDoctorPage from "../../medicalWebsite/newMedicalWebsite/ViewerDoctorPage";
 
 const ViewerMainPage = (props) => {
   const { id } = useParams();
@@ -124,7 +125,7 @@ const ViewerMainPage = (props) => {
       {jobIds && <ViewJobs jobIds={jobIds} />}
 
 
-      {/* {doctorIds && <ViewDoctor doctorIds={doctorIds} />} */}
+      {doctorIds && <ViewerDoctorPage doctorIds={doctorIds} />}
 
       {/*display blocks here*/}
       {main ? (
