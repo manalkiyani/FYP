@@ -309,22 +309,24 @@ const getPaymentsOnAdminDashboard = async (req, res) => {
   }
 };
 
-const getOrdersOnAdminDashboard = async (req, res) => {
-  ///these are displayed on /adminpayments route
+const getOrders = async (req, res) => {
+ 
   try {
-    const admin = await Admin.findById(req.body.ADMIN_ID).populate(
-      "savedTemplates"
-    );
+    
     const ordersArray = [];
 
-    for (const template of admin.savedTemplates) {
-      if (template && template.data && template.data.orders) {
+    const template = await Template.findById(req.params.templateId)
+
+  
+      if (template &&  template?.data?.orders) {
         const orders = template.data.orders;
 
         for (const orderId of orders) {
           const order = await Order.findById(orderId);
           if (order) {
+            console.log("order",order)
             const orderDetails = {
+              products:order.products,
               totalprice: order.totalprice,
               paymentmethod: order.paymentmethod,
               address: order.address,
@@ -333,10 +335,10 @@ const getOrdersOnAdminDashboard = async (req, res) => {
           }
         }
       }
-    }
+    
     console.log(ordersArray);
 
-    res.status(200).json(ordersArray);
+    res.status(200).json({orders:ordersArray});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server Error" });
@@ -485,7 +487,7 @@ module.exports = {
   updateActivePlan,
   getMessagesOnAdminDashboard,
   getPaymentsOnAdminDashboard,
-  getOrdersOnAdminDashboard,
+  getOrders,
   getAppointmentsOnAdminDashboard,
   getJobApplicationsOnAdminDashboard,
 

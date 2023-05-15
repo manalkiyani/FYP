@@ -147,6 +147,7 @@ const handleSearchChange = (event) => {
 
       {/* {doctors &&
         doctors.map((doctor) => {
+          console.log(doctor);
           return (
             <ViewerDoctorCard
               id={doctor._id}

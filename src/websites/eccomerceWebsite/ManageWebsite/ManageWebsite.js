@@ -4,10 +4,10 @@ import Products from "../pages/ProductsPage";
 import { useLocalStorageState } from "ahooks";
 import HandleProducts from "./HandleProducts";
 import CategoriesManagement from "./CategoriesManagement";
+import { ViewOrders } from "./ViewOrders";
+import { Messages } from "../../CommonComponnets/Messages";
 
 const ManageEcommerceWebsite = () => {
- 
-
   return (
     <Container
       style={{
@@ -36,22 +36,24 @@ const ManageEcommerceWebsite = () => {
         </Tabs.List>
 
         <Tabs.Panel value="Products" pt="sm">
-              <HandleProducts/>
+          <HandleProducts />
         </Tabs.Panel>
         <Tabs.Panel value="Categories" pt="sm">
-            <CategoriesManagement/>
+          <CategoriesManagement />
         </Tabs.Panel>
 
-        <Tabs.Panel value="Orders" pt="sm"></Tabs.Panel>
+        <Tabs.Panel value="Orders" pt="sm">
+          <ViewOrders />
+        </Tabs.Panel>
 
         <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
 
-          <Space h="xl" />
           <Text fw={500} mb="md" mt="lg" order={4}>
-            Optional
+            Messages Received
           </Text>
-          <Text fz="sm">message</Text>
+          <Space h="xl" />
+          <Messages />
         </Tabs.Panel>
       </Tabs>
     </Container>

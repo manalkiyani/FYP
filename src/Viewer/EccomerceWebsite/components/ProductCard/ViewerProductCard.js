@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Reviews from "./Reviews";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { useNavigate } from "react-router-dom";
 const ViewerProductCard = ({
   searchedquery,
   productIds,
@@ -23,6 +24,8 @@ const ViewerProductCard = ({
   const [ratingValue, setRatingValue] = useState(0);
   const [productRatingChange, setProductRatingChange] = useState(false); // new state to track changes in product ratings
   const [reviews, setReviews] = useState([]);
+
+  const navigate = useNavigate();
 
   const StyledRating = styled(Rating)({
     "& .MuiRating-iconFilled": {
@@ -85,14 +88,17 @@ const ViewerProductCard = ({
     getProducts();
   }, [sortOrder, ratingValue, productRatingChange]);
 
-  const AddToCart = async (id, image, name, price, description) => {
+  const AddToCart = async (id, images, name, price, description) => {
     try {
+      const viewer = JSON.parse(localStorage.getItem("viewer"));
+
+      console.log("viewer id", viewer._id);
       const response = await axios.post(
         "http://localhost:8800/api/products/addtocart",
         {
-          userid: "63e8df1974cc16f2b7ecacb6", ////have to get this from props when login in integrated
+          userid: viewer._id, ////have to get this from props when login in integrated
           productid: id,
-          image,
+          images,
           name,
           price,
           description,
@@ -104,7 +110,7 @@ const ViewerProductCard = ({
       console.error(error.message + "inerror");
     }
 
-   toast.success("Added to Cart Successfully");
+    toast.success("Added to Cart Successfully");
   };
 
   return (
@@ -130,8 +136,9 @@ const ViewerProductCard = ({
                     size="large"
                   />
                   <img
+                    onClick={() => navigate(`${product._id}`)}
                     className={styles.image}
-                    src={product.image}
+                    src={product.images[0]}
                     alt={"image"}
                   />
 
@@ -171,7 +178,7 @@ const ViewerProductCard = ({
                         onClick={() => {
                           AddToCart(
                             product._id,
-                            product.image,
+                            product.images,
                             product.name,
                             product.price,
                             product.description

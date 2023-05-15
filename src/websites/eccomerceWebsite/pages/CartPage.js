@@ -7,9 +7,9 @@ import CheckOutForm from "../components/CartPage/CheckOutForm";
 import { Divider } from "@mui/material";
 import { getUser, getUsername } from "../../../utilityFunctions/authFunctions";
 
-
 const CartPage = (props) => {
   //we have to receive userid here in the props to make this code work
+  const viewer = JSON.parse(localStorage.getItem("viewer"));
   const [cartProducts, setCartProducts] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -39,10 +39,11 @@ const CartPage = (props) => {
     });
 
     setCartProducts(temp);
+
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: "63e8df1974cc16f2b7ecacb6", // update it by getting the user id in props
+        userid: viewer._id, // update it by getting the user id in props
         cart: temp,
       }
     );
@@ -81,10 +82,11 @@ const CartPage = (props) => {
 
   const removeAllFromCartAfterOrderReceived = async () => {
     console.log("in remove all");
+
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: "63e8df1974cc16f2b7ecacb6",
+        userid: viewer._id,
         cart: [],
       }
     );
@@ -108,7 +110,7 @@ const CartPage = (props) => {
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: "63e8df1974cc16f2b7ecacb6",
+        userid: viewer._id,
         cart: temp,
       }
     );
@@ -126,7 +128,7 @@ const CartPage = (props) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ userId: "63e8df1974cc16f2b7ecacb6" }),
+            body: JSON.stringify({ userId: viewer._id }),
           }
         );
         const cart = await response.json();
@@ -177,7 +179,7 @@ const CartPage = (props) => {
               <tr key={product.productId} className={styles.row}>
                 <td className={styles.cell}>
                   <img
-                    src={product.image}
+                    src={product.images[0]}
                     alt={product.name}
                     className={styles.productImage}
                   />
@@ -250,7 +252,7 @@ const CartPage = (props) => {
       {
         open && (
           <CheckOutForm
-            userid={"63e8df1974cc16f2b7ecacb6"}
+            userid={viewer._id}
             removeAllFromCartAfterOrderReceived={
               removeAllFromCartAfterOrderReceived
             }

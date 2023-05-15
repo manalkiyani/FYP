@@ -3,6 +3,7 @@ import React from "react";
 
 import { useLocalStorageState } from "ahooks";
 import HandleDoctors from "./HandleDoctors";
+import { Messages } from "../../../CommonComponnets/Messages";
 
 
 const ManageMedicalWebsite = () => {
@@ -38,14 +39,14 @@ const ManageMedicalWebsite = () => {
         </Tabs.Panel>
         <Tabs.Panel value="Appointments" pt="sm"></Tabs.Panel>
 
-        <Tabs.Panel value="Messages" pt="sm">
+       <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
 
-          <Space h="xl" />
           <Text fw={500} mb="md" mt="lg" order={4}>
-            Optional
+            Messages Received
           </Text>
-          <Text fz="sm">message</Text>
+          <Space h="xl" />
+          <Messages />
         </Tabs.Panel>
       </Tabs>
     </Container>

@@ -2,6 +2,7 @@ import { Container, ScrollArea, Space, Tabs, Text } from "@mantine/core";
 import React from "react";
 import ApplicationDetail from "../Pages/Applications/ApplicationDetail";
 import HandleJobs from "../handleJob/HandleJobs";
+import { Messages } from "../../CommonComponnets/Messages";
 
 export const ManageWebsite = () => {
   return (
@@ -38,14 +39,14 @@ export const ManageWebsite = () => {
           <ApplicationDetail />
         </Tabs.Panel>
 
-        <Tabs.Panel value="messages" pt="sm">
+        <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
 
-          <Space h="xl" />
           <Text fw={500} mb="md" mt="lg" order={4}>
-            Optional Message
+            Messages Received
           </Text>
-          <Text fz="sm">message</Text>
+          <Space h="xl" />
+          <Messages />
         </Tabs.Panel>
       </Tabs>
     </Container>

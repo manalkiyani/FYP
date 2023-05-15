@@ -267,7 +267,7 @@ exports.login = (req, res) => {
 
 exports.register = (req, res) => {
   console.log("req.body", req.body);
-  const { username, password, email, age, contact_info, gender, templateId } =
+  const { username, password, email, age,  gender, templateId } =
     req.body;
   Template.findById(templateId)
     .populate("users")
@@ -282,9 +282,7 @@ exports.register = (req, res) => {
       const users = template.users;
       console.log("users", users);
 
-      const userWithSameUsername = users.find(
-        (user) => user.username === username
-      );
+      const userWithSameUsername = users.find(user => user.username === username);
       if (userWithSameUsername) {
         return res.status(401).json({
           message: "Username already exists",
@@ -298,7 +296,7 @@ exports.register = (req, res) => {
         password,
         email,
         age,
-        contact_info,
+       
         gender,
       });
 
