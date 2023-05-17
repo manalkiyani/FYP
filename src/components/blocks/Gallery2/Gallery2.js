@@ -6,6 +6,7 @@ import HandleBlock from "../HandleBlock/handleBlock";
 
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
+import { Carousel } from "@mantine/carousel";
 export default class Gallery2 extends Component {
   state = {
     displayHandleBlock: false,
@@ -63,27 +64,38 @@ export default class Gallery2 extends Component {
             addCard={() => this.props.addCard(this.props.id)}
           ></HandleBlock>
         )}
-
-        {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
-          return (
-            <div key={index} className={classes.card}>
-              <DelCard del={this.delCard} index={index} />
-              <UploadImage
-                index={index}
-                top={5}
-                left={5}
-                handleImageChange={(event) =>
-                  this.handleImageChange(event, index)
-                }
-                image={this.state.image}
-              />
-              <img
-                className={classes.img}
-                src={this.props.Data.data[index].bg.picture}
-              />
-            </div>
-          );
-        })}
+        <Carousel
+          withIndicators
+          height={300}
+          slideSize="28.333333%"
+          slideGap="md"
+          loop
+          align="center"
+          slidesToScroll={4}
+        >
+          {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
+            return (
+              <Carousel.Slide key={index}>
+                <div className={classes.card}>
+                  <DelCard del={this.delCard} index={index} />
+                  <UploadImage
+                    index={index}
+                    top={5}
+                    left={5}
+                    handleImageChange={(event) =>
+                      this.handleImageChange(event, index)
+                    }
+                    image={this.state.image}
+                  />
+                  <img
+                    className={classes.img}
+                    src={this.props.Data.data[index].bg.picture}
+                  />
+                </div>
+              </Carousel.Slide>
+            );
+          })}
+        </Carousel>
       </div>
     );
   }

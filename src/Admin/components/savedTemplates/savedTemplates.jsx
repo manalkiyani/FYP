@@ -21,6 +21,7 @@ export default function SavedTemplates() {
   const [savedTemplates, setSavedTemplates] = React.useState(null);
   const [template,setTemplate] = useLocalStorageState("template","")
   const [templateId,setTemplateId] = useLocalStorageState("templateId","")
+  const [viewerTemplate,setViewerTemplate] = useLocalStorageState("viewerTemplate",{})
   // const { setTemplateId, setTemplate } = useContext(UserContext);
   const [updated, setUpdated] = React.useState(false);
   const navigate = useNavigate();
@@ -56,6 +57,9 @@ export default function SavedTemplates() {
       data: {},
     });
     setTemplateId(id);
+    setViewerTemplate(
+     { id,type}
+    )
 
     navigate(`/view/${type}/template/${id}`);
   };

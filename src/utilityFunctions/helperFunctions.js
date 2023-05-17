@@ -25,8 +25,9 @@ import ViewerGallery1 from "../Viewer/Components/blocks/viewerGallery1";
 import ViewerGallery2 from "../Viewer/Components/blocks/viewerGallery2";
 import About1 from "../components/blocks/About1/About1";
 import ViewerAbout1 from "../Viewer/Components/blocks/viewerAbout1";
+import { Features4 } from "../components/blocks/Features4/Features4";
 
-export const handleLayout = (numberOfCards, idFromComponent, components) => {
+const helperFunction = (components, idFromComponent) => {
   let position = 0;
   const componentsList = cloneDeep(components);
 
@@ -41,15 +42,38 @@ export const handleLayout = (numberOfCards, idFromComponent, components) => {
   componentsList.splice(position, 1);
   //update component data
   const updatedComponent = cloneDeep(component);
+
+  return { position, updatedComponent, componentsList };
+};
+export const linkCardButton = (object,index,idFromComponent,components
+) => {
+  const { position, updatedComponent, componentsList } = helperFunction(components, idFromComponent);
+  updatedComponent["Data"]["data"][index].btn.link = object;
+
+  //add component to the same position again
+  componentsList.splice(position, 0, updatedComponent);
+
+  //update the state
+  return componentsList;
+};
+export const linkButton = (object, idFromComponent, components) => {
+  const { position, updatedComponent, componentsList } = helperFunction(
+    components,
+    idFromComponent
+  );
+  updatedComponent.Data.data.btn.link = object;
+  console.log(updatedComponent);
+  componentsList.splice(position, 0, updatedComponent);
+
+  return componentsList;
+};
+export const handleLayout = (numberOfCards, idFromComponent, components) => {
+  const { position, updatedComponent, componentsList } = helperFunction(components, idFromComponent);
   updatedComponent["Data"]["layout"] = numberOfCards;
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
 
   return componentsList;
-  // //update the state
-  // this.setState({
-  //   components: componentsList,
-  // });
 };
 export const deleteCard = (index, idFromComponent, components) => {
   let position = 0;
@@ -164,20 +188,10 @@ export const changeBackgroundImage = (
   idFromComponent,
   components
 ) => {
-  let position = 0;
-  const componentsList = cloneDeep(components);
-
-  //get the cliked components position and component
-  const component = componentsList.find((ele, index) => {
-    position = index;
-
-    return ele.key === idFromComponent;
-  });
-
-  //delete component from components list
-  componentsList.splice(position, 1);
-  //update component data
-  const updatedComponent = cloneDeep(component);
+  const { position, updatedComponent, componentsList } = helperFunction(
+    components,
+    idFromComponent
+  );
   updatedComponent.Data.data.img = imageURL;
 
   //add component to the same position again
@@ -187,20 +201,10 @@ export const changeBackgroundImage = (
   return componentsList;
 };
 export const changeBackgroundColor = (color, idFromComponent, components) => {
-  let position = 0;
-  const componentsList = cloneDeep(components);
-
-  //get the cliked components position and component
-  const component = componentsList.find((ele, index) => {
-    position = index;
-
-    return ele.key === idFromComponent;
-  });
-
-  //delete component from components list
-  componentsList.splice(position, 1);
-  //update component data
-  const updatedComponent = cloneDeep(component);
+  const { position, updatedComponent, componentsList } = helperFunction(
+    components,
+    idFromComponent
+  );
   updatedComponent.Data.data.bgColor = color;
 
   //add component to the same position again
@@ -209,23 +213,12 @@ export const changeBackgroundColor = (color, idFromComponent, components) => {
   //update the state
   return componentsList;
 };
-
 //change color of btn
 export const changeBtnColor = (color, idFromComponent, components) => {
-  let position = 0;
-  const componentsList = cloneDeep(components);
-
-  //get the cliked components position and component
-  const component = componentsList.find((ele, index) => {
-    position = index;
-
-    return ele.key === idFromComponent;
-  });
-
-  //delete component from components list
-  componentsList.splice(position, 1);
-  //update component data
-  const updatedComponent = cloneDeep(component);
+  const { position, updatedComponent, componentsList } = helperFunction(
+    components,
+    idFromComponent
+  );
   updatedComponent.Data.data.btn.bgColor = color;
 
   //add component to the same position again
@@ -242,22 +235,8 @@ export const changeCardImage = (
   idFromComponent,
   components
 ) => {
-  let position = 0;
-  const componentsList = cloneDeep(components);
-  //get the cliked components key and component
-  const component = componentsList.find((ele, index) => {
-    position = index;
-
-    return ele.key === idFromComponent;
-  });
-  //delete component from components list
-  componentsList.splice(position, 1);
-  const newData = JSON.parse(JSON.stringify(component.Data.data));
-
-  //update card image
-  newData[index].bg.picture = imageURL;
-  const updatedComponent = cloneDeep(component);
-  updatedComponent["Data"]["data"] = newData;
+  const { position, updatedComponent, componentsList } = helperFunction(components, idFromComponent);
+  updatedComponent["Data"]["data"][index].bg.picture = imageURL;
 
   //add component to the same position again
   componentsList.splice(position, 0, updatedComponent);
@@ -302,6 +281,7 @@ export const changeComponentText = (
     type === "features1" ||
     type === "features2" ||
     type === "features3" ||
+    type === "features4" ||
     type === "gallery1" ||
     type === "gallery2"
   ) {
@@ -384,6 +364,7 @@ export const updateComponentData = (
   } else if (
     type === "features1" ||
     type === "features2" ||
+     type === "features4" ||
     type === "features3" ||
     type === "gallery1" ||
     type === "gallery2"
@@ -452,6 +433,9 @@ export const mapAdminBlocks = (Blocks) => {
         break;
       case "Features3":
         block.Component = Features3;
+        break;
+         case "Features4":
+        block.Component = Features4;
         break;
       case "Faq1":
         block.Component = Faq1;
@@ -522,6 +506,7 @@ export const unmapBlocks = (Blocks) => {
       [Features1]: "Features1",
       [Features2]: "Features2",
       [Features3]: "Features3",
+       [Features4]: "Features4",
       [Faq1]: "Faq1",
       [About1]: "About1",
     };

@@ -41,6 +41,7 @@ const DragAndDropPanel = (props) => {
           {blocks.map((item) => {
             return item.type === "features1" ||
               item.type === "features2" ||
+              item.type === "features4" ||
               item.type === "features3" ? (
               <Image
                 dragStart={props.dragStartHandler}
@@ -50,8 +51,8 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
-           <h5>Gallery and Image Slider</h5>
-            {blocks.map((item) => {
+          <h5>Gallery and Image Slider</h5>
+          {blocks.map((item) => {
             return item.type === "gallery1" || item.type === "gallery2" ? (
               <Image
                 dragStart={props.dragStartHandler}
@@ -61,7 +62,7 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
-            <h5>About Section</h5>
+          <h5>About Section</h5>
           {blocks.map((item) => {
             return item.type === "about1" ? (
               <Image
@@ -83,11 +84,6 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
-
-        
-
-         
-        
         </div>
       </>
     </SideDrawer>

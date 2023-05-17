@@ -17,6 +17,8 @@ import {
   changeBackgroundImage,
   changeCardImage,
   changeBtnColor,
+  linkButton,
+  linkCardButton,
 } from "../utilityFunctions/helperFunctions";
 
 import DragAndDropPanel from "../components/DragAndDropPanel";
@@ -30,18 +32,12 @@ const DragDrop = ({
   setBlocksPanelDisplayed,
   setDragDisable,
   dragDisable,
-  clickedComponentId,
-  setClickedComponentId,
-  Index,
-  setIndex,
-  tag,
-  setTag,
+ 
   textEditorDisplayed,
   setTextEditorDisplayed,
   textEditor,
   setTextEditor,
-  type,
-  setType,
+ 
 }) => {
   const closeEditor = () => {
     setTextEditorDisplayed(false);
@@ -69,6 +65,7 @@ const DragDrop = ({
       type === "features1" ||
       type === "features2" ||
       type === "features3" ||
+        type === "features4" ||
       type === "gallery1" ||
       type === "gallery2"
     ) {
@@ -278,6 +275,25 @@ const DragDrop = ({
                               setComponents(
                                 changeBtnColor(
                                   color,
+                                  idFromComponent,
+                                  components
+                                )
+                              )
+                            }
+                            linkButton ={(object,idFromComponent)=>
+                              setComponents(
+                                linkButton(
+                                  object,
+                                  idFromComponent,
+                                  components
+                                )
+                              )
+                            }
+                             linkCardButton ={(object,index,idFromComponent)=>
+                              setComponents(
+                                linkCardButton(
+                                  object,
+                                  index,
                                   idFromComponent,
                                   components
                                 )

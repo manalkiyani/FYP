@@ -5,7 +5,7 @@ import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
 import SocialIcons from "../socialIcons/socialIcons";
-import {uploadImage} from "../../../utilityFunctions/imageUpload";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
 import BgColor from "../../BackgroundColor/BgColor";
 
@@ -14,8 +14,8 @@ export default class Header1 extends Component {
     showMenu: false,
     ref: null,
     displayHandleBlock: false,
-     image: null,
-      openColorPicker: false,
+    image: null,
+    openColorPicker: false,
   };
   //  textFromComponent,
   //   index,
@@ -27,7 +27,7 @@ export default class Header1 extends Component {
     console.log(e.target.value);
     this.props.changeText(e.target.value, null, tag, this.props.id, "header1");
   };
-   handleImageChange = async (event) => {
+  handleImageChange = async (event) => {
     this.setState({
       image: event.target.files[0],
     });
@@ -41,15 +41,11 @@ export default class Header1 extends Component {
   };
   handleClick = () => {
     this.props.onClick(this.props.id, "btn", null, "header1");
-    this.setState({
-      showMenu: true,
-
-    });
   };
-  linkButton = (link) => {
-    this.setState({ showMenu: false });
+  linkButton = (object) => {
+    this.props.linkButton(object, this.props.id);
 
-    console.log(link);
+    console.log(object);
   };
 
   disableHandleBlock = () => {
@@ -65,7 +61,7 @@ export default class Header1 extends Component {
   handleSocialIcons = (socialIcons) => {
     this.props.handleSocialIcons(socialIcons, this.props.id);
   };
- handleClose = () => {
+  handleClose = () => {
     this.setState({ openColorPicker: false });
   };
   changeBtnColor = (color) => {
@@ -84,7 +80,7 @@ export default class Header1 extends Component {
         onMouseOut={this.disableHandleBlock}
         className={classes.header}
       >
-         <BgColor
+        <BgColor
           handleClose={this.handleClose}
           updateColor={this.changeBtnColor}
           open={this.state.openColorPicker}
@@ -96,7 +92,14 @@ export default class Header1 extends Component {
             linkButton={this.linkButton}
           />
         )}
-      { this.state.displayHandleBlock &&  <UploadImage top={55} left={10} handleImageChange={this.handleImageChange} image={this.state.image} />}
+        {this.state.displayHandleBlock && (
+          <UploadImage
+            top={55}
+            left={10}
+            handleImageChange={this.handleImageChange}
+            image={this.state.image}
+          />
+        )}
         <img className={classes.img} src={this.props.Data.data.img} />
         <div style={{ position: "absolute", zIndex: 1 }}>
           <ContentEditable
@@ -120,6 +123,8 @@ export default class Header1 extends Component {
               fontStyle:
                 this.props.Data.data.h.italic === true ? "italic" : "normal",
               textAlign: this.props.Data.data.h.align,
+              letterSpacing: this.props.Data.data.h.spacing,
+              lineHeight: this.props.Data.data.h.height,
             }}
           />
 
@@ -144,10 +149,10 @@ export default class Header1 extends Component {
               fontStyle:
                 this.props.Data.data.p.italic === true ? "italic" : "normal",
               textAlign: this.props.Data.data.p.align,
+              letterSpacing: this.props.Data.data.p.spacing,
+              lineHeight: this.props.Data.data.p.height,
             }}
           />
-
-         
 
           <ContentEditable
             className={classes.btn}
@@ -155,14 +160,14 @@ export default class Header1 extends Component {
             disabled={false}
             onClick={this.handleClick}
             onChange={(e) => this.handleTextChange(e, "btn")}
-           
             style={{
               backgroundColor: this.props.Data.data.btn.bgColor,
               fontSize: this.props.Data.data.btn.size,
               fontFamily: this.props.Data.data.btn.family,
               color: this.props.Data.data.btn.color,
-              fontWeight:
-                this.props.Data.data.btn.bold === true ? "bold" : "normal",
+              // fontWeight:
+              //   this.props.Data.data.btn.bold === true ? "bold" : "normal",
+              fontWeight: this.props.Data.data.btn.weight,
               textDecoration:
                 this.props.Data.data.btn.underline === true
                   ? "underline"
@@ -170,8 +175,11 @@ export default class Header1 extends Component {
               fontStyle:
                 this.props.Data.data.btn.italic === true ? "italic" : "normal",
               textAlign: this.props.Data.data.btn.align,
+              letterSpacing: this.props.Data.data.btn.spacing,
+              lineHeight: this.props.Data.data.btn.height,
             }}
           />
+          {console.log("", this.props.Data.data.btn.weight)}
 
           <SocialIcons
             socialIcons={this.props.Data.socialIcons}
