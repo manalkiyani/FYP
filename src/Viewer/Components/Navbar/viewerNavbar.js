@@ -23,7 +23,7 @@ export default function ViewerNavbar(props) {
     getTemplateName();
   }, []);
   function handleGoBack() {
-    navigate("/dashboard");
+    navigate(-1);
   }
 
   function handleLogout() {

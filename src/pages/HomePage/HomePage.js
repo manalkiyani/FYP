@@ -6,8 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className={classes.Header}>
@@ -29,6 +31,7 @@ const HomePage = () => {
               color: "white",
             }}
             variant="contained"
+            onClick={() => navigate("/dashboard")}
           >
             START NOW
           </Button>

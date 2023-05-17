@@ -17,7 +17,7 @@ export default function Navbar(props) {
   const navigate = useNavigate();
 
   function handleGoBack() {
-    navigate("/dashboard");
+    navigate(-1);
   }
 
   //get the templateId from the context and use it to fetch the template from the database

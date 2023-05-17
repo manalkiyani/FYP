@@ -1,192 +1,273 @@
-import React, { Component } from "react";
-
-import classes from "./Header2.module.css";
+import React, { useState } from "react";
+import styles from "./Header2.module.css";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
 import BgColor from "../../BackgroundColor/BgColor";
 import UploadImage from "../../uploadImage/uploadImage";
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
-import { Group } from "@mantine/core";
+import {
+  createStyles,
+  Image,
+  Container,
+  Title,
+  Button,
+  Group,
+  Text,
+  rem,
+} from "@mantine/core";
 
-export default class Header2 extends Component {
-  state = {
-    showMenu: false,
-    ref: null,
-    displayHandleBlock: false,
-    openColorPicker: false,
-    image: null,
-  };
-  //  textFromComponent,
-  //   index,
-  //   tag,
-  //   clickedComponentId,
-  //   type
+const useStyles = createStyles((theme) => ({
+  inner: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingTop: `calc(${theme.spacing.xl} * 4)`,
+    paddingBottom: `calc(${theme.spacing.xl} * 4)`,
+  },
 
-  handleTextChange = (e, tag) => {
+  content: {
+    maxWidth: rem(480),
+    marginRight: `calc(${theme.spacing.xl} * 3)`,
+
+    [theme.fn.smallerThan("md")]: {
+      maxWidth: "100%",
+      marginRight: 0,
+    },
+  },
+
+  title: {
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: rem(44),
+    lineHeight: 1.2,
+    fontWeight: 900,
+
+    [theme.fn.smallerThan("xs")]: {
+      fontSize: rem(28),
+    },
+  },
+
+  control: {
+    [theme.fn.smallerThan("xs")]: {
+      flex: 1,
+    },
+  },
+
+  image: {
+    flex: 1,
+
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+  },
+
+  highlight: {
+    position: "relative",
+    backgroundColor: theme.fn.variant({
+      variant: "light",
+      color: theme.primaryColor,
+    }).background,
+    borderRadius: theme.radius.sm,
+    padding: `${rem(4)} ${rem(12)}`,
+  },
+}));
+
+const Header2 = (props) => {
+  const { classes } = useStyles();
+  const [showMenu, setShowMenu] = useState(false);
+  const [displayHandleBlock, setDisplayHandleBlock] = useState(false);
+  const [openColorPicker, setOpenColorPicker] = useState(false);
+  const [image, setImage] = useState(null);
+
+  const handleTextChange = (e, tag) => {
     console.log(e.target.value);
-    this.props.changeText(e.target.value, null, tag, this.props.id, "header2");
+    props.changeText(e.target.value, null, tag, props.id, "header2");
   };
 
-  handleClick = () => {
-    this.props.onClick(this.props.id, "btn", null, "header2");
-    this.setState({
-      showMenu: true,
-    });
+  const handleClick = () => {
+    props.onClick(props.id, "btn", null, "header2");
+    setShowMenu(true);
   };
-  linkButton = (link) => {
-    this.setState({ showMenu: false });
 
+  const linkButton = (link) => {
+    setShowMenu(false);
     console.log(link);
   };
-  handleImageChange = async (event) => {
-    this.setState({
-      image: event.target.files[0],
-    });
+
+  const handleImageChange = async (event) => {
+    setImage(event.target.files[0]);
     try {
       const link = await uploadImage(event.target.files[0]);
       console.log(link);
-      this.props.changeBackgroundImage(link, this.props.id);
+      props.changeBackgroundImage(link, props.id);
     } catch (err) {
       console.log(err);
     }
   };
 
-  disableHandleBlock = () => {
-    this.setState({
-      displayHandleBlock: false,
-    });
+  const disableHandleBlock = () => {
+    setDisplayHandleBlock(false);
   };
-  enableHandleBlock = () => {
-    this.setState({
-      displayHandleBlock: true,
-    });
+
+  const enableHandleBlock = () => {
+    setDisplayHandleBlock(true);
   };
-  handleSocialIcons = (socialIcons) => {
-    this.props.handleSocialIcons(socialIcons, this.props.id);
+
+  const handleSocialIcons = (socialIcons) => {
+    props.handleSocialIcons(socialIcons, props.id);
   };
-  handleClose = () => {
-    this.setState({ openColorPicker: false });
+
+  const handleClose = () => {
+    setOpenColorPicker(false);
   };
-  changeBackgroundColor = (color) => {
-    this.props.changeBackgroundColor(color.hex, this.props.id);
+
+  const changeBackgroundColor = (color) => {
+    props.changeBackgroundColor(color.hex, props.id);
   };
-  render() {
-    return (
-      <div
-        style={{
-          backgroundColor: this.props.Data.data.bgColor,
-          boxShadow:
-            this.props.dragDisable === false
-              ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
-              : "none",
-        }}
-        onMouseOver={this.enableHandleBlock}
-        onMouseOut={this.disableHandleBlock}
-        className={classes.header}
-      >
-        <BgColor
-          handleClose={this.handleClose}
-          updateColor={this.changeBackgroundColor}
-          open={this.state.openColorPicker}
+
+  return (
+    <div
+      style={{
+        backgroundColor: props.Data.data.bgColor,
+        position: "relative",
+      }}
+      onMouseOver={enableHandleBlock}
+      onMouseOut={disableHandleBlock}
+    >
+      <BgColor
+        handleClose={handleClose}
+        updateColor={changeBackgroundColor}
+        open={openColorPicker}
+      />
+      {displayHandleBlock && (
+        <HandleBlock
+          del={() => props.deleteBlock(props.id)}
+          enableDrag={props.enableDrag}
+          openColorPicker={() => setOpenColorPicker(true)}
+          linkButton={linkButton}
         />
-        {this.state.displayHandleBlock && (
-          <HandleBlock
-            del={() => this.props.deleteBlock(this.props.id)}
-            enableDrag={this.props.enableDrag}
-            openColorPicker={() => this.setState({ openColorPicker: true })}
-            linkButton={this.linkButton}
-          />
-        )}
-        {this.state.displayHandleBlock && (
-          <UploadImage
-            top={55}
-            left={10}
-            handleImageChange={this.handleImageChange}
-            image={this.state.image}
-          />
-        )}
-        <Group spacing="xl" grow>
+      )}
+      {displayHandleBlock && (
+        <UploadImage
+          top={55}
+          left={10}
+          handleImageChange={handleImageChange}
+          image={image}
+        />
+      )}
+      <Container>
+        <div className={classes.inner}>
           <div className={classes.content}>
-            <ContentEditable
-              className={classes.h}
-              html={this.props.Data.data.h.text} // innerHTML of the editable div
-              disabled={false} // use true to disable editing
-              onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change
-              onClick={() =>
-                this.props.onClick(this.props.id, "h", null, "header2")
-              }
-              style={{
-                fontSize: this.props.Data.data.h.size,
-                fontFamily: this.props.Data.data.h.family,
-                color: this.props.Data.data.h.color,
-                fontWeight:
-                  this.props.Data.data.h.bold === true ? "bold" : "normal",
-                textDecoration:
-                  this.props.Data.data.h.underline === true
-                    ? "underline"
-                    : "none",
-                fontStyle:
-                  this.props.Data.data.h.italic === true ? "italic" : "normal",
-                textAlign: this.props.Data.data.h.align,
-              }}
-            />
+            <Title className={classes.title}>
+              <ContentEditable
+                html={props.Data.data.h.text}
+                disabled={false}
+                onChange={(e) => handleTextChange(e, "h")}
+                onClick={() => props.onClick(props.id, "h", null, "header2")}
+                style={{
+                  fontSize: props.Data.data.h.size,
+                  fontFamily: props.Data.data.h.family,
+                  color: props.Data.data.h.color,
+                  fontWeight:
+                    props.Data.data.h.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    props.Data.data.h.underline === true ? "underline" : "none",
+                  fontStyle:
+                    props.Data.data.h.italic === true ? "italic" : "normal",
+                  textAlign: props.Data.data.h.align,
+                }}
+              />
+            </Title>
+            <Text color="dimmed" mt="md">
+              <ContentEditable
+                html={props.Data.data.p.text}
+                disabled={false}
+                onClick={() => props.onClick(props.id, "p", null, "header2")}
+                onChange={(e) => handleTextChange(e, "p")}
+                style={{
+                  fontSize: props.Data.data.p.size,
+                  fontFamily: props.Data.data.p.family,
+                  color: props.Data.data.p.color,
+                  fontWeight:
+                    props.Data.data.p.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    props.Data.data.p.underline === true ? "underline" : "none",
+                  fontStyle:
+                    props.Data.data.p.italic === true ? "italic" : "normal",
+                  textAlign: props.Data.data.p.align,
+                }}
+              />
+            </Text>
 
-            <ContentEditable
-              html={this.props.Data.data.p.text} // innerHTML of the editable div
-              disabled={false} // use true to disable editing
-              className={classes.p}
-              onClick={() =>
-                this.props.onClick(this.props.id, "p", null, "header2")
-              }
-              onChange={(e) => this.handleTextChange(e, "p")} // handle innerHTML change
-              style={{
-                fontSize: this.props.Data.data.p.size,
-                fontFamily: this.props.Data.data.p.family,
-                color: this.props.Data.data.p.color,
-                fontWeight:
-                  this.props.Data.data.p.bold === true ? "bold" : "normal",
-                textDecoration:
-                  this.props.Data.data.p.underline === true
-                    ? "underline"
-                    : "none",
-                fontStyle:
-                  this.props.Data.data.p.italic === true ? "italic" : "normal",
-                textAlign: this.props.Data.data.p.align,
-              }}
-            />
-
-            <ContentEditable
-              className={classes.btn}
-              html={this.props.Data.data.btn.text}
-              disabled={false}
-              onClick={this.handleClick}
-              onChange={(e) => this.handleTextChange(e, "btn")}
-              // onClick ={(e)=>{
-              //   e.preventDefault();
-              //   window.open('');
-              // }}
-              style={{
-                fontSize: this.props.Data.data.btn.size,
-                fontFamily: this.props.Data.data.btn.family,
-                color: this.props.Data.data.btn.color,
-                fontWeight:
-                  this.props.Data.data.btn.bold === true ? "bold" : "normal",
-                textDecoration:
-                  this.props.Data.data.btn.underline === true
-                    ? "underline"
-                    : "none",
-                fontStyle:
-                  this.props.Data.data.btn.italic === true
-                    ? "italic"
-                    : "normal",
-                textAlign: this.props.Data.data.btn.align,
-              }}
-            />
+            <Group mt={30}>
+              <Button
+                style={{
+                  backgroundColor: props.Data.data.btn.bgColor,
+                }}
+                radius="xl"
+                size="md"
+                className={classes.control}
+              >
+                <ContentEditable
+                  html={props.Data.data.btn.text}
+                  disabled={false}
+                  onClick={handleClick}
+                  onChange={(e) => handleTextChange(e, "btn")}
+                  style={{
+                    fontSize: props.Data.data.btn.size,
+                    fontFamily: props.Data.data.btn.family,
+                    color: props.Data.data.btn.color,
+                    fontWeight:
+                      props.Data.data.btn.bold === true ? "bold" : "normal",
+                    textDecoration:
+                      props.Data.data.btn.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      props.Data.data.btn.italic === true ? "italic" : "normal",
+                    textAlign: props.Data.data.btn.align,
+                  }}
+                />
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: props.Data.data.btn2.bgColor,
+                }}
+                variant="default"
+                radius="xl"
+                size="md"
+                className={classes.control}
+              >
+                <ContentEditable
+                  html={props.Data.data.btn2.text}
+                  disabled={false}
+                  onClick={handleClick}
+                  onChange={(e) => handleTextChange(e, "btn2")}
+                  style={{
+                    fontSize: props.Data.data.btn2.size,
+                    fontFamily: props.Data.data.btn2.family,
+                    color: props.Data.data.btn2.color,
+                    fontWeight:
+                      props.Data.data.btn2.bold === true ? "bold" : "normal",
+                    textDecoration:
+                      props.Data.data.btn2.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      props.Data.data.btn2.italic === true
+                        ? "italic"
+                        : "normal",
+                    textAlign: props.Data.data.btn2.align,
+                  }}
+                />
+              </Button>
+            </Group>
           </div>
-          <img className={classes.img} src={this.props.Data.data.img} />
-        </Group>
-      </div>
-    );
-  }
-}
+          <Image src={props.Data.data.img} className={classes.image} />
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default Header2;

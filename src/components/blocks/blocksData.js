@@ -13,22 +13,22 @@ import Features3 from "./Features3/Features3";
 import sample1 from "../../assets/imgs/sample1.jpg";
 import sample2 from "../../assets/imgs/sample2.jpg";
 import sample3 from "../../assets/imgs/sample3.jpg";
+import sample4 from "../../assets/imgs/sample4.jpg";
+import sample5 from "../../assets/imgs/sample5.webp";
 
 import Gallery1 from "./Gallery1/Gallery1";
 import Gallery2 from "./Gallery2/Gallery2";
 
 import About1 from "./About1/About1";
+import { Features4 } from "./Features4/Features4";
 
 const blocks = [
+  //header1
   {
     type: "header1",
     img: "header1.png",
     Component: Header1,
     Data: {
-      btnLink: {
-        link: "",
-        page: "",
-      },
       socialIcons: [
         {
           icon: "Facebook",
@@ -56,6 +56,9 @@ const blocks = [
           italic: false,
           align: "center",
           family: "Sans-serif",
+          spacing: "1px",
+          height: "100px",
+          weight: "500",
         },
         p: {
           text: "Easily create small/medium websites, landing pages, portfolios. beautiful website blocks, templates and themes help you to start easily.",
@@ -66,6 +69,9 @@ const blocks = [
           italic: false,
           align: "center",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
         },
         btn: {
           text: "START NOW",
@@ -77,11 +83,20 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
           bgColor: "#000",
+          spacing: "0px",
+          height: "20px",
+          weight: "500px",
+          link: {
+            url: "",
+            page: "",
+            detail: "",
+          },
         },
         img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678558265/pexels-quang-nguyen-vinh-2649403_byuwhi.jpg",
       },
     },
   },
+  //medical header2
   {
     type: "header2",
     img: "header2.png",
@@ -90,26 +105,32 @@ const blocks = [
       data: {
         h: {
           text: "For Private clinics and medical centers",
-          size: "36px",
-          color: "#fff",
+          size: "48px",
+          color: "#000",
+          bold: true,
+          underline: false,
+          italic: false,
+          align: "left",
+          family: "Sans-serif",
+          spacing: "1px",
+          height: "100px",
+          weight: "500",
+        },
+        p: {
+          text: "Build fully functional accessible web applications faster than ever – Mantine includes more than 120 customizable components and hooks to cover you in any situation",
+          size: "20px",
+          color: "#808080",
           bold: false,
           underline: false,
           italic: false,
           align: "left",
           family: "Sans-serif",
-        },
-        p: {
-          text: "Simplify the day to day operations of your employees and increase the flow of patients",
-          size: "20px",
-          color: "#EBF1FC",
-          bold: false,
-          underline: false,
-          italic: false,
-          align: "center",
-          family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
         },
         btn: {
-          text: "START NOW",
+          text: "Get Started",
           size: "14px",
           color: "#fff",
           bold: false,
@@ -118,12 +139,40 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
           bgColor: "#000",
+          spacing: "0px",
+          height: "20px",
+          weight: "500",
+          link: {
+            url: "",
+            page: "",
+            detail: "",
+          },
         },
-        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1678545576/m3-removebg-preview_jorxiz.png",
-        bgColor: "#4DB6AC",
+        btn2: {
+          text: "Start Now",
+          size: "14px",
+          color: "#000",
+          bold: false,
+          underline: false,
+          italic: false,
+          align: "center",
+          family: "Sans-serif",
+          bgColor: "#fff",
+          spacing: "0px",
+          height: "20px",
+          weight: "500",
+          link: {
+            url: "",
+            page: "",
+            detail: "",
+          },
+        },
+        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684317004/image.9a65bd94_dqb9jb.svg",
+        bgColor: "#EBEBFF",
       },
     },
   },
+  //spring sales header3
   {
     type: "header3",
     img: "header3.png",
@@ -139,6 +188,9 @@ const blocks = [
           italic: false,
           align: "left",
           family: "Serif",
+          spacing: "1px",
+          height: "100px",
+          weight: "500",
         },
         //Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         p: {
@@ -150,7 +202,11 @@ const blocks = [
           italic: false,
           align: "left",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
         },
+
         s: {
           text: "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.",
           size: "16px",
@@ -160,6 +216,8 @@ const blocks = [
           italic: false,
           align: "left",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
         },
         btn: {
           text: "START NOW",
@@ -171,12 +229,20 @@ const blocks = [
           align: "center",
           family: "Sans-serif",
           bgColor: "#000",
+          spacing: "0px",
+          height: "20px",
+          link: {
+            url: "",
+            page: "",
+            detail: "",
+          },
         },
         img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1669815537/samples/ecommerce/shoes.png",
         bgColor: "#E1BEE7",
       },
     },
   },
+  //faq1
   {
     type: "faq1",
     img: "faq1.png",
@@ -192,6 +258,8 @@ const blocks = [
             italic: false,
             align: "right",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           answer: {
             size: "16px",
@@ -201,6 +269,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
         },
         heading: {
@@ -212,6 +282,8 @@ const blocks = [
           italic: false,
           align: "center",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "60px",
         },
         faqList: [
           {
@@ -233,7 +305,109 @@ const blocks = [
       },
     },
   },
+  //features4
+  {
+    type: "features4",
+    img: "features4.png",
+    Component: Features4,
+    Data: {
+      layout: 2,
+      data: {
+        1: {
+          h: {
+            text: "Best forests to visit in North America",
+            size: "32px",
+            color: "#fff",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+          },
 
+          p: {
+            text: "NATURE",
+            size: "16px",
+            color: "#ccc",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+          },
+          btn: {
+            text: "Read Article",
+            size: "12px",
+            color: "#fff",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            bgColor: "#000",
+            spacing: "0px",
+            height: "30px",
+            link: {
+              url: "",
+              page: "",
+              detail: "",
+            },
+          },
+          bg: {
+            picture: sample4,
+          },
+        },
+        2: {
+          h: {
+            text: "Paradox of Fading Beauty",
+            size: "32px",
+            color: "#fff",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+          },
+
+          p: {
+            text: "Beauty",
+            size: "16px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+          },
+          btn: {
+            text: "Start Now",
+            size: "12px",
+            color: "#fff",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            bgColor: "#000",
+            spacing: "0px",
+            height: "30px",
+          },
+          bg: {
+            picture: sample5,
+          },
+        },
+      },
+    },
+  },
+  //features2
   {
     type: "features2",
     img: "features2.png",
@@ -251,6 +425,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           s: {
             text: "Website Design",
@@ -261,6 +437,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           p: {
             text: "Just drop site elements to your page, add content and style it to look the way you like.",
@@ -271,6 +449,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           btn: {
             text: "Start Now",
@@ -282,6 +462,13 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             bgColor: "#000",
+            spacing: "0px",
+            height: "30px",
+            link: {
+              url: "",
+              page: "",
+              detail: "",
+            },
           },
           bg: {
             picture: sample1,
@@ -297,6 +484,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           s: {
             text: "Creating Your Brand",
@@ -307,6 +496,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           p: {
             text: "Select the theme that suits you. Each theme contains a set of unique blocks.",
@@ -317,6 +508,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           btn: {
             text: "Start Now",
@@ -328,6 +521,8 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             bgColor: "#000",
+            spacing: "0px",
+            height: "30px",
           },
           bg: {
             picture: sample2,
@@ -343,6 +538,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           s: {
             text: "No html/css",
@@ -353,6 +550,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           p: {
             text: "You don't have to code to create your own site. Select one of available themes.",
@@ -363,6 +562,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           btn: {
             text: "Start Now",
@@ -374,6 +575,8 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             bgColor: "#000",
+            spacing: "0px",
+            height: "30px",
           },
           bg: {
             picture: sample3,
@@ -382,6 +585,7 @@ const blocks = [
       },
     },
   },
+  //features3 , 2 cards
   {
     type: "features3",
     img: "features3.png",
@@ -399,6 +603,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           p: {
             text: "Just drop site elements to your page, add content and style it to look the way you like.",
@@ -409,6 +615,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           bg: {
             picture: sample1,
@@ -424,6 +632,8 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
           },
           p: {
             text: "Select the theme that suits you. Each theme contains a set of unique blocks.",
@@ -434,6 +644,9 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
           bg: {
             picture: sample2,
@@ -442,16 +655,17 @@ const blocks = [
       },
     },
   },
+  //features1 , icon
   {
     type: "features1",
     img: "features1.png",
     Component: Features1,
     Data: {
-      layout: 3,
+      layout: 2,
       data: {
         1: {
           h: {
-            text: "No Coding",
+            text: "Lawyers",
             size: "20px",
             color: "#000",
             bold: false,
@@ -459,15 +673,32 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
+          },
+          p: {
+            text: "Fans obsess over the particular length and angle of its arms",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
 
           bg: {
-            picture: hours,
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1684316379/lawyers.3ddb0c33_faaaeb.svg",
           },
         },
         2: {
           h: {
-            text: "Unlimited Styles",
+            text: "Others",
             size: "20px",
             color: "#000",
             bold: false,
@@ -475,15 +706,32 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
 
           bg: {
-            picture: printer,
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1684316426/others.0a9c7795_i7v9q2.svg",
+          },
+          p: {
+            text: "Phanpy uses its long nose to shower itself",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
         },
         3: {
           h: {
-            text: "Branding",
+            text: "Bank owners",
             size: "20px",
             color: "#000",
             bold: false,
@@ -491,15 +739,66 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
+          },
+          p: {
+            text: "They divvy up their prey evenly among the members of their pack",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
 
           bg: {
-            picture: link,
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1684316421/accountants.ba1b4633_pygojv.svg",
+          },
+        },
+        4: {
+          h: {
+            text: "Pharmacists",
+            size: "20px",
+            color: "#000",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
+          },
+          p: {
+            text: "Azurill can be seen bouncing and playing on its big, rubbery tail",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
+          },
+
+          bg: {
+            picture:
+              "https://res.cloudinary.com/djlewzcd5/image/upload/v1684316355/auditors.32124e83_qzg8oq.svg",
           },
         },
       },
     },
   },
+  //gallery1
   {
     type: "gallery1",
     img: "gallery1.jpeg",
@@ -517,6 +816,9 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
           bg: {
             picture:
@@ -533,6 +835,9 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
 
           bg: {
@@ -550,6 +855,9 @@ const blocks = [
             italic: false,
             align: "left",
             family: "Sans-serif",
+            spacing: "0px",
+            height: "30px",
+            weight: "500",
           },
 
           bg: {
@@ -560,6 +868,7 @@ const blocks = [
       },
     },
   },
+  //gallery2
   {
     type: "gallery2",
     img: "gallery2.jpeg",
@@ -594,6 +903,7 @@ const blocks = [
       },
     },
   },
+  //about
   {
     type: "about1",
     img: "about1.jpeg",
@@ -609,6 +919,9 @@ const blocks = [
           italic: false,
           align: "left",
           family: "Serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
         },
         p: {
           text: "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.",
@@ -619,6 +932,9 @@ const blocks = [
           italic: false,
           align: "center",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
         },
         btn: {
           text: "READ MORE",
@@ -629,7 +945,15 @@ const blocks = [
           italic: false,
           align: "center",
           family: "Sans-serif",
+          spacing: "0px",
+          height: "30px",
+          weight: "500",
           bgColor: "#000",
+          link: {
+            url: "",
+            page: "",
+            detail: "",
+          },
         },
 
         bgColor: "#DCEDC8",

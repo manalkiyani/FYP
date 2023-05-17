@@ -14,6 +14,7 @@ export const ManageWebsite = () => {
       bg="#fff"
       radius="xl"
     >
+       {/* Tabs  */}
       <Tabs
         style={{
           minHeight: "900px",
@@ -24,7 +25,7 @@ export const ManageWebsite = () => {
         radius="md"
         defaultValue="jobs"
       >
-        {/* Tabs  */}
+       
         <Tabs.List>
           <Tabs.Tab value="jobs">Jobs</Tabs.Tab>
           <Tabs.Tab value="applications"> Applications</Tabs.Tab>
