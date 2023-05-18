@@ -14,6 +14,7 @@ import { getUsername,getUser } from '../../../utilityFunctions/authFunctions';
 import { getUserData } from '../../../utilityFunctions/axiosFunctions';
 import { useLocalStorageState } from 'ahooks';
 import { Button, Group, Text } from '@mantine/core';
+import SubdomainForm from './SubdomainForm';
 
 
 export default function SavedTemplates() {
@@ -24,14 +25,27 @@ export default function SavedTemplates() {
   const [viewerTemplate,setViewerTemplate] = useLocalStorageState("viewerTemplate",{})
   // const { setTemplateId, setTemplate } = useContext(UserContext);
   const [updated, setUpdated] = React.useState(false);
+  const[open, setOpen] = useState(false);
   const navigate = useNavigate();
  const[Deletion,setDeletion]=useState(false);
 
+
+ 
+ const subdomainFormOpen = ()=>{
+  setOpen(true)
+ }
+ const subdomainFormClose = ()=>{
+  setOpen(false)
+ }
+ 
+ 
  const openDeletion = (id) => {
   console.log(id);
     setDeleteId(id);
     setDeletion(true);
   }
+
+
   const closeDeletion = () => {
     setDeletion(false);
   }
@@ -174,16 +188,23 @@ const images = [
           <Button variant="light" onClick={() => openAsAdmin(template._id, template.type)}  style={{color:'#008B8B'}}>
           Manage
         </Button>
+        
         </div>
         
+        
       </CardActions>
+      <Button variant="light" onClick={subdomainFormOpen}  style={{color:'#008B8B'}}>
+          Publish
+        </Button>
     </Card>)
+
     
     }
    
    )
 }
  </div>
+ {open && <SubdomainForm open = {open} setOpen = {setOpen}></SubdomainForm>}
     </>
 
    

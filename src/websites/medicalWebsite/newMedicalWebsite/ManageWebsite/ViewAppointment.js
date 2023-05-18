@@ -8,9 +8,10 @@ import {
   rem,
   Flex,
 } from "@mantine/core";
-
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useLocalStorageState } from "ahooks";
+
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -34,7 +35,8 @@ const useStyles = createStyles((theme) => ({
 export function ViewAppointment({ doctor, day, status, slot, patientName }) {
   const { classes, theme } = useStyles();
 
-  const TEMPLATEID = '64466439e08c4f5f864bceac'
+
+  const [ templateId,setTemplateId] = useLocalStorageState("templateId")
 
   const [appointmentData, setAppointmentData] = useState([]);
 
@@ -42,7 +44,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
     const fetchAppointments = async () => {
       try {
         const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
-          TEMPLATEID
+          TEMPLATEID: templateId
         });
         setAppointmentData(response.data);
       } catch (error) {
@@ -69,13 +71,6 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
       console.error(error);
     }
   }
-
-
-
-
-
-
-
   return (
     <>
 
@@ -102,7 +97,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
           </div>
         </Group>
         <Badge mt="lg" color="red">
-          {"Booked"}
+         {appointment.status}
         </Badge>
       </Flex>
       
@@ -132,7 +127,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
           
         </Group>
          <Text mt="lg" fz="sm" c="dimmed">
-            Video Call
+            {appointment.sessionType}
           </Text>
         </Flex>
        

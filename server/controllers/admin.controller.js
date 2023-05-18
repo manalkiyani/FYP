@@ -4,6 +4,7 @@ const Message = require("../models/Message");
 const SuperAdmin = require("../models/SuperAdmin");
 const Order = require("../models/Order");
 const Template = require("../models/Template");
+const PublishedWebsites = require("../models/publishedwebsites");
 const mongoose = require("mongoose");
 const { template } = require("lodash");
 require("dotenv").config();
@@ -470,6 +471,24 @@ const getMessages = async (req, res) => {
     res.status(500).json({ error });
   }
 };
+const checksubdomainavailability = async (req, res) => {
+  try {
+
+    const subdomain = req.body.subdomain
+    const query = { subdomain: subdomain };
+    const matchingDocuments = await PublishedWebsites.find(query).lean();
+
+    // Send response based on the result
+    if (matchingDocuments.length > 0) {
+      res.json({ exists: false });
+    } else {
+      res.json({ exists: true });
+    }
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   registeredAdmins,
@@ -495,4 +514,9 @@ module.exports = {
 
   getMessages,
   addInMessageSentToAdmin,
+
+
+  //added by fahad now
+  checksubdomainavailability
+  
 };
