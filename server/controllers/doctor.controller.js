@@ -305,18 +305,27 @@ const getAppointmentstoAdmin = async (req, res) => {
 
     for (const appointmentId of appointments) {
       const appointment = await Appointment.findById(appointmentId)
-        .populate(
-          "doctorid",
-          "name department gender address latestQualification"
-        )
-        .populate("patientid", "name contact_info");
+        .populate({
+          path: "doctorid",
+          select: "name department gender address latestQualification"
+        })
+        .populate({
+          path: "patientid",
+          select: "username"
+        })
+        .exec();
+
       if (!appointment.isComplete) {
         incompleteAppointments.push(appointment);
       }
     }
 
     const appointmentInfo = incompleteAppointments.map((appointment) => {
-      const { _id, Day, Time, doctorid, patientid, status } = appointment;
+      const { _id, name, sessionType, Day, Time, doctorid, patientid, status } = appointment;
+      console.log(_id);
+
+      const patientName = patientid ? patientid.username : "Unknown";
+
       return {
         _id,
         status,
@@ -327,8 +336,8 @@ const getAppointmentstoAdmin = async (req, res) => {
         DoctorQualification: doctorid.latestQualification,
         DoctorAddress: doctorid.address,
         Department: doctorid.department,
-        PatientName: patientid.name,
-        ContactInfo: patientid.contact_info,
+        PatientName: name,
+        sessionType
       };
     });
 

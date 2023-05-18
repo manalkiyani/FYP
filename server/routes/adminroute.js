@@ -4,7 +4,7 @@ const {addInMessageSentToAdmin,addMessageIdinAdmin, registeredAdmins ,
   addInMessageSentToSuperAdmin,addMessageIdinSuperAdmin, addpaymentidinsuperadmin,
  getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard,
   getPaymentsOnAdminDashboard, getOrders, getAppointmentsOnAdminDashboard,
-   getJobApplicationsOnAdminDashboard,
+   getJobApplicationsOnAdminDashboard,checksubdomainavailability,
    getMessages} =require('../controllers/admin.controller');
 const { mailerAdminMessages }= require("./../controllers/maileradminmessages");
 
@@ -38,5 +38,6 @@ router.post('/getappointmentsonadmindashboard',getAppointmentsOnAdminDashboard)
 router.post('/getjobapplicationsonadmindashboard',getJobApplicationsOnAdminDashboard)
 router.post('/addinmessagesenttoadmin',addInMessageSentToAdmin)
 router.post('/addmessageidinadmin',addMessageIdinAdmin)
+router.post('/checksubdomainavailability',checksubdomainavailability)
 
 module.exports = router;
