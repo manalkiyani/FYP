@@ -130,6 +130,7 @@ const Header2 = (props) => {
       style={{
         backgroundColor: props.Data?.data?.bgColor,
         position: "relative",
+        marginBottom:'50px'
       }}
       onMouseOver={enableHandleBlock}
       onMouseOut={disableHandleBlock}

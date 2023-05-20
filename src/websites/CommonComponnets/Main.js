@@ -53,14 +53,7 @@ const Main = (props) => {
     const alteredBlocks = await mapAdminBlocks(copy);
     console.log("alteredBlocks in MAIN", alteredBlocks);
 
-    // console.log("alteredBlocks", alteredBlocks);
-    // console.log("admin blocks", blocks);
-    // const alteredBlocks = blocks.map((block) => {
-    //   return {
-    //     ...block,
-    //     key: uuid(),
-    //   };
-    // });
+    
 
     setComponents(alteredBlocks);
   };

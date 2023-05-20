@@ -20,8 +20,8 @@ class TextEditor extends Component {
     italic: this.props.data.italic,
     align: this.props.data.align,
     family: this.props.data.family,
-    spacing: this.props.data.spacing,
-    height: this.props.data.height,
+    spacing: this.props.data?.spacing,
+    height: this.props.data?.height,
   };
   componentDidUpdate(prevProps) {
     console.log("in text editor");

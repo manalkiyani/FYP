@@ -67,7 +67,9 @@ const DragDrop = ({
       type === "features3" ||
         type === "features4" ||
       type === "gallery1" ||
-      type === "gallery2"
+      type === "gallery2" ||
+       type === "people1" ||
+      type === "people2"
     ) {
       console.log(" i am happy");
       dataForTextEditor = clickedComponent.Data.data[index][tagFromComponent];
