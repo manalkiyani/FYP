@@ -16,47 +16,47 @@ const SocialIconsPanel = ({
   const [icons, setIcons] = useState([
     {
       icon: "Facebook",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670229851/facebook_nunoeq.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_imb14a.png",
       link: "",
     },
     {
       icon: "Twitter",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230136/twitter_xtgade.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435758/social_1_dma9dz.png",
       link: "",
     },
     {
       icon: "Instagram",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230168/instagram_ft5yeo.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684436107/instagram_2_ybnpzw.png",
       link: "",
     },
     {
       icon: "LinkedIn",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230193/linkedin_s4wzkh.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_3_qmcjhz.png",
       link: "",
     },
     {
       icon: "Whatsapp",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230148/whatsapp_lg8yre.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684436354/social_5_j9v0ve.png",
       link: "",
     },
     {
       icon: "Gmail",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670249983/-11597283055r5ynokf2kb_ym9yeb.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684436359/email_jjqzwn.png",
       link: "",
     },
     {
       icon: "SnapChat",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670249895/snapchat-logo-icon-png-snapchat-logo-circle-11562922134qgu9m89jgh_jrxlj2.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_4_ae2vvq.png",
       link: "",
     },
     {
       icon: "Youtube",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670249662/free-youtube-logo-icon-2431-thumb_wssgc7.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435776/play_nvht7p.png",
       link: "",
     },
     {
       icon: "Pinterest",
-      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670232984/pinterest_g6aazw.png",
+      url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_2_ac5hgh.png",
       link: "",
     },
   ]);

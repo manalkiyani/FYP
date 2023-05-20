@@ -1,17 +1,36 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { getTemplateId } from "../utilityFunctions/TemplateIdController";
+import { useEffect, useState } from "react";
+import { getWebsiteData } from "../utilityFunctions/websiteDataController";
 
 export const AuthorizeViewer = ({ children }) => {
-  const viewerTemplateId = JSON.parse(localStorage.getItem("viewerTemplateId"));
+  const [shouldRenderChildren, setShouldRenderChildren] = useState(true);
   const currentPath = window.location.pathname;
   const parentPath = currentPath.split("/").slice(0, -1).join("/");
   console.log(`Parent path: ${parentPath}`);
-  const { id } = useParams();
 
-  if (id !== viewerTemplateId) {
-    return (
-      <Navigate to={parentPath + "/viewerLogin"} replace={true}></Navigate>
-    );
-  }
+  useEffect(() => {
+    fetchTemplateId();
+  });
 
-  return children;
+  const fetchTemplateId = async () => {
+    const Template = await getTemplateId();
+    const response = await getWebsiteData(Template.templateId);
+    console.log("response in Authorize Viewer", response.status);
+    if (response.status === "200") {
+      console.log("in if");
+      // Website data found
+      setShouldRenderChildren(true);
+    } else {
+      console.log("in elsed");
+      // Website data not found
+      setShouldRenderChildren(false);
+    }
+  };
+
+  return shouldRenderChildren ? (
+    children
+  ) : (
+    <Navigate to={parentPath + "/viewerLogin"} replace={true} />
+  );
 };

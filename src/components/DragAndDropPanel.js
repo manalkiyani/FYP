@@ -84,6 +84,17 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
+             <h5>People And Team</h5>
+          {blocks.map((item) => {
+            return item.type === "people1" || item.type === "people2" ? (
+              <Image
+                dragStart={props.dragStartHandler}
+                key={item.type}
+                id={item.type}
+                source={require("../assets/imgs/" + item.img)}
+              />
+            ) : null;
+          })}
         </div>
       </>
     </SideDrawer>

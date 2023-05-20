@@ -14,9 +14,10 @@ import { cloneDeep } from "lodash";
 import { mapViewerBlocks } from "../../../utilityFunctions/helperFunctions";
 import ViewJobs from "../../BusinessWebsite/Pages/ViewJobs/ViewJobs";
 import ViewerDoctorPage from "../../medicalWebsite/newMedicalWebsite/ViewerDoctorPage";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 const ViewerMainPage = (props) => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const [blogIds, setBlogIds] = React.useState(null);
   const [productIds, setProductIds] = React.useState(null);
   const [jobIds, setJobIds] = React.useState(null);
@@ -35,6 +36,12 @@ const ViewerMainPage = (props) => {
   }, [dataToSend]);
 
   const loadSavedTemplate = async () => {
+    /* new lines added here */
+    const response = await getTemplateId()
+    const id = response.templateId 
+
+    /* */
+    
     let MainPageBlocks = [];
     let DataIds = [];
     try {

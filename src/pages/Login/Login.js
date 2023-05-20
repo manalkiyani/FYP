@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   verifyPassword,
   getUsername,
+ 
 } from "../../utilityFunctions/authFunctions";
 import classes from "../SignUp/SignUp.module.css";
 import FormInput from "../SignUp/formInput";
@@ -45,6 +46,16 @@ function LoginScreen() {
       required: true,
     },
   ];
+
+  const checkLoggedIn =async ()=>{
+      const response = await getUsername()
+      if (response){
+        navigate("/dashboard")
+      }
+  }
+  useEffect(()=>{
+    checkLoggedIn()
+  })
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });

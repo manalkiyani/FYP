@@ -1,0 +1,46 @@
+.panel{
+    width: 100%;
+   
+position: relative;
+
+  
+    box-sizing: border-box;
+   
+}
+.Container{
+   
+    display: flex;
+   
+    justify-content: center;
+
+
+}
+.card{
+ 
+    
+    
+    margin-bottom: 25px;
+   
+    min-width: 150px;
+    max-height: 300px;
+    flex-grow: 1;
+    display: flex;
+    padding: 20px 50px;
+   
+       position: relative;
+   
+
+
+}
+
+.img{
+    display: block;
+    width:100px;
+    border-radius: 50%;
+     height: 100px;
+   
+object-fit: cover;
+}
+
+
+

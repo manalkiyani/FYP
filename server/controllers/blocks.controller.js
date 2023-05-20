@@ -87,10 +87,12 @@ async function updateBlocks(req, res) {
 
     for (const block of updatedBlocks) {
       console.log("block", block)
-      const foundBlock = await Block.findOneAndUpdate(
-        { key: block.key },
-        { $set: block }
-      );
+     const foundBlock = await Block.findOneAndUpdate(
+  { key: block.key },
+  { $set: { ...block, _id: undefined } },
+  { new: true }
+);
+
       
       if (foundBlock) {
         updatedBlockKeys.push(foundBlock.key);

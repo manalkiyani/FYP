@@ -14,14 +14,20 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
+import { addWebsiteData } from "../../../utilityFunctions/websiteDataController";
 
 export function ViewerLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { id } = useParams();
+  // const { id } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    //fetch template Id from newly created Template Id schema
+    const response = await getTemplateId()
+    const id = response.templateId
+
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -34,8 +40,21 @@ export function ViewerLogin() {
       );
       console.log("successfully logged in");
       console.log(response.data.user);
-      localStorage.setItem("viewer", JSON.stringify(response.data.user));
-      localStorage.setItem("viewerTemplateId", JSON.stringify(id));
+
+
+
+      // localStorage.setItem("viewer", JSON.stringify(response.data.user));
+      // localStorage.setItem("viewerTemplateId", JSON.stringify(id));
+
+
+      //save logged In users id in the respected place in website Data document
+      const saveUserResponse = await addWebsiteData(id,response.data.user._id)
+      console.log("saveUserResponse",saveUserResponse)
+
+
+
+
+
       const currentPath = window.location.pathname;
       const parentPath = currentPath.split("/").slice(0, -1).join("/");
 

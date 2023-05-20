@@ -21,6 +21,8 @@ import Gallery2 from "./Gallery2/Gallery2";
 
 import About1 from "./About1/About1";
 import { Features4 } from "./Features4/Features4";
+import People1 from "./People/People1";
+import People2 from "./People/People2";
 
 const blocks = [
   //header1
@@ -32,45 +34,45 @@ const blocks = [
       socialIcons: [
         {
           icon: "Facebook",
-          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670229851/facebook_nunoeq.png",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_imb14a.png",
           link: "",
         },
         {
           icon: "Twitter",
-          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230136/twitter_xtgade.png",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435758/social_1_dma9dz.png",
           link: "",
         },
         {
           icon: "Instagram",
-          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1670230168/instagram_ft5yeo.png",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684436107/instagram_2_ybnpzw.png",
           link: "",
         },
       ],
       data: {
         h: {
           text: "Intro with an Image",
-          size: "32px",
-          color: "#000",
+          size: "48px",
+          color: "#333333",
           bold: false,
           underline: false,
           italic: false,
           align: "center",
-          family: "Sans-serif",
-          spacing: "1px",
-          height: "100px",
+          family: "Fantasy",
+          spacing: "0px",
+          height: "80px",
           weight: "500",
         },
         p: {
-          text: "Easily create small/medium websites, landing pages, portfolios. beautiful website blocks, templates and themes help you to start easily.",
-          size: "16px",
-          color: "#000",
+          text: "Easily create small/medium websites, landing pages, portfolios. beautiful website blocks, templates and themes help you to start easily.Easily create small/medium websites, landing pages, portfolios.",
+          size: "18px",
+          color: "#CCCCCC",
           bold: false,
           underline: false,
           italic: false,
           align: "center",
           family: "Sans-serif",
           spacing: "0px",
-          height: "30px",
+          height: "25px",
           weight: "500",
         },
         btn: {
@@ -104,7 +106,7 @@ const blocks = [
     Data: {
       data: {
         h: {
-          text: "For Private clinics and medical centers",
+          text: "Create Your Websites Automagically",
           size: "48px",
           color: "#000",
           bold: true,
@@ -148,25 +150,7 @@ const blocks = [
             detail: "",
           },
         },
-        btn2: {
-          text: "Start Now",
-          size: "14px",
-          color: "#000",
-          bold: false,
-          underline: false,
-          italic: false,
-          align: "center",
-          family: "Sans-serif",
-          bgColor: "#fff",
-          spacing: "0px",
-          height: "20px",
-          weight: "500",
-          link: {
-            url: "",
-            page: "",
-            detail: "",
-          },
-        },
+       
         img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684317004/image.9a65bd94_dqb9jb.svg",
         bgColor: "#EBEBFF",
       },
@@ -180,37 +164,24 @@ const blocks = [
     Data: {
       data: {
         h: {
-          text: "Spring Sales Only",
+          text: "Create Your Website",
           size: "48px",
           color: "#000000",
-          bold: false,
+          bold: true,
           underline: false,
           italic: false,
           align: "left",
-          family: "Serif",
+          family: "Poppins",
           spacing: "1px",
           height: "100px",
           weight: "500",
         },
         //Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        p: {
-          text: "Upto 50% off",
-          size: "20px",
-          color: "#653294",
-          bold: true,
-          underline: false,
-          italic: false,
-          align: "left",
-          family: "Sans-serif",
-          spacing: "0px",
-          height: "30px",
-          weight: "500",
-        },
 
         s: {
           text: "I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. I’m a great place for you to tell a story and let your users know a little more about you.",
-          size: "16px",
-          color: "#EBF1FC",
+          size: "18px",
+          color: "#808080",
           bold: false,
           underline: false,
           italic: false,
@@ -222,7 +193,7 @@ const blocks = [
         btn: {
           text: "START NOW",
           size: "14px",
-          color: "#fff",
+          color: "#000",
           bold: false,
           underline: false,
           italic: false,
@@ -237,8 +208,8 @@ const blocks = [
             detail: "",
           },
         },
-        img: "https://res.cloudinary.com/djlewzcd5/image/upload/v1669815537/samples/ecommerce/shoes.png",
-        bgColor: "#E1BEE7",
+        img: "https://www.turintech.ai/wp-content/uploads/2022/07/Fast-2048x1638.png",
+        bgColor: "#fff",
       },
     },
   },
@@ -378,7 +349,7 @@ const blocks = [
           p: {
             text: "Beauty",
             size: "16px",
-            color: "#000",
+            color: "#ccc",
             bold: false,
             underline: false,
             italic: false,
@@ -957,6 +928,212 @@ const blocks = [
         },
 
         bgColor: "#DCEDC8",
+      },
+    },
+  },
+  //people1 , 2 cards
+  {
+    type: "people1",
+    img: "people1.png",
+    Component: People1,
+    Data: {
+      socialIcons: [
+        {
+          icon: "Facebook",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435757/social_imb14a.png",
+          link: "",
+        },
+        {
+          icon: "Twitter",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684435758/social_1_dma9dz.png",
+          link: "",
+        },
+        {
+          icon: "Instagram",
+          url: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684436107/instagram_2_ybnpzw.png",
+          link: "",
+        },
+      ],
+      layout: 1,
+      data: {
+        1: {
+          h: {
+            text: "John Smith",
+            size: "32px",
+            color: "#000",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "80px",
+          },
+           s: {
+            text: "Programmar",
+            size: "18px",
+            color: "#7890A3",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+          p: {
+            text: "Just drop site elements to your page, add content and style it to look the way you like.",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+          bg: {
+            picture: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684432107/pexels-pixabay-220453_dd0tny.jpg",
+          },
+        },
+        2: {
+          h: {
+            text: "Ann Brown",
+            size: "32px",
+            color: "#000",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+           s: {
+            text: "Manager",
+            size: "18px",
+            color: "#7890A3",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+          
+          },
+          p: {
+            text: "Select the theme that suits you. Each theme contains a set of unique blocks.",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+            weight: "500",
+          },
+          bg: {
+            picture: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684432098/pexels-cottonbro-studio-10669639_sc5tjo.jpg",
+          },
+        },
+      },
+    },
+  },
+  //people 2
+  {
+    type: "people2",
+    img: "people2.png",
+    Component: People2,
+    Data: {
+     
+      layout: 1,
+      data: {
+        1: {
+          h: {
+            text: "Alexa",
+            size: "18px",
+            color: "#000",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+            height: "50px",
+          },
+           s: {
+            text: "Programmar",
+            size: "14px",
+            color: "#7890A3",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+          p: {
+            text: "Just drop site elements to your page, add content and style it to look the way you like.Just drop site elements to your page, add content and style it to look the way you like",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+          bg: {
+            picture: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684432107/pexels-pixabay-220453_dd0tny.jpg",
+          },
+        },
+        2: {
+          h: {
+            text: "Ann Brown",
+            size: "18px",
+            color: "#000",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+          },
+           s: {
+            text: "Manager",
+            size: "14px",
+            color: "#7890A3",
+            bold: true,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+          
+          },
+          p: {
+            text: "Select the theme that suits you. Each theme contains a set of unique blocks.Just drop site elements to your page, add content and style it to look the way you like",
+            size: "16px",
+            color: " #7890A3",
+            bold: false,
+            underline: false,
+            italic: false,
+            align: "left",
+            family: "Sans-serif",
+            spacing: "0px",
+           
+            weight: "500",
+          },
+          bg: {
+            picture: "https://res.cloudinary.com/djlewzcd5/image/upload/v1684432098/pexels-cottonbro-studio-10669639_sc5tjo.jpg",
+          },
+        },
       },
     },
   },

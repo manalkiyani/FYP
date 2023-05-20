@@ -592,6 +592,7 @@ const saveMyTemplate = async (
 };
 const updateTemplate = async (
   id,
+  adminId,
   type,
   homepage,
   homepageBlockIds,
@@ -619,6 +620,7 @@ const updateTemplate = async (
             [dataType]: mainPageDataIds,
           },
         },
+        adminId
       }
     );
     console.log("res in updateTemplate", res);
@@ -675,7 +677,8 @@ export const UpdateTemplate = async (
   HomePage,
   MainPage,
   data,
-  id
+  id,
+  adminId
 ) => {
   //first send blocks of homepage
   //send blocks to backend to save
@@ -699,6 +702,7 @@ export const UpdateTemplate = async (
   }
   const response = await updateTemplate(
     id,
+    adminId,
     template.type,
     HomePage,
     homepageBlockIds,

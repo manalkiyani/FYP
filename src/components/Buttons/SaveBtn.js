@@ -39,7 +39,7 @@ const SaveBtn = () => {
         homePage: "BlogHomePage",
         contentPage: "BlogsPage",
         contentSlug: "blogs",
-      },
+      }, 
       eccomerce: {
         homePage: "EccomerceHomePage",
         contentPage: "ProductsPage",

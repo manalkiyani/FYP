@@ -8,7 +8,7 @@ import BgColor from "../../BackgroundColor/BgColor";
 
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
-import { Group } from "@mantine/core";
+import { Button, Container, Flex, Group, Space } from "@mantine/core";
 
 export default class Header3 extends Component {
   state = {
@@ -102,110 +102,98 @@ export default class Header3 extends Component {
             image={this.state.image}
           />
         )}
-        <Group grow   >
-           <img className={classes.img} src={this.props.Data.data.img} />
+        <Container size="80rem">
+          <Group grow gap="md">
+            <img className={classes.img} src={this.props.Data.data.img} />
 
-        <div className={classes.content}>
-          <ContentEditable
-            className={classes.h}
-            html={this.props.Data.data.h.text} // innerHTML of the editable div
-            disabled={false} // use true to disable editing
-            onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change
-            onClick={() =>
-              this.props.onClick(this.props.id, "h", null, "header3")
-            }
-            style={{
-              fontSize: this.props.Data.data.h.size,
-              fontFamily: this.props.Data.data.h.family,
-              color: this.props.Data.data.h.color,
-              fontWeight:
-                this.props.Data.data.h.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.h.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.h.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.h.align,
-            }}
-          />
+            <Flex direction="column">
+              <ContentEditable
+                className={classes.h}
+                html={this.props.Data.data.h.text} // innerHTML of the editable div
+                disabled={false} // use true to disable editing
+                onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change
+                onClick={() =>
+                  this.props.onClick(this.props.id, "h", null, "header3")
+                }
+                style={{
+                  fontSize: this.props.Data.data.h.size,
+                  fontFamily: this.props.Data.data.h.family,
+                  color: this.props.Data.data.h.color,
+                  fontWeight:
+                    this.props.Data.data.h.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    this.props.Data.data.h.underline === true
+                      ? "underline"
+                      : "none",
+                  fontStyle:
+                    this.props.Data.data.h.italic === true
+                      ? "italic"
+                      : "normal",
+                  textAlign: this.props.Data.data.h.align,
+                }}
+              />
 
-          <ContentEditable
-            html={this.props.Data.data.p.text} // innerHTML of the editable div
-            disabled={false} // use true to disable editing
-            className={classes.p}
-            onClick={() =>
-              this.props.onClick(this.props.id, "p", null, "header3")
-            }
-            onChange={(e) => this.handleTextChange(e, "p")} // handle innerHTML change
-            style={{
-              fontSize: this.props.Data.data.p.size,
-              fontFamily: this.props.Data.data.p.family,
-              color: this.props.Data.data.p.color,
-              fontWeight:
-                this.props.Data.data.p.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.p.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.p.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.p.align,
-            }}
-          />
-          <ContentEditable
-            html={this.props.Data.data.s.text} // innerHTML of the editable div
-            disabled={false} // use true to disable editing
-            className={classes.s}
-            onClick={() =>
-              this.props.onClick(this.props.id, "s", null, "header3")
-            }
-            onChange={(e) => this.handleTextChange(e, "s")} // handle innerHTML change
-            style={{
-              fontSize: this.props.Data.data.s.size,
-              fontFamily: this.props.Data.data.s.family,
-              color: this.props.Data.data.s.color,
-              fontWeight:
-                this.props.Data.data.s.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.s.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.s.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.s.align,
-            }}
-          />
-
-          <ContentEditable
-            className={classes.btn}
-            html={this.props.Data.data.btn.text}
-            disabled={false}
-            onClick={this.handleClick}
-            onChange={(e) => this.handleTextChange(e, "btn")}
-            // onClick ={(e)=>{
-            //   e.preventDefault();
-            //   window.open('');
-            // }}
-            style={{
-              fontSize: this.props.Data.data.btn.size,
-              fontFamily: this.props.Data.data.btn.family,
-              color: this.props.Data.data.btn.color,
-              fontWeight:
-                this.props.Data.data.btn.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.btn.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.btn.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.btn.align,
-            }}
-          />
-        </div>
-
-        </Group>
-       
+              <ContentEditable
+                html={this.props.Data.data.s.text} // innerHTML of the editable div
+                disabled={false} // use true to disable editing
+                className={classes.s}
+                onClick={() =>
+                  this.props.onClick(this.props.id, "s", null, "header3")
+                }
+                onChange={(e) => this.handleTextChange(e, "s")} // handle innerHTML change
+                style={{
+                  fontSize: this.props.Data.data.s.size,
+                  fontFamily: this.props.Data.data.s.family,
+                  color: this.props.Data.data.s.color,
+                  fontWeight:
+                    this.props.Data.data.s.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    this.props.Data.data.s.underline === true
+                      ? "underline"
+                      : "none",
+                  fontStyle:
+                    this.props.Data.data.s.italic === true
+                      ? "italic"
+                      : "normal",
+                  textAlign: this.props.Data.data.s.align,
+                }}
+              />
+              <Space h="xl" />
+              <div>
+                <Button variant="default" radius="xl">
+                  <ContentEditable
+                    html={this.props.Data.data.btn.text}
+                    disabled={false}
+                    onClick={this.handleClick}
+                    onChange={(e) => this.handleTextChange(e, "btn")}
+                    // onClick ={(e)=>{
+                    //   e.preventDefault();
+                    //   window.open('');
+                    // }}
+                    style={{
+                      fontSize: this.props.Data.data.btn.size,
+                      fontFamily: this.props.Data.data.btn.family,
+                      color: this.props.Data.data.btn.color,
+                      fontWeight:
+                        this.props.Data.data.btn.bold === true
+                          ? "bold"
+                          : "normal",
+                      textDecoration:
+                        this.props.Data.data.btn.underline === true
+                          ? "underline"
+                          : "none",
+                      fontStyle:
+                        this.props.Data.data.btn.italic === true
+                          ? "italic"
+                          : "normal",
+                      textAlign: this.props.Data.data.btn.align,
+                    }}
+                  />
+                </Button>
+              </div>
+            </Flex>
+          </Group>
+        </Container>
       </div>
     );
   }

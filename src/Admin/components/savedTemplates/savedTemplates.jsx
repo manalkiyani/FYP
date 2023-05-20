@@ -14,6 +14,9 @@ import { getUsername,getUser } from '../../../utilityFunctions/authFunctions';
 import { getUserData } from '../../../utilityFunctions/axiosFunctions';
 import { useLocalStorageState } from 'ahooks';
 import { Button, Group, Text } from '@mantine/core';
+
+import { addTemplateId } from '../../../utilityFunctions/TemplateIdController';
+
 import SubdomainForm from './SubdomainForm';
 
 
@@ -64,19 +67,54 @@ export default function SavedTemplates() {
     }
   };
 
-  const openAsViewer = (id, type) => {
-    setTemplate({
-      type: "",
-      pages: {},
-      data: {},
-    });
-    setTemplateId(id);
-    setViewerTemplate(
-     { id,type}
-    )
+  const openAsViewer =async (id, type) => {
+    // setTemplate({
+    //   type: "",
+    //   pages: {},
+    //   data: {},
+    // });
+    // setTemplateId(id);
+    // setViewerTemplate(
+    //  { id,type}
+    // )
+     const response =await addTemplateId(id,type);
+ console.log(response)
 
     navigate(`/view/${type}/template/${id}`);
   };
+
+const openAsPublished =async (id, type) => {
+  //get subdomain in function arguments as well and put in URL
+  try{
+ const response =await addTemplateId(id,type);
+ console.log(response)
+}
+catch(error)
+{
+  console.log(error)
+}
+   window.location.href = `http://abc.localhost:3000/view/${type}/template/${id}`;
+
+
+
+    // navigate(`/view/${type}/template/${id}`);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const openAsAdmin = (id, type) => {
     setTemplate({
       type: "",
@@ -188,7 +226,13 @@ const images = [
           <Button variant="light" onClick={() => openAsAdmin(template._id, template.type)}  style={{color:'#008B8B'}}>
           Manage
         </Button>
+
+         <Button variant="light" onClick={() => openAsPublished(template._id, template.type)}  style={{color:'#008B8B'}}>
+          Open as Published
+        </Button>
+
         
+
         </div>
         
         

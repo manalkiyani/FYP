@@ -1,0 +1,49 @@
+.panel{
+    width: 100%;
+    display: flex;
+position: relative;
+   justify-content: center;
+  
+    box-sizing: border-box;
+   
+}
+.Container{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+}
+.card{
+  width: 75%;
+    background-color: #ffffff;
+    
+    margin-bottom: 25px;
+   
+    min-width: 150px;
+    max-height: 250px;
+    flex-grow: 1;
+    display: flex;
+   
+       position: relative;
+   
+
+
+}
+.container {
+   
+    padding:  20px;
+    width:  50%;
+    
+  }
+.img{
+    display: block;
+    width:35%;
+     height: 250px;
+   
+object-fit: cover;
+}
+
+
+
