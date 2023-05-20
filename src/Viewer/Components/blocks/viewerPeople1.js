@@ -1,72 +1,15 @@
 import React, { useState } from "react";
-import classes from "./People1.module.css";
 
-import DelCard from "../delCard/delCard";
-import HandleBlock from "../HandleBlock/handleBlock";
+import classes from "../../../components/blocks/People/People1.module.css";
+
 import ContentEditable from "react-contenteditable";
 import { Space } from "@mantine/core";
-import SocialIcons from "../socialIcons/socialIcons";
-import UploadImage from "../../uploadImage/uploadImage";
-import { uploadImage } from "../../../utilityFunctions/imageUpload";
 
-const People1 = (props) => {
-  const [displayHandleBlock, setDisplayHandleBlock] = useState(false);
-  const [cardImages, setCardImages] = useState([]);
-  const handleImageChange = async (event, index) => {
-    console.log("in here people 2 ");
-    console.log("index", index);
-    const cardImagesCopy = [...cardImages];
-    cardImagesCopy[index] = event.target.files[0];
-    setCardImages(cardImagesCopy);
-    try {
-      const link = await uploadImage(event.target.files[0]);
-      console.log(link);
-      props.changeCardImage(link, index, props.id);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const delCard = (index) => {
-    props.deleteCard(index, props.id);
-  };
-
-  const handleTextChange = (e, index, tag) => {
-    props.changeText(e.target.value, index, tag, props.id, "people1");
-  };
-  const handleSocialIcons = (socialIcons) => {
-    props.handleSocialIcons(socialIcons, props.id);
-  };
-
+import ViewerSocialIcons from "../viewerSocialIcons/viewerSocialIcons";
+const ViewerPeople1 = (props) => {
   return (
     <div className={classes.panel}>
-      <div
-        onMouseEnter={() => {
-          setDisplayHandleBlock(true);
-        }}
-        onMouseLeave={() => {
-          setDisplayHandleBlock(false);
-        }}
-        className={classes.Container}
-      >
-        {displayHandleBlock && (
-          <HandleBlock
-            id={props.id}
-            del={() => props.deleteBlock(props.id)}
-            enableDrag={props.enableDrag}
-            displayAddCard={true}
-            addCard={() => props.addCard(props.id)}
-            layout={props.Data.layout}
-            displaySetLayout={true}
-            setLayout={props.setLayout}
-            options={[
-              { text: "3 cards - width 30%", value: 3 },
-              { text: "2 cards - width 40%", value: 2 },
-              { text: "1 card - width 50%", value: 1 },
-            ]}
-          ></HandleBlock>
-        )}
-
+      <div className={classes.Container}>
         {Object.getOwnPropertyNames(props.Data.data).map((index) => {
           return (
             <div
@@ -85,27 +28,11 @@ const People1 = (props) => {
                 className={classes.img}
                 src={props.Data.data[index].bg.picture}
               />
-              {displayHandleBlock && (
-                <>
-                  <DelCard del={delCard} index={index} />
-                  <UploadImage
-                    top={5}
-                    left={5}
-                    handleImageChange={(event) =>
-                      handleImageChange(event, index)
-                    }
-                    index={index}
-                    image={cardImages[index]}
-                  />
-                </>
-              )}
 
               <div className={classes.container}>
                 <ContentEditable
                   html={props.Data.data[index].h.text} // innerHTML of the editable div
-                  disabled={false} // use true to disable editing
-                  onClick={() => props.onClick(props.id, "h", index, "people1")}
-                  onChange={(e) => handleTextChange(e, index, "h")} // handle innerHTML change
+                  disabled={true} // use true to disable editing
                   style={{
                     fontSize: props.Data.data[index].h.size,
                     fontFamily: props.Data.data[index].h.family,
@@ -124,14 +51,12 @@ const People1 = (props) => {
                         : "normal",
                     textAlign: props.Data.data[index].h.align,
                     letterSpacing: props.Data.data[index].h.spacing,
-                             lineHeight: props.Data.data[index].h.height,
+                    lineHeight: props.Data.data[index].h.height,
                   }}
                 />
                 <ContentEditable
                   html={props.Data.data[index].s.text} // innerHTML of the editable div
-                  disabled={false} // use true to disable editing
-                  onClick={() => props.onClick(props.id, "s", index, "people1")}
-                  onChange={(e) => handleTextChange(e, index, "s")} // handle innerHTML change
+                  disabled={true} // use true to disable editing
                   style={{
                     fontSize: props.Data.data[index].s.size,
                     fontFamily: props.Data.data[index].s.family,
@@ -150,15 +75,13 @@ const People1 = (props) => {
                         : "normal",
                     textAlign: props.Data.data[index].s.align,
                     letterSpacing: props.Data.data[index].s.spacing,
-                     lineHeight: props.Data.data[index].s.height,
+                    lineHeight: props.Data.data[index].s.height,
                   }}
                 />
                 <Space h="md" />
                 <ContentEditable
                   html={props.Data.data[index].p.text} // innerHTML of the editable div
-                  disabled={false} // use true to disable editing
-                  onClick={() => props.onClick(props.id, "p", index, "people1")}
-                  onChange={(e) => handleTextChange(e, index, "p")} // handle innerHTML change
+                  disabled={true} // use true to disable editing
                   style={{
                     fontSize: props.Data.data[index].p.size,
                     fontFamily: props.Data.data[index].p.family,
@@ -177,14 +100,11 @@ const People1 = (props) => {
                         : "normal",
                     textAlign: props.Data.data[index].p.align,
                     letterSpacing: props.Data.data[index].p.spacing,
-                     lineHeight: props.Data.data[index].p.height,
+                    lineHeight: props.Data.data[index].p.height,
                   }}
                 />
                 <Space h="md" />
-                <SocialIcons
-                  socialIcons={props.Data.socialIcons}
-                  handleSocialIcons={handleSocialIcons}
-                />
+                <ViewerSocialIcons socialIcons={props.Data.socialIcons} />
               </div>
             </div>
           );
@@ -194,4 +114,4 @@ const People1 = (props) => {
   );
 };
 
-export default People1;
+export default ViewerPeople1;

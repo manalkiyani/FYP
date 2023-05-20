@@ -12,6 +12,8 @@ import {
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
+import UploadImage from "../../uploadImage/uploadImage";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 
 const useStyles = createStyles((theme) => ({
   itemIcon: {
@@ -25,6 +27,8 @@ const useStyles = createStyles((theme) => ({
 
 const Features1 = (props) => {
   const [displayHandleBlock, setDisplayHandleBlock] = useState(false);
+  const [cardImages, setCardImages] = useState([]);
+
   const { classes } = useStyles();
 
   const delCard = (index) => {
@@ -35,8 +39,20 @@ const Features1 = (props) => {
     props.changeText(e.target.value, index, tag, props.id, "features1");
   };
 
-  const handleBtnClick = () => {
-    // Button click logic
+ 
+  const handleImageChange = async (event, index) => {
+    console.log("in here features 2 ");
+    console.log("index", index);
+    const cardImagesCopy = [...cardImages];
+    cardImagesCopy[index] = event.target.files[0];
+    setCardImages(cardImagesCopy);
+    try {
+      const link = await uploadImage(event.target.files[0]);
+      console.log(link);
+      props.changeCardImage(link, index, props.id);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -90,7 +106,20 @@ const Features1 = (props) => {
                 }}
                 style={{ position: "relative", width: "550px" }}
               >
-                {displayHandleBlock && <DelCard del={delCard} index={index} />}
+                {displayHandleBlock && (
+                  <>
+                    <UploadImage
+                      top={5}
+                      left={5}
+                      handleImageChange={(event) =>
+                        handleImageChange(event, index)
+                      }
+                      index={index}
+                      image={cardImages[index]}
+                    />
+                    <DelCard del={delCard} index={index} />
+                  </>
+                )}
                 <ContentEditable
                   className={classes.itemTitle}
                   html={props.Data.data[index].h.text}

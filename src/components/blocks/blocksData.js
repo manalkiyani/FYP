@@ -967,7 +967,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
-            height: "80px",
+            height: "30px",
           },
            s: {
             text: "Programmar",
@@ -979,6 +979,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
+            height:"30px"
            
           },
           p: {
@@ -991,6 +992,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
+                 height:"30px"
            
           },
           bg: {
@@ -1008,6 +1010,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
+              height:"30px"
            
           },
            s: {
@@ -1020,6 +1023,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
+              height:"30px"
           
           },
           p: {
@@ -1032,6 +1036,7 @@ const blocks = [
             align: "left",
             family: "Sans-serif",
             spacing: "0px",
+              height:"30px",
            
             weight: "500",
           },
