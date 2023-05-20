@@ -5,7 +5,7 @@ const {addInMessageSentToAdmin,addMessageIdinAdmin, registeredAdmins ,
  getTotalPaymentsAndMessages, getAdminData, updateActivePlan, getMessagesOnAdminDashboard,
   getPaymentsOnAdminDashboard, getOrders, getAppointmentsOnAdminDashboard,
    getJobApplicationsOnAdminDashboard,checksubdomainavailability,
-   getMessages} =require('../controllers/admin.controller');
+   getMessages, addInPublishedWebsites,addPublishIDinAdmin } =require('../controllers/admin.controller');
 const { mailerAdminMessages }= require("./../controllers/maileradminmessages");
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
@@ -39,5 +39,7 @@ router.post('/getjobapplicationsonadmindashboard',getJobApplicationsOnAdminDashb
 router.post('/addinmessagesenttoadmin',addInMessageSentToAdmin)
 router.post('/addmessageidinadmin',addMessageIdinAdmin)
 router.post('/checksubdomainavailability',checksubdomainavailability)
+router.post('/addinpublishedwebsites',addInPublishedWebsites)
+router.post('/addpublishIDinadmin',addPublishIDinAdmin)
 
 module.exports = router;

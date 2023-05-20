@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import { getUsername,getUser } from '../../../utilityFunctions/authFunctions';
-import { getUserData } from '../../../utilityFunctions/axiosFunctions';
+import { getUserData, getUserPublishedWebsites } from '../../../utilityFunctions/axiosFunctions';
 import { useLocalStorageState } from 'ahooks';
 import { Button, Group, Text } from '@mantine/core';
 
@@ -22,7 +22,7 @@ import { addTemplateId } from '../../../utilityFunctions/TemplateIdController';
 
 
 
-export default function SavedTemplates() {
+export default function PublishedWebsites() {
   const [DeleteId, setDeleteId] = React.useState(null);
   const [savedTemplates, setSavedTemplates] = React.useState(null);
   const [template,setTemplate] = useLocalStorageState("template","")
@@ -30,35 +30,12 @@ export default function SavedTemplates() {
   const [viewerTemplate,setViewerTemplate] = useLocalStorageState("viewerTemplate",{})
   // const { setTemplateId, setTemplate } = useContext(UserContext);
   const [updated, setUpdated] = React.useState(false);
-  const[open, setOpen] = useState(false);
+
   const navigate = useNavigate();
  const[Deletion,setDeletion]=useState(false);
- const [isLoading, setIsLoading] = useState(true);
- const [loggedInAdminID, setLoggedInAdminID] = useState('');
 
 
 
- const [clickedtemplateId, setClickedTemplateId] = useState(null);
-const [clickedtemplateType, setClickedTemplateType] = useState(null);
-const [clickedtemplateName, setClickedTemplateName] = useState(null);
-
-const subdomainFormOpen = (templateId,templateName, templateType) => {
-
-
-  setClickedTemplateId(templateId);
-  setClickedTemplateType(templateType);
-  setClickedTemplateName(templateName);
-
-  setIsLoading(false);
-  setOpen(true);
-};
-
-
-
- const subdomainFormClose = ()=>{
-  setOpen(false)
- }
- 
  const openDeletion = (id) => {
   console.log(id);
     setDeleteId(id);
@@ -76,10 +53,9 @@ const subdomainFormOpen = (templateId,templateName, templateType) => {
   const getsavedTemplates = async () => {
     try {
       const { username } = await getUsername();
-      const user = await getUserData(username);
+      const user = await getUserPublishedWebsites(username);
 
-      setSavedTemplates(user.savedTemplates);
-      setLoggedInAdminID(user._id)
+      setSavedTemplates(user.publishedwebsites);
     } catch (error) {
       console.log(error);
     }
@@ -117,6 +93,18 @@ catch(error)
 
     // navigate(`/view/${type}/template/${id}`);
   };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,8 +154,10 @@ const images = [
   "https://res.cloudinary.com/djlewzcd5/image/upload/v1683469816/pexels-ketut-subiyanto-4126724_iwqzw6.jpg"
 ]
 
+
+
+
   return (
-    
     <>
      <ConfirmDeleteDialog open={Deletion} onClose ={closeDeletion} onConfirm={deleteTemplate} />
 
@@ -181,9 +171,8 @@ const images = [
 
               const randomImage = images[randomImageIndex];
 
-  return ( 
-
-  <Card 
+  return ( <Card 
+    onClick={() => openAsPublished(template._id, template.type)}
   key={template._id}
   
   sx={{ maxWidth: 300,minWidth:300,marginRight:'20px' ,marginBottom:'20px'}}>
@@ -219,7 +208,7 @@ const images = [
             {template.type}
           </Text>
           <Text fz="md" weight={400}>
-           {template.createdAt} 
+           {template.Date} 
           </Text>
         </Group>
           
@@ -229,7 +218,7 @@ const images = [
       <CardActions>
         <div style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:'10px'}}>
 
-          <Button variant="light" onClick={() => openAsViewer(template._id, template.type)}   style={{color:'#008B8B'}}>
+          {/* <Button variant="light" onClick={() => openAsViewer(template._id, template.type)}   style={{color:'#008B8B'}}>
       Test As User
         </Button>
           <Button variant="light" onClick={() => openAsAdmin(template._id, template.type)}  style={{color:'#008B8B'}}>
@@ -238,7 +227,7 @@ const images = [
 
          <Button variant="light" onClick={() => openAsPublished(template._id, template.type)}  style={{color:'#008B8B'}}>
           Open as Published
-        </Button>
+        </Button> */}
 
         
 
@@ -246,26 +235,21 @@ const images = [
         
         
       </CardActions>
-      <Button variant="light" onClick={()=>{subdomainFormOpen(template._id,template.name, template.type)}}  style={{color:'#008B8B'}}>
+      {/* <Button variant="light" onClick={subdomainFormOpen}  style={{color:'#008B8B'}}>
           Publish
-        </Button>
+        </Button> */}
+    </Card>)
 
-    </Card>
-    
-
-    )
     
     }
-    
    
    )
-   
 }
-{open && <SubdomainForm name={clickedtemplateName} adminID={loggedInAdminID} templateid = {clickedtemplateId} type={clickedtemplateType} open = {open} setOpen = {setOpen}></SubdomainForm>}
-
  </div>
+
     </>
 
+   
  
  )}
 
@@ -279,9 +263,11 @@ const images = [
     onClose();
   };
 
+
+
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Confirm Deletion</DialogTitle>
+      <DialogTitle >Confirm Deletion</DialogTitle>
       <DialogContent>
         Are you sure you want to delete this saved website? Your changes will be lost.
       </DialogContent>
@@ -298,83 +284,3 @@ const images = [
 };
 
 
-function SubdomainForm({ name, adminID, templateid, type, open, setOpen }) {
-  const [available, setAvailable] = useState(true);
-  const [subdomain, setSubdomain] = useState('');
-  console.log("THIS IS LOGGED IN ADMIN " + adminID)
-  
-
-  console.log(templateid+ "this is templateid frontend");
-  const handlePublish = async () =>{
-    
-    const response = await axios.post(
-      'http://localhost:8800/api/admin/addinpublishedwebsites',
-      { subdomain, templateid, type, name }
-    );
-    setOpen(false);
-
-    console.log(response.data._id);
-
-    console.log("THIS IS LOGGED IN ADMIN " + adminID)
-
-    
-    const response1 = await axios.post(
-      'http://localhost:8800/api/admin/addpublishIDinadmin',
-      { publishID:response.data._id, adminID }
-    );
-
-    console.log(response1)
-
-  }
-
-  const handleTextChange = async (event) => {
-    setSubdomain(event.target.value);
-
-    const response = await axios.post(
-      'http://localhost:8800/api/admin/checksubdomainavailability',
-      { subdomain: event.target.value }
-    );
-    const { exists } = response.data;
-    console.log(exists);
-    setAvailable(exists);
-
-
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Publish</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter the subdomain you want your website to be published on.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Subdomain"
-            type="email"
-            fullWidth
-            variant="standard"
-            value={subdomain}
-            onChange={handleTextChange}
-          />
-
-{!available && <Typography style={{color: "red"}}> Subdomain not available </Typography>}
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handlePublish} disabled={!available}>
-            Publish
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}

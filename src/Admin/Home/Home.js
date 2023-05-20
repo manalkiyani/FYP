@@ -6,6 +6,7 @@ import AvailableTemplate from "../components/availableTemplates/availableTemplat
 import SavedTemplates from "../components/savedTemplates/savedTemplates";
 import { Flex, Space, Text, Title } from "@mantine/core";
 import BlankTemplates from "../components/blankTemplates";
+import PublishedWebsites from "../components/publishedWebsites/publishedWebsites";
 
 const Home = () => {
   return (
@@ -105,6 +106,25 @@ const Home = () => {
           </div>
         </div>
 
+
+        <div>
+          <Flex
+            mt="xl"
+            mb="md"
+            justify="space-between"
+            mih={50}
+            style={{ padding: "20px", borderRadius: "20px" }}
+            bg="#FBF8F1"
+          >
+            <Title fw={400} order={2}>
+              Published Templates
+            </Title>
+          </Flex>
+
+          <div className="charts">
+      <PublishedWebsites></PublishedWebsites>
+          </div>
+        </div>
         <Space h="xl" />
       </div>
     </div>

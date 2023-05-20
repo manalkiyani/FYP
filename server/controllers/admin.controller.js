@@ -490,6 +490,64 @@ const checksubdomainavailability = async (req, res) => {
   }
 };
 
+
+const addInPublishedWebsites = async(req, res) => {
+  const subdomain = req.body.subdomain;
+  const templateid = req.body.templateid;
+  const type = req.body.type;
+  const name = req.body.name;
+
+
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
+  try {
+    console.log(templateid + " this is templateid")
+
+
+    const document = new PublishedWebsites ({
+      _id: mongoose.Types.ObjectId(),
+name:name,
+      subdomain: subdomain,
+      templateid: templateid,
+      type: type,
+      Date: formattedDate
+    });
+
+    const savedPublishedWebsites = await document.save();
+    console.log(savedPublishedWebsites);
+    res.status(201).json(savedPublishedWebsites);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Error adding published web. Please try again later." });
+  }
+
+};
+
+const addPublishIDinAdmin = async (req,res) => {
+  try {
+    // Find the admin document by ID
+    const {publishID, adminID} = req.body;
+    const admin = await Admin.findById(adminID);
+    
+    
+    // Push the publishID to the publishedwebsites array
+    admin.publishedwebsites.push(publishID);
+
+    // Save the updated admin document
+    await admin.save();
+
+    console.log(admin);
+    return admin;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+
 module.exports = {
   registeredAdmins,
   getEmailAndUsernameOfAdmins,
@@ -514,9 +572,12 @@ module.exports = {
 
   getMessages,
   addInMessageSentToAdmin,
-
+  addInPublishedWebsites,
+  
 
   //added by fahad now
-  checksubdomainavailability
+  checksubdomainavailability,
+  addInPublishedWebsites,
+  addPublishIDinAdmin
   
 };

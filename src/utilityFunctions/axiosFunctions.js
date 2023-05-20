@@ -13,6 +13,22 @@ export const getUserData = async (username) => {
     throw err; // rethrow the error to be caught by the caller
   }
 };
+
+export const getUserPublishedWebsites = async (username) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:8800/api/templates/getpublishedwebsites",
+      { username }
+    );
+
+    return res.data.data;
+  } catch (err) {
+    console.log(err);
+    throw err; // rethrow the error to be caught by the caller
+  }
+};
+
+
 export const getTemplateData = async (templateId) => {
   console.log("templateId", templateId);
   try {
