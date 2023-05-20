@@ -16,6 +16,8 @@ const admin = new mongoose.Schema(
     activePlan: { type: String, default: "Basic" },
     accountStatus: { type: String, default: "Active" },
     savedTemplates: [{ type: mongoose.Schema.Types.ObjectId, ref: "template" }],
+    publishedwebsites: [{ type: mongoose.Schema.Types.ObjectId, ref: "publishedwebsites" }],
+
 
     templateCount: { type: Number, default: 0 },
   },

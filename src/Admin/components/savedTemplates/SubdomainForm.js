@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 
 export default function SubdomainForm({ open, setOpen }) {
-  const [available, setAvailable] = useState(false);
+  const [available, setAvailable] = useState(true);
   const [subdomain, setSubdomain] = useState('');
 
   const handleTextChange = async (event) => {

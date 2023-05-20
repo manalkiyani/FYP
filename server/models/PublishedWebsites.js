@@ -3,9 +3,12 @@ const Schema = mongoose.Schema;
 
 const publishedwebsites = new mongoose.Schema(
   {
+    name:{ type: String },
     subdomain: { type: String, required: true },
+
     templateid: { type: Schema.Types.ObjectId, ref: "template" },
-    adminid: { type: Schema.Types.ObjectId, ref: "admin" },
+    type:{type: String},
+    Date:{type: String}
   },
  
 );

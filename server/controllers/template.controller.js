@@ -4,6 +4,8 @@ const Admin = require("../models/Admin");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 
+
+
 //add a template to user's saved Templates
 exports.saveTemplate = (req, res) => {
   const username = req.body.username;
@@ -90,12 +92,32 @@ exports.getTemplates = (req, res) => {
   const username = req.body.username;
   try {
     Admin.findOne({ username: username })
-      .select("savedTemplates")
+      .select("savedTemplates _id")
       .populate("savedTemplates")
       .then((data) => {
         return res.status(200).json({ data });
       })
       .catch((err) => {
+        return res.status(500).json({ message: "error" });
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.getPublishedWebsites = (req, res) => {
+  const username = req.body.username;
+  try {
+    Admin.findOne({ username: username })
+      .select("publishedwebsites")
+      .populate("publishedwebsites")
+      .then((data) => {
+        console.log("this is data")
+        console.log(data)
+        return res.status(200).json({ data });
+      })
+      .catch((err) => {
+        console.log("this is error")
+        console.log(err.message)
         return res.status(500).json({ message: "error" });
       });
   } catch (err) {
