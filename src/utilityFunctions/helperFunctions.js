@@ -26,6 +26,11 @@ import ViewerGallery2 from "../Viewer/Components/blocks/viewerGallery2";
 import About1 from "../components/blocks/About1/About1";
 import ViewerAbout1 from "../Viewer/Components/blocks/viewerAbout1";
 import { Features4 } from "../components/blocks/Features4/Features4";
+import People1 from "../components/blocks/People/People1";
+import People2 from "../components/blocks/People/People2";
+import { ViewerFeatures4 } from "../Viewer/Components/blocks/viewerFeatures4";
+import ViewerPeople1 from "../Viewer/Components/blocks/viewerPeople1";
+import ViewerPeople2 from "../Viewer/Components/blocks/viewerPeople2";
 
 const helperFunction = (components, idFromComponent) => {
   let position = 0;
@@ -364,10 +369,12 @@ export const updateComponentData = (
   } else if (
     type === "features1" ||
     type === "features2" ||
-     type === "features4" ||
+     type === "features4" ||  
     type === "features3" ||
     type === "gallery1" ||
-    type === "gallery2"
+    type === "gallery2" ||
+     type === "people1" ||
+    type === "people2" 
   ) {
     console.log("type", type);
     console.log("data", newData[index][tag]);
@@ -437,6 +444,12 @@ export const mapAdminBlocks = (Blocks) => {
          case "Features4":
         block.Component = Features4;
         break;
+       case "People1":
+        block.Component = People1;
+        break;
+      case "People2":
+        block.Component = People2;
+        break;
       case "Faq1":
         block.Component = Faq1;
         break;
@@ -476,6 +489,14 @@ export const mapViewerBlocks = (Blocks) => {
         break;
       case "Features3":
         block.Component = ViewerFeatures3;
+      case "Features4":
+        block.Component = ViewerFeatures4;
+        break;
+      case "People1":
+        block.Component = ViewerPeople1;
+        break;
+      case "People2":
+        block.Component = ViewerPeople2;
         break;
       case "Faq1":
         block.Component = ViewerFaq1;
@@ -509,6 +530,8 @@ export const unmapBlocks = (Blocks) => {
        [Features4]: "Features4",
       [Faq1]: "Faq1",
       [About1]: "About1",
+      [People1]: "People1",
+      [People2]: "People2",
     };
     block.Component = componentMap[block.Component];
     return block;

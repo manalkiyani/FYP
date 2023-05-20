@@ -1,88 +1,158 @@
-import React, { Component } from "react";
-
-
-import classes from "../../../components/blocks/Header2/Header2.module.css";
+import React, { useState } from "react";
 
 import ContentEditable from "react-contenteditable";
 
+import {
+  createStyles,
+  Image,
+  Container,
+  Title,
+  Button,
+  Group,
+  Text,
+  rem,
+} from "@mantine/core";
 
-export default class ViewerHeader2 extends Component {
- 
-  render() {
-    return (
-      <div
-    
-        style={{
-            backgroundColor: this.props.Data.data.bgColor
-        }}
-        
-        className={classes.header}
-      >
-       
-        <div className={classes.content}>
-          <ContentEditable
-            className={classes.h}
-            html={this.props.Data.data.h.text} // innerHTML of the editable div
-            disabled={true} // use true to disable editing
-           
-            style={{
-              fontSize: this.props.Data.data.h.size,
-              fontFamily: this.props.Data.data.h.family,
-              color: this.props.Data.data.h.color,
-              fontWeight:
-                this.props.Data.data.h.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.h.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.h.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.h.align,
-            }}
-          />
+const useStyles = createStyles((theme) => ({
+  inner: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingTop: `calc(${theme.spacing.xl} * 4)`,
+    paddingBottom: `calc(${theme.spacing.xl} * 4)`,
+  },
 
-          <ContentEditable
-            html={this.props.Data.data.p.text} // innerHTML of the editable div
-            disabled={true} // use true to disable editing
-            className={classes.p}
-            style={{
-              fontSize: this.props.Data.data.p.size,
-              fontFamily: this.props.Data.data.p.family,
-              color: this.props.Data.data.p.color,
-              fontWeight:
-                this.props.Data.data.p.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.p.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.p.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.p.align,
-            }}
-          />
+  content: {
+    maxWidth: rem(480),
+    marginRight: `calc(${theme.spacing.xl} * 3)`,
 
-          <ContentEditable
-            className={classes.btn}
-            html={this.props.Data.data.btn.text}
-            disabled={true}
-              style={{
-              fontSize: this.props.Data.data.btn.size,
-              fontFamily: this.props.Data.data.btn.family,
-              color: this.props.Data.data.btn.color,
-              fontWeight:
-                this.props.Data.data.btn.bold === true ? "bold" : "normal",
-              textDecoration:
-                this.props.Data.data.btn.underline === true
-                  ? "underline"
-                  : "none",
-              fontStyle:
-                this.props.Data.data.btn.italic === true ? "italic" : "normal",
-              textAlign: this.props.Data.data.btn.align,
-            }}
-          />
+    [theme.fn.smallerThan("md")]: {
+      maxWidth: "100%",
+      marginRight: 0,
+    },
+  },
+
+  title: {
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: rem(44),
+    lineHeight: 1.2,
+    fontWeight: 900,
+
+    [theme.fn.smallerThan("xs")]: {
+      fontSize: rem(28),
+    },
+  },
+
+  control: {
+    [theme.fn.smallerThan("xs")]: {
+      flex: 1,
+    },
+  },
+
+  image: {
+    flex: 1,
+
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+  },
+
+  highlight: {
+    position: "relative",
+    backgroundColor: theme.fn.variant({
+      variant: "light",
+      color: theme.primaryColor,
+    }).background,
+    borderRadius: theme.radius.sm,
+    padding: `${rem(4)} ${rem(12)}`,
+  },
+}));
+
+const ViewerHeader2 = (props) => {
+  const { classes } = useStyles();
+
+  return (
+    <div
+      style={{
+        backgroundColor: props.Data?.data?.bgColor,
+        position: "relative",
+      }}
+    >
+      <Container>
+        <div className={classes.inner}>
+          <div className={classes.content}>
+            <Title className={classes.title}>
+              <ContentEditable
+                html={props.Data.data.h.text}
+                disabled={true}
+                style={{
+                  fontSize: props.Data.data.h.size,
+                  fontFamily: props.Data.data.h.family,
+                  color: props.Data.data.h.color,
+                  fontWeight:
+                    props.Data.data.h.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    props.Data.data.h.underline === true ? "underline" : "none",
+                  fontStyle:
+                    props.Data.data.h.italic === true ? "italic" : "normal",
+                  textAlign: props.Data.data.h.align,
+                }}
+              />
+            </Title>
+            <Text color="dimmed" mt="md">
+              <ContentEditable
+                html={props.Data.data.p.text}
+                disabled={true}
+                style={{
+                  fontSize: props.Data.data.p.size,
+                  fontFamily: props.Data.data.p.family,
+                  color: props.Data.data.p.color,
+                  fontWeight:
+                    props.Data.data.p.bold === true ? "bold" : "normal",
+                  textDecoration:
+                    props.Data.data.p.underline === true ? "underline" : "none",
+                  fontStyle:
+                    props.Data.data.p.italic === true ? "italic" : "normal",
+                  textAlign: props.Data.data.p.align,
+                }}
+              />
+            </Text>
+
+            <Group mt={30}>
+              <Button
+                style={{
+                  backgroundColor: props.Data.data.btn.bgColor,
+                }}
+                radius="xl"
+                size="md"
+                className={classes.control}
+              >
+                <ContentEditable
+                  html={props.Data.data.btn.text}
+                  disabled={true}
+                  style={{
+                    fontSize: props.Data.data.btn.size,
+                    fontFamily: props.Data.data.btn.family,
+                    color: props.Data.data.btn.color,
+                    fontWeight:
+                      props.Data.data.btn.bold === true ? "bold" : "normal",
+                    textDecoration:
+                      props.Data.data.btn.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      props.Data.data.btn.italic === true ? "italic" : "normal",
+                    textAlign: props.Data.data.btn.align,
+                  }}
+                />
+              </Button>
+            </Group>
+          </div>
+          <Image src={props.Data.data.img} className={classes.image} />
         </div>
-        <img src={this.props.Data.data.img} />
-      </div>
-    );
-  }
-}
+      </Container>
+    </div>
+  );
+};
+
+export default ViewerHeader2;
