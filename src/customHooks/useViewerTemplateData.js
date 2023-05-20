@@ -8,9 +8,11 @@ import {
 } from "../utilityFunctions/axiosFunctions";
 
 import { mapViewerBlocks } from "../utilityFunctions/helperFunctions";
+import { useLocalStorageState } from "ahooks";
+import { getTemplateId } from "../utilityFunctions/TemplateIdController";
 
 const useViewerTemplateData = (homePage) => {
-  const { id } = useParams();
+  // const [viewerTemplate] = useLocalStorageState("viewerTemplate");
 
   const [loading, setLoading] = React.useState(true);
   const [dataToSend, setDataToSend] = React.useState(null);
@@ -23,6 +25,13 @@ const useViewerTemplateData = (homePage) => {
   }, [dataToSend]);
 
   const loadSavedTemplate = async () => {
+    // let id = viewerTemplate?.id;
+    // if (!id) {
+      const response = await getTemplateId();
+      console.log(response);
+    const  id= response.templateId
+    // }
+
     let homePageBlocks = [];
     let alteredBlocks = [];
 

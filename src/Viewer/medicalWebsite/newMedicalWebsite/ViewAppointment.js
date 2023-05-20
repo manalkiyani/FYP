@@ -48,7 +48,7 @@ const patientId = patientObj._id;
 
   const getDoctorName = (doctorId) => {
       
-      const doctor = doctors.find((doctor) => doctor._id === doctorId);
+      const doctor = doctors.find((doctor) => doctor?._id === doctorId);
       return doctor ? doctor.name: 'Unknown';
   };
   const getDoctorImage = (doctorId) => {

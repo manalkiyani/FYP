@@ -17,6 +17,8 @@ const jobRoutes = require("./routes/jobroute");
 
 const patientRoutes = require("./routes/patientroute");
 const categoryRoutes = require("./routes/categoryroute");
+const templateIdRoutes = require("./routes/templateIdroute");
+const websiteDataRoutes = require("./routes/websiteDataroute");
 
 const cors = require("cors");
 
@@ -51,6 +53,9 @@ app.use("/api/doctor", doctorRoutes);
 app.use("/api/jobs", jobRoutes);
 
 app.use("/api/patient", patientRoutes);
+
+app.use("/api/templateId",templateIdRoutes );
+app.use("/api/websiteData",websiteDataRoutes );
 
 //app.use("/api/users",userRoutes);
 

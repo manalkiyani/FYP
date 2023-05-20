@@ -1,65 +1,57 @@
 const WebsiteData = require('../models/WebsiteData');
+const mongoose = require('mongoose');
 
 // Method for adding website data
 exports.addWebsiteData = async (req, res) => {
   try {
-    const { templateId, type } = req.body;
+    const { templateId, viewerId } = req.body;
 
-    // Get the singleton document
-    const websiteData = await WebsiteData.getSingleton();
+    // Create a new websiteData using the WebsiteData model
+    const newWebsiteData = new WebsiteData({
+      _id: new mongoose.Types.ObjectId(),
+      templateId,
+      viewerId,
+    });
 
-    // Update the document's fields
-    websiteData.templateId = templateId;
-    websiteData.type = type;
+    // Save the websiteData to the database
+    const savedWebsiteData = await newWebsiteData.save();
 
-    // Save the updated document
-    const updatedWebsiteData = await websiteData.save();
-
-    res.json(updatedWebsiteData);
+    res.status(201).json(savedWebsiteData);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Failed to add website data' });
   }
 };
 
-// Method for updating website data
-exports.updateWebsiteData = async (req, res) => {
-  try {
-    const { templateId, type } = req.body;
-
-    // Get the singleton document
-    const websiteData = await WebsiteData.getSingleton();
-
-    // Update the document's fields
-    websiteData.templateId = templateId;
-    websiteData.type = type;
-
-    // Save the updated document
-    const updatedWebsiteData = await websiteData.save();
-
-    res.json(updatedWebsiteData);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update website data' });
-  }
-};
-
 // Method for deleting website data
+
 exports.deleteWebsiteData = async (req, res) => {
   try {
-    // Get the singleton document
-    const websiteData = await WebsiteData.getSingleton();
+    const { id } = req.params;
 
-    // Remove the document
-    await websiteData.remove();
+    // Find the websiteData by templateId and remove it
+    await WebsiteData.findOneAndRemove({ templateId:id });
 
     res.json({ message: 'Website data deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete website data' });
   }
 };
-exports.getWebsiteData = async (req, res) => {
+
+// Method for getting website data by ID
+exports.getWebsiteDataById = async (req, res) => {
   try {
-    const websiteData = await WebsiteData.getSingleton();
-    res.json(websiteData);
+    const { id } = req.params;
+
+
+    // Find the websiteData by TemplateId
+    const websiteData = await WebsiteData.findOne({ templateId: id });
+
+    if (!websiteData) {
+      return res.status(200).json({ status: '404', error: 'Website data not found' });
+    }
+
+    res.status(200).json({ status: '200', websiteData });
   } catch (error) {
     res.status(500).json({ error: 'Failed to get website data' });
   }
