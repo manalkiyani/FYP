@@ -5,10 +5,8 @@ import DisplayBlocks from "../../Components/displayBlocks/displayBlocks";
 import BeatLoader from "react-spinners/BeatLoader";
 import useViewerTemplateData from "../../../customHooks/useViewerTemplateData";
 
-const ViewerHomepage = () => {
-  const { loading, dataToSend } = useViewerTemplateData("BlogHomePage");
-;
-
+const ViewerHomepage = ({ page }) => {
+  const { loading, dataToSend } = useViewerTemplateData(page);
   return (
     <>
       {loading ? (

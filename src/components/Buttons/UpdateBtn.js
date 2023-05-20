@@ -3,15 +3,18 @@ import { Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import UpdateIcon from "@mui/icons-material/Update";
 import { UpdateTemplate } from "../../utilityFunctions/helperFunctions";
-import { useParams } from "react-router-dom";
 
 import { useLocalStorageState } from "ahooks";
+import { getUserData } from "../../utilityFunctions/authFunctions";
 const UpdateBtn = () => {
   // const { id } = useParams();
   const [id] = useLocalStorageState("templateId", "");
   // const [template] = useLocalStorageState("template", "");
 
   const updateTemplate = async () => {
+    const Admin = await getUserData();
+    console.log(Admin);
+
     let template = JSON.parse(localStorage.getItem("template"));
     console.log("template", template);
 
@@ -25,7 +28,8 @@ const UpdateBtn = () => {
               "BlogHomePage",
               "BlogsPage",
               "blogs",
-              id
+              id,
+              Admin._id
             );
           }
           break;
@@ -36,7 +40,8 @@ const UpdateBtn = () => {
               "EccomerceHomePage",
               "ProductsPage",
               "products",
-              id
+              id,
+              Admin._id
             );
           }
           break;
@@ -47,7 +52,8 @@ const UpdateBtn = () => {
               "BusinessHomePage",
               "JobsPage",
               "jobs",
-              id
+              id,
+              Admin._id
             );
           }
           break;
@@ -58,7 +64,8 @@ const UpdateBtn = () => {
               "MedicalHomePage",
               "DoctorsPage",
               "doctors",
-              id
+              id,
+              Admin._id
             );
           }
           break;

@@ -128,7 +128,7 @@ const Header2 = (props) => {
   return (
     <div
       style={{
-        backgroundColor: props.Data.data.bgColor,
+        backgroundColor: props.Data?.data?.bgColor,
         position: "relative",
       }}
       onMouseOver={enableHandleBlock}
@@ -229,38 +229,7 @@ const Header2 = (props) => {
                   }}
                 />
               </Button>
-              <Button
-                style={{
-                  backgroundColor: props.Data.data.btn2.bgColor,
-                }}
-                variant="default"
-                radius="xl"
-                size="md"
-                className={classes.control}
-              >
-                <ContentEditable
-                  html={props.Data.data.btn2.text}
-                  disabled={false}
-                  onClick={handleClick}
-                  onChange={(e) => handleTextChange(e, "btn2")}
-                  style={{
-                    fontSize: props.Data.data.btn2.size,
-                    fontFamily: props.Data.data.btn2.family,
-                    color: props.Data.data.btn2.color,
-                    fontWeight:
-                      props.Data.data.btn2.bold === true ? "bold" : "normal",
-                    textDecoration:
-                      props.Data.data.btn2.underline === true
-                        ? "underline"
-                        : "none",
-                    fontStyle:
-                      props.Data.data.btn2.italic === true
-                        ? "italic"
-                        : "normal",
-                    textAlign: props.Data.data.btn2.align,
-                  }}
-                />
-              </Button>
+             
             </Group>
           </div>
           <Image src={props.Data.data.img} className={classes.image} />

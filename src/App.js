@@ -89,6 +89,10 @@ import AdminBlogDetail from "./websites/blogWebsite/BlogDetail/AdminBlogDetail";
 import BlogDetail from "./Viewer/BlogWebsite/BlogDetail/BlogDetail";
 import { ViewerDoctorDetail } from "./Viewer/medicalWebsite/newMedicalWebsite/ViewerDoctorDetail";
 import ProductDetail from "./websites/eccomerceWebsite/components/ProductDetail/ProductDetail";
+import { ViewerNavbar1 } from "./Viewer/ManageViewerNavbar/ViewerNavbar1";
+import { ViewerNavbar2 } from "./Viewer/ManageViewerNavbar/ViewerNavbar2";
+import { ViewerNavbar3 } from "./Viewer/ManageViewerNavbar/ViewerNavbar3";
+import ManageViewerNavbar from "./Viewer/ManageViewerNavbar/ManageViewerNavbar";
 
 const theme = createTheme({
   palette: {
@@ -121,6 +125,9 @@ const App = () => {
           <Routes>
             <>
               {/*to be removed */}
+              <Route path="/nav1" element={<ViewerNavbar1 />} />
+              <Route path="/nav2" element={<ViewerNavbar2 />} />
+              <Route path="/nav3" element={<ViewerNavbar3 />} />
 
               <Route path="/adminDoc" element={<DoctorCard />} />
 
@@ -162,7 +169,7 @@ const App = () => {
               ></Route>
 
               {/* ucraft */}
-
+             
               <Route exact path="/" element={<UcraftNavbar />}>
                 <Route path="" element={<HomePage />} />
                 <Route path="contact" element={<ContactForm />}></Route>
@@ -208,6 +215,7 @@ const App = () => {
                 <Route path="blogs/:blogId" element={<AdminBlogDetail />} />
                 <Route path="write" element={<Write />} />
                 <Route path="manage" element={<ManageBlogWebsite />} />
+                 <Route path="style" element={<ManageViewerNavbar />} />
               </Route>
             </>
 
@@ -223,7 +231,7 @@ const App = () => {
                 />
               }
             >
-              <Route path="" element={<ViewerHomepage />} />
+              <Route path="" element={<ViewerHomepage page="BlogHomePage" />} />
 
               <Route
                 path="blogs"
@@ -255,6 +263,7 @@ const App = () => {
               <Route path="products" element={<EcomProductsPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageEcommerceWebsite />} />
+               <Route path="style" element={<ManageViewerNavbar />} />
             </Route>
 
             {/* eccomerce Website Viewer */}
@@ -271,7 +280,10 @@ const App = () => {
             >
               <Route path="viewerLogin" element={<ViewerLogin />} />
               <Route path="viewerSignup" element={<ViewerSignup />} />
-              <Route path="" element={<ViewerHomepage />} />
+              <Route
+                path=""
+                element={<ViewerHomepage page="EccomerceHomePage" />}
+              />
               <Route
                 path="products"
                 element={
@@ -311,6 +323,7 @@ const App = () => {
 
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageBusinessWebsite />} />
+               <Route path="style" element={<ManageViewerNavbar />} />
               <Route path="manage/:jobId" element={<JobDetail />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
@@ -331,7 +344,10 @@ const App = () => {
             >
               <Route path="viewerLogin" element={<ViewerLogin />} />
               <Route path="viewerSignup" element={<ViewerSignup />} />
-              <Route path="" element={<ViewerHomepage />} />
+              <Route
+                path=""
+                element={<ViewerHomepage page="BusinessHomePage" />}
+              />
               <Route
                 path="jobs"
                 element={
@@ -364,6 +380,7 @@ const App = () => {
                 element={<DoctorDetail view="none" />}
               />
               <Route path="manage" element={<ManageMedicalWebsite />} />
+               <Route path="style" element={<ManageViewerNavbar />} />
             </Route>
 
             {/* medical Website Viewer */}
@@ -381,14 +398,16 @@ const App = () => {
             >
               <Route path="viewerLogin" element={<ViewerLogin />} />
               <Route path="viewerSignup" element={<ViewerSignup />} />
-              <Route path="" element={<ViewerHomepage />} />
+              <Route
+                path=""
+                element={<ViewerHomepage page="MedicalHomePage" />}
+              />
               <Route
                 path="doctors"
                 element={
                   <AuthorizeViewer>
                     <ViewerMainPage type="medical" />
                   </AuthorizeViewer>
-
                 }
               />
               <Route path="contactUs" element={<ViewerContactForm />} />
@@ -400,12 +419,8 @@ const App = () => {
                 path="doctors/:doctorId"
                 element={<ViewerDoctorDetail />}
               />
-              <Route
-                path="appointments"
-                element={<CheckAppointment />}
-              />
+              <Route path="appointments" element={<CheckAppointment />} />
             </Route>
-            
 
             <Route path="*" element={<NotFound />} />
           </Routes>

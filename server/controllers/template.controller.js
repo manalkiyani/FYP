@@ -115,7 +115,7 @@ exports.getTemplate = (req, res) => {
       return res.status(500).json({ message: "error" });
     });
 };
-exports. getListOfTemplates = async (req, res)=> {
+exports.getListOfTemplates = async (req, res) => {
   console.log("Req.body", req.body.templateIds);
 
   //find blogs which have ids in the array
@@ -136,7 +136,7 @@ exports. getListOfTemplates = async (req, res)=> {
         error: err.message,
       });
     });
-}
+};
 exports.addTemplate = async (req, res) => {
   let template = new Template({
     _id: mongoose.Types.ObjectId(),
@@ -180,8 +180,9 @@ exports.updateTemplate = async (req, res) => {
   try {
     // extract relevant data from request body
     const { id, type, pages, data } = req.body.template;
+    const adminId = req.body.adminId;
 
-    // find the template by id
+    //check if template exsists
     const template = await Template.findById(id);
     console.log("template", template);
     // if template not found, return 404 error
@@ -190,10 +191,92 @@ exports.updateTemplate = async (req, res) => {
       return res.status(404).json({ error: "Template not found" });
     }
 
+    //check if template exsists in savedTemplates of admin
+
+    const user = await Admin.findById(adminId).populate("savedTemplates");
+    console.log(user.savedTemplates);
+    const templateFound = user.savedTemplates.find((template) => {
+      return template._id == id;
+    });
+
+    //create a new template from blank templates and push that template to users savedTemplates
+    if (!templateFound) {
+      let userPlan = user.activePlan;
+
+      let totalTemps = user.savedTemplates.length;
+      let allowedTemps = 0;
+      switch (userPlan) {
+        case "Basic":
+          allowedTemps = 1;
+          break;
+        case "starter":
+          allowedTemps = 2;
+          break;
+        case "professional":
+          allowedTemps = 5;
+          break;
+        case "organization":
+          allowedTemps = 10;
+          break;
+        default:
+          allowedTemps = 0;
+      }
+
+      if (totalTemps >= allowedTemps) {
+        return res.status(200).json({ message: "Limit Reached" });
+      } else {
+        let date_ob = new Date();
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        // current year
+        let year = date_ob.getFullYear();
+
+        const template = new Template({
+          _id: mongoose.Types.ObjectId(),
+          createdAt: date + "-" + month + "-" + year,
+          name: req.body.template?.name || "Testing",
+          type: req.body.template.type,
+          pages: req.body.template.pages,
+          data: req.body.template.data,
+        });
+
+        return template
+          .save()
+          .then((newTemp) => {
+            user.savedTemplates.push(newTemp._id);
+            user
+              .save()
+              .then((updatedUser) => {
+                res.status(201).json({ template });
+              })
+              .catch((error) => {
+                res.status(500).json({
+                  success: false,
+                  message: "Server error. Please try again.",
+                  error: error.message,
+                });
+              });
+          })
+          .catch((error) => {
+            res.status(500).json({
+              success: false,
+              message: "Server error. Please try again.",
+              error: error.message,
+            });
+          });
+      }
+    }
+    console.log("templateFound", templateFound);
+    // find the template by id
+
     // update template with new data and save changes
     template.type = type;
     template.pages = pages;
     template.data = data;
+
     await template.save();
 
     // return updated template as response
@@ -205,7 +288,7 @@ exports.updateTemplate = async (req, res) => {
   }
 };
 
-//delete template from admin list and then from template schema, get user id and template id
+//delete template from user list and then from template schema, get user id and template id
 
 exports.deleteTemplate = async (req, res) => {
   try {
@@ -267,8 +350,7 @@ exports.login = (req, res) => {
 
 exports.register = (req, res) => {
   console.log("req.body", req.body);
-  const { username, password, email, age,  gender, templateId } =
-    req.body;
+  const { username, password, email, age, gender, templateId } = req.body;
   Template.findById(templateId)
     .populate("users")
     .exec((err, template) => {
@@ -282,7 +364,9 @@ exports.register = (req, res) => {
       const users = template.users;
       console.log("users", users);
 
-      const userWithSameUsername = users.find(user => user.username === username);
+      const userWithSameUsername = users.find(
+        (user) => user.username === username
+      );
       if (userWithSameUsername) {
         return res.status(401).json({
           message: "Username already exists",
@@ -296,7 +380,7 @@ exports.register = (req, res) => {
         password,
         email,
         age,
-       
+
         gender,
       });
 

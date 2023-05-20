@@ -5,7 +5,7 @@ import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
 import { useLocalStorageState } from "ahooks";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-import { Group } from "@mantine/core";
+import { Group, Image } from "@mantine/core";
 
 export default function ViewerNavbar(props) {
   const [templateId] = useLocalStorageState("templateId", "");
@@ -52,6 +52,10 @@ export default function ViewerNavbar(props) {
           >
             <ArrowBackIosIcon onClick={handleGoBack} />
             <h4 className={classes.logo}> {templateName || ""}</h4>
+            <Image
+              width="70"
+              src="https://www.turintech.ai/wp-content/uploads/2022/07/Fast-2048x1638.png"
+            />
           </Group>
         </div>
 

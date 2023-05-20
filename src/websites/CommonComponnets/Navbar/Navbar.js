@@ -79,6 +79,13 @@ export default function Navbar(props) {
               >
                 Manage Website
               </Menu.Item>
+                <Menu.Item
+                color="gray"
+                onClick={() => navigate("style")}
+                icon={<SettingsOutlinedIcon size="1rem" />}
+              >
+                Style Navbar
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
           {id === "001" || id === "002" || id === "003" || id === "004" ? (
