@@ -31,6 +31,7 @@ import EcomProductsPage from "./websites/eccomerceWebsite/pages/ecomProductsPage
 import BlogHomePage from "./websites/blogWebsite/HomePage/BlogHomePage";
 import BlogssPage from "./websites/blogWebsite/BlogsPage/BlogssPage";
 import Write from "./websites/blogWebsite/WritePage/Write";
+import EditDoctorForm from "./websites/medicalWebsite/EditDoctorForm/EditDoctorForm";
 
 //business Website
 import AddJob from "../src/websites/businessWebsite/Pages/addJob/AddJob";
@@ -360,6 +361,8 @@ const App = () => {
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
             {/*medical Website Admin */}
+
+            <Route path="/editdoctor" component={EditDoctorForm} />
 
             <Route
               exact

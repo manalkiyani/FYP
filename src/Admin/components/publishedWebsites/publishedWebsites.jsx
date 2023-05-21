@@ -77,22 +77,23 @@ export default function PublishedWebsites() {
     navigate(`/view/${type}/template/${id}`);
   };
 
-const openAsPublished =async (id, type) => {
-  //get subdomain in function arguments as well and put in URL
-  try{
- const response =await addTemplateId(id,type);
- console.log(response)
-}
-catch(error)
-{
-  console.log(error)
-}
-   window.location.href = `http://abc.localhost:3000/view/${type}/template/${id}`;
-
-
-
-    // navigate(`/view/${type}/template/${id}`);
-  };
+  const openAsPublished =async (subdomainGot, id, type) => {
+    //get subdomain in function arguments as well and put in URL
+    try{
+   const response =await addTemplateId(id,type);
+   console.log(response)
+  }
+  catch(error)
+  {
+    console.log(error)
+  }
+     window.location.href = `http://${subdomainGot}.localhost:3000/view/${type}/template/${id}`;
+  
+  
+  
+      // navigate(`/view/${type}/template/${id}`);
+    };
+  
 
 
 
@@ -172,23 +173,30 @@ const images = [
               const randomImage = images[randomImageIndex];
 
   return ( <Card 
-    onClick={() => openAsPublished(template._id, template.type)}
-    // onClick={() => {
-    //   axios.post('http://localhost:8800/api/template/getsubdomain', { templateId: template._id })
-    //     .then(response => {
-    //       // Handle the response here
-    //       console.log(response.data+"Ghis is res")
-    //       console.log(response.data.subdomain+"Ghis is subdomain")
-    //       const publishedWebsite = response.data; // Assuming the response contains the published website object
+    // onClick={() => openAsPublished(template._id, template.type)}
+    onClick={() => {
+      console.log("this is temp id "+ template.templateid)
+      axios.post('http://localhost:8800/api/templates/getsubdomain', { templateId: template.templateid })
+        .then(response => {
+          // Handle the response here
+          const subdomainGot =  response.data.subdomain
+          console.log("this is sub domain "+ subdomainGot)
+
+          // const publishedWebsite = response.data; // Assuming the response contains the published website object
     
-    //       // Call the openAsPublished method with the found published website
-    //       openAsPublished(publishedWebsite._id, publishedWebsite.type);
-    //     })
-    //     .catch(error => {
-    //       // Handle any errors that occurred during the request
-    //       console.error('Error fetching published website:', error);
-    //     });
-    // }}
+          // Call the openAsPublished method with the found published website
+          openAsPublished(subdomainGot, template.templateid, template.type, );
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the request
+          if (error.response && error.response.status === 404) {
+            alert('WEB NOT PUBLISHED');
+          } else {
+            console.error('Error fetching published website:', error);
+          }
+        });
+        ;
+    }}
   key={template._id}
   
   sx={{ maxWidth: 300,minWidth:300,marginRight:'20px' ,marginBottom:'20px'}}>
