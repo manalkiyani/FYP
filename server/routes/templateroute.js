@@ -11,6 +11,7 @@ const {
   register,
   getListOfTemplates,
   getPublishedWebsites,
+  getSubdomain,
 } = require("../controllers/template.controller");
 
 const router = express.Router();
@@ -20,8 +21,10 @@ router.post("/getList", getListOfTemplates);
 router.get("/getTemplate/:templateId", getTemplate);
 router.post("/saveTemplate", saveTemplate);
 router.post("/getTemplates", getTemplates);
+router.post("/getsubdomain", getSubdomain);
 router.post("/updateTemplate", updateTemplate);
 router.post("/getpublishedwebsites", getPublishedWebsites);
+
 
 //user managemenet
 router.post("/signup", register);
