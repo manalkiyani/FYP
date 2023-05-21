@@ -51,8 +51,6 @@ const Features2 = ({
     changeText(e.target.value, index, tag, id, "features2");
   };
 
-
-
   return (
     <div
       onMouseEnter={() => {
@@ -91,7 +89,13 @@ const Features2 = ({
             }}
             className={classes.card}
           >
-            <DelCard display={'display'}handleLink={handleLink} del={delCard} index={index} />
+            <DelCard
+              displayLink="show"
+              displayColor="show"
+              handleLink={handleLink}
+              del={delCard}
+              index={index}
+            />
 
             <UploadImage
               top={5}

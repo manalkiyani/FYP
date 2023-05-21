@@ -21,6 +21,7 @@ function postBlog(req, res) {
     tagline: req.body.tagline,
     tags: req.body.tags,
     image: req.body.image,
+    videos: req.body.videos,
     readingTime: req.body.readingTime,
     writer: req.body.writer,
     rating: {

@@ -14,9 +14,9 @@ const ViewerFeatures2 = ({ Data }) => {
           <div
             key={index}
             className={classes.card}
-            style={{
+           style={{
               width:
-                Data.layout === 5 ? "17%" : Data.layout === 4 ? "20%" : "30%",
+                Data.layout === 5 ? "17%" : Data.layout === 4 ? "20%" : "24%",
             }}
           >
             <img className={classes.img} src={Data.data[index].bg.picture} />

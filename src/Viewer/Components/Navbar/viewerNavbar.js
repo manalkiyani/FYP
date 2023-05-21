@@ -22,6 +22,9 @@ export default function ViewerNavbar(props) {
   const navigate = useNavigate();
 
   const getTemplateName = async () => {
+    console.log(
+      "templateId" , templateId
+    )
     const response = await getTemplateData(templateId);
 
     console.log(response);

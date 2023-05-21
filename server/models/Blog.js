@@ -13,6 +13,7 @@ const blog = new Schema({
     type: Date,
     default: Date.now
   },
+  videos:[{type:String}],
   description: { type: String, required: true },
   image: { type: String },
   template: { type: 'boolean', default: false },

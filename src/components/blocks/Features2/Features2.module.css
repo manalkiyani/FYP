@@ -10,14 +10,16 @@
    
     box-sizing: border-box;
     flex-wrap: wrap;
+    margin-bottom: 50px;
    
 }
 .card{
    width:25%;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-bottom: 25px;
-    margin-left: 25px;
+      margin-bottom: 25px;
+  
+    margin-right: 25px;
     min-width: 200px;
   
     position: relative;

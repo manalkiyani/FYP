@@ -14,6 +14,7 @@ import {
   TypographyStylesProvider,
   Paper,
   rem,
+  Flex,
 } from "@mantine/core";
 import {
   Box,
@@ -139,6 +140,17 @@ const BlogDetail = () => {
             <img className={classes.blogImage} src={blog.image} />
 
             <div dangerouslySetInnerHTML={{ __html: blog.description }} />
+              <Flex mb="xl" mt="xl" >
+              {blog?.videos.map(video=>(
+                <Paper  shadow="xs" p="md">
+                   <video width="300" height="200" controls>
+                  <source key={video} src={video} type="video/mp4" />
+                </video>
+
+                </Paper>
+                
+              ))}
+             </Flex>
 
             <div style={{ display: "flex" }}>
               {blog.tags.map((tag) => (

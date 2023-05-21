@@ -170,7 +170,7 @@ const App = () => {
               ></Route>
 
               {/* ucraft */}
-             
+
               <Route exact path="/" element={<UcraftNavbar />}>
                 <Route path="" element={<HomePage />} />
                 <Route path="contact" element={<ContactForm />}></Route>
@@ -206,17 +206,17 @@ const App = () => {
                 element={
                   <Navbar
                     type="blog"
-                    pages={["", "blogs", "write"]}
-                    names={["Home", "Blogs", "Write"]}
+                    pages={["", "blogs"]}
+                    names={["Home", "Blogs"]}
                   />
                 }
               >
                 <Route path="" element={<BlogHomePage />} />
                 <Route path="blogs" element={<BlogssPage />} />
                 <Route path="blogs/:blogId" element={<AdminBlogDetail />} />
-                <Route path="write" element={<Write />} />
+
                 <Route path="manage" element={<ManageBlogWebsite />} />
-                 <Route path="style" element={<ManageViewerNavbar />} />
+                <Route path="style" element={<ManageViewerNavbar />} />
               </Route>
             </>
 
@@ -264,7 +264,7 @@ const App = () => {
               <Route path="products" element={<EcomProductsPage />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageEcommerceWebsite />} />
-               <Route path="style" element={<ManageViewerNavbar />} />
+              <Route path="style" element={<ManageViewerNavbar />} />
             </Route>
 
             {/* eccomerce Website Viewer */}
@@ -324,7 +324,7 @@ const App = () => {
 
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageBusinessWebsite />} />
-               <Route path="style" element={<ManageViewerNavbar />} />
+              <Route path="style" element={<ManageViewerNavbar />} />
               <Route path="manage/:jobId" element={<JobDetail />} />
 
               {/* <Route path="applications" element={<BussinessApplicationsPage />} /> */}
@@ -370,8 +370,8 @@ const App = () => {
               element={
                 <Navbar
                   type="medical"
-                  pages={["", "doctors", "appointments"]}
-                  names={["Home", "Doctors", "Appointments"]}
+                  pages={["", "doctors"]}
+                  names={["Home", "Doctors"]}
                 />
               }
             >
@@ -383,7 +383,7 @@ const App = () => {
                 element={<DoctorDetail view="none" />}
               />
               <Route path="manage" element={<ManageMedicalWebsite />} />
-               <Route path="style" element={<ManageViewerNavbar />} />
+              <Route path="style" element={<ManageViewerNavbar />} />
             </Route>
 
             {/* medical Website Viewer */}

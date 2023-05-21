@@ -108,8 +108,12 @@ const BlogMain = (props) => {
         <>
           {blogIds && <Blogs view="none"blogIds={blogIds} />}
           {productIds && <AdminProducts view="none" productIds={productIds} />}
-          {jobIds && <ViewJobs jobIds={jobIds} />}
-          {doctorIds && <DoctorsPage doctorIds = {doctorIds}/>}
+
+
+
+
+          {jobIds && <ViewJobs view="none" jobIds={jobIds} />}
+          {doctorIds && <DoctorsPage view="none" doctorIds = {doctorIds}/>}
 
         </>
       )}

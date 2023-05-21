@@ -1,13 +1,12 @@
 import "./Write.css";
 import React, { useEffect } from "react";
-import { Carousel } from "react-bootstrap";
+
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
+import { stateToHTML } from "draft-js-export-html";
+import { TextField, Button, Paper } from "@mui/material";
 
-import { Button, TextField } from "@mui/material";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import Categories from "../components/Categories/Categories";
@@ -18,11 +17,18 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Person } from "@mui/icons-material";
 import { useLocalStorageState } from "ahooks";
 // import QuillEditor from "./QuillEditor";
-import { Group } from "@mantine/core";
-import { EditorState, convertToRaw } from "draft-js";
+
+import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { FileButton, Group, Text, List, Flex } from "@mantine/core";
+import { Button as Btn } from "@mantine/core";
+
 export default function Write({ setAddBlog, operation, editId }) {
+  /**************************videos *****************/
+  const [files, setFiles] = useState(null);
+  /* ************************************** */
+
   const [title, setTitle] = useState("");
   const [tagline, setTagline] = useState("");
   const [tags, setTags] = useState([]);
@@ -30,7 +36,7 @@ export default function Write({ setAddBlog, operation, editId }) {
   const [time, setTime] = useState("");
   const [desc, setdesc] = useState("");
   const [image, setImage] = useState("");
-  const [images, setImages] = useState([]);
+
   const [displayImage, setDisplayImage] = useState(
     "https://res.cloudinary.com/djlewzcd5/image/upload/v1680437430/Freelancing_Promotion_Facebook_Cover_Photo_rk3krj.png"
   );
@@ -79,13 +85,15 @@ export default function Write({ setAddBlog, operation, editId }) {
   };
 
   const handleSubmit = async (e) => {
+    console.log(files);
+
     e.preventDefault();
-    if (!title || !image || !desc || !category || !time) {
+    if (!title || !image || !editorState || !category || !time) {
       toast.error("Please fill all the required fields");
       console.log(title, image, desc, category, time);
       return;
     }
-
+    const loadingToast = toast.loading("uploading your blog");
     let link = "";
     try {
       link = await uploadImage(image);
@@ -106,14 +114,16 @@ export default function Write({ setAddBlog, operation, editId }) {
         title,
         tagline,
         image: link,
+        videos: files ,
         tags,
         writer,
         readingTime: time,
-        description: desc,
+        description: stateToHTML(editorState.getCurrentContent()),
       }),
     })
       .then((res) => res.json())
       .then((response) => {
+        toast.dismiss(loadingToast);
         toast.success("Blog Published Successfully");
 
         console.log(response);
@@ -155,7 +165,7 @@ export default function Write({ setAddBlog, operation, editId }) {
     setAddBlog(false);
   };
   const editBlog = async () => {
-    toast.loading("Updating your blog");
+ const updatingtoast =   toast.loading("Updating your blog");
 
     let link = null;
     if (imageChanged) {
@@ -182,13 +192,15 @@ export default function Write({ setAddBlog, operation, editId }) {
         tags,
         writer,
         readingTime: time,
-        description: desc,
+        description: stateToHTML(editorState.getCurrentContent()),
+        videos : files ,
 
         category,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
+        toast.dismiss(updatingtoast)
         toast.success("Blog Updated Successfully");
         console.log(data, "daata");
       });
@@ -208,9 +220,36 @@ export default function Write({ setAddBlog, operation, editId }) {
       setTime(blog.readingTime);
       setWriter(blog.writer);
       setdesc(blog.description);
+      console.log(blog.category)
+      setCategory(blog?.category)
+      // setEditorState(blog?.description)
+      setFiles(blog?.videos);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleFiles = async (Files) => {
+    console.log(Files);
+    // setFiles(files);
+    const loadingToast = toast.loading("Uploading videos");
+    for (const file of Files) {
+      try {
+        let link = await uploadImage(file);
+        if (files) {
+          setFiles([files, link]);
+        } else {
+          setFiles([link]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    toast.dismiss(loadingToast);
+    console.log("done");
+  };
+  const clearFile = () => {
+    setFiles(null);
   };
   useEffect(() => {
     if (editId) {
@@ -393,12 +432,6 @@ export default function Write({ setAddBlog, operation, editId }) {
           </div>
 
           <div className="writeFormGroup">
-            {/* <div className="writeQuill">
-              <QuillEditor
-                desc={desc}
-                handleChangeDescription={handleChangeDescription}
-              />
-            </div> */}
             <Editor
               editorState={editorState}
               onEditorStateChange={handleEditorChange}
@@ -417,11 +450,7 @@ export default function Write({ setAddBlog, operation, editId }) {
                   uploadCallback: handleMediaUpload,
                   alt: { present: true, mandatory: true },
                 },
-                // video: {
-                //   uploadCallback: handleMediaUpload,
-                //   alt: { present: true, mandatory: true },
-                // },
-                
+
                 embedded: {
                   defaultSize: {
                     height: "300",
@@ -432,10 +461,40 @@ export default function Write({ setAddBlog, operation, editId }) {
             />
           </div>
 
-          {/* <div dangerouslySetInnerHTML={{ __html: desc }}></div> */}
-        </form>
+          <>
+            <Group position="center">
+              <FileButton onChange={handleFiles} accept="video/mp4" multiple>
+                {(props) => <Button {...props}>Upload video</Button>}
+              </FileButton>
+              <Btn disabled={!files} color="red" onClick={clearFile}>
+                Reset
+              </Btn>
+            </Group>
+          </>
+  <Paper shadow="xs" p="md" withBorder>
+             <Text fz="xl" fw="600">
+          Your Previous Blog
+        </Text>
 
-        <Categories setCategory={setSelectedCategory} />
+          </Paper>
+       
+            <div style={{padding:'20px'}} dangerouslySetInnerHTML={{ __html: desc }}></div>
+          
+     
+          {files && (
+            <Flex gap="md" wrap="wrap">
+              {Array.from(files).map((link, index) => (
+                <Paper shadow="xs" p="md">
+                  <video width="300" height="200" controls>
+                    <source key={index} src={link} type="video/mp4" />
+                  </video>
+                </Paper>
+              ))}
+            </Flex>
+          )}
+          </form>
+
+        <Categories category={category} setCategory={setSelectedCategory} />
       </div>
     </>
   );
