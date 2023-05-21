@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 const DoctorsPage = ({ doctorIds }) => {
   const [doctors, setDoctors] = useState(null);
-
+  console.log(doctorIds+" this is ids in doctorspage")
   const getDoctors = async () => {
     try {
       const response = await axios.post(
@@ -35,6 +35,11 @@ const DoctorsPage = ({ doctorIds }) => {
             department={doctor.department}
             qualification={doctor.latestQualification}
             experience={doctor.experience}
+            address={doctor.address}
+            availability={doctor.availability}
+            description = {doctor.description}
+            gender = {doctor.gender}
+
           />;
         })}
     </Container>

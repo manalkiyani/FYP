@@ -17,6 +17,7 @@ import DragDrop from "../../DragDrop/DragDrop";
 import ViewJobs from "../../Viewer/BusinessWebsite/Pages/ViewJobs/ViewJobs";
 import AdminProducts from "../eccomerceWebsite/components/adminProducts/AdminProducts";
 import DoctorsPage from "../medicalWebsite/newMedicalWebsite/DoctorsPage";
+import EditDoctorForm from "../medicalWebsite/EditDoctorForm/EditDoctorForm";
 
 //Blog Home Page
 const BlogMain = (props) => {
@@ -107,8 +108,13 @@ const BlogMain = (props) => {
         <>
           {blogIds && <Blogs view="none"blogIds={blogIds} />}
           {productIds && <AdminProducts view="none" productIds={productIds} />}
+
+
+
+
           {jobIds && <ViewJobs view="none" jobIds={jobIds} />}
           {doctorIds && <DoctorsPage view="none" doctorIds = {doctorIds}/>}
+
         </>
       )}
 

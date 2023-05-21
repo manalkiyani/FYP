@@ -10,11 +10,13 @@ import {
   ActionIcon,
   Flex,
 } from "@mantine/core";
+import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import IconDots from "@mui/icons-material/MoreHorizOutlined";
 import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { useNavigate } from "react-router-dom";
+import EditDoctorForm from "../EditDoctorForm/EditDoctorForm";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -49,11 +51,22 @@ export function DoctorCard({
   qualification,
   experience,
   department,
+  address,
+  availability,
+  description,
+  gender
 }) {
   const { classes } = useStyles();
   const navigate = useNavigate()
   
+  const [open, setOpen] = useState(false);
+
+  const handleEdit = ()=>{
+    setOpen(true)
+    console.log("abc")
+  }
   return (
+    <>
     <Card
       style={{ width: "700px", height: "190px" }}
       withBorder
@@ -77,7 +90,7 @@ export function DoctorCard({
               )}
 
               <Menu.Dropdown>
-                <Menu.Item icon={<EditIcon size={rem(14)} />}>Edit</Menu.Item>
+                <Menu.Item onClick={handleEdit} icon={<EditIcon  size={rem(14)} />}>Edit</Menu.Item>
                 <Menu.Item icon={<EyeIcon size={rem(14)} />}>
                   Preview{" "}
                 </Menu.Item>
@@ -123,5 +136,24 @@ export function DoctorCard({
         </div>
       </Group>
     </Card>
+
+    {open && 
+
+    
+    <EditDoctorForm setOpen={setOpen} id1={id} title1 = {title} department1={department}
+    address1={address}
+    availability1 = {availability}
+    description1 = {description}
+    experience1 = {experience}
+    gender1 = {gender}
+    qualification1 = {qualification}
+  
+    ></EditDoctorForm>}
+
+    {open}
+    </>
+    
+    
   );
+  
 }
