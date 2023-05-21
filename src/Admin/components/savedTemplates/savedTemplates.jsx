@@ -101,7 +101,7 @@ const subdomainFormOpen = (templateId,templateName, templateType) => {
     navigate(`/view/${type}/template/${id}`);
   };
 
-const openAsPublished =async (id, type) => {
+const openAsPublished =async (subdomainGot, id, type) => {
   //get subdomain in function arguments as well and put in URL
   try{
  const response =await addTemplateId(id,type);
@@ -111,7 +111,7 @@ catch(error)
 {
   console.log(error)
 }
-   window.location.href = `http://abc.localhost:3000/view/${type}/template/${id}`;
+   window.location.href = `http://${subdomainGot}.localhost:3000/view/${type}/template/${id}`;
 
 
 
@@ -236,7 +236,27 @@ const images = [
           Manage
         </Button>
 
-         <Button variant="light" onClick={() => openAsPublished(template._id, template.type)}  style={{color:'#008B8B'}}>
+         <Button variant="light"   onClick={() => {
+      axios.post('http://localhost:8800/api/templates/getsubdomain', { templateId: template._id })
+        .then(response => {
+          // Handle the response here
+          const subdomainGot =  response.data.subdomain
+
+          // const publishedWebsite = response.data; // Assuming the response contains the published website object
+    
+          // Call the openAsPublished method with the found published website
+          openAsPublished(subdomainGot, template._id, template.type, );
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the request
+          if (error.response && error.response.status === 404) {
+            alert('WEB NOT PUBLISHED');
+          } else {
+            console.error('Error fetching published website:', error);
+          }
+        });
+        ;
+    }} style={{color:'#008B8B'}}>
           Open as Published
         </Button>
 

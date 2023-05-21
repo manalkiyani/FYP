@@ -2,6 +2,7 @@
 const Template = require("../models/Template");
 const Admin = require("../models/Admin");
 const User = require("../models/User");
+const publishedwebsites = require("../models/publishedwebsites");
 const mongoose = require("mongoose");
 
 
@@ -310,7 +311,33 @@ exports.updateTemplate = async (req, res) => {
   }
 };
 
+exports.getSubdomain = async (req, res) => {
+  try {
+    console.log('in subdomain');
+    const { templateId } = req.body;
+
+    // Find the first document in PublishedWebsites that matches the templateId
+    const publishedWebsite = await publishedwebsites.findOne({ templateid: templateId });
+    console.log("this is templateid" + templateId);
+
+    if (!publishedWebsite) {
+      return res.status(404).json({ error: 'Published website not found' });
+    }
+
+    const subdomain = publishedWebsite.subdomain;
+
+    console.log("this is subdomain: " + subdomain);
+    console.log("below is obj");
+    console.log(publishedWebsite);
+    return res.json({ subdomain });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 //delete template from user list and then from template schema, get user id and template id
+
 
 exports.deleteTemplate = async (req, res) => {
   try {
@@ -425,3 +452,5 @@ exports.register = (req, res) => {
         });
     });
 };
+
+
