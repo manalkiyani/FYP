@@ -35,6 +35,7 @@ export const getTemplateData = async (templateId) => {
     const res = await axios.get(
       `http://localhost:8800/api/templates/getTemplate/${templateId}`
     );
+    console.log("res",res)
     return res.data.data;
   } catch (err) {
     console.log(err);

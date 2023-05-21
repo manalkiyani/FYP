@@ -98,16 +98,7 @@ const AdminBlogDetail = () => {
     }
   };
 
-  const handleAddReview = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await addReview(blogId, name, email, comment);
-      console.log("Review added successfully");
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
 
   useEffect(() => {
     getBlogData();
@@ -134,15 +125,24 @@ const AdminBlogDetail = () => {
                   {blog.publishedDate} {bull} {blog.readingTime} read {bull}{" "}
                   {blog.writer}
                 </Typography>
-                <div style={{ cursor: "pointer" }}>
-                  <BookmarkAddOutlinedIcon />
-                  <ShareOutlinedIcon />
-                </div>
+               
               </div>
 
               <img className={classes.blogImage} src={blog.image} />
 
               <div dangerouslySetInnerHTML={{ __html: blog.description }} />
+
+             <Flex mb="xl" mt="xl" >
+              {blog?.videos.map(video=>(
+                <Paper  shadow="xs" p="md">
+                   <video width="300" height="200" controls>
+                  <source key={video} src={video} type="video/mp4" />
+                </video>
+
+                </Paper>
+                
+              ))}
+             </Flex>
 
               <div style={{ display: "flex" }}>
                 {blog.tags.map((tag) => (
@@ -182,6 +182,7 @@ const AdminBlogDetail = () => {
           {blog &&
             blog.reviews.map((review) => <ViewComments comment={review} />)}
         </Flex>
+     
       </div>
     </>
   );
