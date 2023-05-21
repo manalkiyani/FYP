@@ -30,12 +30,16 @@ const categories = [
   "Other",
 ];
 const Categories = (props) => {
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  console.log(props)
+  const [selectedCategory, setSelectedCategory] = React.useState(props.category);
+   React.useEffect(() => {
+    setSelectedCategory(props.category);
+  }, [props.category]);
 
   const selectCategory = (category) => {
+console.log(selectedCategory)
     setSelectedCategory(category);
     props.setCategory(category);
-
   };
 
   return (
@@ -48,9 +52,9 @@ const Categories = (props) => {
       </Typography>
 
       {categories.map((category) =>
-        category === selectedCategory ? (
+        category == selectedCategory ? (
           <Button
-          key={category}
+            key={category}
             variant="outlined"
             style={{
               borderRadius: "20px",
@@ -66,16 +70,17 @@ const Categories = (props) => {
           </Button>
         ) : (
           <Button
+            key={category}
             variant="outlined"
-            onClick={()=>selectCategory(category)}
+            onClick={() => selectCategory(category)}
             style={{
               borderRadius: "20px",
               borderColor: "#9F9F9F",
               backgroundColor: "#ebebeb",
               color: "#47474d",
               textTransform: "capitalize",
-                marginBottom: "10px",
-                marginRight: "5px",
+              marginBottom: "10px",
+              marginRight: "5px",
             }}
           >
             {category}
