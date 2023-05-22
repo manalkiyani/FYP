@@ -10,6 +10,8 @@ import {
   ActionIcon,
   Flex,
 } from "@mantine/core";
+import { Toaster, toast } from "react-hot-toast";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
@@ -80,6 +82,30 @@ export function DoctorCard({
     fetchData();
   }, []);
 
+  const handleDelete = (docID) => {
+    console.log("This is doctor id in handleDelete " + docID);
+    axios
+      .delete(`http://localhost:8800/api/doctor/deldoctor/${docID}`)
+      .then((res) => {
+        console.log(res.data + "This is doctors data");
+
+
+        axios.put("http://localhost:8800/api/doctor/deldoctoridfromtemplate",{TEMPLATEID:template, doctorid: docID})
+        .then((res) => {
+          console.log(res.data + "This is doctors data");
+
+        })
+
+
+      })
+      .then(function (response) {
+        toast.success("Doctor Deleted Successfully");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
 
   const handleEdit = ()=>{
     setOpen(true)
@@ -114,7 +140,7 @@ export function DoctorCard({
                 <Menu.Item icon={<EyeIcon size={rem(14)} />}>
                   Preview{" "}
                 </Menu.Item>
-                <Menu.Item icon={<DeleteIcon size={rem(14)} />} color="red">
+                <Menu.Item onClick={()=>handleDelete(id)} icon={<DeleteIcon size={rem(14)} />} color="red">
                   Delete
                 </Menu.Item>
               </Menu.Dropdown>
