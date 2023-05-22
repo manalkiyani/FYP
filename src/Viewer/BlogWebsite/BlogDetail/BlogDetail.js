@@ -183,37 +183,8 @@ const BlogDetail = () => {
           </div>
         )}
       </div>
-      <div className={classes.container}>
-        <h4
-          style={{
-            alignSelf: "start",
-            family: "poppins",
-            marginTop: "20px",
-            fontWeight: "400",
-          }}
-        >
-          More from {blog?.category}
-        </h4>
-      </div>
-      <center>
-        <div className={classes.relatedBlogs} style={{ width: "70%" }}>
-          <div>
-            <Slider {...settings}>
-              {relatedBlogs.map((blog) => (
-                <Blog
-                  key={blog._id}
-                  title={blog.title}
-                  tagline={blog.tagline}
-                  image={blog.image}
-                  blogId={blog._id}
-                />
-                // <div>{blog.title}</div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-      </center>
-
+     
+   
       <div style={{ width: "30%" }}>
         {blog &&
           blog.reviews.map((review) => <ViewComments comment={review} />)}

@@ -64,7 +64,7 @@ export function ViewerLogin() {
         `Request failed with status code ${error.response.status}: ${error.response.data}`
       );
       
-      toast.error("Invalid username or password");
+      toast.error("An error occurred");
       console.error(error.response.data.message);
     }
   };

@@ -120,9 +120,7 @@ const JobDetail = () => {
               </Text>
             </div>
 
-            <Button color="cyan" size="sm" radius="xl">
-              Apply Now
-            </Button>
+         
           </Group>
           <Divider />
           <Card.Section className={classes.section}>

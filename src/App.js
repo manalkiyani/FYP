@@ -312,17 +312,15 @@ const App = () => {
               element={
                 <Navbar
                   type="business"
-                  pages={["", "jobs", "contactUs"]}
-                  names={["Home", "Jobs", "Contact Us"]}
+                  pages={["", "jobs"]}
+                  names={["Home", "Jobs"]}
                 />
               }
             >
               <Route path="" element={<BusinessHomePage />} />
               <Route path="jobs" element={<BusinessJobsPage />} />
               <Route path="jobs/:jobId" element={<JobDetail />} />
-              <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
 
-              <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageBusinessWebsite />} />
               <Route path="style" element={<ManageViewerNavbar />} />
               <Route path="manage/:jobId" element={<JobDetail />} />
@@ -356,8 +354,9 @@ const App = () => {
                     <ViewerMainPage type="business" />
                   </AuthorizeViewer>
                 }
-              />
-
+              />{" "}
+              <Route path="jobs/:jobId/apply" element={<ApplyJob />} />
+              <Route path="jobs/:jobId" element={<JobDetail />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
             </Route>
             {/*medical Website Admin */}
