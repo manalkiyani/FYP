@@ -297,15 +297,23 @@ const getAppointmentsToViewer = async (req, res) => {
 
 const getAppointmentstoAdmin = async (req, res) => {
   const templateId = req.body.TEMPLATEID;
-  console.log('this is tempid '+templateId);
+  console.log('this is tempid ' + templateId);
+  console.log(" in getAppointmentstoAdmin ")
 
   try {
     const template = await Template.findById(templateId);
     const { appointments } = template.data;
+    console.log(appointments)
+
+    if (!appointments || appointments.length === 0) {
+      // Handle case when appointments array is not present or empty
+      return res.json({ message: "No appointments found" });
+    }
 
     const incompleteAppointments = [];
 
-     for (const appointmentId of appointments) {
+
+    for (const appointmentId of appointments) {
       const appointment = await Appointment.findById(appointmentId)
         .populate({
           path: "doctorid",
@@ -316,17 +324,23 @@ const getAppointmentstoAdmin = async (req, res) => {
           select: "username"
         })
         .exec();
+        console.log(appointment+ " this is appointmnt data")
 
-      if (!appointment.isComplete) {
+      if (appointment.isComplete) {
         incompleteAppointments.push(appointment);
       }
     }
+
+    console.log(incompleteAppointments+" incompleteAppointments")
+
+
 
     const appointmentInfo = incompleteAppointments.map((appointment) => {
       const { _id, name, sessionType, Day, Time, doctorid, patientid, status } = appointment;
       console.log(_id);
 
       const patientName = patientid ? patientid.username : "Unknown";
+      // console.log(appointmentInfo+ " this is res")
 
       return {
         _id,
@@ -343,12 +357,15 @@ const getAppointmentstoAdmin = async (req, res) => {
       };
     });
 
+    // console.log(appointmentInfo)
+
     res.json(appointmentInfo);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 const doctorCompletesAppointment = async (req, res) => {
   try {

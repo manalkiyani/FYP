@@ -6,6 +6,7 @@ import HandleDoctors from "./HandleDoctors";
 import { Messages } from "../../../CommonComponnets/Messages";
 import { ViewAppointment } from "./ViewAppointment";
 
+
 const ManageMedicalWebsite = () => {
   return (
     <Container
@@ -40,6 +41,12 @@ const ManageMedicalWebsite = () => {
         <Tabs.Panel value="Appointments" pt="sm">
           <ViewAppointment />
         </Tabs.Panel>
+
+        <Tabs.Panel value="Appointments" pt="sm">
+
+<ViewAppointment></ViewAppointment>
+        </Tabs.Panel>
+
 
         <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
