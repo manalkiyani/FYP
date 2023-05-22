@@ -12,6 +12,9 @@ import {
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../../../utilityFunctions/websiteDataController";
+
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -31,12 +34,19 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function CheckAppointment({ doctor, day, status, slot, patientName }) {
+// export async function CheckAppointment({ doctor, day, status, slot, patientName }) {
+  export function CheckAppointment  ({ doctor, day, status, slot, patientName })  {
+
+
   const { classes, theme } = useStyles();
 
-  const patient = localStorage.getItem('viewer')
-  const patientObj = JSON.parse(patient);
-const patientId = patientObj._id;
+
+//   const patient = localStorage.getItem('viewer')
+//   const patientObj = JSON.parse(patient);
+//  const patientId = patientObj._id;
+//  const patientId = patientObj._id;
+const [viewerId, setViewerId] = useState('')
+
 
 
 
@@ -74,21 +84,29 @@ return doctor ? doctor.latestQualification: 'Unknown';
 };
 
 
-
-  useEffect(() => {
+useEffect(() => {
+  // Asynchronous logic...
+  const fetchData = async () => {
+    try {
+      const template = await getTemplateId();
+      console.log(template);
+      const response = await getWebsiteData(template.templateId);
+      setViewerId(response.websiteData.viewerId);
+      const patientId = response.websiteData.viewerId;
 
       fetchDoctors();
-    axios.post('http://localhost:8800/api/doctor/getappointmentstoviewer', {
-        patientId
-      })
-      .then(response => {
-        setAppointments(response.data);
+      const appointmentsResponse = await axios.post(
+        'http://localhost:8800/api/doctor/getappointmentstoviewer',
+        { patientId }
+      );
+      setAppointments(appointmentsResponse.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [patientId]);
+  fetchData();
+}, []);
 
 
 const fetchDoctors = () => {

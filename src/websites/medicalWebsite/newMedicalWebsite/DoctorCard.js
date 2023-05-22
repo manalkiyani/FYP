@@ -10,13 +10,16 @@ import {
   ActionIcon,
   Flex,
 } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import IconDots from "@mui/icons-material/MoreHorizOutlined";
 import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { useNavigate } from "react-router-dom";
 import EditDoctorForm from "../EditDoctorForm/EditDoctorForm";
+
+import { getTemplateId } from "../././../../../src/utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../././../../../src/utilityFunctions/websiteDataController";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -59,7 +62,24 @@ export function DoctorCard({
   const { classes } = useStyles();
   const navigate = useNavigate()
   
+  
   const [open, setOpen] = useState(false);
+  const [template, setTemplate] = useState(null);
+
+
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const Template = await getTemplateId();
+      console.log(Template);
+      const response = await getWebsiteData(Template.templateId);
+      // Do something with the response
+      setTemplate(response);
+    }
+    fetchData();
+  }, []);
+
 
   const handleEdit = ()=>{
     setOpen(true)
@@ -102,7 +122,7 @@ export function DoctorCard({
           </Flex>
 
           <Text  onClick={()=> navigate(`${id}`)} fz={26} className={classes.title} mt="xs" mb="md">
-            {/* {title} */} DR. Richard Steward
+           {title}
           </Text>
 
           <Card.Section style={{ width: "500px" }} className={classes.footer}>
@@ -157,3 +177,4 @@ export function DoctorCard({
   );
   
 }
+
