@@ -121,7 +121,7 @@ const AddDoctor = () => {
       !gender ||
       !department ||
       !latestQualification ||
-      !description ||
+
       !experienceInMonths ||
       !address ||
       Object.keys(availability).length === 0 ||
@@ -260,7 +260,15 @@ const AddDoctor = () => {
       ...prevSlots,
       [day]: value ? splitTimeRange(value.start, value.end) : [],
     }));
+
+    
   };
+
+  const handlesetDescription = (event) =>{
+    setDescription(event.target.value);
+    console.log("this is descriptn"+ description)
+
+  }
 
   const quillRef = React.useRef(null);
 
@@ -517,7 +525,7 @@ const AddDoctor = () => {
                 style={{ height: "90%" }}
                 theme="snow"
                 value={description}
-                onChange={setDescription}
+                onChange={handlesetDescription}
                 modules={modules}
               />
             </div>

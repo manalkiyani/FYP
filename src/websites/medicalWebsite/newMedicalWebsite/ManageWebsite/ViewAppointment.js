@@ -11,6 +11,8 @@ import {
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocalStorageState } from "ahooks";
+import { getWebsiteData } from "../../../../../src/utilityFunctions/websiteDataController";
+import { getTemplateId } from "../../../../../src/utilityFunctions/TemplateIdController";
 
 
 const useStyles = createStyles((theme) => ({
@@ -38,10 +40,23 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
 
   const [ templateId,setTemplateId] = useLocalStorageState("templateId")
 
+  
+
   const [appointmentData, setAppointmentData] = useState([]);
 
   useEffect(() => {
+    
+
+
     const fetchAppointments = async () => {
+
+
+      const Template = await getTemplateId();
+    console.log(Template)
+    const response = await getWebsiteData(Template.templateId);
+   
+
+
       try {
         const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
           TEMPLATEID: templateId

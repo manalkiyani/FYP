@@ -281,8 +281,9 @@ const AppointmentsIDtoTemplate = async (req, res) => {
 
 const getAppointmentsToViewer = async (req, res) => {
   try {
+    console.log("here in backend")
     const patientId = req.body.patientId;
-    console.log(patientId);
+    console.log(patientId+" this is patientid");
     const appointments = await Appointment.find({
       patientid: patientId,
     }).exec();
@@ -296,6 +297,7 @@ const getAppointmentsToViewer = async (req, res) => {
 
 const getAppointmentstoAdmin = async (req, res) => {
   const templateId = req.body.TEMPLATEID;
+  console.log('this is tempid '+templateId);
 
   try {
     const template = await Template.findById(templateId);
@@ -303,7 +305,7 @@ const getAppointmentstoAdmin = async (req, res) => {
 
     const incompleteAppointments = [];
 
-    for (const appointmentId of appointments) {
+     for (const appointmentId of appointments) {
       const appointment = await Appointment.findById(appointmentId)
         .populate({
           path: "doctorid",
