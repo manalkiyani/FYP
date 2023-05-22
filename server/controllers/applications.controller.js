@@ -4,8 +4,10 @@ const User = require("../models/User");
 const Job = require("../models/Job");
 
 async function addApplication(req, res) {
+  console.log("in backend")
+    try {
   const application = new Application({
-    _id: mongoose.Types.ObjectId(),
+ _id: mongoose.Types.ObjectId(),
     status: req.body.status,
     recruiterRemarks: req.body.recruiterRemarks,
 
@@ -27,8 +29,9 @@ async function addApplication(req, res) {
     resume: req.body.resume,
   });
 
-  try {
+
     const newApplication = await application.save();
+    console.log(newApplication)
 
     // add this application to the job
     await Job.findByIdAndUpdate(

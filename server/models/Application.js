@@ -11,8 +11,8 @@ const application = new Schema({
   //experience
   experience: [
     {
-      title: { type: String, required: true },
-      company: { type: String, required: true },
+      title: { type: String },
+      company: { type: String },
       location: { type: String },
       startDate: { type: String },
       endDate: { type: String },
@@ -23,7 +23,7 @@ const application = new Schema({
   //education
   education: [
     {
-      institute: { type: String, required: true },
+      institute: { type: String},
       degree: { type: String },
       major: { type: String },
       startDate: { type: String },
@@ -42,7 +42,7 @@ const application = new Schema({
   message: { type: String },
 
   //resume
-  resume: { type: String, required: true },
+  resume: { type: String },
 
   //remarks
   recruiterRemarks: { type: String },

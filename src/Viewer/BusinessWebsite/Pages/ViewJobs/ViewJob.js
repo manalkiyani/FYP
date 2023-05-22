@@ -56,7 +56,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ViewJob = ({ job }) => {
+const ViewJob = ({ job, view }) => {
   const [formattedDate, setFormattedDate] = React.useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -111,15 +111,17 @@ const ViewJob = ({ job }) => {
             </Text>
           </div>
 
-          <Button
-            variant="default"
-            onClick={() => navigate(`${job._id}/apply`)}
-            color="cyan"
-            size="sm"
-            radius="xl"
-          >
-            Apply Now
-          </Button>
+          {view ? null : (
+            <Button
+              variant="default"
+              onClick={() => navigate(`${job._id}/apply`)}
+              color="cyan"
+              size="sm"
+              radius="xl"
+            >
+              Apply Now
+            </Button>
+          )}
         </Flex>
       </Card.Section>
     </Card>

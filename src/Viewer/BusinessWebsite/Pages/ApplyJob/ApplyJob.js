@@ -147,8 +147,18 @@ const ApplyJob = () => {
     }
 
     const link = await uploadImage(resume);
-
-    const response = await axios.post("http://localhost:8800/api/jobs/apply", {
+    console.log(
+        firstName,
+        lastName,
+        email,
+        phone,
+        address,
+        education,
+        experience,
+        resume
+      );
+try{
+ const response = await axios.post("http://localhost:8800/api/jobs/application/apply", {
       firstName,
       lastName,
       email,
@@ -158,15 +168,21 @@ const ApplyJob = () => {
       experience,
       twitter,
       facebook,
-      linkedIn,
+      linkedIn, 
       website,
       message,
-      resume: link,
+      resume: link || '',
       jobId,
     });
     if (response.status === 201) {
       toast.success("Your application has been submitted");
     }
+    console.log(response)
+}
+catch(error){
+console.log(error)
+}
+   
   };
 
   const addEducation = () => {

@@ -39,7 +39,7 @@ export default function Blog({
       </div>
       <span className={classes.postDate}>{time}</span>
 
-      <img className={classes.postImg} src={img} alt="" />
+      <img onClick={viewBlogDetail} className={classes.postImg} src={img} alt="" />
       <div className={classes.postInfo}>
         <div className={classes.container}>
           <div className={classes.postCats}>

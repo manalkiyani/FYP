@@ -17,7 +17,7 @@ import ViewJob from "./ViewJob";
 import axios from "axios";
 import { useEffect } from "react";
 
-const ViewJobs = ({ jobIds }) => {
+const ViewJobs = ({ jobIds ,view}) => {
   const useStyles = createStyles((theme) => ({
     wrapper: {
       minHeight: 600,
@@ -249,7 +249,8 @@ const ViewJobs = ({ jobIds }) => {
       <Grid.Col span={7}>
         <Flex direction="column">
           {jobs.map((job) => (
-            <ViewJob key={job._id} job={job} />
+            <ViewJob
+            view={view} key={job._id} job={job} />
           ))}
         </Flex>
       </Grid.Col>
