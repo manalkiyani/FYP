@@ -26,15 +26,14 @@ import { useLocalStorageState } from "ahooks";
 import AddDoctor from "./AddDoctorPage/AddDoctor";
 
 
-const HandleDoctors = ({ doctorIds }) => {
+const HandleDoctors = () => {
   const [addDoctor, setAddDoctor] = React.useState(false);
   const [editId, setEditId] = React.useState(null);
   const [operation, setOperation] = React.useState("add");
   const [productIds, setProductIds] = React.useState([]);
   const [template] = useLocalStorageState("template", "");
   const [doctors, setDoctors] = useState(null);
-  console.log(doctorIds+" this is ids in handle doctors")
-
+ 
   React.useEffect(() => {
     console.log("in effect");
     console.log(template);
@@ -48,7 +47,7 @@ const HandleDoctors = ({ doctorIds }) => {
     setEditId(id);
   };
 
-  const getDoctors = async () => {
+  const getDoctors = async (doctorIds) => {
     try {
       const response = await axios.post(
         `http://localhost:8800/api/doctor/get`,{
@@ -62,8 +61,8 @@ const HandleDoctors = ({ doctorIds }) => {
     }
   };
   useEffect(() => {
-    getDoctors();
-  }, [doctorIds]);
+    getDoctors(template.data.doctors);
+  }, []);
 
   return (
     <>

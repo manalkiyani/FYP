@@ -29,7 +29,7 @@ export const ManageWebsite = () => {
         <Tabs.List>
           <Tabs.Tab value="jobs">Jobs</Tabs.Tab>
           <Tabs.Tab value="applications"> Applications</Tabs.Tab>
-          <Tabs.Tab value="messages">Messages</Tabs.Tab>
+          <Tabs.Tab value="Messages">Messages</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="jobs" pt="sm">

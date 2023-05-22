@@ -34,7 +34,6 @@ const useStyles = createStyles((theme) => ({
 export function CheckAppointment({ doctor, day, status, slot, patientName }) {
   const { classes, theme } = useStyles();
 
-
   const patient = localStorage.getItem('viewer')
   const patientObj = JSON.parse(patient);
 const patientId = patientObj._id;

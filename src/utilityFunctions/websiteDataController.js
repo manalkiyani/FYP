@@ -4,6 +4,7 @@ import axios from "axios";
 export const getWebsiteData = async (id) => {
   try {
     const response = await axios.get(`/api/websiteData/${id}`);
+    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Error fetching website data:", error);

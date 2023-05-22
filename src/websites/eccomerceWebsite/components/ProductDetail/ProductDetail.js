@@ -103,9 +103,9 @@ const ProductDetail = () => {
               </Button>
             ))}
           </div>
-          <Button mt="xl" variant="default">
+          {/* <Button mt="xl" variant="default">
             BUY NOW
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
       <div

@@ -4,11 +4,10 @@ export const medicalTemplate = {
   pages: {
     MedicalHomePage: {
       blocks: [
-        "743a0894-09c1-41ef-86fe-199465b3e6ae",
-        "f6e9fb26-8be7-4ecb-9c2d-c38fd8678b43",
-        "08fecab0-a53d-4fde-91fd-84aa1c65268f",
-        "9a9493c8-c1bb-41fe-9ad3-cf36cfec2663",
-        "7a517caa-5a64-495c-909c-6bfc8243fbf0",
+        "f3ac645c-9fe8-498b-8be1-59f9c3dac1e9",
+        "83b133a5-7af7-471b-b499-a9085fdfd563",
+        "4c50687b-1ee8-44e3-85a8-052e8591f2e8",
+        "d90928ce-30e2-4dd4-b43a-a4d9fe45d95b",
       ],
     },
     DoctorsPage: {
@@ -19,10 +18,7 @@ export const medicalTemplate = {
     },
   },
   data: {
-    doctors: [
-      "644b96c41092c28dc025b678"
-
-    ],
+    doctors: ["644b96c41092c28dc025b678"],
   },
 };
 //admin = home jobs applications contact

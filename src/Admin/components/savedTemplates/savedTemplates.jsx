@@ -236,7 +236,7 @@ const images = [
           Manage
         </Button>
 
-         <Button variant="light"   onClick={() => {
+         {/* <Button variant="light"   onClick={() => {
       axios.post('http://localhost:8800/api/templates/getsubdomain', { templateId: template._id })
         .then(response => {
           // Handle the response here
@@ -258,7 +258,7 @@ const images = [
         ;
     }} style={{color:'#008B8B'}}>
           Open as Published
-        </Button>
+        </Button> */}
 
         
 

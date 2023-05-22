@@ -24,7 +24,7 @@ import { addTemplateId } from '../../../utilityFunctions/TemplateIdController';
 
 export default function PublishedWebsites() {
   const [DeleteId, setDeleteId] = React.useState(null);
-  const [savedTemplates, setSavedTemplates] = React.useState(null);
+  const [publishedTemplates, setPublishedTemplates] = React.useState(null);
   const [template,setTemplate] = useLocalStorageState("template","")
   const [templateId,setTemplateId] = useLocalStorageState("templateId","")
   const [viewerTemplate,setViewerTemplate] = useLocalStorageState("viewerTemplate",{})
@@ -55,7 +55,7 @@ export default function PublishedWebsites() {
       const { username } = await getUsername();
       const user = await getUserPublishedWebsites(username);
 
-      setSavedTemplates(user.publishedwebsites);
+      setPublishedTemplates(user.publishedwebsites);
     } catch (error) {
       console.log(error);
     }
@@ -163,48 +163,27 @@ const images = [
      <ConfirmDeleteDialog open={Deletion} onClose ={closeDeletion} onConfirm={deleteTemplate} />
 
      {
-        savedTemplates && savedTemplates.length === 0 &&
+        publishedTemplates && publishedTemplates.length === 0 &&
          <div style={{display:'flex',width:'100%',justifyContent:'center',alignItems:'center',height:'20vh',fontSize:'20px',fontWeight:'lighter'}}>Your Websites Will appear here</div>
      }
       <div style={{display:'flex',width:'70vw',flexWrap:'wrap'}}>
-   {savedTemplates && savedTemplates.map((template) => {
+   {publishedTemplates && publishedTemplates.map((template) => {
               const randomImageIndex = Math.floor(Math.random() * images.length);
-
+       
               const randomImage = images[randomImageIndex];
 
   return ( <Card 
-    // onClick={() => openAsPublished(template._id, template.type)}
-    onClick={() => {
-      console.log("this is temp id "+ template.templateid)
-      axios.post('http://localhost:8800/api/templates/getsubdomain', { templateId: template.templateid })
-        .then(response => {
-          // Handle the response here
-          const subdomainGot =  response.data.subdomain
-          console.log("this is sub domain "+ subdomainGot)
-
-          // const publishedWebsite = response.data; // Assuming the response contains the published website object
+   
     
-          // Call the openAsPublished method with the found published website
-          openAsPublished(subdomainGot, template.templateid, template.type, );
-        })
-        .catch(error => {
-          // Handle any errors that occurred during the request
-          if (error.response && error.response.status === 404) {
-            alert('WEB NOT PUBLISHED');
-          } else {
-            console.error('Error fetching published website:', error);
-          }
-        });
-        ;
-    }}
   key={template._id}
   
   sx={{ maxWidth: 300,minWidth:300,marginRight:'20px' ,marginBottom:'20px'}}>
       <CardActionArea>
           <CardMedia
+          onClick={() =>  openAsPublished(template.subdomain, template.templateid, template.type, )}
         component="img"
         height="150"
-        image={images[savedTemplates.indexOf(template)]}
+        image={images[publishedTemplates.indexOf(template)]}
         alt="Your Template"
       />
         
