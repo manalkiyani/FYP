@@ -20,6 +20,6 @@ export const blogTemplate = {
     },
   },
   data: {
-    blogs: ["642b18d699cf3687adb5dd09","646a775a36dac756333b5430"],
+    blogs: ["646b7753d71e808346bd746f","646a775a36dac756333b5430"],
   },
 };
