@@ -5,10 +5,9 @@ import { getTemplateData } from "../../../utilityFunctions/axiosFunctions";
 import { useLocalStorageState } from "ahooks";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-import { Group, Image } from "@mantine/core";
+import { Button, Group, Image } from "@mantine/core";
 import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 import {
-
   deleteWebsiteData,
   getWebsiteData,
 } from "../../../utilityFunctions/websiteDataController";
@@ -22,13 +21,11 @@ export default function ViewerNavbar(props) {
   const navigate = useNavigate();
 
   const getTemplateName = async () => {
-    console.log(
-      "templateId" , templateId
-    )
+    console.log("templateId", templateId);
     const response = await getTemplateData(templateId);
 
     console.log(response);
-    setTemplateName(response.name);
+    setTemplateName(response?.name);
   };
   useEffect(() => {
     if (templateId) {
@@ -43,9 +40,10 @@ export default function ViewerNavbar(props) {
     try {
       const response = await deleteWebsiteData(templateId);
       setIsLoggedIn(false);
-       const currentPath = window.location.pathname;
-      const parentPath = currentPath.split("/").slice(0, -1).join("/");
-      navigate(parentPath)
+      const currentPath = window.location.pathname;
+      window.location.reload();
+      // const parentPath = currentPath.split("/").slice(0, -1).join("/");
+      // navigate(parentPath)
     } catch (error) {
       console.log(error);
     }
@@ -111,6 +109,13 @@ export default function ViewerNavbar(props) {
         </div>
 
         <div className={classes.left}>
+          {isloggedIn ? (
+            <div>
+              <Button variant="default" onClick={() => handleLogout()}>
+                Logout
+              </Button>
+            </div>
+          ) : null}
           {props.pages.map((page, index) => {
             return (
               <Link
@@ -122,12 +127,6 @@ export default function ViewerNavbar(props) {
               </Link>
             );
           })}
-
-          {isloggedIn ? (
-            <div>
-              <button onClick={() => handleLogout()}>Logout</button>
-            </div>
-          ) : null}
         </div>
       </div>
       <Outlet />

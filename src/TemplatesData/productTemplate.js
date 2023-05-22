@@ -3,7 +3,11 @@ export const productTemplate = {
   type: "eccomerce",
   pages: {
     EccomerceHomePage: {
-      blocks: [],
+      blocks: [
+        "6cc7101d-66ca-46d1-ba9b-64881aabc32e",
+       "84d92e5e-5435-46b0-a150-769c7567cd96",
+       "6f83a0cc-3222-40ab-8188-90e2fdd41764"
+      ],
     },
     ProductsPage: {
       blocks: [],

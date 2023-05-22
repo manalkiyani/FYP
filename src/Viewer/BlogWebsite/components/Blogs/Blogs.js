@@ -15,48 +15,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { addBookmark } from "../../../../utilityFunctions/axiosFunctions";
 import Sidebar from "../../../../websites/blogWebsite/components/Sidebar/Sidebar";
 import { Group, Input, Select } from "@mantine/core";
+import { getTemplateId } from "../../../../utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../../../../utilityFunctions/websiteDataController";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
 
-const testUserId = "63e8df1974cc16f2b7ecacb6";
 
 export default function Blogs({ blogIds }) {
   const [blogs, setBlogs] = useState(null);
@@ -64,6 +26,7 @@ export default function Blogs({ blogIds }) {
 
   const [searchField, setSearchField] = useState("");
   const [changed, setChanged] = useState(false);
+  const [viewerId,setViewerId] = useState(null)
 
   useEffect(() => {
     axios
@@ -79,8 +42,18 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
-  const bookmarkBlog = (blogId) => {
-    addBookmark(testUserId, blogId)
+  
+
+  const bookmarkBlog =async (blogId) => {
+    
+    const Template = await getTemplateId();
+    console.log(Template)
+    const response = await getWebsiteData(Template.templateId);
+   
+    setViewerId(response.websiteData.viewerId)
+
+  
+    addBookmark(response.websiteData.viewerId, blogId)
       .then((result) => {
         console.log(result.message);
         setChanged(!changed);
@@ -229,7 +202,7 @@ export default function Blogs({ blogIds }) {
               })}
           </div>
         </div>
-        <Sidebar changed={changed} />
+        <Sidebar viewerId={viewerId} changed={changed} />
       </div>
     </>
   );

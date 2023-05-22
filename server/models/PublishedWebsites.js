@@ -8,7 +8,8 @@ const publishedwebsitesSchema = new mongoose.Schema(
 
     templateid: { type: Schema.Types.ObjectId, ref: "template" },
     type:{type: String},
-    Date:{type: String}
+    Date:{type: String},
+    image:{type:String}
   },
   
 );

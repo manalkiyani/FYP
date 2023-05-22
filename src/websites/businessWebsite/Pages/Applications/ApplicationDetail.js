@@ -32,6 +32,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { businessTemplate } from "../../../../TemplatesData/businessTemplate";
 import { formatDate } from "../../../../utilityFunctions/helperFunctions";
+import { Toaster, toast } from "react-hot-toast";
 
 const inputStyles = createStyles((theme) => ({
   innerContainer: {
@@ -89,6 +90,7 @@ const ApplicationDetail = () => {
   const [jobsCopy, setJobsCopy] = useState([]);
   const [jobIds, setJobIds] = useState([]);
   const [application, setApplication] = useState({});
+  const [updated,setUpdated] = useState(false)
 
   const [status, setStatus] = useState("pending");
   const [recruiterRemarks, setRecruiterRemarks] = useState("");
@@ -110,9 +112,12 @@ const ApplicationDetail = () => {
     }
   };
   const getApplications = async (jobIds) => {
-    const response = await axios.post("http://localhost:8800/api/jobs/list", {
-      jobIds,
-    });
+    const response = await axios.post(
+      "http://localhost:8800/api/applications/list",
+      {
+        jobIds,
+      }
+    );
     console.log("response", response);
     if (response.status === 200) {
       console.log("response.data", response.data);
@@ -123,19 +128,26 @@ const ApplicationDetail = () => {
   };
 
   const updateApplication = async () => {
-    const response = await axios.post(
-      `http://localhost:8800/api/jobs/application/${application._id}`,
-      {
-        status,
-        recruiterRemarks,
-      }
-    );
-    console.log("response", response);
+    try {
+      const response = await axios.post(
+        `http://localhost:8800/api/applications/${application._id}`,
+        {
+          status,
+          recruiterRemarks,
+        }
+      );
+      console.log("response", response);
+      setUpdated(!updated)
+      setRecruiterRemarks("")
+      toast.success("Remarks uploaded successfully");
+    } catch (error) {
+      toast.error("An error occurred");
+    }
   };
 
   useEffect(() => {
     getJobIds();
-  }, []);
+  }, [updated]);
 
   // const filterApplications = (value) => {
   //   // const value = e.target.value;
@@ -165,244 +177,247 @@ const ApplicationDetail = () => {
   };
 
   return (
-    <Grid bg="#E7E9EB">
-      <Grid.Col span={3} className={classes.noPadding}>
-        <ScrollArea h={670}>
-          <Container
-            style={{
-              width: "25%",
-              position: "fixed",
-              left: 0,
-              bottom: 0,
-              top: 0,
-            }}
-            className={classes.applicationContainer}
-            bg="#fff"
-          >
+    <>
+      <Toaster position="top-center" />
+      <Grid bg="#E7E9EB">
+        <Grid.Col span={3} className={classes.noPadding}>
+          <ScrollArea h={670}>
             <Container
               style={{
-                marginTop: "2rem",
+                width: "25%",
+                position: "fixed",
+                left: 0,
+                bottom: 0,
+                top: 0,
               }}
+              className={classes.applicationContainer}
+              bg="#fff"
             >
-              <Accordion style={{ marginBottom: "2rem" }} variant="separated">
-                <Accordion.Item value="credit-card">
-                  <Accordion.Control>
-                    Search for Applications & Jobs
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <TextInput
-                      placeholder="Software Engineer, Web Developer"
-                      required
-                      onChange={(e) => filterApplications(e.target.value)}
-                    />
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-              {jobs.map((job) =>
-                job.applications.map((application) => {
-                  return (
-                    <Application
-                      key={application._id}
-                      setApplication={setApplication}
-                      jobTitle={job.title}
-                      application={application}
-                    />
-                  );
-                })
-              )}
-            </Container>
-          </Container>
-        </ScrollArea>
-      </Grid.Col>
-
-      <Grid.Col className={classes.noPadding} span={6}>
-        <Container
-          px="md"
-          bg="#fff"
-          className={classes.innerContainer}
-          radius="xl"
-        >
-          <Flex>
-            <div
-              style={{
-                paddingRight: "5rem",
-                paddingLeft: "3rem",
-              }}
-            >
-              <Flex
-                mih={60}
-                gap="md"
-                align="center"
-                direction="column"
-                wrap="wrap"
+              <Container
+                style={{
+                  marginTop: "2rem",
+                }}
               >
-                <Avatar
-                  radius="50px"
-                  size="4rem"
-                  src="https://res.cloudinary.com/djlewzcd5/image/upload/v1682526249/user-icon-person-icon-client-symbol-profile-icon-vector_qmugnc.webp"
-                  alt="it's me"
-                />
-                <Title fw={600} className={classes.title} order={3}>
-                  {application?.firstName} {application?.lastName}
-                </Title>
-              </Flex>
-
-              <Space h="md" />
-              <Divider my="sm" />
-              <Text fw={500} mb="lg" mt="lg" order={6}>
-                Review Resume
-              </Text>
-
-              <SegmentedControl
-                size="xs"
-                data={[
-                  { label: "Hire", value: "hired" },
-                  { label: "Pending", value: "pending" },
-                  { label: "Interview", value: "interview" },
-
-                  { label: "accept", value: "accepted" },
-
-                  { label: "Further Review", value: "further" },
-                  { label: "Not a Fit", value: "notFit" },
-                  { label: "Reject", value: "rejected" },
-                ]}
-                value={status}
-                onChange={setStatus}
-              />
-
-              <Text fw={500} mb="md" mt="lg" order={6}>
-                Leave a Note
-              </Text>
-              <Textarea
-                value={recruiterRemarks}
-                onChange={(e) => setRecruiterRemarks(e.target.value)}
-                autosize
-                description="Write notes here about the candidate and their application"
-              />
-              <Button
-                onClick={updateApplication}
-                color="cyan"
-                radius="xl"
-                size="xs"
-                mt="md"
-              >
-                update
-              </Button>
-              <Space h="md" />
-              <Text fw={500} mb="md" mt="lg" order={6}>
-                Contact Details
-              </Text>
-              <ContactDetails
-                title="Email"
-                desc={application?.email}
-                Icon={EmailIcon}
-              />
-              <ContactDetails
-                title="Phone"
-                desc={application?.phone}
-                Icon={PhoneIcon}
-              />
-              <ContactDetails
-                title="Address"
-                desc={application?.address}
-                Icon={PinIcon}
-              />
-            </div>
-
-            <Tabs
-              color="cyan"
-              variant="outline"
-              radius="md"
-              defaultValue="resume"
-            >
-              {/* Tabs  */}
-              <Tabs.List>
-                <Tabs.Tab value="resume">Resume</Tabs.Tab>
-                <Tabs.Tab value="experience">
-                  {" "}
-                  Education and Experience
-                </Tabs.Tab>
-                <Tabs.Tab value="web">On the Web</Tabs.Tab>
-              </Tabs.List>
-
-              <Tabs.Panel value="resume" pt="sm">
-                <ResumeViewer resumeUrl={application?.resume} />
-              </Tabs.Panel>
-
-              <Tabs.Panel value="experience" pt="sm">
-                <ScrollArea h={800}>
-                  {/*Experience */}
-                  <Text fw={500} mb="md" mt="lg" order={4}>
-                    Experience
-                  </Text>
-                  {application?.experience?.map((experience) => {
+                <Accordion style={{ marginBottom: "2rem" }} variant="separated">
+                  <Accordion.Item value="credit-card">
+                    <Accordion.Control>
+                      Search for Applications & Jobs
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                      <TextInput
+                        placeholder="Software Engineer, Web Developer"
+                        required
+                        onChange={(e) => filterApplications(e.target.value)}
+                      />
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+                {jobs.map((job) =>
+                  job.applications.map((application) => {
                     return (
-                      <Experience
-                        key={experience._id}
-                        dates={[
-                          {
-                            title: "Start Date",
-                            value: experience.startDate,
-                          },
-                          { title: "End Date", value: experience.endDate },
-                        ]}
-                        title={experience.title}
-                        company={experience.company}
-                        description={experience.description}
-                        location={experience.location}
+                      <Application
+                        key={application._id}
+                        setApplication={setApplication}
+                        jobTitle={job.title}
+                        application={application}
                       />
                     );
-                  })}
+                  })
+                )}
+              </Container>
+            </Container>
+          </ScrollArea>
+        </Grid.Col>
+
+        <Grid.Col className={classes.noPadding} span={6}>
+          <Container
+            px="md"
+            bg="#fff"
+            className={classes.innerContainer}
+            radius="xl"
+          >
+            <Flex>
+              <div
+                style={{
+                  paddingRight: "5rem",
+                  paddingLeft: "3rem",
+                }}
+              >
+                <Flex
+                  mih={60}
+                  gap="md"
+                  align="center"
+                  direction="column"
+                  wrap="wrap"
+                >
+                  <Avatar
+                    radius="50px"
+                    size="4rem"
+                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1682526249/user-icon-person-icon-client-symbol-profile-icon-vector_qmugnc.webp"
+                    alt="it's me"
+                  />
+                  <Title fw={600} className={classes.title} order={3}>
+                    {application?.firstName} {application?.lastName}
+                  </Title>
+                </Flex>
+
+                <Space h="md" />
+                <Divider my="sm" />
+                <Text fw={500} mb="lg" mt="lg" order={6}>
+                  Review Resume
+                </Text>
+
+                <SegmentedControl
+                  size="xs"
+                  data={[
+                    { label: "Hire", value: "hired" },
+                    { label: "Pending", value: "pending" },
+                    { label: "Interview", value: "interview" },
+
+                    { label: "accept", value: "accepted" },
+
+                    { label: "Further Review", value: "further" },
+                    { label: "Not a Fit", value: "notFit" },
+                    { label: "Reject", value: "rejected" },
+                  ]}
+                  value={status}
+                  onChange={setStatus}
+                />
+
+                <Text fw={500} mb="md" mt="lg" order={6}>
+                  Leave a Note
+                </Text>
+                <Textarea
+                  value={recruiterRemarks}
+                  onChange={(e) => setRecruiterRemarks(e.target.value)}
+                  autosize
+                  description="Write notes here about the candidate and their application"
+                />
+                <Button
+                  onClick={updateApplication}
+                  color="cyan"
+                  radius="xl"
+                  size="xs"
+                  mt="md"
+                >
+                  update
+                </Button>
+                <Space h="md" />
+                <Text fw={500} mb="md" mt="lg" order={6}>
+                  Contact Details
+                </Text>
+                <ContactDetails
+                  title="Email"
+                  desc={application?.email}
+                  Icon={EmailIcon}
+                />
+                <ContactDetails
+                  title="Phone"
+                  desc={application?.phone}
+                  Icon={PhoneIcon}
+                />
+                <ContactDetails
+                  title="Address"
+                  desc={application?.address}
+                  Icon={PinIcon}
+                />
+              </div>
+
+              <Tabs
+                color="cyan"
+                variant="outline"
+                radius="md"
+                defaultValue="resume"
+              >
+                {/* Tabs  */}
+                <Tabs.List>
+                  <Tabs.Tab value="resume">Resume</Tabs.Tab>
+                  <Tabs.Tab value="experience">
+                    {" "}
+                    Education and Experience
+                  </Tabs.Tab>
+                  <Tabs.Tab value="web">On the Web</Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="resume" pt="sm">
+                  <ResumeViewer resumeUrl={application?.resume} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="experience" pt="sm">
+                  <ScrollArea h={800}>
+                    {/*Experience */}
+                    <Text fw={500} mb="md" mt="lg" order={4}>
+                      Experience
+                    </Text>
+                    {application?.experience?.map((experience) => {
+                      return (
+                        <Experience
+                          key={experience._id}
+                          dates={[
+                            {
+                              title: "Start Date",
+                              value: experience.startDate,
+                            },
+                            { title: "End Date", value: experience.endDate },
+                          ]}
+                          title={experience.title}
+                          company={experience.company}
+                          description={experience.description}
+                          location={experience.location}
+                        />
+                      );
+                    })}
+
+                    <Space h="xl" />
+                    {/*Education */}
+                    <Text fw={500} mb="md" mt="lg" order={4}>
+                      Education
+                    </Text>
+
+                    {application?.education?.map((education) => {
+                      return (
+                        <Education
+                          key={education._id}
+                          Institute={education.institute}
+                          Major={education.major}
+                          description={education.description}
+                          location="Islamabad I-8/4"
+                          dates={[
+                            {
+                              title: "Start Date",
+                              value: education.startDate,
+                            },
+                            { title: "End Date", value: education.endDate },
+                          ]}
+                        />
+                      );
+                    })}
+                  </ScrollArea>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="web" pt="sm">
+                  <Space h="xl" />
+                  <WebLinks
+                    links={[
+                      { title: "LinkedIn", link: application?.linkedIn },
+                      { title: "Facebook", link: application?.facebook },
+                      { title: "Twitter", link: application?.twitter },
+                      { title: "Website", link: application?.website },
+                    ]}
+                  />
 
                   <Space h="xl" />
-                  {/*Education */}
                   <Text fw={500} mb="md" mt="lg" order={4}>
-                    Education
+                    Optional Message
                   </Text>
-
-                  {application?.education?.map((education) => {
-                    return (
-                      <Education
-                        key={education._id}
-                        Institute={education.institute}
-                        Major={education.major}
-                        description={education.description}
-                        location="Islamabad I-8/4"
-                        dates={[
-                          {
-                            title: "Start Date",
-                            value: education.startDate,
-                          },
-                          { title: "End Date", value: education.endDate },
-                        ]}
-                      />
-                    );
-                  })}
-                </ScrollArea>
-              </Tabs.Panel>
-
-              <Tabs.Panel value="web" pt="sm">
-                <Space h="xl" />
-                <WebLinks
-                  links={[
-                    { title: "LinkedIn", link: application?.linkedIn },
-                    { title: "Facebook", link: application?.facebook },
-                    { title: "Twitter", link: application?.twitter },
-                    { title: "Website", link: application?.website },
-                  ]}
-                />
-
-                <Space h="xl" />
-                <Text fw={500} mb="md" mt="lg" order={4}>
-                  Optional Message
-                </Text>
-                <Text fz="sm">{application?.message}</Text>
-              </Tabs.Panel>
-            </Tabs>
-          </Flex>
-        </Container>
-      </Grid.Col>
-    </Grid>
+                  <Text fz="sm">{application?.message}</Text>
+                </Tabs.Panel>
+              </Tabs>
+            </Flex>
+          </Container>
+        </Grid.Col>
+      </Grid>
+    </>
   );
 };
 

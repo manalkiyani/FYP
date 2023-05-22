@@ -88,7 +88,7 @@ const Application = ({ application, jobTitle, setApplication }) => {
           {/* <Text fz="xl" fw={600} sx={{ lineHeight: 1 }}>
            
           </Text> */}
-          {application.status === "accepted" ? (
+          {application?.status === "accepted" ? (
             <Badge color="green" size="lg">
               {application.status}
             </Badge>

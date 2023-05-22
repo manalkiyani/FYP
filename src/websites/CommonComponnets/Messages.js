@@ -60,29 +60,16 @@ export function Messages() {
       );
 
       setData(response.data.messages);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-  const rows = data.map((row) => (
-    <tr key={row.subject}>
-      <td>{row.subject}</td>
-      <td>{row.email}</td>
-      <td>{row.message}</td>
-      <td>
-        <Button
-          onClick={() => handleReply(row.email)}
-          style={{ color: "#40AFC0" }}
-          variant="subtle"
-        >
-          Reply
-        </Button>
-      </td>
-    </tr>
-  ));
 
   return (
     <>
+   
+    {console.log(data)}
       <ScrollArea
         h={300}
         onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
@@ -98,7 +85,24 @@ export function Messages() {
               <th></th>
             </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.subject}>
+                <td>{row.subject}</td>
+                <td>{row.email}</td>
+                <td>{row.message}</td>
+                <td>
+                  <Button
+                    onClick={() => handleReply(row.email)}
+                    style={{ color: "#40AFC0" }}
+                    variant="subtle"
+                  >
+                    Reply
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
       </ScrollArea>
       {open && (

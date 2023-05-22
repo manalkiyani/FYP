@@ -5,8 +5,6 @@ const User = require("../models/User");
 const publishedwebsites = require("../models/publishedwebsites");
 const mongoose = require("mongoose");
 
-
-
 //add a template to user's saved Templates
 exports.saveTemplate = (req, res) => {
   const username = req.body.username;
@@ -112,13 +110,13 @@ exports.getPublishedWebsites = (req, res) => {
       .select("publishedwebsites")
       .populate("publishedwebsites")
       .then((data) => {
-        console.log("this is data")
-        console.log(data)
+        console.log("this is data");
+        console.log(data);
         return res.status(200).json({ data });
       })
       .catch((err) => {
-        console.log("this is error")
-        console.log(err.message)
+        console.log("this is error");
+        console.log(err.message);
         return res.status(500).json({ message: "error" });
       });
   } catch (err) {
@@ -313,15 +311,17 @@ exports.updateTemplate = async (req, res) => {
 
 exports.getSubdomain = async (req, res) => {
   try {
-    console.log('in subdomain');
+    console.log("in subdomain");
     const { templateId } = req.body;
 
     // Find the first document in PublishedWebsites that matches the templateId
-    const publishedWebsite = await publishedwebsites.findOne({ templateid: templateId });
+    const publishedWebsite = await publishedwebsites.findOne({
+      templateid: templateId,
+    });
     console.log("this is templateid" + templateId);
 
     if (!publishedWebsite) {
-      return res.status(404).json({ error: 'Published website not found' });
+      return res.status(404).json({ error: "Published website not found" });
     }
 
     const subdomain = publishedWebsite.subdomain;
@@ -332,12 +332,11 @@ exports.getSubdomain = async (req, res) => {
     return res.json({ subdomain });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
 //delete template from user list and then from template schema, get user id and template id
-
 
 exports.deleteTemplate = async (req, res) => {
   try {
@@ -453,4 +452,45 @@ exports.register = (req, res) => {
     });
 };
 
+exports.unPublishWebsite = async (req, res) => {
+  try {
+    const adminId = req.params.id;
+    const templateId = req.params.templateId;
 
+    const admin = await Admin.findById(adminId);
+    if (!admin) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+
+    const publishedWebsites = admin.publishedwebsites;
+    const index = publishedWebsites.indexOf(templateId);
+
+    if (index === -1) {
+      return res
+        .status(404)
+        .json({ error: "Template ID not found in publishedWebsites" });
+    }
+
+    publishedWebsites.splice(index, 1);
+    await admin.save();
+
+    res.json({ message: "Template ID removed from publishedWebsites" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.getAllPublishedWebsites = async (req, res) => {
+  try {
+    console.log("in subdomain");
+
+    // Find the first document in PublishedWebsites that matches the templateId
+    const Websites = await publishedwebsites.find();
+
+    return res.json({ Websites });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};

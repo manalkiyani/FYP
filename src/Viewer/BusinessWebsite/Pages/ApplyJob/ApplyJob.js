@@ -158,7 +158,7 @@ const ApplyJob = () => {
         resume
       );
 try{
- const response = await axios.post("http://localhost:8800/api/jobs/application/apply", {
+ const response = await axios.post("http://localhost:8800/api/applications/apply", {
       firstName,
       lastName,
       email,

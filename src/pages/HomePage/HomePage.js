@@ -7,6 +7,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AllPublishedWebsites from "./AllPublishedWebsites";
+import { Container, Flex, Title } from "@mantine/core";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -38,6 +40,37 @@ const HomePage = () => {
         </div>
       </div>
 
+      <Container size="75vw">
+        <Flex
+          mt="xl"
+          mb="xl"
+          justify="space-between"
+          mih={50}
+          style={{ padding: "20px", borderRadius: "20px" }}
+          bg="#FBF8F1"
+        >
+          <Title fw={400} order={2}>
+            Websites Built Through Ucraft
+          </Title>
+        </Flex>
+        <div className="charts">
+          <AllPublishedWebsites />
+        </div>
+      </Container>
+      <Container size="75vw">
+        <Flex
+          mt="xl"
+          mb="xl"
+          justify="space-between"
+          mih={50}
+          style={{ padding: "20px", borderRadius: "20px" }}
+          bg="#FBF8F1"
+        >
+          <Title fw={400} order={2}>
+            Key Features
+          </Title>
+        </Flex>
+      </Container>
       <div className={classes.Main}>
         <Card sx={{ maxWidth: 345 }}>
           <CardActionArea>

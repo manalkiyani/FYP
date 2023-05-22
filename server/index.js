@@ -15,6 +15,8 @@ const doctorRoutes = require("./routes/doctorroute");
 
 const jobRoutes = require("./routes/jobroute");
 
+const applicationRoutes = require("./routes/applicationroute");
+
 const patientRoutes = require("./routes/patientroute");
 const categoryRoutes = require("./routes/categoryroute");
 const templateIdRoutes = require("./routes/templateIdroute");
@@ -51,6 +53,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/doctor", doctorRoutes);
 
 app.use("/api/jobs", jobRoutes);
+app.use("/api/applications", applicationRoutes);
 
 app.use("/api/patient", patientRoutes);
 

@@ -4,11 +4,12 @@ export const blogTemplate = {
   pages: {
     BlogHomePage: {
       blocks: [
-        "743a0894-09c1-41ef-86fe-199465b3e6ae",
-        "f6e9fb26-8be7-4ecb-9c2d-c38fd8678b43",
-        "08fecab0-a53d-4fde-91fd-84aa1c65268f",
-        "9a9493c8-c1bb-41fe-9ad3-cf36cfec2663",
-        "7a517caa-5a64-495c-909c-6bfc8243fbf0",
+
+         "f4f53d86-d7f1-4619-92f5-64defa98eb01",
+        "335718c9-8da6-47ca-b632-02898992ca6e",
+        "c63cee9a-08dc-499e-91ab-2b35e3b08c0e",
+
+      
       ],
     },
     BlogsPage: {

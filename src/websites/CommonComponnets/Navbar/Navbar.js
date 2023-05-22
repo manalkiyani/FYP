@@ -38,6 +38,10 @@ export default function Navbar(props) {
         </div>
 
         <div className={classes.left}>
+          <Link className={classes.link} to={`/dashboard`}>
+            Dashboard
+          </Link>
+
           <Link
             className={classes.link}
             to={`/${props.type}/template/${templateId}`}
@@ -79,7 +83,7 @@ export default function Navbar(props) {
               >
                 Manage Website
               </Menu.Item>
-                <Menu.Item
+              <Menu.Item
                 color="gray"
                 onClick={() => navigate("style")}
                 icon={<SettingsOutlinedIcon size="1rem" />}

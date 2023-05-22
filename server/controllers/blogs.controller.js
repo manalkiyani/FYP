@@ -153,6 +153,7 @@ function deleteBlog(req, res) {
 async function bookmarkBlog(req, res) {
   try {
     const { userId } = req.body; //assuming you also pass the userId from the frontend
+    console.log(userId)
     const user = await User.findById(userId); //find the user by their ID
 
     if (!user) {
