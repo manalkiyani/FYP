@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "../../../components/blocks/Header1/Header1.module.css";
 import ContentEditable from "react-contenteditable";
 import ViewerSocialIcons from "../viewerSocialIcons/viewerSocialIcons";
 import { useNavigate } from "react-router-dom";
 
 import handleButtonClick from "./HandleButtonClick";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 const ViewerHeader1 = (props) => {
+  const [template, setTemplate] = useState("");
+  const getTemplate = async () => {
+    const Template = await getTemplateId();
+    console.log(Template);
+    setTemplate(Template.type, Template.templateId);
+  };
+  useEffect(() => {
+    getTemplate();
+  }, []);
   const navigate = useNavigate();
   return (
     <div className={classes.header}>
@@ -43,7 +53,9 @@ const ViewerHeader1 = (props) => {
         />
 
         <ContentEditable
-          onClick={() => handleButtonClick(props.Data.data.btn?.link,navigate)}
+          onClick={() =>
+            handleButtonClick(props.Data.data.btn?.link, navigate, template)
+          }
           className={classes.btn}
           html={props.Data.data.btn.text}
           disabled={true}

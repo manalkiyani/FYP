@@ -4,7 +4,7 @@ import React from "react";
 import { useLocalStorageState } from "ahooks";
 import HandleDoctors from "./HandleDoctors";
 import { Messages } from "../../../CommonComponnets/Messages";
-
+import { ViewAppointment } from "./ViewAppointment";
 
 const ManageMedicalWebsite = () => {
   return (
@@ -35,11 +35,13 @@ const ManageMedicalWebsite = () => {
         </Tabs.List>
 
         <Tabs.Panel value="Doctors" pt="sm">
-            <HandleDoctors/>
+          <HandleDoctors />
         </Tabs.Panel>
-        <Tabs.Panel value="Appointments" pt="sm"></Tabs.Panel>
+        <Tabs.Panel value="Appointments" pt="sm">
+          <ViewAppointment />
+        </Tabs.Panel>
 
-       <Tabs.Panel value="Messages" pt="sm">
+        <Tabs.Panel value="Messages" pt="sm">
           <Space h="xl" />
 
           <Text fw={500} mb="md" mt="lg" order={4}>

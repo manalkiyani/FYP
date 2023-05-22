@@ -1,18 +1,20 @@
 
-const handleButtonClick = (link,navigate) => {
+const handleButtonClick =async (link,navigate,template) => {
   
-  const template = JSON.parse(localStorage.getItem("viewerTemplate"));
+ 
+ 
 
   if (link) {
+    console.log(link)
     if (link?.page !== "") {
-      navigate(`/view/${template.type}/template/${template.id}/${link.page}`);
+      navigate(`/view/${template?.type}/template/${template?.id}/${link.page}`);
     
 
     } else if (link?.url !== "") {
       window.open(link.url, "_blank");
     } else if (link?.detail !== "") {
       let page = "";
-      switch (template.type) {
+      switch (template?.type) {
         case "blog":
           page = "blogs";
           break;
@@ -27,7 +29,7 @@ const handleButtonClick = (link,navigate) => {
           break;
       }
       navigate(
-        `/view/${template.type}/template/${template.id}/${page}/${link.detail}`
+        `/view/${template?.type}/template/${template?.id}/${page}/${link.detail}`
       );
     }
   }
