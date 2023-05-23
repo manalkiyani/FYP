@@ -45,24 +45,27 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
 
   const [appointmentData, setAppointmentData] = useState([]);
 
+
+  const fetchAppointments = async () => {
+    const Template = await getTemplateId();
+    console.log(Template);
+    const response = await getWebsiteData(Template.templateId);
+    try {
+      const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
+        TEMPLATEID: templateId
+        // TEMPLATEID: '646b7e4f54142732f882a07c'
+      });
+      setAppointmentData(response.data);
+      console.log("this is apps got")
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchAppointments = async () => {
-      const Template = await getTemplateId();
-      console.log(Template);
-      const response = await getWebsiteData(Template.templateId);
-      try {
-        const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
-          TEMPLATEID: templateId
-          // TEMPLATEID: '646b7e4f54142732f882a07c'
-        });
-        setAppointmentData(response.data);
-        console.log("this is apps got")
-        console.log(response.data)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
+
     fetchAppointments();
   }, []);
   
@@ -78,6 +81,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
         }
       });
       setAppointmentData(updatedAppointments);
+      fetchAppointments();
     } catch (error) {
       console.error(error);
     }
@@ -90,35 +94,39 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
         appointmentData.map((appointment, index) => (
     
           <Card
-            style={{ width: "650px" }}
+            // style={{ width: "650px", marginBottom:'25px'}}
+            style={{ marginBottom:'25px',marginLeft:'-10%', marginRight:'15%'}}
             withBorder
             padding="sm"
             radius="md"
             className={classes.card}
             key={index}
           >
-            <Flex justify="space-between">
+            <Flex style={{backgroundColor:"#EDFAF8", paddingBottom:'12px'}} justify="space-between">
               <Group spacing="xl" mt="lg">
                 <Avatar
                   src="https://res.cloudinary.com/djlewzcd5/image/upload/v1683976266/pexels-pixabay-220453_eak891.jpg"
                   radius="sm"
                 />
                 <div>
-                  <Text fw={500}>Dr. {appointment.DoctorName}</Text>
-                  <Text fz="xs" c="dimmed">
+                  <Text style={{fontSize:'24px'}} fw={500}>Dr. {appointment.DoctorName}</Text>
+                  <Text style={{fontSize:'18px'}}  fz="xs" c="dimmed">
                     {appointment.Day} - {appointment.Time}
                   </Text>
                 </div>
               </Group>
-              <Badge mt="lg" color="red">
+              <Badge style={{fontSize:'12px', marginRight:'5px'}} mt="lg" color="blue">
                 {appointment.status}
+
+                
               </Badge>
+              
             </Flex>
   
             <Card.Section className={classes.footer}>
-              <Text fw={500}>Patients Info</Text>
-              <Text fw={300} fz="sm" mt="md">
-                Research indicates that staying physically active can help prevent or
+              <Text style={{fontSize:'22px'}} fw={500}>Patients Info</Text>
+              <Text style={{fontSize:'18px'}} fw={300} fz="sm" mt="md">
+                {/* Research indicates that staying physically active can help prevent or
                 delay certain diseases, including some cancers, heart disease and
                 diabetes, and also relieve depression and improve mood. Inactivity often
                 accompanies advancing age, but it doesn't have to. Check with your local
@@ -126,24 +134,29 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
                 and walking programs. Like exercise, your eating habits are often not
                 good if you live and eat alone. It's important for successful aging to
                 eat foods rich in nutrients and avoid the empty calories in candy and
-                sweets
+                sweets */}
+                {appointment.description}
               </Text>
               <Flex justify="space-between">
                 <Group spacing="xl" mt="lg">
+                <Text style={{fontSize:'24px'}} fw={500}>{appointment.PatientName}</Text>
                   <div style={{display:'flex'}}>
-                    <Text fw={500}>{appointment.PatientName}</Text>
-                    <Text fz="xs" c="dimmed">
+
+                    <Text style={{fontSize:'18px'}} fz="xs" c="dimmed">
                       18 years - female
                     </Text>
-                    {appointment.status === 'pending' ? <Button onClick={()=>handleCompleted(appointment._id)}>Complete</Button> :null }
 
                   </div>
                 </Group>
-                <Text mt="lg" fz="sm" c="dimmed">
+                <Text style={{fontSize:'18px'}} mt="lg" fz="sm" c="dimmed">
                   {appointment.sessionType}
                 </Text>
               </Flex>
             </Card.Section>
+            {appointment.status === 'pending' && <Card.Section  withBorder className={classes.footer} style={{display:'flex', justifyContent:'center', AlignItems:'center', backgroundColor:"#EDFAF8"}}>
+            {appointment.status === 'pending' ? <Badge style={{fontSize:'16px', marginTop:'10px', marginBottom:'10px'}} onClick={()=>handleCompleted(appointment._id)}>Complete Appointment</Badge> :null }
+
+            </Card.Section>}
           </Card>
         ))
       ) : (

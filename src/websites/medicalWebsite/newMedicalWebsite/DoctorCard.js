@@ -120,7 +120,6 @@ export function DoctorCard({
       p={0}
       className={classes.card}
     
-
     >
       <Group noWrap spacing={0}>
         <Image  onClick={()=> navigate(`${id}`)} src={image} height={190} width={160} />

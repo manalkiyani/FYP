@@ -16,6 +16,7 @@ import {
   Avatar,
   NumberInput,
   Space,
+  Textarea,
 } from "@mantine/core";
 import ReactQuill from "react-quill";
 import { uploadImage } from "../../../../../utilityFunctions/imageUpload";
@@ -72,7 +73,7 @@ const modules = {
     ],
   },
 };
-const AddDoctor = () => {
+const AddDoctor = ({setAddDoctor}) => {
   const [template, setTemplate] = useLocalStorageState("template", "");
 
   //save data
@@ -160,42 +161,45 @@ const AddDoctor = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8800/api/doctor/adddoctor",
-        data
-      );
-      setDoctorId(response.data._id);
-      await addSlotsToDatabase(response.data._id);
 
-      toast.success("Doctor Added Successfully");
-      setName("");
-      setGender("");
-      setDepartment("");
-      setLatestQualification("");
-      setDescription("");
-      setExperienceInMonths("");
-      setAddress("");
-      setAvailability({});
-      setSlots({
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
-      });
+    const response = await axios.post("http://localhost:8800/api/doctor/adddoctor", data);
+    setDoctorId(response.data._id);
 
-      const doctorId = response.data._id;
-      setTemplate({
-        ...template,
-        data: {
-          doctors: [...template.data.doctors, doctorId],
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      alert("Error adding doctor. Please try again later.");
-    }
-  };
+
+    await addSlotsToDatabase(response.data._id);
+
+    toast.success("Doctor Added Successfully");
+  
+    setAddDoctor(false);
+    setName("");
+    setGender("");
+    setDepartment("");
+    setLatestQualification("");
+    setDescription("");
+    setExperienceInMonths("");
+    setAddress("");
+    setAvailability({});
+    setSlots({
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+    });
+
+    const doctorId = response.data._id;
+    setTemplate({
+      ...template,
+      data: {
+        doctors: [...template.data.doctors, doctorId],
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Error adding doctor. Please try again later.");
+  }
+  }
+
   const addSlotsToDatabase = async (doctorId) => {
     try {
       const days = Object.keys(slots);
@@ -534,18 +538,53 @@ const AddDoctor = () => {
                 />
               </div>
             </div>
-            <Group position="center" mt="xl">
-              <Button variant="default" onClick={prevStep}>
-                Back
-              </Button>
-              <Button color="cyan" onClick={handleSubmit}>
-                Submit Now
-              </Button>
-            </Group>
-          </Stepper.Step>
-          <Stepper.Completed>
-            <div>
-              <h5>Doctor has been posted Successfully </h5>
+
+          </div>
+          <Group position="center" mt="xl">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button onClick={nextStep} color="cyan">
+              Next Step
+            </Button>
+          </Group>
+        </Stepper.Step>
+        <Stepper.Step label="Final step" description="Describe the doctor">
+          <Space h="xl" />
+          <div >
+            <h5 > Doctor Description</h5>
+            
+          </div>
+          <div >
+          
+            <div style={{ height: "50vh" }}>
+
+            <Textarea
+               placeholder={
+                "Describe the responsibilities of this Doctor, work experience,skills, or education"
+              }
+              style={{ height: "200%" }}
+
+              value={description}
+              onChange={handlesetDescription}
+
+      variant="filled"
+      withAsterisk
+  minRows={20}
+
+    />
+              {/* <ReactQuill
+                ref={quillRef}
+                placeholder={
+                  "Describe the responsibilities of this Doctor, work experience,skills, or education"
+                }
+                style={{ height: "90%" }}
+                theme="snow"
+                value={description}
+                onChange={handlesetDescription}
+                modules={modules}
+              /> */}
+
             </div>
           </Stepper.Completed>
         </Stepper>

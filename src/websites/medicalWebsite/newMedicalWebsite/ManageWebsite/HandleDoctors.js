@@ -33,6 +33,8 @@ const HandleDoctors = () => {
   const [productIds, setProductIds] = React.useState([]);
   const [template] = useLocalStorageState("template", "");
   const [doctors, setDoctors] = useState(null);
+
+
  
   React.useEffect(() => {
     console.log("in effect");
@@ -62,6 +64,7 @@ const HandleDoctors = () => {
   };
   useEffect(() => {
     getDoctors(template.data.doctors);
+
   }, []);
 
   return (
@@ -70,6 +73,8 @@ const HandleDoctors = () => {
 
       {addDoctor && (   
         <AddDoctor
+
+
           operation={operation}
           editId={editId}
           setAddDoctor={setAddDoctor}
@@ -122,6 +127,7 @@ const HandleDoctors = () => {
           handleEditProduct={handleEditProduct}
           productIds={productIds}
         /> */}
+
 
       </Flex>
     </>
