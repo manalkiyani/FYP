@@ -16,6 +16,7 @@ import {
   Avatar,
   NumberInput,
   Space,
+  Textarea,
 } from "@mantine/core";
 import ReactQuill from "react-quill";
 import { uploadImage } from "../../../../../utilityFunctions/imageUpload";
@@ -75,7 +76,7 @@ const modules = {
     ],
   },
 };
-const AddDoctor = () => {
+const AddDoctor = ({setAddDoctor}) => {
   const [template, setTemplate] = useLocalStorageState("template", "");
 
   //save data
@@ -166,9 +167,13 @@ const AddDoctor = () => {
     try {
     const response = await axios.post("http://localhost:8800/api/doctor/adddoctor", data);
     setDoctorId(response.data._id);
+
+
     await addSlotsToDatabase(response.data._id);
 
     toast.success("Doctor Added Successfully");
+  
+    setAddDoctor(false);
     setName("");
     setGender("");
     setDepartment("");
@@ -517,7 +522,22 @@ const AddDoctor = () => {
           <div >
           
             <div style={{ height: "50vh" }}>
-              <ReactQuill
+
+            <Textarea
+               placeholder={
+                "Describe the responsibilities of this Doctor, work experience,skills, or education"
+              }
+              style={{ height: "200%" }}
+
+              value={description}
+              onChange={handlesetDescription}
+
+      variant="filled"
+      withAsterisk
+  minRows={20}
+
+    />
+              {/* <ReactQuill
                 ref={quillRef}
                 placeholder={
                   "Describe the responsibilities of this Doctor, work experience,skills, or education"
@@ -527,7 +547,7 @@ const AddDoctor = () => {
                 value={description}
                 onChange={handlesetDescription}
                 modules={modules}
-              />
+              /> */}
             </div>
           </div>
           <Group position="center" mt="xl">

@@ -326,9 +326,9 @@ const getAppointmentstoAdmin = async (req, res) => {
         .exec();
         console.log(appointment+ " this is appointmnt data")
 
-      if (appointment.isComplete) {
+      // if (!appointment.isComplete) {
         incompleteAppointments.push(appointment);
-      }
+      // }
     }
 
     console.log(incompleteAppointments+" incompleteAppointments")
@@ -336,7 +336,7 @@ const getAppointmentstoAdmin = async (req, res) => {
 
 
     const appointmentInfo = incompleteAppointments.map((appointment) => {
-      const { _id, name, sessionType, Day, Time, doctorid, patientid, status } = appointment;
+      const { _id, name, sessionType, Day, Time, doctorid, patientid, status, description } = appointment;
       console.log(_id);
 
       const patientName = patientid ? patientid.username : "Unknown";
@@ -353,11 +353,13 @@ const getAppointmentstoAdmin = async (req, res) => {
         DoctorAddress: doctorid.address,
         Department: doctorid.department,
         PatientName: name,
-        sessionType
+        sessionType,
+        description
       };
     });
 
-    // console.log(appointmentInfo)
+    console.log("as a res")
+    console.log(appointmentInfo)
 
     res.json(appointmentInfo);
   } catch (error) {

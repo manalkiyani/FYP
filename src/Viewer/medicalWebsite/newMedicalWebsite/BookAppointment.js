@@ -19,6 +19,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import { getTemplateId } from "../././../../../src/utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../././../../../src/utilityFunctions/websiteDataController";
 const inputStyles = createStyles((theme) => ({
   container: {
     width: rem(350),
@@ -65,11 +67,12 @@ const BookAppointment = () => {
   const [description, setDescription] = useState("");
   const [day, setDay] = useState("");
   const { doctorId } = useParams();
+  const [viewerId, setViewerId] = useState();
 
   const [combinedTime, setCombinedTime] = useState("");
-  const viewer = localStorage.getItem("viewer");
-  const viewerObj = JSON.parse(viewer);
-  const viewerId = viewerObj._id;
+  // const viewer = localStorage.getItem("viewer");
+  // const viewerObj = JSON.parse(viewer);
+  // const viewerId = viewerObj._id;
   const [templateId, setTemplateId] = useLocalStorageState("templateId", "");
 
   const navigate = useNavigate();
@@ -77,6 +80,23 @@ const BookAppointment = () => {
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
+
+  useEffect(() => {
+    // Asynchronous logic...
+    const fetchData = async () => {
+      try {
+        const template = await getTemplateId();
+
+        const response = await getWebsiteData(template.templateId);
+        setViewerId(response.websiteData.viewerId);
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   /***************************
    *
@@ -132,7 +152,7 @@ const BookAppointment = () => {
           age,
         })
         .then(async (appointmentRes) => {
-          let appointmentId = appointmentRes.data._id;
+          let appointmentId = appointmentRes?.data?._id;
           console.log("this is appointment id" + appointmentId);
           try {
             const response = await axios.put(
@@ -160,6 +180,8 @@ const BookAppointment = () => {
 
     // Check if slots for the selected day are already fetched
     if (slots.length > 0) {
+      console.log(slots);
+      console.log('in if')
       setSlots([]);
     }
 
