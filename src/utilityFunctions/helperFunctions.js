@@ -340,6 +340,7 @@ export const updateComponentData = (
   tag,
   type
 ) => {
+  console.log("components",components)
   let position = 0;
   const componentsList = cloneDeep(components);
 

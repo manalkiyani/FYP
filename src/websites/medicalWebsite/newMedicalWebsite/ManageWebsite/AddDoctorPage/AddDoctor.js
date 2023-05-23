@@ -26,15 +26,12 @@ const inputStyles = createStyles((theme) => ({
   root: {
     position: "relative",
   },
-  time:{
-      height: rem(35),
-      border:'1px solid #ccc',
-      width:rem(150),
-     
-       marginBottom:rem(16)
+  time: {
+    height: rem(35),
+    border: "1px solid #ccc",
+    width: rem(150),
 
-      
-   
+    marginBottom: rem(16),
   },
 
   input: {
@@ -121,7 +118,6 @@ const AddDoctor = () => {
       !gender ||
       !department ||
       !latestQualification ||
-
       !experienceInMonths ||
       !address ||
       Object.keys(availability).length === 0 ||
@@ -137,8 +133,8 @@ const AddDoctor = () => {
         address,
         availability,
         slots
-      )
-     
+      );
+
       toast.error("Please fill all fields including availability.");
       return;
     }
@@ -164,39 +160,42 @@ const AddDoctor = () => {
     };
 
     try {
-    const response = await axios.post("http://localhost:8800/api/doctor/adddoctor", data);
-    setDoctorId(response.data._id);
-    await addSlotsToDatabase(response.data._id);
+      const response = await axios.post(
+        "http://localhost:8800/api/doctor/adddoctor",
+        data
+      );
+      setDoctorId(response.data._id);
+      await addSlotsToDatabase(response.data._id);
 
-    toast.success("Doctor Added Successfully");
-    setName("");
-    setGender("");
-    setDepartment("");
-    setLatestQualification("");
-    setDescription("");
-    setExperienceInMonths("");
-    setAddress("");
-    setAvailability({});
-    setSlots({
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-    });
+      toast.success("Doctor Added Successfully");
+      setName("");
+      setGender("");
+      setDepartment("");
+      setLatestQualification("");
+      setDescription("");
+      setExperienceInMonths("");
+      setAddress("");
+      setAvailability({});
+      setSlots({
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+      });
 
-    const doctorId = response.data._id;
-    setTemplate({
-      ...template,
-      data: {
-        doctors: [...template.data.doctors, doctorId],
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    alert("Error adding doctor. Please try again later.");
-  }
-  }
+      const doctorId = response.data._id;
+      setTemplate({
+        ...template,
+        data: {
+          doctors: [...template.data.doctors, doctorId],
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      alert("Error adding doctor. Please try again later.");
+    }
+  };
   const addSlotsToDatabase = async (doctorId) => {
     try {
       const days = Object.keys(slots);
@@ -260,15 +259,12 @@ const AddDoctor = () => {
       ...prevSlots,
       [day]: value ? splitTimeRange(value.start, value.end) : [],
     }));
-
-    
   };
 
-  const handlesetDescription = (event) =>{
+  const handlesetDescription = (event) => {
     setDescription(event.target.value);
-    console.log("this is descriptn"+ description)
-
-  }
+    console.log("this is descriptn" + description);
+  };
 
   const quillRef = React.useRef(null);
 
@@ -297,259 +293,266 @@ const AddDoctor = () => {
 
   return (
     <>
-    <Toaster position="top-center" />
-     <div >
-      <Stepper
-        color="cyan"
-        mt={20}
-        active={active}
-        onStepClick={setActive}
-        breakpoint="sm"
-      >
-        <Stepper.Step
-          label="First step"
-          description="Provide basic information"
+      <Toaster position="top-center" />
+      <div>
+        <Stepper
+          color="cyan"
+          mt={20}
+          active={active}
+          onStepClick={setActive}
+          breakpoint="sm"
         >
-        
-          <div >
-            <Group>
-              <Avatar
-                style={{
-                  width: "150px",
-                  height: "150px",
-                  marginBottom: "10px",
-                }}
-                radius="xl"
-                src={displayImage}
-                alt="it's me"
-              />
-
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                <img
-                  style={{ marginRight: "10px", width: "20px", height: "20px" }}
-                  className="writeIcon"
-                  alt=""
-                  src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670250225/plus_2_qak15o.png"
-                />{" "}
-                Add Image
-                <input
-                  multiple
-                  className="input"
-                  type="file"
-                  name="file"
-                  onChange={fileChange}
-                ></input>
-              </label>
-            </Group>
-            <Group spacing="xs" grow>
-              <TextInput
-                label="Doctor Name"
-                placeholder="Dr. Jeffrey"
-                classNames={classes}
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-
-              <Select
-                mt="md"
-                mb={15}
-                withinPortal
-                data={[
-                  "Cardiology",
-                  "Neurology",
-                  "Dermatology",
-                  "Orthopedics",
-                  "Gastroenterology",
-                  "Ophthalmology",
-                  "Endocrinology",
-                  "Psychiatry",
-                  "Oncology",
-                  "Rheumatology",
-                  "Nephrology",
-                  "Urology",
-                  "Pulmonology",
-                  "Allergy and Immunology",
-                  "Infectious Disease",
-                  "Hematology",
-                  "Physical Medicine and Rehabilitation",
-                  "Pediatrics",
-                  "Geriatrics",
-                  "Emergency Medicine",
-                ]}
-                value={department}
-                onChange={setDepartment}
-                placeholder="Pick one"
-                label="Department"
-                classNames={classes}
-                required
-              />
-            </Group>
-            <Group spacing="xs" grow>
-              <TextInput
-                label="Address"
-                placeholder="Office 245, 2nd Floor, Cardiac Block"
-                classNames={classes}
-                required
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-
-              <Select
-                mt="md"
-                mb={15}
-                withinPortal
-                data={["Male", "Female", "Custom"]}
-                value={gender}
-                onChange={setGender}
-                placeholder="Pick one"
-                label="Gender"
-                classNames={classes}
-                required
-              />
-            </Group>
-            <Group spacing="xs" grow>
-              <NumberInput
-                defaultValue={4}
-                placeholder="18 years"
-                label="Experience (years)"
-                withAsterisk
-                value={experienceInMonths}
-                onChange={setExperienceInMonths}
-              />
-              <div>
-                <Text className={classes.text} mb={10}>
-                  Highest Qualification
-                </Text>
-                <SegmentedControl
-                  fullWidth
+          <Stepper.Step
+            label="First step"
+            description="Provide basic information"
+          >
+            <div>
+              <Group>
+                <Avatar
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    marginBottom: "10px",
+                  }}
                   radius="xl"
-                  size="sm"
-                  data={[
-                    "Associate",
-                    "Masters",
-                    "Bachelors",
-                    "Ph.D",
-                    "Pursuing Degree",
-                  ]}
-                  onChange={setLatestQualification}
-                  value={latestQualification}
+                  src={displayImage}
+                  alt="it's me"
                 />
-              </div>
+
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <img
+                    style={{
+                      marginRight: "10px",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                    className="writeIcon"
+                    alt=""
+                    src="https://res.cloudinary.com/djlewzcd5/image/upload/v1670250225/plus_2_qak15o.png"
+                  />{" "}
+                  Add Image
+                  <input
+                    multiple
+                    className="input"
+                    type="file"
+                    name="file"
+                    onChange={fileChange}
+                  ></input>
+                </label>
+              </Group>
+              <Group spacing="xs" grow>
+                <TextInput
+                  label="Doctor Name"
+                  placeholder="Dr. Jeffrey"
+                  classNames={classes}
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+
+                <Select
+                  mt="md"
+                  mb={15}
+                  withinPortal
+                  data={[
+                    "Cardiology",
+                    "Neurology",
+                    "Dermatology",
+                    "Orthopedics",
+                    "Gastroenterology",
+                    "Ophthalmology",
+                    "Endocrinology",
+                    "Psychiatry",
+                    "Oncology",
+                    "Rheumatology",
+                    "Nephrology",
+                    "Urology",
+                    "Pulmonology",
+                    "Allergy and Immunology",
+                    "Infectious Disease",
+                    "Hematology",
+                    "Physical Medicine and Rehabilitation",
+                    "Pediatrics",
+                    "Geriatrics",
+                    "Emergency Medicine",
+                  ]}
+                  value={department}
+                  onChange={setDepartment}
+                  placeholder="Pick one"
+                  label="Department"
+                  classNames={classes}
+                  required
+                />
+              </Group>
+              <Group spacing="xs" grow>
+                <TextInput
+                  label="Address"
+                  placeholder="Office 245, 2nd Floor, Cardiac Block"
+                  classNames={classes}
+                  required
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+
+                <Select
+                  mt="md"
+                  mb={15}
+                  withinPortal
+                  data={["Male", "Female", "Custom"]}
+                  value={gender}
+                  onChange={setGender}
+                  placeholder="Pick one"
+                  label="Gender"
+                  classNames={classes}
+                  required
+                />
+              </Group>
+              <Group spacing="xs" grow>
+                <NumberInput
+                  defaultValue={4}
+                  placeholder="18 years"
+                  label="Experience (years)"
+                  withAsterisk
+                  value={experienceInMonths}
+                  onChange={setExperienceInMonths}
+                />
+                <div>
+                  <Text className={classes.text} mb={10}>
+                    Highest Qualification
+                  </Text>
+                  <SegmentedControl
+                    fullWidth
+                    radius="xl"
+                    size="sm"
+                    data={[
+                      "Associate",
+                      "Masters",
+                      "Bachelors",
+                      "Ph.D",
+                      "Pursuing Degree",
+                    ]}
+                    onChange={setLatestQualification}
+                    value={latestQualification}
+                  />
+                </div>
+              </Group>
+            </div>
+            <Space h="xl" />
+            <Group position="center" mt="xl">
+              <Button variant="default" onClick={prevStep}>
+                Back
+              </Button>
+              <Button onClick={nextStep} color="cyan">
+                Next Step
+              </Button>
             </Group>
-          </div>
-          <Space h="xl" />
-          <Group position="center" mt="xl">
-            <Button variant="default" onClick={prevStep}>
-              Back
-            </Button>
-            <Button onClick={nextStep} color="cyan">
-              Next Step
-            </Button>
-          </Group>
-        </Stepper.Step>
-        <Stepper.Step label="Second step" description="Add Availability">
-          <div >
-             <Space h="xl" />
-            <h5 > Available Time Slots</h5>
-            {/* <img  src={job1} alt="girlOnLaptop" /> */}
-          </div>
-         
-          <div >
+          </Stepper.Step>
+          <Stepper.Step label="Second step" description="Add Availability">
+            <div>
+              <Space h="xl" />
+              <h5> Available Time Slots</h5>
+              {/* <img  src={job1} alt="girlOnLaptop" /> */}
+            </div>
+
+            <div>
+              <Space h="xl" />
+              <div>
+                {["monday", "tuesday", "wednesday", "thursday", "friday"].map(
+                  (day) => (
+                    <div key={day}>
+                      {day.charAt(0).toUpperCase() + day.slice(1)}:{" "}
+                      <input
+                        style={{
+                          marginLeft:
+                            day === "wednesday"
+                              ? "77px"
+                              : day === "friday"
+                              ? "115px"
+                              : day === "thursday"
+                              ? "95px"
+                              : "100px",
+                        }}
+                        className={classes.time}
+                        type="time"
+                        value={availability[day] ? availability[day].start : ""}
+                        onChange={(e) =>
+                          handleAvailabilityChange(day, {
+                            ...(availability[day] || {}),
+                            start: e.target.value,
+                          })
+                        }
+                      />{" "}
+                      -{" "}
+                      <input
+                        className={classes.time}
+                        type="time"
+                        value={availability[day] ? availability[day].end : ""}
+                        onChange={(e) =>
+                          handleAvailabilityChange(day, {
+                            ...(availability[day] || {}),
+                            end: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+            <Group position="center" mt="xl">
+              <Button variant="default" onClick={prevStep}>
+                Back
+              </Button>
+              <Button onClick={nextStep} color="cyan">
+                Next Step
+              </Button>
+            </Group>
+          </Stepper.Step>
+          <Stepper.Step label="Final step" description="Describe the doctor">
             <Space h="xl" />
             <div>
-              {["monday", "tuesday", "wednesday", "thursday", "friday"].map(
-                (day) => (
-                  <div key={day}>
-                    {day.charAt(0).toUpperCase() + day.slice(1)}:{" "}
-                    <input
-                   style={{marginLeft: day === "wednesday" ?  '77px' : 
-                   day === "friday" ? '115px' :  day === "thursday" ? '95px' :'100px'  }}
-
-                    className={classes.time}
-                      type="time"
-                      value={availability[day] ? availability[day].start : ""}
-                      onChange={(e) =>
-                        handleAvailabilityChange(day, {
-                          ...(availability[day] || {}),
-                          start: e.target.value,
-                        })
-                      }
-                    />{" "}
-                    -{" "}
-                    <input
-                     className={classes.time}
-                      type="time"
-                      value={availability[day] ? availability[day].end : ""}
-                      onChange={(e) =>
-                        handleAvailabilityChange(day, {
-                          ...(availability[day] || {}),
-                          end: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                )
-              )}
+              <h5> Doctor Description</h5>
             </div>
-          </div>
-          <Group position="center" mt="xl">
-            <Button variant="default" onClick={prevStep}>
-              Back
-            </Button>
-            <Button onClick={nextStep} color="cyan">
-              Next Step
-            </Button>
-          </Group>
-        </Stepper.Step>
-        <Stepper.Step label="Final step" description="Describe the doctor">
-          <Space h="xl" />
-          <div >
-            <h5 > Doctor Description</h5>
-            
-          </div>
-          <div >
-          
-            <div style={{ height: "50vh" }}>
-              <ReactQuill
-                ref={quillRef}
-                placeholder={
-                  "Describe the responsibilities of this Doctor, work experience,skills, or education"
-                }
-                style={{ height: "90%" }}
-                theme="snow"
-                value={description}
-                onChange={handlesetDescription}
-                modules={modules}
-              />
+            <div>
+              <div style={{ height: "50vh" }}>
+                <ReactQuill
+                  ref={quillRef}
+                  placeholder={
+                    "Describe the responsibilities of this Doctor, work experience,skills, or education"
+                  }
+                  style={{ height: "90%" }}
+                  theme="snow"
+                  value={description}
+                  onChange={handlesetDescription}
+                  modules={modules}
+                />
+              </div>
             </div>
-          </div>
-          <Group position="center" mt="xl">
-            <Button variant="default" onClick={prevStep}>
-              Back
-            </Button>
-            <Button color="cyan" onClick={handleSubmit}>
-              Submit Now
-            </Button>
-          </Group>
-        </Stepper.Step>
-        <Stepper.Completed>
-          <div >
-            <h5>Doctor has been posted Successfully </h5>
-          </div>
-        </Stepper.Completed>
-      </Stepper>
+            <Group position="center" mt="xl">
+              <Button variant="default" onClick={prevStep}>
+                Back
+              </Button>
+              <Button color="cyan" onClick={handleSubmit}>
+                Submit Now
+              </Button>
+            </Group>
+          </Stepper.Step>
+          <Stepper.Completed>
+            <div>
+              <h5>Doctor has been posted Successfully </h5>
+            </div>
+          </Stepper.Completed>
+        </Stepper>
 
-      {/* basic information */}
-    </div>
+        {/* basic information */}
+      </div>
     </>
-   
   );
 };
 

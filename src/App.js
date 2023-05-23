@@ -94,6 +94,8 @@ import { ViewerNavbar1 } from "./Viewer/ManageViewerNavbar/ViewerNavbar1";
 import { ViewerNavbar2 } from "./Viewer/ManageViewerNavbar/ViewerNavbar2";
 import { ViewerNavbar3 } from "./Viewer/ManageViewerNavbar/ViewerNavbar3";
 import ManageViewerNavbar from "./Viewer/ManageViewerNavbar/ManageViewerNavbar";
+import axios from "axios";
+import { addTemplateId } from "./utilityFunctions/TemplateIdController";
 
 const theme = createTheme({
   palette: {
@@ -110,6 +112,42 @@ const App = () => {
   const [contextImage, setContextImage] = React.useState(null);
 
   const [user, setUser] = React.useState(null);
+
+  //manageWebsiteNavigation
+
+  const manageWebsiteNavigation = async () => {
+    // Get the subdomain from the URL
+    const Subdomain = window.location.hostname.split(".")[0];
+    console.log(Subdomain);
+
+    if (Subdomain) {
+      try {
+        // Send a request to the backend function
+        const response = await axios.get(
+          `http://localhost:8800/api/templates/website/${Subdomain}`
+        );
+        const { publishedWebsite } = response.data;
+        console.log(publishedWebsite);
+
+        // Extract necessary data from the response
+        const { subdomain, type, templateid } = publishedWebsite;
+        await addTemplateId(templateid, type);
+
+        // Navigate to the appropriate URL if the website exists
+        window.location.href = `http://${subdomain}.localhost:3000/view/${type}/template/${templateid}`;
+      } catch (error) {
+        console.error(error);
+        // Handle error if the website does not exist
+      }
+    }
+  };
+
+  //handle websites in URL bar
+  React.useEffect(() => {
+    if (window.location.pathname === "/") {
+      manageWebsiteNavigation();
+    }
+  }, []);
 
   return (
     <UserContext.Provider

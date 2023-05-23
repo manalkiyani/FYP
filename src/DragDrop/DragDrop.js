@@ -39,16 +39,20 @@ const DragDrop = ({
   setTextEditor,
  
 }) => {
+
+  console.log("components in drag drop", components)
   const closeEditor = () => {
     setTextEditorDisplayed(false);
   };
 
   const setTextEditorHandler = (
+    components,   
     idFromComponent,
     tagFromComponent = 0,
     index = 0,
     type
   ) => {
+    console.log("components to text editor",components)
     const clickedComponent = components.find(
       (ele) => ele.key === idFromComponent
     );
@@ -184,6 +188,7 @@ const DragDrop = ({
                               type
                             ) =>
                               setTextEditorHandler(
+                                components,
                                 idFromComponent,
                                 tagFromComponent,
                                 index,

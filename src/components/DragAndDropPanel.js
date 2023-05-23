@@ -17,7 +17,7 @@ const DragAndDropPanel = (props) => {
             color: "#fff",
           }}
         >
-          <p style={{ fontSize: "20px", margin: 0 }}> Drag Blocks to Page</p>
+          <p style={{ fontSize: "20px", margin: 0 }}> Drag Components to Page</p>
         </div>
         <div
           style={{
@@ -62,6 +62,17 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
+           <h5>People And Team</h5>
+          {blocks.map((item) => {
+            return item.type === "people1" || item.type === "people2" ? (
+              <Image
+                dragStart={props.dragStartHandler}
+                key={item.type}
+                id={item.type}
+                source={require("../assets/imgs/" + item.img)}
+              />
+            ) : null;
+          })}
           <h5>About Section</h5>
           {blocks.map((item) => {
             return item.type === "about1" ? (
@@ -84,17 +95,7 @@ const DragAndDropPanel = (props) => {
               />
             ) : null;
           })}
-             <h5>People And Team</h5>
-          {blocks.map((item) => {
-            return item.type === "people1" || item.type === "people2" ? (
-              <Image
-                dragStart={props.dragStartHandler}
-                key={item.type}
-                id={item.type}
-                source={require("../assets/imgs/" + item.img)}
-              />
-            ) : null;
-          })}
+            
         </div>
       </>
     </SideDrawer>
