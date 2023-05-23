@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../App";
-import { v4 as uuid } from "uuid";
-import SaveBtn from "../../components/Buttons/SaveBtn";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import DragDrop from "../../DragDrop/DragDrop";
-import UpdateBtn from "../../components/Buttons/UpdateBtn";
+
 import { mapAdminBlocks } from "../../utilityFunctions/helperFunctions";
 import { unmapBlocks } from "../../utilityFunctions/helperFunctions";
 import { useLocalStorageState } from "ahooks";
 import cloneDeep from "lodash/cloneDeep";
 const Main = (props) => {
-  const { id } = useParams();
-  // const { template, setTemplate } = useContext(UserContext);
+ 
+
   const [template, setTemplate] = useLocalStorageState("template", "");
   const [components, setComponents] = useState([]);
   const [tag, setTag] = useState(null);
@@ -24,7 +21,7 @@ const Main = (props) => {
   const [type, setType] = useState(null);
   const [showDragDrop, setShowDragDrop] = useState(false);
 
-  //inside context , i will have blocks complete info
+  
 
   useEffect(() => {
     components && setLocalStorage();

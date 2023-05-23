@@ -494,3 +494,25 @@ exports.getAllPublishedWebsites = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+exports.getWebsitebySubdomain = async (req, res) => {
+  try {
+    console.log("in subdomain");
+    // const { templateId } = req.body;
+    const { subdomain } = req.params;
+    const lower = subdomain.toLo
+
+    // Find the first document in PublishedWebsites that matches the templateId
+    const publishedWebsite = await publishedwebsites.findOne({subdomain :subdomain ,
+    });
+    console.log("this is subdomain" + subdomain);
+
+    if (!publishedWebsite) {
+      return res.status(404).json({ error: "Published website not found" });
+    }
+
+    return res.status(200).json({ publishedWebsite });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};

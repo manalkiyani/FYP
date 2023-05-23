@@ -8,15 +8,16 @@ import handleButtonClick from "./HandleButtonClick";
 import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 const ViewerHeader1 = (props) => {
-  const [template, setTemplate] = useState("");
-  const getTemplate = async () => {
+  const handleClick = async () => {
     const Template = await getTemplateId();
-    console.log(Template);
-    setTemplate(Template.type, Template.templateId);
+
+    handleButtonClick(
+      props.Data.data.btn?.link,
+      navigate,
+      Template.type,
+      Template.templateId
+    );
   };
-  useEffect(() => {
-    getTemplate();
-  }, []);
   const navigate = useNavigate();
   return (
     <div className={classes.header}>
@@ -53,9 +54,7 @@ const ViewerHeader1 = (props) => {
         />
 
         <ContentEditable
-          onClick={() =>
-            handleButtonClick(props.Data.data.btn?.link, navigate, template)
-          }
+          onClick={handleClick}
           className={classes.btn}
           html={props.Data.data.btn.text}
           disabled={true}
