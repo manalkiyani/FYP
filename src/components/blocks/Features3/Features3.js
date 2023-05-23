@@ -4,12 +4,29 @@ import classes from "./Features3.module.css";
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
+import UploadImage from "../../uploadImage/uploadImage";
+import { uploadImage } from "../../../utilityFunctions/imageUpload";
 
 export default class Features3 extends Component {
   state = {
     displayHandleBlock: false,
-  };
 
+    cardImages: [],
+  };
+  handleImageChange = async (event, index) => {
+    console.log("in here features 2 ");
+    console.log("index", index);
+    const cardImages = { ...this.state.cardImages };
+    cardImages[index] = event.target.files[0];
+    this.setState({ cardImages });
+    try {
+      const link = await uploadImage(event.target.files[0]);
+      console.log(link);
+      this.props.changeCardImage(link, index, this.props.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   delCard = (index) => {
     this.props.deleteCard(index, this.props.id);
   };
@@ -75,6 +92,13 @@ export default class Features3 extends Component {
                 }}
               >
                 <DelCard del={this.delCard} index={index} />
+                <UploadImage
+                  top={5}
+                  left={5}
+                  handleImageChange={this.handleImageChange}
+                  index={index}
+                  image={this.state.cardImages[index]}
+                />
 
                 <div className={classes.container}>
                   <ContentEditable

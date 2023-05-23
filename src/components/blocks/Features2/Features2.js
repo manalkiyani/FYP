@@ -1,186 +1,236 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import classes from "./Features2.module.css";
+
 import DelCard from "../delCard/delCard";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
 import { uploadImage } from "../../../utilityFunctions/imageUpload";
 import UploadImage from "../../uploadImage/uploadImage";
+export default class Features2 extends Component {
+  state = {
+    displayHandleBlock: false,
 
-const Features2 = ({
-  linkCardButton,
-  id,
-  deleteCard,
-  changeCardImage,
-  changeText,
-  deleteBlock,
-  enableDrag,
-  addCard,
-  setLayout,
-  onClick,
-  Data,
-}) => {
-  const [displayHandleBlock, setDisplayHandleBlock] = useState(false);
-  const [cardImages, setCardImages] = useState([]);
+    cardImages: [],
+  };
 
-  const handleLink = (object, index) => {
-    linkCardButton(object, index, id);
+  delCard = (index) => {
+    console.log(index);
+    this.props.deleteCard(index, this.props.id);
+  };
+  handleLink = (object, index) => {
+    this.props.linkCardButton(object, index, this.props.id);
     console.log(object);
   };
 
-  const delCard = (index) => {
-    console.log(index);
-    deleteCard(index, id);
-  };
-
-  const handleImageChange = async (event, index) => {
+  handleImageChange = async (event, index) => {
     console.log("in here features 2 ");
     console.log("index", index);
-    const cardImagesCopy = [...cardImages];
-    cardImagesCopy[index] = event.target.files[0];
-    setCardImages(cardImagesCopy);
+    const cardImages = { ...this.state.cardImages };
+    cardImages[index] = event.target.files[0];
+    this.setState({ cardImages });
     try {
       const link = await uploadImage(event.target.files[0]);
       console.log(link);
-      changeCardImage(link, index, id);
+      this.props.changeCardImage(link, index, this.props.id);
     } catch (err) {
       console.log(err);
     }
   };
-
-  const handleTextChange = (e, index, tag) => {
-    changeText(e.target.value, index, tag, id, "features2");
+  handleTextChange = (e, index, tag) => {
+    this.props.changeText(
+      e.target.value,
+      index,
+      tag,
+      this.props.id,
+      "features2"
+    );
   };
 
-  return (
-    <div
-      onMouseEnter={() => {
-        setDisplayHandleBlock(true);
-      }}
-      onMouseLeave={() => {
-        setDisplayHandleBlock(false);
-      }}
-      className={classes.panel}
-    >
-      {displayHandleBlock && (
-        <HandleBlock
-          id={id}
-          del={() => deleteBlock(id)}
-          enableDrag={enableDrag}
-          displayAddCard={true}
-          addCard={() => addCard(id)}
-          layout={Data.layout}
-          displaySetLayout={true}
-          setLayout={setLayout}
-          options={[
-            { text: "5 cards - width 20%", value: 5 },
-            { text: "4 cards - width 30%", value: 4 },
-            { text: "3 cards - width 40%", value: 3 },
-          ]}
-        ></HandleBlock>
-      )}
+  handleBtnClick = () => {};
 
-      {Object.keys(Data.data).map((index) => {
-        return (
-          <div
-            key={index}
-            style={{
-              width:
-                Data.layout === 5 ? "17%" : Data.layout === 4 ? "20%" : "24%",
-            }}
-            className={classes.card}
-          >
-            <DelCard
-              displayLink="show"
-              displayColor="show"
-              handleLink={handleLink}
-              del={delCard}
-              index={index}
-            />
+  render() {
+    return (
+      <div
+        onMouseEnter={() => {
+          this.setState({
+            displayHandleBlock: true,
+          });
+        }}
+        onMouseLeave={() => {
+          this.setState({
+            displayHandleBlock: false,
+          });
+        }}
+        className={classes.panel}
+      >
+        {this.state.displayHandleBlock && (
+          <HandleBlock
+            id={this.props.id}
+            del={() => this.props.deleteBlock(this.props.id)}
+            enableDrag={this.props.enableDrag}
+            displayAddCard={true}
+            addCard={() => this.props.addCard(this.props.id)}
+            layout={this.props.Data.layout}
+            displaySetLayout={true}
+            setLayout={this.props.setLayout}
+            options={[
+              { text: "5 cards - width 20%", value: 5 },
+              { text: "4 cards - width 30%", value: 4 },
+              { text: "3 cards - width 40%", value: 3 },
+            ]}
+          ></HandleBlock>
+        )}
 
-            <UploadImage
-              top={5}
-              left={5}
-              handleImageChange={(event) => handleImageChange(event, index)}
-              index={index}
-              image={cardImages[index]}
-            />
-            <img className={classes.img} src={Data.data[index].bg.picture} />
-            <div className={classes.container}>
-              <ContentEditable
-                html={Data.data[index].h.text}
-                disabled={false}
-                onClick={() => onClick(id, "h", index, "features2")}
-                onChange={(e) => handleTextChange(e, index, "h")}
-                style={{
-                  fontSize: Data.data[index].h.size,
-                  fontFamily: Data.data[index].h.family,
-                  color: Data.data[index].h.color,
-                  fontWeight: Data.data[index].h.bold ? "bold" : "normal",
-                  textDecoration: Data.data[index].h.underline
-                    ? "underline"
-                    : "none",
-                  fontStyle: Data.data[index].h.italic ? "italic" : "normal",
-                  textAlign: Data.data[index].h.align,
-                }}
-              />{" "}
-              <ContentEditable
-                html={Data.data[index].s.text}
-                disabled={false}
-                className={classes.subHeading}
-                onClick={() => onClick(id, "s", index, "features2")}
-                onChange={(e) => handleTextChange(e, index, "s")}
-                style={{
-                  fontSize: Data.data[index].s.size,
-                  fontFamily: Data.data[index].s.family,
-                  color: Data.data[index].s.color,
-                  fontWeight: Data.data[index].s.bold ? "bold" : "normal",
-                  textDecoration: Data.data[index].s.underline
-                    ? "underline"
-                    : "none",
-                  fontStyle: Data.data[index].s.italic ? "italic" : "normal",
-                  textAlign: Data.data[index].s.align,
-                }}
+        {Object.getOwnPropertyNames(this.props.Data.data).map((index) => {
+          return (
+            <div
+              key={index}
+              style={{
+                width:
+                  this.props.Data.layout === 5
+                    ? "17%"
+                    : this.props.Data.layout === 4
+                    ? "20%"
+                    : "24%",
+              }}
+              className={classes.card}
+            >
+              <DelCard
+                del={this.delCard}
+                index={index}
+                displayLink="show"
+                displayColor="show"
+                handleLink={this.handleLink}
               />
-              <ContentEditable
-                html={Data.data[index].p.text}
-                disabled={false}
-                onClick={() => onClick(id, "p", index, "features2")}
-                onChange={(e) => handleTextChange(e, index, "p")}
-                style={{
-                  fontSize: Data.data[index].p.size,
-                  fontFamily: Data.data[index].p.family,
-                  color: Data.data[index].p.color,
-                  fontWeight: Data.data[index].p.bold ? "bold" : "normal",
-                  textDecoration: Data.data[index].p.underline
-                    ? "underline"
-                    : "none",
-                  fontStyle: Data.data[index].p.italic ? "italic" : "normal",
-                  textAlign: Data.data[index].p.align,
-                }}
+
+              {this.state.displayHandleBlock && (
+                <UploadImage
+                  top={5}
+                  left={5}
+                  handleImageChange={this.handleImageChange}
+                  index={index}
+                  image={this.state.cardImages[index]}
+                />
+              )}
+              <img
+                className={classes.img}
+                src={this.props.Data.data[index].bg.picture}
               />
-              <ContentEditable
-                html={Data.data[index].btn.text}
-                disabled={false}
-                className={classes.btn}
-                onClick={() => onClick(id, "btn", index, "features2")}
-                onChange={(e) => handleTextChange(e, index, "btn")}
-                style={{
-                  fontSize: Data.data[index].btn.size,
-                  fontFamily: Data.data[index].btn.family,
-                  color: Data.data[index].btn.color,
-                  fontWeight: Data.data[index].btn.bold ? "bold" : "normal",
-                  textDecoration: Data.data[index].btn.underline
-                    ? "underline"
-                    : "normal",
-                  fontStyle: Data.data[index].btn.italic ? "italic" : "normal",
-                  textAlign: Data.data[index].btn.align,
-                }}
-              />
+              <div className={classes.container}>
+                <ContentEditable
+                  html={this.props.Data.data[index].h.text} // innerHTML of the editable div
+                  disabled={false} // use true to disable editing
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "h", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "h")} // handle innerHTML change
+                  style={{
+                    fontSize: this.props.Data.data[index].h.size,
+                    fontFamily: this.props.Data.data[index].h.family,
+                    color: this.props.Data.data[index].h.color,
+                    fontWeight:
+                      this.props.Data.data[index].h.bold === true
+                        ? "bold"
+                        : "normal",
+                    textDecoration:
+                      this.props.Data.data[index].h.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      this.props.Data.data[index].h.italic === true
+                        ? "italic"
+                        : "normal",
+                    textAlign: this.props.Data.data[index].h.align,
+                  }}
+                />
+
+                <ContentEditable
+                  html={this.props.Data.data[index].s.text} // innerHTML of the editable div
+                  disabled={false} // use true to disable editing
+                  className={classes.subHeading}
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "s", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "s")} // handle innerHTML change
+                  style={{
+                    fontSize: this.props.Data.data[index].s.size,
+                    fontFamily: this.props.Data.data[index].s.family,
+                    color: this.props.Data.data[index].s.color,
+                    fontWeight:
+                      this.props.Data.data[index].s.bold === true
+                        ? "bold"
+                        : "normal",
+                    textDecoration:
+                      this.props.Data.data[index].s.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      this.props.Data.data[index].s.italic === true
+                        ? "italic"
+                        : "normal",
+                    textAlign: this.props.Data.data[index].s.align,
+                  }}
+                />
+
+                <ContentEditable
+                  html={this.props.Data.data[index].p.text} // innerHTML of the editable div
+                  disabled={false} // use true to disable editing
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "p", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "p")} // handle innerHTML change
+                  style={{
+                    fontSize: this.props.Data.data[index].p.size,
+                    fontFamily: this.props.Data.data[index].p.family,
+                    color: this.props.Data.data[index].p.color,
+                    fontWeight:
+                      this.props.Data.data[index].p.bold === true
+                        ? "bold"
+                        : "normal",
+                    textDecoration:
+                      this.props.Data.data[index].p.underline === true
+                        ? "underline"
+                        : "none",
+                    fontStyle:
+                      this.props.Data.data[index].p.italic === true
+                        ? "italic"
+                        : "normal",
+                    textAlign: this.props.Data.data[index].p.align,
+                  }}
+                />
+
+                <ContentEditable
+                  html={this.props.Data.data[index].btn.text} // innerHTML of the editable div
+                  disabled={false} // use true to disable editing
+                  className={classes.btn}
+                  onClick={() =>
+                    this.props.onClick(this.props.id, "btn", index, "features2")
+                  }
+                  onChange={(e) => this.handleTextChange(e, index, "btn")} // handle innerHTML change
+                  style={{
+                    fontSize: this.props.Data.data[index].btn.size,
+                    fontFamily: this.props.Data.data[index].btn.family,
+                    color: this.props.Data.data[index].btn.color,
+                    fontWeight:
+                      this.props.Data.data[index].btn.bold === true
+                        ? "bold"
+                        : "normal",
+                    textDecoration:
+                      this.props.Data.data[index].btn.underline === true
+                        ? "underline"
+                        : "normal",
+                    fontStyle:
+                      this.props.Data.data[index].btn.italic === true
+                        ? "italic"
+                        : "normal",
+                    textAlign: this.props.Data.data[index].btn.align,
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-export default Features2;
+          );
+        })}
+      </div>
+    );
+  }
+}

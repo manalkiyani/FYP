@@ -379,17 +379,25 @@ const AddJob = ({ setDisplayAdd, setDisplayEdit, job, show }) => {
                 classNames={classes}
               />
               <div style={{ height: "50vh" }}>
-                <ReactQuill
+                <TextInput
+                  placeholder={
+                    "  Describe the responsibilities of this job, required work experience,skills, or education"
+                  }
+                  classNames={classes}
+                  required
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                {/* <ReactQuill
                   ref={quillRef}
                   placeholder={
                     "  Describe the responsibilities of this job, required work experience,skills, or education"
                   }
                   style={{ height: "90%" }}
                   theme="snow"
-                  value={description}
-                  onChange={setDescription}
+                  
                   modules={modules}
-                />
+                /> */}
               </div>
             </div>
             <Group position="center" mt="xl">
