@@ -615,6 +615,7 @@ const saveMyTemplate = async (
   }
 };
 const updateTemplate = async (
+  name,
   id,
   adminId,
   type,
@@ -644,7 +645,8 @@ const updateTemplate = async (
             [dataType]: mainPageDataIds,
           },
         },
-        adminId
+        adminId,
+        name
       }
     );
     console.log("res in updateTemplate", res);
@@ -697,6 +699,7 @@ export const SavedTemplate = async (
 //               "blogs",
 //               id
 export const UpdateTemplate = async (
+  name,
   template,
   HomePage,
   MainPage,
@@ -725,6 +728,7 @@ export const UpdateTemplate = async (
     console.log("mainPageDataIds", mainPageDataIds);
   }
   const response = await updateTemplate(
+    name,
     id,
     adminId,
     template.type,

@@ -15,6 +15,9 @@ import {
   Paper,
   rem,
   Flex,
+  Space,
+  Title,
+  Container,
 } from "@mantine/core";
 import {
   Box,
@@ -40,6 +43,7 @@ import {
   addReview,
 } from "../../../utilityFunctions/axiosFunctions";
 import { formatDate } from "../../../utilityFunctions/helperFunctions";
+import { Toaster, toast } from "react-hot-toast";
 
 const bull = (
   <Box
@@ -100,11 +104,17 @@ const BlogDetail = () => {
     e.preventDefault();
     try {
       const data = await addReview(blogId, name, email, comment);
-      console.log("Review added successfully");
+      toast.success("Review added successfully");
+      // console.log("Review added successfully");
+      setName(" ");
+      setEmail(" ");
+      setComment(" ");
       console.log(data);
     } catch (error) {
+      toast.error("An error occurred. Try again later");
       console.log(error);
     }
+    getBlogData();
   };
 
   useEffect(() => {
@@ -113,6 +123,7 @@ const BlogDetail = () => {
 
   return (
     <>
+      <Toaster position="top-center" />
       <div className={classes.container}>
         {blog ? (
           <>
@@ -140,17 +151,15 @@ const BlogDetail = () => {
             <img className={classes.blogImage} src={blog.image} />
 
             <div dangerouslySetInnerHTML={{ __html: blog.description }} />
-              <Flex mb="xl" mt="xl" >
-              {blog?.videos.map(video=>(
-                <Paper  shadow="xs" p="md">
-                   <video width="300" height="200" controls>
-                  <source key={video} src={video} type="video/mp4" />
-                </video>
-
+            <Flex mb="xl" mt="xl">
+              {blog?.videos?.map((video) => (
+                <Paper shadow="xs" p="md">
+                  <video width="300" height="200" controls>
+                    <source key={video} src={video} type="video/mp4" />
+                  </video>
                 </Paper>
-                
               ))}
-             </Flex>
+            </Flex>
 
             <div style={{ display: "flex" }}>
               {blog.tags.map((tag) => (
@@ -182,12 +191,6 @@ const BlogDetail = () => {
             <BeatLoader color="#40AFCE" loading={true} size={20} />
           </div>
         )}
-      </div>
-     
-   
-      <div style={{ width: "30%" }}>
-        {blog &&
-          blog.reviews.map((review) => <ViewComments comment={review} />)}
       </div>
 
       <div className={classes.container}>
@@ -242,6 +245,21 @@ const BlogDetail = () => {
           </form>
         </div>
       </center>
+      <Space h="xl" />
+      <Space h="xl" />
+      <Group position="center">
+        <Container size="90rem">
+          {blog?.reviews?.length == 0 ? (
+            <Title order={2}>No Comments yet</Title>
+          ) : (
+            <Title order={2}> All Comments </Title>
+          )}
+          <Flex mt="xl" wrap="wrap" justify="flex-start" gap="md">
+            {blog &&
+              blog?.reviews?.map((review) => <ViewComments comment={review} />)}
+          </Flex>
+        </Container>
+      </Group>
     </>
   );
 };

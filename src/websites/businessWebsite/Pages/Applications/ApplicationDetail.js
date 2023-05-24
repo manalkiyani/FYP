@@ -38,7 +38,7 @@ const inputStyles = createStyles((theme) => ({
   innerContainer: {
     paddingTop: "2rem",
     marginBottom: "2rem",
-    maxWidth: "100rem",
+    maxWidth: "70rem",
 
     borderRadius: "20px",
     minHeight: "90vh",
@@ -90,7 +90,7 @@ const ApplicationDetail = () => {
   const [jobsCopy, setJobsCopy] = useState([]);
   const [jobIds, setJobIds] = useState([]);
   const [application, setApplication] = useState({});
-  const [updated,setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false);
 
   const [status, setStatus] = useState("pending");
   const [recruiterRemarks, setRecruiterRemarks] = useState("");
@@ -100,30 +100,34 @@ const ApplicationDetail = () => {
 
     if (id === "004") {
       console.log("here");
-      setJobIds(businessTemplate.data.jobs);
-      getApplications(businessTemplate.data.jobs);
+      setJobIds(businessTemplate?.data?.jobs);
+      getApplications(businessTemplate?.data?.jobs);
     } else {
       const Template = await getTemplateData(id);
       if (Template.data?.jobs) {
-        setJobIds(Template.data.jobs);
+        setJobIds(Template?.data?.jobs);
 
-        getApplications(Template.data.jobs);
+        getApplications(Template?.data?.jobs);
       }
     }
   };
   const getApplications = async (jobIds) => {
-    const response = await axios.post(
-      "http://localhost:8800/api/applications/list",
-      {
-        jobIds,
+    try {
+      const response = await axios.post(
+        "http://localhost:8800/api/applications/list",
+        {
+          jobIds,
+        }
+      );
+      console.log("response", response);
+      if (response?.status === 200) {
+        console.log("response.data", response?.data);
+        setJobs(response?.data.jobs);
+        setJobsCopy(response?.data.jobs);
+        setApplication(response?.data?.jobs[0]?.applications[0]);
       }
-    );
-    console.log("response", response);
-    if (response.status === 200) {
-      console.log("response.data", response.data);
-      setJobs(response.data.jobs);
-      setJobsCopy(response.data.jobs);
-      setApplication(response.data.jobs[0].applications[0]);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -137,8 +141,8 @@ const ApplicationDetail = () => {
         }
       );
       console.log("response", response);
-      setUpdated(!updated)
-      setRecruiterRemarks("")
+      setUpdated(!updated);
+      setRecruiterRemarks("");
       toast.success("Remarks uploaded successfully");
     } catch (error) {
       toast.error("An error occurred");
@@ -230,12 +234,7 @@ const ApplicationDetail = () => {
         </Grid.Col>
 
         <Grid.Col className={classes.noPadding} span={6}>
-          <Container
-            px="md"
-            bg="#fff"
-            className={classes.innerContainer}
-            radius="xl"
-          >
+          <Container bg="#fff" className={classes.innerContainer} radius="xl">
             <Flex>
               <div
                 style={{
@@ -451,7 +450,7 @@ function ResumeViewer({ resumeUrl }) {
 
   return (
     <DocViewer
-      style={{ width: 600, height: 850 }}
+      style={{ width: 500, height: 850 }}
       pluginRenderers={DocViewerRenderers}
       documents={docs}
     />

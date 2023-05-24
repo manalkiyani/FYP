@@ -34,7 +34,7 @@ export default function Write({ setAddBlog, operation, editId }) {
   const [tags, setTags] = useState([]);
   const [writer, setWriter] = useState("");
   const [time, setTime] = useState("");
-  const [desc, setdesc] = useState("");
+  const [desc, setdesc] = useState(null);
   const [image, setImage] = useState("");
 
   const [displayImage, setDisplayImage] = useState(
@@ -114,7 +114,7 @@ export default function Write({ setAddBlog, operation, editId }) {
         title,
         tagline,
         image: link,
-        videos: files ,
+        videos: files,
         tags,
         writer,
         readingTime: time,
@@ -165,7 +165,7 @@ export default function Write({ setAddBlog, operation, editId }) {
     setAddBlog(false);
   };
   const editBlog = async () => {
- const updatingtoast =   toast.loading("Updating your blog");
+    const updatingtoast = toast.loading("Updating your blog");
 
     let link = null;
     if (imageChanged) {
@@ -193,14 +193,14 @@ export default function Write({ setAddBlog, operation, editId }) {
         writer,
         readingTime: time,
         description: stateToHTML(editorState.getCurrentContent()),
-        videos : files ,
+        videos: files,
 
         category,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        toast.dismiss(updatingtoast)
+        toast.dismiss(updatingtoast);
         toast.success("Blog Updated Successfully");
         console.log(data, "daata");
       });
@@ -220,8 +220,8 @@ export default function Write({ setAddBlog, operation, editId }) {
       setTime(blog.readingTime);
       setWriter(blog.writer);
       setdesc(blog.description);
-      console.log(blog.category)
-      setCategory(blog?.category)
+      console.log(blog.category);
+      setCategory(blog?.category);
       // setEditorState(blog?.description)
       setFiles(blog?.videos);
     } catch (error) {
@@ -471,16 +471,21 @@ export default function Write({ setAddBlog, operation, editId }) {
               </Btn>
             </Group>
           </>
-  <Paper shadow="xs" p="md" withBorder>
-             <Text fz="xl" fw="600">
-          Your Previous Blog
-        </Text>
+          {desc && (
+            <>
+              <Paper shadow="xs" p="md" withBorder>
+                <Text fz="xl" fw="600">
+                  Your Previous Blog
+                </Text>
+              </Paper>
 
-          </Paper>
-       
-            <div style={{padding:'20px'}} dangerouslySetInnerHTML={{ __html: desc }}></div>
-          
-     
+              <div
+                style={{ padding: "20px" }}
+                dangerouslySetInnerHTML={{ __html: desc }}
+              ></div>
+            </>
+          )}
+
           {files && (
             <Flex gap="md" wrap="wrap">
               {Array.from(files).map((link, index) => (
@@ -492,7 +497,7 @@ export default function Write({ setAddBlog, operation, editId }) {
               ))}
             </Flex>
           )}
-          </form>
+        </form>
 
         <Categories category={category} setCategory={setSelectedCategory} />
       </div>

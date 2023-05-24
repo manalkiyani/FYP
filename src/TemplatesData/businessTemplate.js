@@ -4,10 +4,10 @@ export const businessTemplate = {
   pages: {
     BusinessHomePage: {
       blocks: [
-       "94c0c8ca-3190-4a5e-90d9-7b53b153563a",
-       "08ae811f-c20f-42f6-a5c2-5fd54c7bbba8",
-       "9453fb34-7629-41e0-b85b-2bec66f0b1b6",
-       "cc86a29e-0313-401e-9612-fbe13cf05367"
+        "94c0c8ca-3190-4a5e-90d9-7b53b153563a",
+        "08ae811f-c20f-42f6-a5c2-5fd54c7bbba8",
+        "9453fb34-7629-41e0-b85b-2bec66f0b1b6",
+        "cc86a29e-0313-401e-9612-fbe13cf05367",
       ],
     },
     JobsPage: {
