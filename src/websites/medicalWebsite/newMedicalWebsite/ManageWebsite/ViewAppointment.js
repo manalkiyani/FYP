@@ -39,7 +39,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
   const { classes, theme } = useStyles();
 
 
-  const [ templateId,setTemplateId] = useLocalStorageState("templateId")
+  const [ templateId,setTemplateId] = useState()
 
   
 
@@ -50,11 +50,21 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
     const Template = await getTemplateId();
     console.log(Template);
     const response = await getWebsiteData(Template.templateId);
+    console.log(response);
+    console.log('ABOVE IS RES')
+
+
+    let templateid = response.websiteData.templateId
+    setTemplateId(templateid);
+    console.log("templateid us: "+ templateid)
+
+
+
     try {
-      console.log(templateId+ "THIS IS IDDDDD");
+      console.log(templateid+ "THIS IS IDd");
       //645faec0efc31bb14ca8c89e
       const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
-        TEMPLATEID: templateId
+        TEMPLATEID: templateid
         // TEMPLATEID: '646b7e4f54142732f882a07c'
       });
       setAppointmentData(response.data);
