@@ -61,7 +61,7 @@ export function ViewAppointment({ doctor, day, status, slot, patientName }) {
 
 
     try {
-      console.log(templateid+ "THIS IS IDDDDD");
+      console.log(templateid+ "THIS IS IDd");
       //645faec0efc31bb14ca8c89e
       const response = await axios.post('http://localhost:8800/api/doctor/getappointmentstoadmin', {
         TEMPLATEID: templateid
