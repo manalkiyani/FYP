@@ -98,8 +98,6 @@ const AdminBlogDetail = () => {
     }
   };
 
- 
-
   useEffect(() => {
     getBlogData();
   }, [blogId]);
@@ -107,7 +105,7 @@ const AdminBlogDetail = () => {
   return (
     <>
       <div className={classes.container}>
-        <Paper shadow="sm" p="xl">
+        <Paper style={{ minWidth: "80vw" }} shadow="sm" p="xl">
           {blog ? (
             <>
               <h1 style={{ fontWeight: "bold" }}>{blog.title}</h1>
@@ -125,24 +123,21 @@ const AdminBlogDetail = () => {
                   {blog.publishedDate} {bull} {blog.readingTime} read {bull}{" "}
                   {blog.writer}
                 </Typography>
-               
               </div>
 
               <img className={classes.blogImage} src={blog.image} />
 
               <div dangerouslySetInnerHTML={{ __html: blog.description }} />
 
-             <Flex mb="xl" mt="xl" >
-              {blog?.videos.map(video=>(
-                <Paper  shadow="xs" p="md">
-                   <video width="300" height="200" controls>
-                  <source key={video} src={video} type="video/mp4" />
-                </video>
-
-                </Paper>
-                
-              ))}
-             </Flex>
+              <Flex mb="xl" mt="xl">
+                {blog?.videos?.map((video) => (
+                  <Paper shadow="xs" p="md">
+                    <video width="300" height="200" controls>
+                      <source key={video} src={video} type="video/mp4" />
+                    </video>
+                  </Paper>
+                ))}
+              </Flex>
 
               <div style={{ display: "flex" }}>
                 {blog.tags.map((tag) => (
@@ -177,12 +172,16 @@ const AdminBlogDetail = () => {
         </Paper>
         <Space h="xl" />
         <Space h="xl" />
-        <Title order={1}> All Comments </Title>
+     
+        {blog?.reviews?.length == 0 ? (
+          <Title order={2}>No Comments yet</Title>
+        ) : (
+          <Title order={2}> All Comments </Title>
+        )}
         <Flex mt="xl" wrap="wrap" justify="flex-start" gap="md">
           {blog &&
-            blog.reviews.map((review) => <ViewComments comment={review} />)}
+            blog?.reviews?.map((review) => <ViewComments comment={review} />)}
         </Flex>
-     
       </div>
     </>
   );

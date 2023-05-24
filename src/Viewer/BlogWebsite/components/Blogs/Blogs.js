@@ -18,15 +18,13 @@ import { Group, Input, Select } from "@mantine/core";
 import { getTemplateId } from "../../../../utilityFunctions/TemplateIdController";
 import { getWebsiteData } from "../../../../utilityFunctions/websiteDataController";
 
-
-
 export default function Blogs({ blogIds }) {
   const [blogs, setBlogs] = useState(null);
   const [blogsCopy, setBlogsCopy] = useState(null);
 
   const [searchField, setSearchField] = useState("");
   const [changed, setChanged] = useState(false);
-  const [viewerId,setViewerId] = useState(null)
+  const [viewerId, setViewerId] = useState(null);
 
   useEffect(() => {
     axios
@@ -42,17 +40,13 @@ export default function Blogs({ blogIds }) {
       });
   }, []);
 
-  
-
-  const bookmarkBlog =async (blogId) => {
-    
+  const bookmarkBlog = async (blogId) => {
     const Template = await getTemplateId();
-    console.log(Template)
+    console.log(Template);
     const response = await getWebsiteData(Template.templateId);
-   
-    setViewerId(response.websiteData.viewerId)
 
-  
+    setViewerId(response.websiteData.viewerId);
+
     addBookmark(response.websiteData.viewerId, blogId)
       .then((result) => {
         console.log(result.message);
@@ -67,16 +61,22 @@ export default function Blogs({ blogIds }) {
   const searchBlogs = (searchField) => {
     const blogs = blogsCopy.filter((blog) => {
       return (
-        blog.title.toLowerCase().includes(searchField.toLowerCase()) ||
-        blog.tagline.toLowerCase().includes(searchField.toLowerCase()) ||
-        blog.category.toLowerCase().includes(searchField.toLowerCase())
+        blog?.title.toLowerCase().includes(searchField?.toLowerCase()) ||
+        blog?.tagline.toLowerCase().includes(searchField?.toLowerCase()) ||
+        blog?.category.toLowerCase().includes(searchField?.toLowerCase())
       );
     });
     setBlogs(blogs);
   };
   const searchCategory = (searchField) => {
+    console.log("searchField", searchField);
+    if (searchField == null) {
+      console.log("in if");
+      console.log("blogsCopy", blogsCopy);
+      setBlogs(blogsCopy);
+    }
     const blogs = blogsCopy.filter((blog) => {
-      return blog.category.toLowerCase().includes(searchField.toLowerCase());
+      return blog?.category?.toLowerCase().includes(searchField?.toLowerCase());
     });
     setBlogs(blogs);
   };

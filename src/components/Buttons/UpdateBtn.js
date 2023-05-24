@@ -1,17 +1,35 @@
 import * as React from "react";
-import { Button } from "@mui/material";
+
 import toast, { Toaster } from "react-hot-toast";
 import UpdateIcon from "@mui/icons-material/Update";
 import { UpdateTemplate } from "../../utilityFunctions/helperFunctions";
 
 import { useLocalStorageState } from "ahooks";
 import { getUserData } from "../../utilityFunctions/authFunctions";
+
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Button } from "@mantine/core";
 const UpdateBtn = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   // const { id } = useParams();
   const [id] = useLocalStorageState("templateId", "");
   // const [template] = useLocalStorageState("template", "");
 
-  const updateTemplate = async () => {
+  const updateTemplate = async (name) => {
+    setOpen(false);
     const Admin = await getUserData();
     console.log(Admin);
 
@@ -24,6 +42,7 @@ const UpdateBtn = () => {
         case "blog":
           {
             response = await UpdateTemplate(
+              name,
               template,
               "BlogHomePage",
               "BlogsPage",
@@ -36,6 +55,7 @@ const UpdateBtn = () => {
         case "eccomerce":
           {
             response = await UpdateTemplate(
+              name,
               template,
               "EccomerceHomePage",
               "ProductsPage",
@@ -48,6 +68,7 @@ const UpdateBtn = () => {
         case "business":
           {
             response = await UpdateTemplate(
+              name,
               template,
               "BusinessHomePage",
               "JobsPage",
@@ -60,6 +81,7 @@ const UpdateBtn = () => {
         case "medical":
           {
             response = await UpdateTemplate(
+              name,
               template,
               "MedicalHomePage",
               "DoctorsPage",
@@ -81,18 +103,52 @@ const UpdateBtn = () => {
 
   return (
     <>
+      <FormDialog open={open} onSave={updateTemplate} onClose={handleClose} />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
       <Button
         variant="subtle"
         color="gray"
-        onClick={updateTemplate}
+        onClick={handleClickOpen}
         leftIcon={<UpdateIcon size="1rem" />}
       >
-        Update Template
+        Save Changes
       </Button>
     </>
   );
 };
 
 export default UpdateBtn;
+
+export function FormDialog({ open, onSave, onClose }) {
+  const [name, setName] = React.useState("");
+
+  return (
+    <div>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>Name Your Website</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Your website name will appear in the website header
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="subtle" onClick={() => onSave(name)}>
+            Save Now
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}

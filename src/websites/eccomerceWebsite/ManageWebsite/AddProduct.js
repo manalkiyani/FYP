@@ -12,6 +12,7 @@ import {
   FileButton,
   List,
   Image,
+  Textarea,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import React, { useEffect, useState } from "react";
@@ -73,6 +74,7 @@ const AddProduct = (props) => {
   const [size, setSize] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
+  const [productId, setProductId] = useState(null);
 
   const { classes } = inputStyles();
 
@@ -114,7 +116,7 @@ const AddProduct = (props) => {
   const handleAddProduct = async () => {
     const links = await uploadImages();
     console.log(links);
-    toast.loading("Adding your product")
+    toast.loading("Adding your product");
 
     //ADD PRODUCT LOGIC HERE
     const response = await axios.post(
@@ -129,7 +131,7 @@ const AddProduct = (props) => {
         category,
       }
     );
-  
+
     console.log(response);
     if (response.status === 200) {
       setTemplate({
@@ -190,7 +192,8 @@ const AddProduct = (props) => {
     const response = await axios.get(
       `http://localhost:8800/api/products/getproduct/${productId}`
     );
-    const product = response.data;
+    const product = response.data.product;
+    setProductId(product._id);
     setName(product.name);
     setPrice(product.price);
     setDescription(product.description);
@@ -203,10 +206,10 @@ const AddProduct = (props) => {
     console.log(response);
   };
   useEffect(() => {
-    if (operation === "edit") {
+    if (operation === "edit" && props.editId != productId) {
       getProduct();
     }
-  }, []);
+  });
 
   const settingFiles = (files) => {
     setFiles(files);
@@ -292,7 +295,7 @@ const AddProduct = (props) => {
         <Space h="sm" />
         {/* sizes */}
         <div>
-          {sizes.length === 0 ? (
+          {sizes?.length === 0 ? (
             <>
               <Button
                 leftIcon={<AddIcon />}
@@ -319,7 +322,7 @@ const AddProduct = (props) => {
           ) : (
             <>
               <Group>
-                {sizes.map((size) => {
+                {sizes?.map((size) => {
                   return (
                     <Button
                       rightIcon={<CloseIcon />}
@@ -374,7 +377,7 @@ const AddProduct = (props) => {
         <SliderPicker color={color} onChange={handleColorChange} />
         <Space h="md" />
         <Flex wrap="wrap">
-          {colors.map((color) => {
+          {colors?.map((color) => {
             return (
               <Color handleDeleteColor={handleDeleteColor} color={color} />
             );
@@ -394,12 +397,11 @@ const AddProduct = (props) => {
       </Flex>
       <div className={styles.contentContainer}>
         <div style={{ height: "200px" }}>
-          <ReactQuill
-            placeholder={"Write something awesome..."}
-            style={{ height: "80%" }}
-            theme="snow"
+          <Textarea
+            minRows={5}
+            description="A great place to tell about your products stuff and sizes"
             value={description}
-            onChange={setDescription}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
@@ -508,7 +510,7 @@ const UploadImage = ({ files, setFiles, operation }) => {
           align="start"
           slidesToScroll={3}
         >
-          {files.map((file, index) => (
+          {files?.map((file, index) => (
             <Carousel.Slide key={index}>
               {operation === "add" ? (
                 <Image src={URL.createObjectURL(file)} />

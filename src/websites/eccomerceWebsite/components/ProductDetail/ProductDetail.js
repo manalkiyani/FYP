@@ -18,6 +18,7 @@ import { Carousel } from "@mantine/carousel";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocalStorageState } from "ahooks";
+import Slider from "react-slick";
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -38,7 +39,6 @@ const ProductDetail = () => {
   const { classes } = useStyles();
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
- 
 
   useEffect(() => {
     getProduct();
@@ -84,7 +84,11 @@ const ProductDetail = () => {
               <Button
                 mr="sm"
                 radius="xl"
-                style={{ color: color, width: "30px", height: "30px" }}
+                style={{
+                  backgroundColor: color,
+                  width: "30px",
+                  height: "30px",
+                }}
               ></Button>
             ))}
           </div>
@@ -95,7 +99,7 @@ const ProductDetail = () => {
             {product?.sizes.map((size) => (
               <Button
                 mr="sm"
-                style={{ width: "60px", height: "35px" }}
+                style={{ width: "fit-content", height: "35px" }}
                 radius="lg"
                 variant="default"
               >
@@ -135,21 +139,18 @@ function Images({ images }) {
           ))}
         </Flex>
       </SimpleGrid>
-      <Carousel
-        maw={500}
-        mx="auto"
-        withIndicators
-        height={600}
-        plugins={[autoplay.current]}
-        onMouseEnter={autoplay.current.stop}
-        onMouseLeave={autoplay.current.reset}
-      >
+      <Slider {...settings}>
         {images?.map((image) => (
-          <Carousel.Slide key={image}>
-            <Image src={image} />
-          </Carousel.Slide>
+          <Image height={100} width={100} maw={240} key={image} src={image} />
         ))}
-      </Carousel>
+      </Slider>
     </>
   );
 }
+var settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};

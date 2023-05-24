@@ -202,6 +202,7 @@ exports.updateTemplate = async (req, res) => {
     // extract relevant data from request body
     const { id, type, pages, data } = req.body.template;
     const adminId = req.body.adminId;
+    const name = req.body.name;
 
     //check if template exsists
     const template = await Template.findById(id);
@@ -258,7 +259,7 @@ exports.updateTemplate = async (req, res) => {
         const template = new Template({
           _id: mongoose.Types.ObjectId(),
           createdAt: date + "-" + month + "-" + year,
-          name: req.body.template?.name || "Testing",
+          name: req.body?.name || "Testing",
           type: req.body.template.type,
           pages: req.body.template.pages,
           data: req.body.template.data,
@@ -297,6 +298,7 @@ exports.updateTemplate = async (req, res) => {
     template.type = type;
     template.pages = pages;
     template.data = data;
+    template.name = name;
 
     await template.save();
 
@@ -499,10 +501,11 @@ exports.getWebsitebySubdomain = async (req, res) => {
     console.log("in subdomain");
     // const { templateId } = req.body;
     const { subdomain } = req.params;
-    const lower = subdomain.toLo
+    const lower = subdomain.toLo;
 
     // Find the first document in PublishedWebsites that matches the templateId
-    const publishedWebsite = await publishedwebsites.findOne({subdomain :subdomain ,
+    const publishedWebsite = await publishedwebsites.findOne({
+      subdomain: subdomain,
     });
     console.log("this is subdomain" + subdomain);
 

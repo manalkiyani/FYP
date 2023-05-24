@@ -11,8 +11,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { useLocalStorageState } from "ahooks";
-import { deepClone } from "@mui/x-data-grid/utils/utils";
 import { Button } from "@mantine/core";
 
 const SaveBtn = () => {
@@ -39,7 +37,7 @@ const SaveBtn = () => {
         homePage: "BlogHomePage",
         contentPage: "BlogsPage",
         contentSlug: "blogs",
-      }, 
+      },
       eccomerce: {
         homePage: "EccomerceHomePage",
         contentPage: "ProductsPage",
