@@ -247,6 +247,8 @@ const bookAppointment = async (req, res) => {
       age
     });
     const savedAppointment = await newAppointment.save();
+    console.log("under it saved app")
+    console.log(savedAppointment);
     res.json(savedAppointment);
   } catch (err) {
     console.error(err);
@@ -258,6 +260,8 @@ const AppointmentsIDtoTemplate = async (req, res) => {
   try {
     const appointmentId = req.body.appointmentId;
     const templateId = req.body.templateId;
+    console.log("this is temp id while saving app id in ti "+req.body.templateId)
+    console.log(req.body.templateId);
 
     const template = await Template.findById(templateId);
     if (!template) {
@@ -393,6 +397,7 @@ const DoctorIDtoTemplate = async (req, res) => {
     const doctorid = req.body.doctorId;
     const templateId = req.body.templateId;
     console.log(doctorid + " this is it doctorid");
+    console.log("doctor is added in this template: "+templateId )
 
     const template = await Template.findById(templateId);
     if (!template) {
