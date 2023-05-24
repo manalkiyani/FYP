@@ -12,6 +12,8 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Reviews from "./Reviews";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useNavigate } from "react-router-dom";
+import { getTemplateId } from "../../../../../src/utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../../../../../src/utilityFunctions/websiteDataController";
 const ViewerProductCard = ({
   searchedquery,
   productIds,
@@ -90,13 +92,20 @@ const ViewerProductCard = ({
 
   const AddToCart = async (id, images, name, price, description) => {
     try {
-      const viewer = JSON.parse(localStorage.getItem("viewer"));
+      // const viewer = JSON.parse(localStorage.getItem("viewer"));
+      const Template = await getTemplateId();
+    console.log(Template)
+    const response1 = await getWebsiteData(Template.templateId);
+   
+    // setViewerId(response1.websiteData.viewerId)
+    const viewer = response1.websiteData.viewerId;
 
-      console.log("viewer id", viewer._id);
+      console.log("viewer id", viewer);
+
       const response = await axios.post(
         "http://localhost:8800/api/products/addtocart",
         {
-          userid: viewer._id, ////have to get this from props when login in integrated
+          userid: viewer, ////have to get this from props when login in integrated
           productid: id,
           images,
           name,

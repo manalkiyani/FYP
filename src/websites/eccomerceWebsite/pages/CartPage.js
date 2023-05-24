@@ -7,9 +7,17 @@ import CheckOutForm from "../components/CartPage/CheckOutForm";
 import { Divider } from "@mui/material";
 import { getUser, getUsername } from "../../../utilityFunctions/authFunctions";
 
+import { getTemplateId } from "../../../../src/utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../../../../src/utilityFunctions/websiteDataController";
+
 const CartPage = (props) => {
   //we have to receive userid here in the props to make this code work
-  const viewer = JSON.parse(localStorage.getItem("viewer"));
+
+  // const viewer = JSON.parse(localStorage.getItem("viewer"));
+
+
+const [viewer, setViewer] = useState();
+  
   const [cartProducts, setCartProducts] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -40,14 +48,15 @@ const CartPage = (props) => {
 
     setCartProducts(temp);
 
+    console.log("this is viewerid "+viewer )
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: viewer._id, // update it by getting the user id in props
+        userid: viewer, // update it by getting the user id in props
         cart: temp,
       }
     );
-    console.log("this is response " + response.status);
+    console.log("this is response lets see" + response.status);
   };
 
   const decrementQuantity = async (pid) => {
@@ -72,7 +81,7 @@ const CartPage = (props) => {
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: "63e8df1974cc16f2b7ecacb6",
+        userid: viewer,
         cart: temp,
       }
     );
@@ -86,7 +95,7 @@ const CartPage = (props) => {
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: viewer._id,
+        userid: viewer,
         cart: [],
       }
     );
@@ -110,7 +119,7 @@ const CartPage = (props) => {
     const response = await axios.put(
       "http://localhost:8800/api/products/editquantityincart",
       {
-        userid: viewer._id,
+        userid: viewer,
         cart: temp,
       }
     );
@@ -119,8 +128,21 @@ const CartPage = (props) => {
   };
 
   useEffect(() => {
+    
     const fetchCartProducts = async () => {
+      const Template = await getTemplateId();
+      console.log(Template)
+      const response = await getWebsiteData(Template.templateId);
+     
+      // await setViewer(response.websiteData.viewerId);
+      const viewer =response.websiteData.viewerId;
+      setViewer(response.websiteData.viewerId);
+      console.log("in use effect "+ viewer)
+      
+
+  
       try {
+
         const response = await fetch(
           "http://localhost:8800/api/products/getfromcart/",
           {
@@ -128,7 +150,7 @@ const CartPage = (props) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ userId: viewer._id }),
+            body: JSON.stringify({ userId: viewer }),
           }
         );
         const cart = await response.json();
@@ -151,7 +173,7 @@ const CartPage = (props) => {
       }
     };
     fetchCartProducts();
-  }, [props.userId]);
+  }, []);
 
   const totalAmount = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -252,7 +274,7 @@ const CartPage = (props) => {
       {
         open && (
           <CheckOutForm
-            userid={viewer._id}
+            userid={viewer}
             removeAllFromCartAfterOrderReceived={
               removeAllFromCartAfterOrderReceived
             }
