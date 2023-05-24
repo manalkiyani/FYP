@@ -126,6 +126,7 @@ const addtocart = async (req, res) => {
           }
         );
       } else {
+        console.log(productid+ "this is productid")
         user.cart.push({
           productId: productid,
           quantity: 1,
@@ -174,14 +175,16 @@ const getproduct = async (req, res) => {
 };
 
 const editQuantityinCart = async (req, res) => {
+  console.log('this is user i am adding cart to '+req.body.userid )
   User.updateOne(
-    { _id: "63e8df1974cc16f2b7ecacb6" },
+    { _id: req.body.userid },
     { $set: { cart: req.body.cart } },
     (err, result) => {
       if (err) {
         console.log(err);
         res.status(500).send({ error: "Failed to update cart" });
       } else {
+
         console.log("Quantity updated successfully");
         res.send({ success: true, message: "quantity successfully updateddd" });
       }
