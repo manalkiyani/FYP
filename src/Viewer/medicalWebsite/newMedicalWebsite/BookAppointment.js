@@ -73,7 +73,7 @@ const BookAppointment = () => {
   // const viewer = localStorage.getItem("viewer");
   // const viewerObj = JSON.parse(viewer);
   // const viewerId = viewerObj._id;
-  const [templateId, setTemplateId] = useLocalStorageState("templateId", "");
+  const [templateId, setTemplateId] = useState();
 
   const navigate = useNavigate();
 
@@ -88,10 +88,18 @@ const BookAppointment = () => {
         const template = await getTemplateId();
 
         const response = await getWebsiteData(template.templateId);
+        console.log("under this is response");
+        console.log(response);
+        let templateid = response.websiteData.templateId
+        setTemplateId(templateid);
+        console.log("templateid us: "+ templateid)
+        console.log(templateid.templateId
+          )
         setViewerId(response.websiteData.viewerId);
+  
 
       } catch (error) {
-        console.log(error);
+        console.log(error); 
       }
     };
   
@@ -152,9 +160,13 @@ const BookAppointment = () => {
           age,
         })
         .then(async (appointmentRes) => {
+          console.log(appointmentRes)
           let appointmentId = appointmentRes?.data?._id;
           console.log("this is appointment id" + appointmentId);
+          
           try {
+            console.log(templateId+" FINAL TEMP ID TO SAVE APP")
+            console.log(templateId);
             const response = await axios.put(
               "http://localhost:8800/api/doctor/appointmentidtotemplate",
               { appointmentId, templateId: templateId }
