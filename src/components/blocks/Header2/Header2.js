@@ -87,9 +87,7 @@ export default class Header2 extends Component {
           backgroundColor: this.props.Data?.data?.bgColor,
           position: "relative",
           marginBottom: "50px",
-        
         }}
-        className={classes.header}
         onMouseOver={this.enableHandleBlock}
         onMouseOut={this.disableHandleBlock}
       >
@@ -114,7 +112,7 @@ export default class Header2 extends Component {
             image={this.state.image}
           />
         )}
-        <Container>
+        <Container className={classes.header}>
           <div className={classes.inner}>
             <div className={classes.content}>
               <Title className={classes.title}>
@@ -206,7 +204,9 @@ export default class Header2 extends Component {
                 </Button>
               </Group>
             </div>
-            <Image src={this.props.Data.data.img} className={classes.image} />
+            <div className={classes.image}>
+              <Image src={this.props.Data.data.img} />
+            </div>
           </div>
         </Container>
       </div>

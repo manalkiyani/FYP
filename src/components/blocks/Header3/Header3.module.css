@@ -2,8 +2,9 @@
 .header{
     
    
-    height: 30rem;
- 
+    height: 70vh;
+ display: flex;
+ align-items: center;
    position: relative;
     
     

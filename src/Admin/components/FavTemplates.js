@@ -117,8 +117,9 @@ export function FavTemplates() {
 
         <Container p={0} size={600}>
           <Text size="lg" color="dimmed" className={classes.description}>
-           Get a headstart on your journey withcustomizable website templates, strategically
-researched and tailored for every industry — or start from a blank canvas on our website builder.
+            Get a headstart on your journey withcustomizable website templates,
+            strategically researched and tailored for every industry — or start
+            from a blank canvas on our website builder.
           </Text>
         </Container>
       </div>
@@ -133,21 +134,21 @@ researched and tailored for every industry — or start from a blank canvas on o
         <AvailableTemplate
           id="002"
           type="eccomerce"
-          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1679226873/WhatsApp_Image_2023-03-19_at_1.34.27_PM_1_h8los5.jpg"
+          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1684991171/Screenshot_2023-05-25_073317_vjunri.png"
           title="Eccomerce Template"
           description="An eCommerce template is a pre-designed framework for creating an online store.  This saves time and effort"
         ></AvailableTemplate>
         <AvailableTemplate
           id="003"
           type="medical"
-          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1679226870/WhatsApp_Image_2023-03-19_at_1.34.28_PM_qgxil7.jpg"
+          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1684991473/Screenshot_2023-05-25_100907_vwi06y.png"
           title="Medical Template"
           description="A medical template is a pre-designed framework for creating a website related to healthcare or medical services."
         ></AvailableTemplate>
         <AvailableTemplate
           id="004"
           type="business"
-          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1679227944/WhatsApp_Image_2023-03-19_at_5.06.38_PM_oxaeio.jpg"
+          img="https://res.cloudinary.com/djlewzcd5/image/upload/v1684991473/Screenshot_2023-05-25_101040_uadvgd.png"
           title="Business Template"
           description="A business template is a pre-designed framework for creating a website related to a company or organization"
         ></AvailableTemplate>

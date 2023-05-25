@@ -4,9 +4,13 @@ export const productTemplate = {
   pages: {
     EccomerceHomePage: {
       blocks: [
-        "6cc7101d-66ca-46d1-ba9b-64881aabc32e",
-       "84d92e5e-5435-46b0-a150-769c7567cd96",
-       "6f83a0cc-3222-40ab-8188-90e2fdd41764"
+        "1884d32e-8a85-45d6-b051-149116cd7b58",
+        "3ae37a44-8585-413f-8053-474a9df2bd71",
+        "a5b57421-29c5-43a6-91c8-28100123b2ec",
+        "fcfd114b-4a4c-4b9e-acb2-0d9d1a6d4ecd",
+        "a978945d-da56-4fcb-ae50-d300f1b9d1d0",
+
+        "c0170948-920d-4f44-b8ea-dd6a8c690eba",
       ],
     },
     ProductsPage: {

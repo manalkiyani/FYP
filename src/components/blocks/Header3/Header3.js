@@ -101,7 +101,7 @@ export default class Header3 extends Component {
             image={image}
           />
         )}
-        <Container size="80rem">
+        <Container className={classes.header}  size="80rem">
           <Group grow gap="md">
             <img className={classes.img} src={Data.data.img} />
 

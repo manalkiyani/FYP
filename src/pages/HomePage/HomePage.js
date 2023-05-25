@@ -5,6 +5,7 @@ import { MainServices } from "./MainServices";
 import Video from "./Video";
 import { MainPhotos } from "./MainPhotos";
 import { Footer } from "./Footer";
+import AllPublishedWebsites from "./AllPublishedWebsites";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
 
       <MainFeatures />
       <Video />
+      <AllPublishedWebsites />
 
       <MainPhotos />
       <Footer />

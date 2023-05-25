@@ -114,9 +114,9 @@ const AddProduct = (props) => {
   const [template, setTemplate] = useLocalStorageState("template", "");
   //WRITE ADD PRODUCT LOGIC IN THIS FUNCTION
   const handleAddProduct = async () => {
+    let loadToast = toast.loading("Adding your product");
     const links = await uploadImages();
     console.log(links);
-    toast.loading("Adding your product");
 
     //ADD PRODUCT LOGIC HERE
     const response = await axios.post(
@@ -140,10 +140,9 @@ const AddProduct = (props) => {
           products: [...template.data.products, response.data.product._id],
         },
       });
-
+      toast.dismiss(loadToast);
       toast.success("Product added successfully");
       props.setAddProduct(false);
-      
     } else {
       toast.error("An error occurred");
     }
@@ -405,7 +404,7 @@ const AddProduct = (props) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-       
+
         <Group mt={20} position="center">
           {props.operation === "add" ? (
             <Button color="green" onClick={handleAddProduct}>

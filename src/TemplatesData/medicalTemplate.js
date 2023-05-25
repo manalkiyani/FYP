@@ -4,10 +4,11 @@ export const medicalTemplate = {
   pages: {
     MedicalHomePage: {
       blocks: [
-        "f3ac645c-9fe8-498b-8be1-59f9c3dac1e9",
-        "83b133a5-7af7-471b-b499-a9085fdfd563",
-        "4c50687b-1ee8-44e3-85a8-052e8591f2e8",
-        "d90928ce-30e2-4dd4-b43a-a4d9fe45d95b",
+         "1e3406b3-d0cd-449f-bddb-10385398e20b",
+        "e40b6dd1-9a05-4413-b67f-de7096d481bd",
+        "cb4aaeec-371f-4081-81aa-46c2cf7d56b8",
+        "b9fdedf7-9e9b-4611-ace7-b5e74aae74d7",
+        "f7277ebf-a3e3-41a4-921e-4620d15d379d",
       ],
     },
     DoctorsPage: {
