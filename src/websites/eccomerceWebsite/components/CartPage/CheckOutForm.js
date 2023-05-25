@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import style from "./CheckOutForm.module.css";
 import Button from "@mui/material/Button";
 
 import StripeContainer from "./StripeContainer";
 import { useLocalStorageState } from "ahooks";
+import { getTemplateId } from "../../../../../src/utilityFunctions/TemplateIdController";
+import { getWebsiteData } from "../../../../../src/utilityFunctions/websiteDataController";
 
 const styles = {
   container: {
@@ -64,7 +66,7 @@ const CheckOutForm = ({
   const [cancelDisable, setCancelDisable] = useState(false);
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState();
-  const [templateId] = useLocalStorageState("templateId", "");
+  const [templateId, setTemplateId] = useState();
 
   const [quantity, setQuantity] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -146,6 +148,22 @@ const CheckOutForm = ({
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const fetchIds =  async()=>{
+      const Template = await getTemplateId();
+      console.log(Template)
+      const response = await getWebsiteData(Template.templateId);
+      let templateid = response.websiteData.templateId
+      setTemplateId(templateid);
+     
+      }
+  
+      fetchIds()
+  
+    
+
+  }, []);
 
   return (
     <div style={styles.container}>

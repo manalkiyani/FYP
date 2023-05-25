@@ -112,7 +112,7 @@ export function DoctorCard({
     console.log("abc")
   }
   return (
-    <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
     <Card
       style={{ width: "680px", height: "190px" }}
       withBorder
