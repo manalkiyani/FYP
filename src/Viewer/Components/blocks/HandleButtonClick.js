@@ -1,6 +1,6 @@
 const handleButtonClick = async (link, navigate, type, templateId) => {
   console.log("in handle");
-  console.log(type,templateId)
+  console.log(type, templateId);
   if (type && templateId) {
     if (link) {
       console.log(link);
@@ -20,7 +20,7 @@ const handleButtonClick = async (link, navigate, type, templateId) => {
           case "business":
             page = "jobs";
             break;
-          case "ecommerce":
+          case "eccomerce":
             page = "products";
             break;
         }

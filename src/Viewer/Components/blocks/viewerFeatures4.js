@@ -8,6 +8,9 @@ import {
   Flex,
 } from "@mantine/core";
 import React, { useState } from "react";
+import handleButtonClick from "./HandleButtonClick";
+import { useNavigate } from "react-router-dom";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 import ContentEditable from "react-contenteditable";
 
@@ -41,6 +44,17 @@ const useStyles = createStyles((theme) => ({
 
 export function ViewerFeatures4({ Data }) {
   const { classes } = useStyles();
+  const handleClick = async (index) => {
+    const Template = await getTemplateId();
+
+    handleButtonClick(
+      Data.data[index].btn?.link,
+      navigate,
+      Template.type,
+      Template.templateId
+    );
+  };
+  const navigate = useNavigate();
 
   return (
     <Flex
@@ -101,6 +115,7 @@ export function ViewerFeatures4({ Data }) {
               />
             </div>
             <Button
+              onClick={() => handleClick(index)}
               style={{
                 backgroundColor: Data.data[index].btn.bgColor,
               }}

@@ -43,10 +43,10 @@ export default class Header2 extends Component {
       showMenu: true,
     });
   };
-  linkButton = (link) => {
-    this.setState({ showMenu: false });
+  linkButton = (object) => {
+    this.props.linkButton(object, this.props.id);
 
-    console.log(link);
+    console.log(object);
   };
   handleImageChange = async (event) => {
     this.setState({
@@ -87,7 +87,9 @@ export default class Header2 extends Component {
           backgroundColor: this.props.Data?.data?.bgColor,
           position: "relative",
           marginBottom: "50px",
+        
         }}
+        className={classes.header}
         onMouseOver={this.enableHandleBlock}
         onMouseOut={this.disableHandleBlock}
       >

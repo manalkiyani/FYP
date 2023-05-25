@@ -7,7 +7,12 @@
 padding-top: calc(4 * var(--spacing-xl));
   padding-bottom: calc(4 * var(--spacing-xl));
 }
-
+.header{
+    height: 70vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+}
 .content {
   max-width: 500px;
   margin-right: calc(var(--spacing-xl) * 3);

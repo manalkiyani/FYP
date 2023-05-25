@@ -3,12 +3,11 @@ import React, { Component } from "react";
 import classes from "./About1.module.css";
 import HandleBlock from "../HandleBlock/handleBlock";
 import ContentEditable from "react-contenteditable";
-import ButtonMenu from "../linkButton/btnMenu/buttonMenu";
+
 import BgColor from "../../BackgroundColor/BgColor";
 
 export default class About1 extends Component {
   state = {
-    showMenu: false,
     ref: null,
     displayHandleBlock: false,
     openColorPicker: false,
@@ -21,14 +20,6 @@ export default class About1 extends Component {
 
   handleClick = () => {
     this.props.onClick(this.props.id, "btn", null, "about1");
-    this.setState({
-      showMenu: true,
-    });
-  };
-  linkButton = (link) => {
-    this.setState({ showMenu: false });
-
-    console.log(link);
   };
 
   disableHandleBlock = () => {
@@ -78,7 +69,6 @@ export default class About1 extends Component {
         )}
         <div className={classes.content}>
           <ContentEditable
-          
             html={this.props.Data.data.h.text} // innerHTML of the editable div
             disabled={false} // use true to disable editing
             onChange={(e) => this.handleTextChange(e, "h")} // handle innerHTML change
@@ -126,20 +116,12 @@ export default class About1 extends Component {
             }}
           />
 
-          {this.state.showMenu ? (
-            <ButtonMenu onClick={this.linkButton} />
-          ) : null}
-
           <ContentEditable
             className={classes.btn}
             html={this.props.Data.data.btn.text}
             disabled={false}
             onClick={this.handleClick}
             onChange={(e) => this.handleTextChange(e, "btn")}
-            // onClick ={(e)=>{
-            //   e.preventDefault();
-            //   window.open('');
-            // }}
             style={{
               fontSize: this.props.Data.data.btn.size,
               fontFamily: this.props.Data.data.btn.family,

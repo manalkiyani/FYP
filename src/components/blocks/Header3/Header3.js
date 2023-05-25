@@ -27,9 +27,10 @@ export default class Header3 extends Component {
     this.setState({ showMenu: true });
   };
 
-  linkButton = (link) => {
-    this.setState({ showMenu: false });
-    console.log(link);
+   linkButton = (object) => {
+    this.props.linkButton(object, this.props.id);
+
+    console.log(object);
   };
 
   disableHandleBlock = () => {

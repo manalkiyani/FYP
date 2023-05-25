@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
 import ContentEditable from "react-contenteditable";
+import { useNavigate } from "react-router-dom";
+
+import handleButtonClick from "./HandleButtonClick";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 import {
   createStyles,
@@ -70,12 +74,23 @@ const useStyles = createStyles((theme) => ({
 
 const ViewerHeader2 = (props) => {
   const { classes } = useStyles();
+  const handleClick = async () => {
+    const Template = await getTemplateId();
 
+    handleButtonClick(
+      props.Data.data.btn?.link,
+      navigate,
+      Template.type,
+      Template.templateId
+    );
+  };
+  const navigate = useNavigate();
   return (
     <div
       style={{
         backgroundColor: props.Data?.data?.bgColor,
         position: "relative",
+        marginBottom: "60px",
       }}
     >
       <Container>
@@ -120,6 +135,7 @@ const ViewerHeader2 = (props) => {
 
             <Group mt={30}>
               <Button
+                onClick={handleClick}
                 style={{
                   backgroundColor: props.Data.data.btn.bgColor,
                 }}

@@ -10,15 +10,16 @@ import {
   SimpleGrid,
   Container,
   Title,
+  Space,
+  Paper,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { Carousel } from "@mantine/carousel";
+import Carousel from "react-material-ui-carousel";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocalStorageState } from "ahooks";
-import Slider from "react-slick";
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -58,64 +59,64 @@ const ProductDetail = () => {
 
   return (
     <Container mt="xl" mb="xl" px="xl" size="80rem">
-      <Flex
-        gap="md"
-        justify="space-around"
-        align="center"
-        direction="row"
-        wrap="wrap"
-      >
-        <Images images={product?.images} />
+      <Paper p="md" shadow="md">
+        <Flex gap="md" justify="space-around" direction="row" wrap="wrap">
+          <Images images={product?.images} />
 
-        <Flex ml="sm" direction="column">
-          <div>
-            <Text transform="uppercase" color="dimmed" weight={700} size="xs">
-              {product?.category}
+          <Flex ml="sm" direction="column">
+            <div>
+              <Text transform="uppercase" color="dimmed" weight={700} size="xs">
+                {product?.category}
+              </Text>
+              <Title order={1} className={classes.title} mt="xs" mb="md">
+                {product?.name}
+              </Title>
+            </div>
+            <Text className={classes.title} mt="xs" mb="md">
+              COLORS
             </Text>
-            <Title order={1} className={classes.title} mt="xs" mb="md">
-              {product?.name}
-            </Title>
-          </div>
-          <Text className={classes.title} mt="xs" mb="md">
-            COLORS
-          </Text>
-          <div>
-            {product?.colors.map((color) => (
-              <Button
-                mr="sm"
-                radius="xl"
-                style={{
-                  backgroundColor: color,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></Button>
-            ))}
-          </div>
-          <Text className={classes.title} mt="xs" mb="md">
-            SIZES
-          </Text>
-          <div>
-            {product?.sizes.map((size) => (
-              <Button
-                mr="sm"
-                style={{ width: "fit-content", height: "35px" }}
-                radius="lg"
-                variant="default"
-              >
-                {size}
-              </Button>
-            ))}
-          </div>
-          {/* <Button mt="xl" variant="default">
+            <div>
+              {product?.colors.map((color) => (
+                <Button
+                  mr="sm"
+                  radius="xl"
+                  style={{
+                    backgroundColor: color,
+                    width: "30px",
+                    height: "30px",
+                  }}
+                ></Button>
+              ))}
+            </div>
+            <Text className={classes.title} mt="xs" mb="md">
+              SIZES
+            </Text>
+            <div>
+              {product?.sizes.map((size) => (
+                <Button
+                  mr="sm"
+                  style={{ width: "fit-content", height: "35px" }}
+                  radius="lg"
+                  variant="default"
+                >
+                  {size}
+                </Button>
+              ))}
+            </div>
+            {/* <Button mt="xl" variant="default">
             BUY NOW
           </Button> */}
+          </Flex>
         </Flex>
-      </Flex>
-      <div
-        style={{ fontSize: "18px" }}
-        dangerouslySetInnerHTML={{ __html: product?.description }}
-      />
+        <Space h="xl" />
+        <Space h="xl" />
+        <Title order={3}>Product Description</Title>
+        <Space h="xl" />
+        <div
+          style={{ fontSize: "18px", padding: "30px" }}
+          dangerouslySetInnerHTML={{ __html: product?.description }}
+        />
+      </Paper>
     </Container>
   );
 };
@@ -139,18 +140,18 @@ function Images({ images }) {
           ))}
         </Flex>
       </SimpleGrid>
-      <Slider {...settings}>
-        {images?.map((image) => (
-          <Image height={100} width={100} maw={240} key={image} src={image} />
-        ))}
-      </Slider>
+      <div style={{ width: "350px", height: "300px" }}>
+        <Carousel autoPlay={2000}>
+          {images?.map((image) => (
+            <Image
+              style={{ objectFit: "contain" }}
+              key={image}
+              onClick={(e) => e.preventDefault()}
+              src={image}
+            />
+          ))}
+        </Carousel>
+      </div>
     </>
   );
 }
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
