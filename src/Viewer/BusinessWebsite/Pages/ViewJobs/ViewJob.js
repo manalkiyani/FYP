@@ -66,14 +66,15 @@ const ViewJob = ({ job, view }) => {
 
   return (
     <Card
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", marginBottom:'50px' }}
       withBorder
       radius="md"
       className={classes.card}
     >
+      <div style={{backgroundColor:"#EDFAF8", padding:'10px'}}>
       <Group onClick={() => navigate(`${job._id}`)} position="apart" mt="md">
         <div>
-          <Text fw={500} onClick={() => navigate(`${job._id}`)}>
+          <Text fz="xl" fw={700} onClick={() => navigate(`${job._id}`)}>
             {job.title}
           </Text>
 
@@ -85,6 +86,7 @@ const ViewJob = ({ job, view }) => {
           {formattedDate} -end date
         </Badge>
       </Group>
+      </div>
 
       <Card.Section
         onClick={() => navigate(`${job._id}`)}
@@ -105,7 +107,7 @@ const ViewJob = ({ job, view }) => {
       <Card.Section className={classes.section}>
         <Flex justify="space-between">
           <div>
-            <Salary showPayBy={job?.showPayBy} job={job} />
+            <Salary fz="xs" showPayBy={job?.showPayBy} job={job} />
             <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
               per month
             </Text>
@@ -113,6 +115,7 @@ const ViewJob = ({ job, view }) => {
 
           {view ? null : (
             <Button
+            style={{backgroundColor:"#EDFAF8"}}
               variant="default"
               onClick={() => navigate(`${job._id}/apply`)}
               color="cyan"
