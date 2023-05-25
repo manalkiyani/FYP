@@ -112,9 +112,9 @@ export function DoctorCard({
     console.log("abc")
   }
   return (
-    <>
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
     <Card
-      style={{ width: "700px", height: "190px" }}
+      style={{ width: "680px", height: "190px" }}
       withBorder
       radius="md"
       p={0}
@@ -150,7 +150,7 @@ export function DoctorCard({
            {title}
           </Text>
 
-          <Card.Section style={{ width: "500px" }} className={classes.footer}>
+          <Card.Section style={{ width: "500px",backgroundColor:"#EDFAF8", padding:'20px', marginLeft:'1px' }} className={classes.footer}>
             <div>
               <Text size="xs" color="dimmed">
                 Qualification
@@ -196,7 +196,7 @@ export function DoctorCard({
     ></EditDoctorForm>}
 
     {open}
-    </>
+    </div>
     
     
   );
