@@ -13,6 +13,7 @@ import {
   Space,
   Paper,
 } from "@mantine/core";
+
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";

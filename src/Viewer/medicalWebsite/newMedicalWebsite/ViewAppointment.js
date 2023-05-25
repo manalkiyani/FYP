@@ -117,15 +117,13 @@ const fetchDoctors = () => {
 
   });
 };
-
-
   return (
 
-    <>
+    <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
         {appointments.map((appointment, index) => (
 
     <Card
-      style={{ width: "650px" }}
+      style={{ width: "900px" }}
       withBorder
       padding="sm"
       radius="md"
@@ -134,34 +132,36 @@ const fetchDoctors = () => {
       <Flex justify="space-between">
         <Group spacing="xl" mt="lg">
           <Avatar
+            style={{ width: '80px', height: '80px' }}
+
             src={getDoctorImage(appointment.doctorid)}
             radius="sm"
           />
           <div>
-            <Text fw={500}>Dr. {getDoctorName(appointment.doctorid)}</Text>
-            <Text fz="xs" c="dimmed">
+            <Text styles={{fontSize:'24px'}} fz="xl" fw={500}>Dr. {getDoctorName(appointment.doctorid)}</Text>
+            <Text styles={{fontSize:'24px'}}   c="dimmed">
               {appointment.Day}
             </Text>
           </div>
         </Group>
-        <Badge mt="lg" color="red">
+        <Badge fz="sm" mt="lg" color="red">
           {appointment.status}
         </Badge>
       </Flex>
 
-      <Card.Section className={classes.footer}>
+      <Card.Section style={{backgroundColor:"#EDFAF8"}} className={classes.footer}>
         <Group position="apart">
-          <Text  fz="sm" >
-            {appointment.Time}
+          <Text  fz="lg" >
+          {appointment.Time}
             
           </Text>
-          <Text fz="sm" c="dimmed" >
+          <Text fz="lg" c="dimmed" >
               {appointment.sessionType}
             </Text>
         </Group>
       </Card.Section>
     </Card>
         ))}
-    </>
+    </div>
   );
 }
