@@ -112,6 +112,7 @@ export default class Features2 extends Component {
                   image={this.state.cardImages[index]}
                 />
               )}
+
               <img
                 className={classes.img}
                 src={this.props.Data.data[index].bg.picture}

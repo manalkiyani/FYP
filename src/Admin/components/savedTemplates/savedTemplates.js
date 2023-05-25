@@ -290,6 +290,7 @@ export default function SavedTemplates() {
 
               return (
                 <Card
+                  style={{ position: "relative" }}
                   key={template._id}
                   sx={{
                     maxWidth: 300,
@@ -404,8 +405,14 @@ export default function SavedTemplates() {
                     </Button>
                   </div> */}
                   </CardActions>
+
                   <Button
-                    variant="light"
+                    style={{
+                      position: "absolute",
+                      top: 4,
+                      right: 4,
+                      backgroundColor: "#7B64FF",
+                    }}
                     onClick={() => {
                       subdomainFormOpen(
                         template._id,
@@ -413,7 +420,6 @@ export default function SavedTemplates() {
                         template.type
                       );
                     }}
-                    style={{ color: "#008B8B" }}
                   >
                     Publish
                   </Button>

@@ -23,24 +23,8 @@ const Home = () => {
 
         <SavedTemplates />
 
-        <div>
-          <Flex
-            mt="xl"
-            mb="md"
-            justify="space-between"
-            mih={50}
-            style={{ padding: "20px", borderRadius: "20px" }}
-            bg="#FBF8F1"
-          >
-            <Title fw={400} order={2}>
-              Published Templates
-            </Title>
-          </Flex>
+        <PublishedWebsites></PublishedWebsites>
 
-          <div className="charts">
-            <PublishedWebsites></PublishedWebsites>
-          </div>
-        </div>
         <Space h="xl" />
       </div>
     </div>
