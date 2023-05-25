@@ -13,111 +13,6 @@ import {
   Title,
   Flex,
 } from "@mantine/core";
-
-export default function BlankTemplates() {
-  const [blankTemplates, setBlankTemplates] = React.useState(null);
-  const [template, setTemplate] = useLocalStorageState("template", "");
-  const [templateId, setTemplateId] = useLocalStorageState("templateId", "");
-  const navigate = useNavigate();
-  const { classes, theme } = useStyles();
-
-  React.useEffect(() => {
-    getsavedTemplates();
-  }, []);
-
-  const getsavedTemplates = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8800/api/templates/getList",
-        {
-          templateIds: [
-            "646e2ab91be484b90505a9f2",
-            "645f98ad96c120c7214f9154",
-            "645fa888efc31bb14ca8c791",
-            "645faec0efc31bb14ca8c89e",
-          ],
-        }
-      );
-
-      setBlankTemplates(response.data.Templates);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const openAsAdmin = (e, id, type) => {
-    e.preventDefault();
-    setTemplate({
-      type: "",
-      pages: {},
-      data: {},
-    });
-    setTemplateId(id);
-
-    navigate(`/${type}/template/${id}`);
-  };
-
-  return (
-    <>
-      <Container className={classes.wrapper} size={1400}>
-        <div className={classes.inner}>
-          <Title className={classes.maintitle}>
-            Start creating a Website
-            <Text component="span" className={classes.highlight} inherit>
-              {" "}
-              from Scratch
-            </Text>{" "}
-          </Title>
-
-          <Container p={0} size={600}>
-            <Text size="lg" color="dimmed" className={classes.description}>
-              Drag and Drop blocks to pages - Manage Webiste through admin panel
-              - Name your website- and finally publish
-            </Text>
-          </Container>
-        </div>
-        <Flex style={{ marginTop: "50px" }} gap="lg">
-          {blankTemplates &&
-            blankTemplates.map((template) => {
-              return (
-                <Card
-                  p="lg"
-                  shadow="lg"
-                  className={classes.card}
-                  radius="md"
-                  onClick={(e) => openAsAdmin(e, template._id, template.type)}
-                >
-                  <div
-                    className={classes.image}
-                    style={{
-                      backgroundImage: `url(${"https://res.cloudinary.com/djlewzcd5/image/upload/v1683985804/Screenshot_2023-05-13_184940_pnqbpw.png"})`,
-                    }}
-                  />
-                  <div className={classes.overlay} />
-
-                  <div className={classes.content}>
-                    <div>
-                      <Text size="lg" className={classes.title} weight={500}>
-                        {template.name}
-                      </Text>
-
-                      <Group position="apart" spacing="xs">
-                        <Text size="sm" className={classes.author}>
-                          TYPE {template.type}
-                        </Text>
-                      </Group>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-        </Flex>
-      </Container>
-      ;
-    </>
-  );
-}
-
 const useStyles = createStyles((theme) => ({
   card: {
     position: "relative",
@@ -132,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   image: {
     ...theme.fn.cover(),
     ref: getStylesRef("image"),
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     transition: "transform 500ms ease",
   },
 
@@ -249,3 +144,108 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
+
+export default function BlankTemplates() {
+  const [blankTemplates, setBlankTemplates] = React.useState(null);
+  const [template, setTemplate] = useLocalStorageState("template", "");
+  const [templateId, setTemplateId] = useLocalStorageState("templateId", "");
+  const navigate = useNavigate();
+  const { classes, theme } = useStyles();
+
+  React.useEffect(() => {
+    getsavedTemplates();
+  }, []);
+
+  const getsavedTemplates = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8800/api/templates/getList",
+        {
+          templateIds: [
+            "646e2ab91be484b90505a9f2",
+            "645f98ad96c120c7214f9154",
+            "645fa888efc31bb14ca8c791",
+            "645faec0efc31bb14ca8c89e",
+          ],
+        }
+      );
+
+      setBlankTemplates(response.data.Templates);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openAsAdmin = (e, id, type) => {
+    e.preventDefault();
+    setTemplate({
+      type: "",
+      pages: {},
+      data: {},
+    });
+    setTemplateId(id);
+
+    navigate(`/${type}/template/${id}`);
+  };
+
+  return (
+    <>
+      <Container className={classes.wrapper} size={1400}>
+        <div className={classes.inner}>
+          <Title className={classes.maintitle}>
+            Start creating a Website
+            <Text component="span" className={classes.highlight} inherit>
+              {" "}
+              from Scratch
+            </Text>{" "}
+          </Title>
+
+          <Container p={0} size={600}>
+            <Text size="lg" color="dimmed" className={classes.description}>
+              Drag and Drop blocks to pages - Manage Webiste through admin panel
+              - Name your website- and finally publish
+            </Text>
+          </Container>
+        </div>
+        <Flex style={{ marginTop: "50px" }} gap="lg">
+          {blankTemplates &&
+            blankTemplates.map((template) => {
+              return (
+                <Card
+                  p="lg"
+                  shadow="lg"
+                  className={classes.card}
+                  radius="md"
+                  onClick={(e) => openAsAdmin(e, template._id, template.type)}
+                >
+                  <div
+                    className={classes.image}
+                    style={{
+                      backgroundImage: `url(${"https://res.cloudinary.com/djlewzcd5/image/upload/v1683985804/Screenshot_2023-05-13_184940_pnqbpw.png"})`,
+                    }}
+                  />
+                  <div className={classes.overlay} />
+
+                  <div className={classes.content}>
+                    <div>
+                      <Text size="lg" className={classes.title} weight={500}>
+                        {template.name}
+                      </Text>
+
+                      <Group position="apart" spacing="xs">
+                        <Text size="sm" className={classes.author}>
+                          TYPE {template.type}
+                        </Text>
+                      </Group>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+        </Flex>
+      </Container>
+      ;
+    </>
+  );
+}
+

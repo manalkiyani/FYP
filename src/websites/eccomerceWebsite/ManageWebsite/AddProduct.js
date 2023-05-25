@@ -17,7 +17,7 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import React, { useEffect, useState } from "react";
 import styles from "./AddProduct.module.css";
-import ReactQuill from "react-quill-fixed";
+import ReactQuill from "react-quill";
 import { Box, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -143,6 +143,7 @@ const AddProduct = (props) => {
 
       toast.success("Product added successfully");
       props.setAddProduct(false);
+      
     } else {
       toast.error("An error occurred");
     }
@@ -404,7 +405,7 @@ const AddProduct = (props) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-
+       
         <Group mt={20} position="center">
           {props.operation === "add" ? (
             <Button color="green" onClick={handleAddProduct}>

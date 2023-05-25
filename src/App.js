@@ -300,6 +300,7 @@ const App = () => {
             >
               <Route path="" element={<EcomHomePage />} />
               <Route path="products" element={<EcomProductsPage />} />
+              <Route path="products/:productId" element={<ProductDetail />} />
               <Route path="contactUs" element={<ViewerContactForm />} />
               <Route path="manage" element={<ManageEcommerceWebsite />} />
               <Route path="style" element={<ManageViewerNavbar />} />

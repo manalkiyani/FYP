@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorageState } from 'ahooks';
-import { Button, Space } from '@mantine/core';
+import { Button, Space, Title } from '@mantine/core';
 
 import { Card, Text, Group, Center, createStyles, getStylesRef, rem } from '@mantine/core';
 export default function AvailableTemplate({id,type,img,title,description}) {
    const [templateId, setTemplateId] = useLocalStorageState("templateId", "0");
   const [template, setTemplate] = useLocalStorageState("template", "")
-const { classes, theme } = useStyles();
+const { classes } = useStyles();
   const navigate = useNavigate();
   const openTemplate = (id) => {
   
@@ -37,9 +37,10 @@ const { classes, theme } = useStyles();
 
       <div className={classes.content}>
         <div>
-          <Text size="xl" className={classes.title} weight={500}>
-             {title}
-          </Text>
+          <Title style={{color:'#fff  '}} order={3}>
+ {title}
+          </Title>
+        
 
           <Group position="apart" spacing="xs">
             <Text size="sm" className={classes.author}>
@@ -71,7 +72,7 @@ const useStyles = createStyles((theme) => ({
   image: {
     ...theme.fn.cover(),
     ref: getStylesRef('image'),
-    backgroundSize: 'cover',
+    backgroundSize: 'contain',
     transition: 'transform 500ms ease',
   },
 

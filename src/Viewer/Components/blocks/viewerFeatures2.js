@@ -3,10 +3,20 @@ import classes from "../../../components/blocks/Features2/Features2.module.css";
 import ContentEditable from "react-contenteditable";
 import handleButtonClick from "./HandleButtonClick";
 import { useNavigate } from "react-router-dom";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
 
 const ViewerFeatures2 = ({ Data }) => {
-  const navigate = useNavigate();
+  const handleClick = async (index) => {
+    const Template = await getTemplateId();
 
+    handleButtonClick(
+      Data.data[index].btn?.link,
+      navigate,
+      Template.type,
+      Template.templateId
+    );
+  };
+  const navigate = useNavigate();
   return (
     <div className={classes.panel}>
       {Object.getOwnPropertyNames(Data.data).map((index) => {
@@ -14,7 +24,7 @@ const ViewerFeatures2 = ({ Data }) => {
           <div
             key={index}
             className={classes.card}
-           style={{
+            style={{
               width:
                 Data.layout === 5 ? "17%" : Data.layout === 4 ? "20%" : "24%",
             }}
@@ -71,9 +81,7 @@ const ViewerFeatures2 = ({ Data }) => {
               />
 
               <ContentEditable
-                onClick={() =>
-                  handleButtonClick(Data.data[index].btn?.link, navigate)
-                }
+                onClick={() => handleClick(index)}
                 html={Data.data[index].btn.text}
                 disabled={false}
                 className={classes.btn}

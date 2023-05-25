@@ -2,10 +2,26 @@ import React from "react";
 import { Button, Container, Flex, Group, Space } from "@mantine/core";
 
 import ContentEditable from "react-contenteditable";
+import { useNavigate } from "react-router-dom";
 
-import classes from "../../../components/blocks/Header3/Header3.module.css"
+import handleButtonClick from "./HandleButtonClick";
+import { getTemplateId } from "../../../utilityFunctions/TemplateIdController";
+
+import classes from "../../../components/blocks/Header3/Header3.module.css";
 
 export default function ViewerHeader3(props) {
+  const handleClick = async () => {
+    const Template = await getTemplateId();
+
+    handleButtonClick(
+      props.Data.data.btn?.link,
+      navigate,
+      Template.type,
+      Template.templateId
+    );
+  };
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -57,7 +73,7 @@ export default function ViewerHeader3(props) {
             />
             <Space h="xl" />
             <div>
-              <Button variant="default" radius="xl">
+              <Button onClick={handleClick} variant="default" radius="xl">
                 <ContentEditable
                   html={props.Data.data.btn.text}
                   disabled={true}

@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import IconDots from "@mui/icons-material/MoreHorizOutlined";
 import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import { useNavigate } from "react-router-dom";
 
 export function Product({
   id,
@@ -25,6 +26,7 @@ export function Product({
   handleOpenDialogue,
   handleEditProduct,
 }) {
+  const navigate = useNavigate();
   const handleDialogue = () => {
     setDeleteId(id);
     handleOpenDialogue();
@@ -41,7 +43,7 @@ export function Product({
       >
         <Card.Section withBorder inheritPadding py="xs">
           <Group position="apart">
-            <Text weight={500}>
+            <Text onClick={() => navigate(`${id}`)} weight={500}>
               {name} <Text weight={400}>{price}$</Text>
             </Text>
 
@@ -83,7 +85,12 @@ export function Product({
         /> */}
 
         <Card.Section px="md" mt="sm">
-          <Image width={338} height={200} src={images[0]} />
+          <Image
+            onClick={() => navigate(`${id}`)}
+            width={338}
+            height={200}
+            src={images[0]}
+          />
         </Card.Section>
 
         <Card.Section inheritPadding mt="sm" pb="md">

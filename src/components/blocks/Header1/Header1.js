@@ -165,9 +165,9 @@ export default class Header1 extends Component {
               fontSize: this.props.Data.data.btn.size,
               fontFamily: this.props.Data.data.btn.family,
               color: this.props.Data.data.btn.color,
-              // fontWeight:
-              //   this.props.Data.data.btn.bold === true ? "bold" : "normal",
-              fontWeight: this.props.Data.data.btn.weight,
+              fontWeight:
+                this.props.Data.data.btn.bold === true ? "bold" : "normal",
+
               textDecoration:
                 this.props.Data.data.btn.underline === true
                   ? "underline"

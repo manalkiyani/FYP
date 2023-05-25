@@ -114,9 +114,11 @@ export class Features4 extends Component {
                 {this.state.displayHandleCard && (
                   <>
                     <DelCard
-                      handleLink={this.handleLink}
                       del={this.delCard}
                       index={index}
+                      displayLink="show"
+                      displayColor="show"
+                      handleLink={this.handleLink}
                     />
 
                     <UploadImage

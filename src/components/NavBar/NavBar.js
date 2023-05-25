@@ -7,11 +7,11 @@ import {
   ExpandLess as ExpandLessIcon,
 } from "@mui/icons-material";
 import { getUsername, logout } from "../../utilityFunctions/authFunctions";
+import { Button } from "@mantine/core";
 const Navbar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [isloggedIn, setIsloggedIn] = useState(false);
-  
 
   const handleToggleMenu = () => {
     setIsOpen(!isOpen);
@@ -73,27 +73,28 @@ const Navbar = () => {
 
         {isloggedIn ? (
           <div className={styles.navbarButtons}>
-            <button
+            <Button
+              variant="outline"
               onClick={() => userLogout()}
               className={styles.signupButton}
             >
               Logout
-            </button>
+            </Button>
           </div>
         ) : (
           <div className={styles.navbarButtons}>
-            <button
+            <Button
               onClick={() => navigate("/login")}
               className={styles.loginButton}
             >
               Login
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => navigate("/signup")}
               className={styles.signupButton}
             >
               Signup
-            </button>
+            </Button>
           </div>
         )}
       </nav>

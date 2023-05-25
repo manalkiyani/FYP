@@ -112,20 +112,29 @@ const CategoriesManagement = (props) => {
       toast.error("Please fill all the fields");
       return;
     }
-    const imageUrl = await uploadImage(image);
-    console.log(imageUrl);
-    const response = await axios.post("http://localhost:8800/api/categories", {
-      name,
-      description,
-      image: imageUrl,
-    });
-
-    console.log(response);
-    setName("");
-    setImage("");
-    setDescription("");
-    setOperation("add");
-    getCategories();
+    const Load = toast.loading("Adding a new category");
+    try {
+      const imageUrl = await uploadImage(image);
+      console.log(imageUrl);
+      const response = await axios.post(
+        "http://localhost:8800/api/categories",
+        {
+          name,
+          description,
+          image: imageUrl,
+        }
+      );
+      toast.dismiss(Load);
+      toast.success("Category added successfully");
+      console.log(response);
+      setName("");
+      setImage("");
+      setDescription("");
+      setOperation("add");
+      getCategories();
+    } catch (error) {
+      toast.error("Internal Server Error");
+    }
   };
 
   const getCategories = async () => {
