@@ -17,6 +17,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { addTemplateId } from "../../utilityFunctions/TemplateIdController";
+import { Title, Text, Container } from "@mantine/core";
 
 export default function AllPublishedWebsites() {
   const [publishedTemplates, setPublishedTemplates] = React.useState(null);
@@ -69,6 +70,19 @@ export default function AllPublishedWebsites() {
 
   return (
     <>
+      <Title
+        style={{ fontSize: "40px", fontWeight: 700 }}
+        mt="xl"
+        mb="xl"
+        order={1}
+        ta="center"
+      >
+        Websites Built through
+        <Text component="span" style={{ color: "#7B64FF" }} inherit>
+          {" "}
+          uCraft
+        </Text>
+      </Title>
       {publishedTemplates && publishedTemplates.length === 0 && (
         <div
           style={{
@@ -84,39 +98,57 @@ export default function AllPublishedWebsites() {
           Your Websites Will appear here
         </div>
       )}
-      <div style={{ display: "flex", width: "70vw", flexWrap: "wrap" }}>
-        {publishedTemplates &&
-          publishedTemplates.map((template) => {
-            const randomImageIndex = Math.floor(Math.random() * images.length);
+      <Container mb="xl">
+        <div style={{ display: "flex", width: "70vw", flexWrap: "wrap" }}>
+          {publishedTemplates &&
+            publishedTemplates.map((template) => {
+              const randomImageIndex = Math.floor(
+                Math.random() * images.length
+              );
 
-            const randomImage = images[randomImageIndex];
+              const randomImage = images[randomImageIndex];
 
-            return (
-              <Card
-                key={template._id}
-                sx={{
-                  maxWidth: 300,
-                  minWidth: 300,
-                  marginRight: "20px",
-                  marginBottom: "20px",
-                }}
-              >
-                <CardActionArea>
-                  <CardMedia
-                    onClick={() =>
-                      openAsPublished(
-                        template.subdomain,
-                        template.templateid,
-                        template.type
-                      )
-                    }
-                    component="img"
-                    height="150"
-                    image={images[publishedTemplates.indexOf(template)]}
-                    alt="Your Template"
-                  />
+              return (
+                <Card
+                  key={template._id}
+                  sx={{
+                    maxWidth: 300,
+                    minWidth: 300,
+                    marginRight: "20px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <CardActionArea>
+                    <CardMedia
+                      onClick={() =>
+                        openAsPublished(
+                          template.subdomain,
+                          template.templateid,
+                          template.type
+                        )
+                      }
+                      component="img"
+                      height="150"
+                      image={images[publishedTemplates.indexOf(template)]}
+                      alt="Your Template"
+                    />
 
-                  <CardContent>
+                    <CardContent>
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-between",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        <Typography gutterBottom variant="h6" component="div">
+                          {template.name}
+                        </Typography>
+                      </div>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
                     <div
                       style={{
                         display: "flex",
@@ -124,27 +156,13 @@ export default function AllPublishedWebsites() {
                         justifyContent: "space-between",
                         marginBottom: "10px",
                       }}
-                    >
-                      <Typography gutterBottom variant="h6" component="div">
-                        {template.name}
-                      </Typography>
-                    </div>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      justifyContent: "space-between",
-                      marginBottom: "10px",
-                    }}
-                  ></div>
-                </CardActions>
-              </Card>
-            );
-          })}
-      </div>
+                    ></div>
+                  </CardActions>
+                </Card>
+              );
+            })}
+        </div>
+      </Container>
     </>
   );
 }

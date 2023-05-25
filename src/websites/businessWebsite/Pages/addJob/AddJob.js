@@ -85,6 +85,7 @@ const AddJob = ({ setDisplayAdd, setDisplayEdit, job, show }) => {
   const [file, setFile] = useState("");
   const quillRef = React.useRef(null);
   const [template, setTemplate] = useLocalStorageState("template", "");
+  const [newFile, setNewFile] = useState("");
   ////////////////////////////////////////////////////////////////
 
   const { classes } = inputStyles();
@@ -112,6 +113,7 @@ const AddJob = ({ setDisplayAdd, setDisplayEdit, job, show }) => {
       setMaximumAmount(job?.maximumAmount);
       setExactAmount(job?.exactAmount);
       setFile(job.descriptionFile);
+      setNewFile(job.descriptionFile);
     }
   }, [job]);
 
@@ -178,30 +180,41 @@ const AddJob = ({ setDisplayAdd, setDisplayEdit, job, show }) => {
       toast.error("Please fill all the required fields");
       return;
     }
-    const fileLink = await uploadImage(file);
-    console.log(fileLink);
 
-    let response = await axios.post(`http://localhost:8800/api/jobs/${jobId}`, {
-      title,
-      employmentType: type,
-      location,
-      deadline,
-      startDate,
-      minimumQualification: qualification,
-      showPayBy,
-      range: { min: minRange, max: maxRange, period: salaryPeriod },
-      startingAmount,
-      maximumAmount,
-      exactAmount,
-      description,
-      descriptionFile: fileLink,
-    });
-    if (response.status === 201) {
-      toast.success("Job updated successfully");
+    try {
+      let fileLink = file
+      if (file !== newFile) {
+        fileLink = await uploadImage(file);
+        console.log(fileLink);
+      }
 
-      setDisplayEdit(false);
-    } else {
-      toast.error("Please fill all the required fields");
+      let response = await axios.post(
+        `http://localhost:8800/api/jobs/${jobId}`,
+        {
+          title,
+          employmentType: type,
+          location,
+          deadline,
+          startDate,
+          minimumQualification: qualification,
+          showPayBy,
+          range: { min: minRange, max: maxRange, period: salaryPeriod },
+          startingAmount,
+          maximumAmount,
+          exactAmount,
+          description,
+          descriptionFile: fileLink,
+        }
+      );
+      if (response.status === 201) {
+        toast.success("Job updated successfully");
+
+        setDisplayEdit(false);
+      } else {
+        toast.error("Please fill all the required fields");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

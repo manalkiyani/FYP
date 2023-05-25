@@ -53,14 +53,14 @@ export default function Profile() {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
-                {user.username}
+                {user?.username}
               </Typography>
               <Typography
                 variant="subtitle1"
                 color="text.secondary"
                 component="div"
               >
-                {user.accountStatus}
+                {user?.accountStatus}
               </Typography>
             </CardContent>
           </Box>
@@ -76,7 +76,7 @@ export default function Profile() {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
-                {user.activePlan}
+                {user?.activePlan}
               </Typography>
               <Typography
                 variant="subtitle1"

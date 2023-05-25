@@ -164,7 +164,8 @@ export default function Write({ setAddBlog, operation, editId }) {
   const handleCancel = () => {
     setAddBlog(false);
   };
-  const editBlog = async () => {
+  const editBlog = async (e) => {
+    e.preventDefault();
     const updatingtoast = toast.loading("Updating your blog");
 
     let link = null;
